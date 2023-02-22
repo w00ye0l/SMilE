@@ -1,17 +1,30 @@
 <template>
-  <nav>
+  <!-- <nav>
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link> |
     <router-link to="/Entrance/first">FirstPage</router-link>
-  </nav>
+  </nav> -->
   <router-view />
 </template>
 
 <style>
+@font-face {
+  font-family: "Fredoka", sans-serif;
+  src: url(https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700);
+  unicode-range: U+0041-005A, U+0061-007A;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: "Fredoka", "Noto Sans KR", sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
 }
