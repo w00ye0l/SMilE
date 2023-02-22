@@ -1,6 +1,6 @@
 <template>
   <div class="background">
-    <h1 class="head">
+    <h1 class="title">
       <span class="header">SM</span>
       <img :src="require(`@/assets/smile1.png`)" class="title-img" />
       <span class="header">E</span>
@@ -35,16 +35,15 @@ export default {
 </script>
 
 <style scoped>
-body {
-  background-color: #fff9c8;
-}
-
 .background {
   position: relative;
+  background-color: #fff9c8;
+  height: 100vh;
+  margin: 0;
 }
 
 .head {
-  font-size: 2rem;
+  line-height: 2px;
 }
 
 .header {
@@ -56,6 +55,10 @@ body {
 
 .slider {
   height: 600px;
+}
+
+.title {
+  margin: 0;
 }
 
 .title-img {
@@ -76,15 +79,15 @@ h3 {
 
 .img1 {
   position: absolute;
-  right: 3px;
-  width: 170px;
+  right: -60px;
+  width: 250px;
 }
 
 .img2 {
   position: absolute;
-  left: 3px;
+  left: -60px;
   top: 300px;
-  width: 170px;
+  width: 250px;
 }
 
 .btn-start {
@@ -95,5 +98,6 @@ h3 {
   background-color: #c8c8c8;
   font-size: 18px;
   font-weight: 700;
+  border: none;
 }
 </style>
