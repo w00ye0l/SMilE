@@ -232,7 +232,8 @@ export default {
 .input-box {
   width: 200px;
   height: 30px;
-  padding: 0 10px;
+  padding: 0 20px;
+  font-size: 16px;
   border: 0;
   border-radius: 20px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
