@@ -25,6 +25,24 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/Entrance/FirstPage.vue"),
   },
+  {
+    path: "/Entrance/second",
+    name: "SecondPage",
+    component: () =>
+      import(/* webpackChunkName: "a" */ "../views/Entrance/SecondPage.vue"),
+  },
+  {
+    path: "/Entrance/third",
+    name: "ThirdPage",
+    component: () =>
+      import(/* webpackChunkName: "a" */ "../views/Entrance/ThirdPage.vue"),
+  },
+  {
+    path: "/Entrance/Fourth",
+    name: "FourthPage",
+    component: () =>
+      import(/* webpackChunkName: "a" */ "../views/Entrance/FourthPage.vue"),
+  },
 ];
 
 const router = createRouter({

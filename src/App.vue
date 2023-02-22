@@ -1,9 +1,12 @@
 <template>
-  <nav>
+  <!-- <nav>
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link> |
-    <router-link to="/Entrance/first">FirstPage</router-link>
-  </nav>
+    <router-link to="/Entrance/first">one</router-link> |
+    <router-link to="/Entrance/second">two</router-link> |
+    <router-link to="/Entrance/third">three</router-link> |
+    <router-link to="/Entrance/Fourth">four</router-link>
+  </nav> -->
   <router-view />
 </template>
 

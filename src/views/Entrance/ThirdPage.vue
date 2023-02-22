@@ -2,33 +2,31 @@
   <div class="background">
     <div class="head">
       <span class="header">SM</span>
-      <img :src="require(`@/assets/${imgName3}.png`)" class="title-img" />
+      <img :src="require(`@/assets/${imgName1}.png`)" class="title-img" />
       <span class="header">E</span>
     </div>
     <div class="slider">
       <div class="main_content">
         <h3>
-          주변 사람들의<br />
-          <span class="mbti">MBTI</span>를 저장해<br />한 눈에 확인하세요!
+          하루 하나의 질문을 통해<br />
+          다른 <span class="mbti">MBTI</span>의 생각을 확인해요!
         </h3>
       </div>
       <div>
-        <img :src="require(`@/assets/${imgName1}.png`)" class="right-img" />
-        <img :src="require(`@/assets/${imgName2}.png`)" class="left-img" />
+        <img :src="require(`@/assets/${img1}.png`)" class="left-img3" />
+        <img :src="require(`@/assets/${img2}.png`)" class="right-info" />
       </div>
     </div>
     <button :disabled="isDisabled" class="btn btn-start">시작하기</button>
   </div>
 </template>
-
 <script>
 export default {
   data() {
     return {
-      message: "",
-      imgName1: "smile3",
-      imgName2: "smile2",
-      imgName3: "smile1",
+      imgName1: "smile1",
+      img1: "smile7",
+      img2: "info",
     };
   },
   computed: {
@@ -38,9 +36,9 @@ export default {
   },
 };
 </script>
-
 <style scoped>
 .background {
+  position: relative;
   height: 100vh;
   background-color: #fff9c8;
 }
@@ -76,17 +74,18 @@ export default {
   color: #f59607;
 }
 
-.left-img {
+.left-img3 {
   position: absolute;
-  left: -60px;
-  top: 320px;
+  left: 20px;
+  top: 295px;
   width: 250px;
 }
 
-.right-img {
+.right-info {
   position: absolute;
-  right: -70px;
-  width: 250px;
+  top: 300px;
+  right: 35px;
+  width: 100px;
 }
 
 .btn-start {

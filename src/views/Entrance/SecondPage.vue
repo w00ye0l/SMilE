@@ -2,7 +2,7 @@
   <div class="background">
     <div class="head">
       <span class="header">SM</span>
-      <img :src="require(`@/assets/${imgName3}.png`)" class="title-img" />
+      <img :src="require(`@/assets/${img1}.png`)" class="title-img" />
       <span class="header">E</span>
     </div>
     <div class="slider">
@@ -13,8 +13,9 @@
         </h3>
       </div>
       <div>
-        <img :src="require(`@/assets/${imgName1}.png`)" class="right-img" />
-        <img :src="require(`@/assets/${imgName2}.png`)" class="left-img" />
+        <img :src="require(`@/assets/${img3}.png`)" class="mid-img" />
+        <img :src="require(`@/assets/${img2}.png`)" class="left1-img" />
+        <img :src="require(`@/assets/${img4}.png`)" class="right1-img" />
       </div>
     </div>
     <button :disabled="isDisabled" class="btn btn-start">시작하기</button>
@@ -26,9 +27,10 @@ export default {
   data() {
     return {
       message: "",
-      imgName1: "smile3",
-      imgName2: "smile2",
-      imgName3: "smile1",
+      img1: "smile1",
+      img2: "smile4",
+      img3: "smile5",
+      img4: "smile6",
     };
   },
   computed: {
@@ -41,6 +43,7 @@ export default {
 
 <style scoped>
 .background {
+  position: relative;
   height: 100vh;
   background-color: #fff9c8;
 }
@@ -76,17 +79,22 @@ export default {
   color: #f59607;
 }
 
-.left-img {
+.left1-img {
   position: absolute;
-  left: -60px;
-  top: 320px;
-  width: 250px;
+  left: -30px;
+  top: 300px;
 }
 
-.right-img {
+.mid-img {
+  left: 120px;
+  top: 300px;
   position: absolute;
-  right: -70px;
-  width: 250px;
+}
+
+.right1-img {
+  right: -50px;
+  top: 300px;
+  position: absolute;
 }
 
 .btn-start {
