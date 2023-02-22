@@ -2,18 +2,19 @@
   <div class="background">
     <h1 class="head">
       <span class="header">SM</span>
-      <img :src="require(`@/assets/${imgName3}.png`)" class="title-img" />
+      <img :src="require(`@/assets/smile1.png`)" class="title-img" />
       <span class="header">E</span>
     </h1>
     <div class="slider">
       <div>
-        <h3>주변 사람들의</h3>
-        <h3><span class="orange">MBTI</span>를 저장해</h3>
-        <h3>한 눈에 확인하세요!</h3>
+        <h3>
+          주변 사람들의<br />
+          <span class="orange">MBTI</span>를 저장해<br />한 눈에 확인하세요!
+        </h3>
       </div>
       <div>
-        <img :src="require(`@/assets/${imgName1}.png`)" class="img1" />
-        <img :src="require(`@/assets/${imgName2}.png`)" class="img2" />
+        <img :src="require(`@/assets/smile3.png`)" class="img1" />
+        <img :src="require(`@/assets/smile2.png`)" class="img2" />
       </div>
     </div>
     <button :disabled="isDisabled" class="btn btn-start">시작하기</button>
@@ -23,12 +24,7 @@
 <script>
 export default {
   data() {
-    return {
-      message: "",
-      imgName1: "smile3",
-      imgName2: "smile2",
-      imgName3: "smile1",
-    };
+    return {};
   },
   computed: {
     isDisabled() {
@@ -38,7 +34,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 body {
   background-color: #fff9c8;
 }
@@ -59,7 +55,7 @@ body {
 }
 
 .slider {
-  height: 500px;
+  height: 600px;
 }
 
 .title-img {
@@ -87,7 +83,7 @@ h3 {
 .img2 {
   position: absolute;
   left: 3px;
-  top: 230px;
+  top: 300px;
   width: 170px;
 }
 
