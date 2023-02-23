@@ -41,6 +41,11 @@ const routes = [
     component: () => import("../views/Entrance/FourthPage.vue"),
   },
   {
+    path: "/savingmbti",
+    name: "savingmbti",
+    component: () => import("../views/MbtiSave.vue"),
+  },
+  {
     path: "/login",
     name: "login",
     component: () => import("../views/LoginView.vue"),
