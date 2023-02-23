@@ -76,18 +76,18 @@ export default {
 .left-img {
   position: absolute;
   left: -30px;
-  top: 300px;
+  top: 320px;
 }
 
 .mid-img {
   left: 120px;
-  top: 300px;
+  top: 320px;
   position: absolute;
 }
 
 .right-img {
   right: -50px;
-  top: 300px;
+  top: 320px;
   position: absolute;
 }
 
