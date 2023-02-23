@@ -20,7 +20,7 @@
       <swiper-slide class="wrap-swiper">
         <div class="slider">
           <div>
-            <h3>
+            <h3 class="sub-title">
               주변 사람들의<br />
               <span class="mbti">MBTI</span>를 저장해<br />한 눈에 확인하세요!
             </h3>
@@ -34,7 +34,7 @@
       <swiper-slide class="wrap-swiper">
         <div class="slider">
           <div class="main_content">
-            <h3>
+            <h3 class="sub-title">
               다른 사람들이<br />
               생각하는 <span class="mbti">MBTI</span>는<br />
               어떤지 같이 확인하세요!
@@ -53,7 +53,7 @@
       <swiper-slide class="wrap-swiper">
         <div class="slider">
           <div class="main_content">
-            <h3>
+            <h3 class="sub-title">
               일정을 기록하고<br />
               만나는 사람의 <span class="mbti">MBTI</span><br />
               대응법을 익혀요!
@@ -71,7 +71,7 @@
       <swiper-slide class="wrap-swiper">
         <div class="slider">
           <div class="main_content">
-            <h3>
+            <h3 class="sub-title">
               하루의 하나의 질문을 통해<br />
               다른 <span class="mbti">MBTI</span>의 생각을 확인해요!
             </h3>
@@ -117,6 +117,7 @@
     <button :disabled="isDisabled" class="btn btn-start">시작하기</button>
   </div>
 </template>
+
 <script>
 // Import Swiper Vue.js components
 import { Swiper, SwiperSlide } from "swiper/vue";
@@ -145,7 +146,8 @@ export default {
   },
 };
 </script>
-<style>
+
+<style scoped>
 .background {
   position: relative;
   background-color: #fff9c8;
@@ -178,7 +180,7 @@ export default {
   height: 25px;
 }
 
-h3 {
+.sub-title {
   font-weight: bold;
   font-size: 25px;
 }
