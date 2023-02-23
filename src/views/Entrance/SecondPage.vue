@@ -43,13 +43,13 @@ export default {
 }
 
 .head {
-  line-height: 2px;
+  margin: 0;
+  padding-top: 30px;
 }
 
 .header {
   color: #f59607;
   font-size: 2.5rem;
-  margin-top: 0.67rem 0 0.67rem 0;
   font-weight: bold;
 }
 
