@@ -2,7 +2,7 @@
   <div class="background">
     <h1 class="title">
       <span class="header">SM</span>
-      <img :src="require(`@/assets/smile1.png`)" class="title-img" />
+      <img :src="require(`@/assets/first_smile1.png`)" class="title-img" />
       <span class="header">E</span>
     </h1>
     <div class="slider">
@@ -13,8 +13,8 @@
         </h3>
       </div>
       <div>
-        <img :src="require(`@/assets/smile3.png`)" class="img1" />
-        <img :src="require(`@/assets/smile2.png`)" class="img2" />
+        <img :src="require(`@/assets/first_smile3.png`)" class="img1" />
+        <img :src="require(`@/assets/first_smile2.png`)" class="img2" />
       </div>
     </div>
     <button :disabled="isDisabled" class="btn btn-start">시작하기</button>
@@ -39,7 +39,6 @@ export default {
   position: relative;
   background-color: #fff9c8;
   height: 100vh;
-  margin: 0;
 }
 
 .head {
@@ -49,7 +48,6 @@ export default {
 .header {
   color: #f59607;
   font-size: 2rem;
-  margin-top: 0.67rem 0 0.67rem 0;
   font-weight: bold;
 }
 
@@ -58,6 +56,7 @@ export default {
 }
 
 .title {
+  padding-top: 30px;
   margin: 0;
 }
 

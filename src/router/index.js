@@ -17,7 +17,7 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
   },
   {
-    path: "/Entrance/first",
+    path: "/entrance/first",
     name: "first",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
@@ -25,6 +25,14 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/Entrance/FirstPage.vue"),
   },
+  // {
+  //   path: "/Entrance/two",
+  //   name: "two",
+  //   // route level code-splitting
+  //   // this generates a separate chunk (about.[hash].js) for this route
+  //   // which is lazy-loaded when the route is visited.
+  //   component: () => import("../views/Entrance/SecondPage.vue"),
+  // },
   {
     path: "/login",
     name: "login",
