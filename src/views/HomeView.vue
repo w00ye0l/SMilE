@@ -11,8 +11,7 @@
       :style="{
         '--swiper-pagination-color': '#f59607',
       }"
-      :speed="1200"
-      :space-between="50"
+      :space-between="100"
       :pagination="{ clickable: true }"
       @swiper="onSwiper"
       @slideChange="onSlideChange"
@@ -122,8 +121,6 @@
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Pagination } from "swiper";
 import "swiper/swiper-bundle.min.css";
-import "swiper/swiper.min.css";
-import "swiper/css/navigation";
 
 export default {
   components: {
