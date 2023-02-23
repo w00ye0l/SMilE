@@ -48,7 +48,6 @@ export default {
 .header {
   color: #f59607;
   font-size: 2.5rem;
-  margin-top: 0.67rem 0 0.67rem 0;
   font-weight: bold;
 }
 
