@@ -71,7 +71,7 @@ export default {
   color: #f59607;
 }
 
-.left-img {
+.left-img2 {
   position: absolute;
   left: 20px;
   top: 295px;
