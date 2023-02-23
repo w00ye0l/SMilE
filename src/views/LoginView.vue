@@ -6,7 +6,7 @@
           >BTI</span
         ><br /><img
           class="title-img"
-          v-bind:src="require('@/assets/smile1.png')"
+          v-bind:src="require('@/assets/first_smile1.png')"
         /><br />E<span class="sub-title">verthing</span>
       </h1>
 
