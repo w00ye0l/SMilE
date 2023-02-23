@@ -8,8 +8,9 @@
     <div class="slider">
       <div class="main_content">
         <h3>
-          하루 하나의 질문을 통해<br />
-          다른 <span class="mbti">MBTI</span>의 생각을 확인해요!
+          일정을 기록하고<br />
+          만나는 사람의 <span class="mbti">MBTI</span><br />
+          대응법을 익혀요!
         </h3>
       </div>
       <div>
