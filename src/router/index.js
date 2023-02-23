@@ -31,6 +31,11 @@ const routes = [
     component: () => import("../views/Entrance/SecondPage.vue"),
   },
   {
+    path: "/entrance/third",
+    name: "third",
+    component: () => import("../views/Entrance/ThirdPage.vue"),
+  },
+  {
     path: "/login",
     name: "login",
     component: () => import("../views/LoginView.vue"),
