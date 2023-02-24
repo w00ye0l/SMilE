@@ -19,7 +19,10 @@
           <template v-for="(jColor, idx2) in ns" v-bind:key="idx2">
             <template v-for="(kColor, idx3) in tf" v-bind:key="idx3">
               <template v-for="(lColor, idx4) in pj" v-bind:key="idx4">
-                <router-link to="doc" class="mbti-link">
+                <div
+                  v-on:click="docMove(`${idx1}${idx2}${idx3}${idx4}`)"
+                  class="mbti-link"
+                >
                   <div class="mbti-box">
                     <p
                       class="mbti-text"
@@ -52,7 +55,7 @@
                       {{ idx3 }}{{ idx4 }}
                     </p>
                   </div>
-                </router-link>
+                </div>
               </template>
             </template>
           </template>
@@ -76,6 +79,17 @@ export default {
       tf: { T: "#ffd335", F: "#bafb6e" },
       pj: { P: "#293fff", J: "#b9740c" },
     };
+  },
+  methods: {
+    docMove(selectMBTI) {
+      this.$store.state.selectMBTI = selectMBTI;
+      this.$router.push({
+        path: "/doc",
+        query: {
+          id: selectMBTI,
+        },
+      });
+    },
   },
 };
 </script>
