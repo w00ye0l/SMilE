@@ -22,6 +22,11 @@ const routes = [
     component: () => import("../views/MbtiSave.vue"),
   },
   {
+    path: "/groupadd",
+    name: "groupadd",
+    component: () => import("../views/GroupAdd.vue"),
+  },
+  {
     path: "/login",
     name: "login",
     component: () => import("../views/LoginView.vue"),

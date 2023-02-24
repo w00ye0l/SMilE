@@ -217,6 +217,7 @@ export default {
   display: flex;
   justify-content: left;
   margin: 10px 0 5px 0;
+  align-items: center;
 }
 
 .radio-name {
