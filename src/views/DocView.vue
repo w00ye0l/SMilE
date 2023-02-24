@@ -1,27 +1,58 @@
 <template>
   <div class="body">
-    <h1 class="title">ENFP</h1>
+    <h1 class="title">{{ id }}</h1>
     <section class="main-section">
       <ul class="menu-list">
-        <li class="menu">상대법</li>
-        <li class="menu">주의할 점</li>
-        <li class="menu">특징</li>
+        <li
+          class="menu"
+          :class="{ active: comp === 'relativity' }"
+          v-on:click="changeComponent('relativity')"
+        >
+          상대법
+        </li>
+        <li
+          class="menu"
+          :class="{ active: comp === 'caution' }"
+          v-on:click="changeComponent('caution')"
+        >
+          주의할 점
+        </li>
+        <li
+          class="menu"
+          :class="{ active: comp === 'character' }"
+          v-on:click="changeComponent('character')"
+        >
+          특징
+        </li>
       </ul>
 
       <div class="info-container">
-        <div class="info-title-box">
-          <div class="info-box info-title">ENF 상대법은?</div>
-        </div>
-        <div class="info-content-box">
-          <div class="info-box info-content">상대법 어쩌구 저쩌구</div>
-        </div>
+        <component :is="comp" class="info"></component>
       </div>
     </section>
   </div>
 </template>
 
 <script>
-export default {};
+import relativity from "@/components/RelativityComponent.vue";
+import caution from "@/components/CautionComponent.vue";
+import character from "@/components/CharacterComponent.vue";
+
+export default {
+  components: { relativity, caution, character },
+  data() {
+    return {
+      comp: "relativity",
+      id: this.$store.state.selectMBTI,
+    };
+  },
+  computed: {},
+  methods: {
+    changeComponent(componentName) {
+      this.comp = componentName;
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -46,7 +77,8 @@ export default {};
 
 .menu-list {
   margin: 0;
-  padding: 40px 0;
+  padding: 0;
+  padding-top: 30px;
   display: flex;
   justify-content: space-evenly;
   font-size: 20px;
@@ -57,68 +89,19 @@ export default {};
 }
 
 .info-container {
-  padding: 20px 30px;
+  padding: 20px;
+  width: 100%;
   display: flex;
   flex-direction: column;
-}
-
-.info-title-box {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.info-content-box {
-  display: flex;
-  justify-content: flex-start;
-}
-
-.info-box {
-  margin: 20px;
-  padding: 15px 20px;
-  width: fit-content;
   position: relative;
-  border-radius: 20px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
-  z-index: 2;
 }
 
-.info-title {
-  background-color: #ffd338;
+.info {
+  width: 100%;
 }
 
-.info-title::after {
-  content: "";
-  display: block;
-  position: absolute;
-  bottom: 1px;
-  right: 20px;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 0 20px 20px 0;
-  border-color: transparent #ffd338 transparent transparent;
-  filter: drop-shadow(0 3px 2px rgba(0, 0, 0, 0.25));
-  transform: translateY(100%);
-  z-index: 1;
-}
-
-.info-content {
-  background-color: #fff;
-}
-
-.info-content::after {
-  content: "";
-  display: block;
-  position: absolute;
-  bottom: 1px;
-  left: 20px;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 20px 20px 0 0;
-  border-color: #fff transparent transparent transparent;
-  filter: drop-shadow(0 3px 2px rgba(0, 0, 0, 0.25));
-  transform: translateY(100%);
-  z-index: 1;
+.active {
+  font-weight: bold;
+  border-bottom: 2px solid #ffd338;
 }
 </style>
