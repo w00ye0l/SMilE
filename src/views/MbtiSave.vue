@@ -38,28 +38,27 @@
         <span class="character">INFP</span>
       </div>
     </div>
-  </div>
-
-  <div class="black-bg box-sizing" v-if="modal == true">
-    <div class="white-bg">
-      <div class="radio-button-control">
-        <input
-          type="radio"
-          :model="radioValues"
-          value="그룹추가"
-          class="radio-button"
-        />
-        <label for="그룹추가" class="radio-name">그룹추가</label>
-      </div>
-      <br />
-      <div class="radio-button-control">
-        <input
-          type="radio"
-          :model="radioValues"
-          value="MBTI 정보 추가"
-          class="radio-button"
-        />
-        <label for="MBTI 정보 추가" class="radio-name">MBTI 정보 추가</label>
+    <div class="black-bg box-sizing" v-if="modal == true">
+      <div class="white-bg">
+        <div class="radio-button-control">
+          <input
+            type="radio"
+            :model="radioValues"
+            value="그룹추가"
+            class="radio-button"
+          />
+          <label for="그룹추가" class="radio-name">그룹추가</label>
+        </div>
+        <br />
+        <div class="radio-button-control">
+          <input
+            type="radio"
+            :model="radioValues"
+            value="MBTI 정보 추가"
+            class="radio-button"
+          />
+          <label for="MBTI 정보 추가" class="radio-name">MBTI 정보 추가</label>
+        </div>
       </div>
     </div>
   </div>
@@ -195,16 +194,20 @@ export default {
 }
 
 .black-bg {
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   background: rgba(0, 0, 0, 0.5);
-  position: fixed;
+  position: absolute;
+  top: 0;
+  left: 0;
   padding: 20px;
 }
 
 .white-bg {
-  width: 100%;
+  width: 90vw;
   background: white;
+  position: absolute;
+  bottom: 20px;
   border-radius: 15px;
   padding: 20px;
   height: 150px;
