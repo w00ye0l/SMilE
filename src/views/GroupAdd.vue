@@ -118,20 +118,22 @@ input::placeholder {
 }
 
 .add-btn {
-  width: 90px;
-  height: 35px;
-  border-radius: 15px;
+  width: 100px;
+  height: 40px;
+  border-radius: 17px;
   border: none;
   background-color: #f59607;
   margin-left: 50px;
+  font-size: 17px;
 }
 
 .cancel-btn {
-  width: 90px;
-  height: 35px;
-  border-radius: 15px;
+  width: 100px;
+  height: 40px;
+  border-radius: 17px;
   border: none;
   background-color: #ffffff;
   margin-right: 50px;
+  font-size: 17px;
 }
 </style>
