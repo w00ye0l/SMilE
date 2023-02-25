@@ -207,6 +207,7 @@ input::placeholder {
   width: 88vw;
   height: 15.2vh;
   border: none;
+  margin-left: 10px;
 }
 
 .add-cancel-control {
@@ -216,20 +217,22 @@ input::placeholder {
 }
 
 .add-btn {
-  width: 90px;
-  height: 35px;
-  border-radius: 15px;
+  width: 100px;
+  height: 40px;
+  border-radius: 18px;
   border: none;
   background-color: #f59607;
   margin-left: 50px;
+  font-size: 17px;
 }
 
 .cancel-btn {
-  width: 90px;
-  height: 35px;
-  border-radius: 15px;
+  width: 100px;
+  height: 40px;
+  border-radius: 18px;
   border: none;
   background-color: #ffffff;
   margin-right: 50px;
+  font-size: 17px;
 }
 </style>
