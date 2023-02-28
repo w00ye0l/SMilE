@@ -27,6 +27,11 @@
       v-model="groupId"
       class="input-box"
     />
+    <br />
+    <div class="btn-control">
+      <button class="add-btn">추가</button>
+      <button class="cancel-btn">취소</button>
+    </div>
   </div>
 </template>
 
@@ -80,7 +85,7 @@ export default {
 }
 .add-group {
   background: #fff9c8;
-  height: 400px;
+  height: 255px;
 }
 
 .category-name2 {
@@ -99,5 +104,36 @@ export default {
   border: none;
   box-shadow: 0px 1.5px 0px 1.5px #d3d3d3;
   height: 45px;
+  display: inline-block;
+}
+
+input::placeholder {
+  text-indent: 15px;
+}
+
+.btn-control {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.add-btn {
+  width: 100px;
+  height: 40px;
+  border-radius: 17px;
+  border: none;
+  background-color: #f59607;
+  margin-left: 50px;
+  font-size: 17px;
+}
+
+.cancel-btn {
+  width: 100px;
+  height: 40px;
+  border-radius: 17px;
+  border: none;
+  background-color: #ffffff;
+  margin-right: 50px;
+  font-size: 17px;
 }
 </style>

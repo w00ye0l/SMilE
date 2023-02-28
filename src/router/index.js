@@ -27,6 +27,16 @@ const routes = [
     component: () => import("../views/GroupAdd.vue"),
   },
   {
+    path: "/addinfo",
+    name: "addinfo",
+    component: () => import("../views/AddInfo.vue"),
+  },
+  {
+    path: "/infodetail",
+    name: "infodetail",
+    component: () => import("../views/InfoDetail.vue"),
+  },
+  {
     path: "/login",
     name: "login",
     component: () => import("../views/LoginView.vue"),
