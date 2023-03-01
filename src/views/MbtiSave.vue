@@ -46,6 +46,7 @@
             :model="radioValues"
             value="그룹추가"
             class="radio-button"
+            @click="pageLink"
           />
           <label for="그룹추가" class="radio-name">그룹추가</label>
         </div>
@@ -56,6 +57,7 @@
             :model="radioValues"
             value="MBTI 정보 추가"
             class="radio-button"
+            @click="mbtiLink"
           />
           <label for="MBTI 정보 추가" class="radio-name">MBTI 정보 추가</label>
         </div>
@@ -74,6 +76,12 @@ export default {
   methods: {
     modalclick() {
       this.modal = true;
+    },
+    pageLink() {
+      this.$router.push({ path: "groupadd" });
+    },
+    mbtiLink() {
+      this.$router.push({ path: "addinfo" });
     },
   },
 };
