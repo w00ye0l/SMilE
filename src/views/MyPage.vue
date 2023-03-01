@@ -1,9 +1,83 @@
 <template>
-  <h2 class="title">마이 페이지</h2>
+  <div>
+    <h2 class="title">마이 페이지</h2>
+    <div class="img-box">
+      <img :src="require(`@/assets/Avatar.png`)" class="avatar" />
+      <div class="my-name-mbti">
+        <span>이름</span>
+        <span class="my-mbti">MBTI</span>
+      </div>
+    </div>
+    <div class="dropbox">
+      <span class="category-name">쪽지함</span>
+      <button class="btn-more">더보기</button>
+    </div>
+    <div class="box-container">
+      <img :src="require(`@/assets/first_smile1.png`)" class="smile" />
+      <img :src="require(`@/assets/first_smile1.png`)" class="smile" />
+      <img :src="require(`@/assets/first_smile1.png`)" class="smile" />
+      <img :src="require(`@/assets/first_smile1.png`)" class="smile" />
+    </div>
+  </div>
 </template>
 <style>
 .title {
   margin: 0;
   padding: 40px 0 20px 0;
+}
+
+.avatar {
+  float: left;
+  margin: 15px 0 0 30px;
+}
+
+.img-box {
+  background: #fff9c8;
+  margin: 20px 0 0 20px;
+  width: 90vw;
+  height: 120px;
+  border-radius: 20px;
+  border: 1px solid black;
+}
+
+.my-name-mbti {
+  display: flex;
+  flex-direction: column;
+  float: left;
+  margin: 20px 0 0 20px;
+  font-size: 20px;
+}
+
+.my-mbti {
+  margin-top: 10px;
+}
+
+.category-name {
+  display: flex;
+  font-size: 20px;
+  font-weight: 600;
+  justify-content: left;
+  margin-left: 20px;
+}
+
+.dropbox {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.btn-more {
+  border: none;
+  background: none;
+  font-size: 18px;
+  margin-right: 20px;
+}
+
+.box-container {
+  width: 90vw;
+}
+
+.smile {
+  margin-right: 15px;
 }
 </style>
