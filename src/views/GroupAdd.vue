@@ -29,8 +29,8 @@
     />
     <br />
     <div class="btn-control">
-      <button class="add-btn">추가</button>
-      <button class="cancel-btn">취소</button>
+      <button class="add-btn" @click="pageLink">추가</button>
+      <button class="cancel-btn" @click="pageLink">취소</button>
     </div>
   </div>
 </template>
@@ -41,6 +41,11 @@ export default {
     return {
       groupId: "",
     };
+  },
+  methods: {
+    pageLink() {
+      this.$router.push({ path: "savingmbti" });
+    },
   },
 };
 </script>

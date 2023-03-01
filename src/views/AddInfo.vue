@@ -35,8 +35,8 @@
       <textarea v-model="memo" class="text"></textarea>
     </div>
     <div class="add-cancel-control">
-      <button class="add-btn">추가</button>
-      <button class="cancel-btn">취소</button>
+      <button class="add-btn" @click="pageLink">추가</button>
+      <button class="cancel-btn" @click="pageLink">취소</button>
     </div>
   </div>
 </template>
@@ -67,6 +67,11 @@ export default {
         { name: "INFP", value: "p" },
       ],
     };
+  },
+  methods: {
+    pageLink() {
+      this.$router.push({ path: "savingmbti" });
+    },
   },
 };
 </script>
