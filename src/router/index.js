@@ -47,6 +47,11 @@ const routes = [
     component: () => import("../views/MessageBox.vue"),
   },
   {
+    path: "/randommessage",
+    name: "randommessage",
+    component: () => import("../views/RandomMessage.vue"),
+  },
+  {
     path: "/login",
     name: "login",
     component: () => import("../views/LoginView.vue"),

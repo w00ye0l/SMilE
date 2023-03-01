@@ -239,8 +239,4 @@ input::placeholder {
   display: inline-block;
   background-color: white;
 }
-
-.select-list {
-  font-size: 100px;
-}
 </style>
