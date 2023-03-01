@@ -13,10 +13,10 @@
       <button class="btn-more">더보기</button>
     </div>
     <div class="box-container">
-      <img :src="require(`@/assets/first_smile1.png`)" class="smile" />
-      <img :src="require(`@/assets/first_smile1.png`)" class="smile" />
-      <img :src="require(`@/assets/first_smile1.png`)" class="smile" />
-      <img :src="require(`@/assets/first_smile1.png`)" class="smile" />
+      <img :src="require(`@/assets/smileblack.png`)" class="smile" />
+      <img :src="require(`@/assets/smileblack.png`)" class="smile" />
+      <img :src="require(`@/assets/smileblack.png`)" class="smile" />
+      <img :src="require(`@/assets/smileblack.png`)" class="smile" />
     </div>
   </div>
 </template>
@@ -70,14 +70,22 @@
   border: none;
   background: none;
   font-size: 18px;
-  margin-right: 20px;
+  margin-right: 25px;
 }
 
 .box-container {
   width: 90vw;
+  box-shadow: 0px 1.5px 0px 1.5px #d3d3d3;
+  border-radius: 20px;
+  height: 65px;
+  margin: 10px 0 0 15px;
 }
 
 .smile {
-  margin-right: 15px;
+  float: left;
+  display: flex;
+  margin: 15px 0 0 15px;
+  width: 30px;
+  height: 30px;
 }
 </style>
