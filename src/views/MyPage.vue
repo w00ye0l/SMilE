@@ -18,6 +18,8 @@
       <img :src="require(`@/assets/smileblack.png`)" class="smile" />
       <img :src="require(`@/assets/smileblack.png`)" class="smile" />
     </div>
+    <span class="category-friend">친구 분포도</span>
+    <div class="dis-chart"></div>
   </div>
 </template>
 <style>
@@ -53,7 +55,6 @@
 }
 
 .category-name {
-  display: flex;
   font-size: 20px;
   font-weight: 600;
   justify-content: left;
@@ -87,5 +88,21 @@
   margin: 15px 0 0 15px;
   width: 30px;
   height: 30px;
+}
+
+.category-friend {
+  display: flex;
+  font-size: 20px;
+  font-weight: 600;
+  justify-content: left;
+  margin: 15px 0 0 20px;
+}
+
+.dis-chart {
+  width: 90vw;
+  box-shadow: 0px 1.5px 0px 1.5px #d3d3d3;
+  border-radius: 20px;
+  height: 25vh;
+  margin: 10px 0 0 15px;
 }
 </style>
