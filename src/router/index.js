@@ -42,6 +42,11 @@ const routes = [
     component: () => import("../views/MyPage.vue"),
   },
   {
+    path: "/messagebox",
+    name: "messagebox",
+    component: () => import("../views/MessageBox.vue"),
+  },
+  {
     path: "/login",
     name: "login",
     component: () => import("../views/LoginView.vue"),

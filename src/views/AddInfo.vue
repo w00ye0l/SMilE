@@ -122,28 +122,6 @@ input::placeholder {
   margin-left: 30px;
   padding-top: 30px;
 }
-
-.select-box {
-  width: 90vw;
-  margin: 15px 0 15px 0;
-  border-radius: 20px;
-  border: none;
-  box-shadow: 0px 1.5px 0px 1.5px #d3d3d3;
-  height: 45px;
-  display: inline-block;
-  background-color: white;
-}
-.select {
-  display: flex;
-  justify-content: left;
-  margin: 5px 0 0 15px;
-  width: 80vw;
-  height: 35px;
-  border: none;
-  font-size: 1rem;
-  font-weight: 400;
-}
-
 .group {
   display: flex;
   font-size: 17px;
@@ -209,10 +187,9 @@ input::placeholder {
 }
 
 .text {
-  width: 88vw;
+  width: 86.8vw;
   height: 15.2vh;
   border: none;
-  margin-left: 10px;
 }
 
 .add-cancel-control {
@@ -239,5 +216,31 @@ input::placeholder {
   background-color: #ffffff;
   margin-right: 50px;
   font-size: 17px;
+}
+
+.select {
+  display: flex;
+  justify-content: left;
+  margin: 5px 0 0 15px;
+  width: 80vw;
+  height: 35px;
+  border: none;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.select-box {
+  width: 90vw;
+  margin: 15px 0 15px 0;
+  border-radius: 20px;
+  border: none;
+  box-shadow: 0px 1.5px 0px 1.5px #d3d3d3;
+  height: 45px;
+  display: inline-block;
+  background-color: white;
+}
+
+.select-list {
+  font-size: 100px;
 }
 </style>
