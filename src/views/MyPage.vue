@@ -10,7 +10,7 @@
     </div>
     <div class="dropbox">
       <span class="category-name">쪽지함</span>
-      <button class="btn-more">더보기</button>
+      <button class="btn-more" @click="pageLink">더보기</button>
     </div>
     <div class="box-container">
       <img :src="require(`@/assets/smileblack.png`)" class="smile" />
@@ -22,6 +22,15 @@
     <div class="dis-chart"></div>
   </div>
 </template>
+<script>
+export default {
+  methods: {
+    pageLink() {
+      this.$router.push({ path: "messagebox" });
+    },
+  },
+};
+</script>
 <style>
 .title {
   margin: 0;
