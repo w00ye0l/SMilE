@@ -52,6 +52,16 @@ const routes = [
     component: () => import("../views/RandomMessage.vue"),
   },
   {
+    path: "/sendmessage",
+    name: "sendmessage",
+    component: () => import("../views/SendMessage.vue"),
+  },
+  {
+    path: "/messagecheck",
+    name: "messagecheck",
+    component: () => import("../views/MessageCheck.vue"),
+  },
+  {
     path: "/login",
     name: "login",
     component: () => import("../views/LoginView.vue"),
