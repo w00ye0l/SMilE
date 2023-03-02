@@ -12,10 +12,22 @@
         </option>
       </select>
     </div>
-    <div>
+    <div class="images">
       <img :src="require(`@/assets/randomimg1.png`)" class="img1" />
       <img :src="require(`@/assets/randomimg3.png`)" class="img2" />
       <img :src="require(`@/assets/randomimg2.png`)" class="img3" />
+    </div>
+    <div class="btn-control">
+      <div class="re-cover">
+        <img :src="require(`@/assets/re.png`)" class="re" />
+      </div>
+      <div class="letter-cover">
+        <img :src="require(`@/assets/letter.png`)" class="letter" />
+      </div>
+    </div>
+    <div class="btn-name">
+      <span class="btn-name1">다시</span>
+      <span class="btn-name2">전송</span>
     </div>
   </div>
 </template>
@@ -81,6 +93,10 @@ export default {
   background-color: white;
 }
 
+.images {
+  height: 400px;
+}
+
 .img1 {
   position: absolute;
   left: -55px;
@@ -100,5 +116,54 @@ export default {
   top: 220px;
   right: 130px;
   width: 160px;
+}
+
+.btn-control {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.re-cover {
+  width: 85px;
+  height: 75px;
+  border-radius: 15px;
+  box-shadow: 0px 1.5px 0px 1.5px #d3d3d3;
+  background-color: white;
+}
+.re {
+  width: 50px;
+  height: 50px;
+  margin-top: 15px;
+}
+
+.letter-cover {
+  width: 85px;
+  height: 75px;
+  border-radius: 15px;
+  box-shadow: 0px 1.5px 0px 1.5px #d3d3d3;
+  background-color: white;
+}
+
+.letter {
+  width: 55px;
+  height: 40px;
+  margin-top: 17px;
+}
+
+.btn-name {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.btn-name1 {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 5px 25px 0 0;
+}
+
+.btn-name2 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 5px;
 }
 </style>
