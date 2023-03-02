@@ -10,11 +10,18 @@
           <span class="send">보내기</span>
         </button>
       </div>
+      <textarea v-model="memo" class="text" placeholder="내용을 입력하세요">
+      </textarea>
     </div>
   </div>
 </template>
 <script>
 export default {
+  data() {
+    return {
+      memo: "",
+    };
+  },
   methods: {
     pageLink() {
       this.$router.push({ path: "randommessage" });
@@ -70,5 +77,12 @@ export default {
 
 .send {
   font-weight: bold;
+}
+
+.text {
+  margin-top: 20px;
+  width: 55.8vw;
+  height: 60.2vh;
+  border: none;
 }
 </style>
