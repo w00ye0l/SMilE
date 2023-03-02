@@ -9,7 +9,16 @@
           <option value="E">E</option>
           <option value="I">I</option>
         </select>
-        <div class="type">_</div>
+        <div v-on:click="selectMBTI('NS')" class="select">
+          <div class="selected">
+            <p class="selected-value">{{ this.mbti2 }}</p>
+          </div>
+          <ul class="select-option" v-bind:class="{ active: selectNS }">
+            <li class="option" v-on:click="selectNSOption('_')">_</li>
+            <li class="option" v-on:click="selectNSOption('N')">N</li>
+            <li class="option" v-on:click="selectNSOption('S')">S</li>
+          </ul>
+        </div>
         <div class="type">_</div>
         <div class="type">_</div>
       </div>
@@ -69,11 +78,14 @@
 export default {
   data() {
     return {
-      red: "red",
-      mbti1: "",
-      mbti2: "",
-      mbti3: "",
-      mbti4: "",
+      selectEI: false,
+      selectNS: false,
+      selectTF: false,
+      selectPJ: false,
+      mbti1: "_",
+      mbti2: "_",
+      mbti3: "_",
+      mbti4: "_",
       ei: { E: "#ffd338", I: "#000" },
       ns: { N: "red", S: "#fff" },
       tf: { T: "#ffd335", F: "#bafb6e" },
@@ -89,6 +101,19 @@ export default {
           id: selectMBTI,
         },
       });
+    },
+    selectMBTI(selected) {
+      if (selected === "NS") {
+        if (this.selectNS === true) {
+          this.selectNS = false;
+        } else {
+          this.selectNS = true;
+        }
+        console.log(this.selectNS);
+      }
+    },
+    selectNSOption(option) {
+      this.mbti2 = option;
     },
   },
 };
@@ -136,6 +161,56 @@ export default {
   -moz-appearance: none; /* 파이어폭스 화살표 없애기 */
   appearance: none; /* 화살표 없애기 */
   text-align: center; /* 텍스트 가운데 정렬 */
+}
+
+.select-option {
+  padding: 0;
+  list-style-type: none;
+}
+
+.select {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+}
+
+.selected {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  background-color: #fff9c8;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+}
+
+.selected-value {
+  margin: 0;
+}
+
+.select-option {
+  display: none;
+  position: relative;
+  z-index: 10;
+}
+
+.active {
+  display: initial;
+}
+
+.option {
+  margin: 10px 0;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  background-color: #fff9c8;
+  border-radius: 50%;
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.25);
 }
 
 .mbti-container {

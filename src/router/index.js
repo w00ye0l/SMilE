@@ -71,6 +71,11 @@ const routes = [
     name: "doc",
     component: () => import("../views/DocView.vue"),
   },
+  {
+    path: "/calendar",
+    name: "calendar",
+    component: () => import("../views/CalendarView.vue"),
+  },
 ];
 
 const router = createRouter({
