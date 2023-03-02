@@ -12,6 +12,7 @@
     "swiper": "^9.0.5",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
+    "vue-simple-search-dropdown": "^1.0.1",
     "vuex": "^4.0.0"
   },
   "devDependencies": {
