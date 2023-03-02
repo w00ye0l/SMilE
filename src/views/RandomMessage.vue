@@ -19,10 +19,14 @@
     </div>
     <div class="btn-control">
       <div class="re-cover">
-        <img :src="require(`@/assets/re.png`)" class="re" />
+        <button class="re-btn">
+          <img :src="require(`@/assets/re.png`)" class="re" />
+        </button>
       </div>
       <div class="letter-cover">
-        <img :src="require(`@/assets/letter.png`)" class="letter" />
+        <button class="letter-btn" @click="pageLink">
+          <img :src="require(`@/assets/letter.png`)" class="letter" />
+        </button>
       </div>
     </div>
     <div class="btn-name">
@@ -56,6 +60,11 @@ export default {
         { name: "INFP", value: "p" },
       ],
     };
+  },
+  methods: {
+    pageLink() {
+      this.$router.push({ path: "sendmessage" });
+    },
   },
 };
 </script>
@@ -165,5 +174,15 @@ export default {
   font-size: 20px;
   font-weight: bold;
   margin-top: 5px;
+}
+
+.re-btn {
+  border: none;
+  background-color: transparent;
+}
+
+.letter-btn {
+  border: none;
+  background-color: transparent;
 }
 </style>

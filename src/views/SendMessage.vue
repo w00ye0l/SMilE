@@ -3,12 +3,25 @@
     <h2>쪽지 보내기</h2>
     <div class="messagebox">
       <div class="close-send">
-        <span>x</span>
-        <button class="send-btn">보내기</button>
+        <button @click="pageLink" class="cancel-btn">
+          <img :src="require(`@/assets/cancel.png`)" class="cancel" />
+        </button>
+        <button class="add-btn">
+          <span class="send">보내기</span>
+        </button>
       </div>
     </div>
   </div>
 </template>
+<script>
+export default {
+  methods: {
+    pageLink() {
+      this.$router.push({ path: "randommessage" });
+    },
+  },
+};
+</script>
 <style scoped>
 .title {
   margin: 0;
@@ -31,9 +44,31 @@
 .close-send {
   display: flex;
   justify-content: space-between;
+  margin: 0 20px 0 15px;
 }
 
-.send-btn {
+.add-btn {
+  width: 100px;
+  height: 40px;
+  border-radius: 18px;
+  border: none;
+  background-color: #f59607;
+  margin-left: 50px;
+  font-size: 17px;
+  margin-top: 17px;
+}
+
+.cancel-btn {
+  border: none;
+  background-color: transparent;
+}
+.cancel {
+  width: 20px;
   height: 20px;
+  margin: 23px 0 0 5px;
+}
+
+.send {
+  font-weight: bold;
 }
 </style>
