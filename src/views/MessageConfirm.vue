@@ -12,6 +12,12 @@
           </button>
         </div>
       </div>
+      <div>
+        <div class="left-control">
+          <img :src="require(`@/assets/yellowmark.png`)" class="left-message" />
+        </div>
+        <img :src="require(`@/assets/whitemark.png`)" class="right-message" />
+      </div>
     </div>
     <img :src="require(`@/assets/logobox.png`)" class="img" />
   </div>
@@ -21,6 +27,7 @@ export default {
   data() {
     return {
       name: "ENFP님",
+      memo: "오늘은 날씨가 정말 좋네요 파스타 한 접시 하러 갈까요?",
     };
   },
   methods: {
@@ -105,5 +112,15 @@ export default {
 .content {
   margin-top: 30px;
   padding: 25px;
+}
+
+.left-message {
+  width: 200px;
+  margin-right: 45px;
+}
+
+.right-message {
+  width: 200px;
+  margin-left: 45px;
 }
 </style>
