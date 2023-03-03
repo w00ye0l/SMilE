@@ -62,6 +62,11 @@ const routes = [
     component: () => import("../views/MessageCheck.vue"),
   },
   {
+    path: "/messageconfirm",
+    name: "messageconfirm",
+    component: () => import("../views/MessageConfirm.vue"),
+  },
+  {
     path: "/login",
     name: "login",
     component: () => import("../views/LoginView.vue"),
