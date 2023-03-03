@@ -4,9 +4,14 @@
     <div class="type-container">
       <div @click="selectMBti" class="select">
         <div class="selected">
-          <p class="selected-value">{{ this.mbti }}</p>
+          <span class="selected-value">{{ this.mbti }}</span>
+          <img :src="require(`@/assets/arrow.png`)" class="arrow" />
         </div>
-        <ul class="select-option" v-bind:class="{ active: selectMbti }">
+        <ul
+          class="select-option"
+          v-bind:class="{ active: selectMbti }"
+          @scroll="listScroll"
+        >
           <li
             class="option"
             v-for="(item, index) in mbtiList"
@@ -94,6 +99,7 @@ export default {
   background-color: #fff9c8;
   height: 100vh;
   position: relative;
+  overflow: hidden;
 }
 
 .type-container {
@@ -144,6 +150,14 @@ export default {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
 }
 
+.selected-value {
+  margin: 0;
+}
+
+.arrow {
+  margin-left: 15px;
+}
+
 .select-option {
   display: none;
   position: relative;
@@ -156,14 +170,14 @@ export default {
 
 .option {
   margin: 10px 0;
-  width: 50px;
+  width: 150px;
   height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: bold;
-  background-color: #fff9c8;
-  border-radius: 50%;
+  background-color: white;
+  border-radius: 20px;
   box-shadow: 0 4px 5px rgba(0, 0, 0, 0.25);
 }
 
