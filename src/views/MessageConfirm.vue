@@ -1,13 +1,16 @@
 <template>
   <div class="background title">
-    <div class="messagebox">
-      <div>
-        <button @click="pageLink" class="cancel-btn">
-          <img :src="require(`@/assets/cancel.png`)" class="cancel" />
-        </button>
-      </div>
-      <div>
-        <p class="message-title">{{ name }}</p>
+    <div class="message-box">
+      <div class="nav">
+        <p class="name">{{ name }}</p>
+        <div class="right-side">
+          <button class="btn">
+            <img :src="require(`@/assets/navigator.png`)" class="navigator" />
+          </button>
+          <button class="btn">
+            <img :src="require(`@/assets/colon.png`)" class="colon" />
+          </button>
+        </div>
       </div>
     </div>
     <img :src="require(`@/assets/logobox.png`)" class="img" />
@@ -38,13 +41,18 @@ export default {
   position: relative;
 }
 
+.nav {
+  display: flex;
+  justify-content: space-between;
+}
+
 .img {
   left: 100px;
   top: 50px;
   position: absolute;
 }
 
-.messagebox {
+.message-box {
   height: 70vh;
   width: 70vw;
   margin: 40px 0 0 60px;
@@ -62,14 +70,36 @@ export default {
   margin: 15px 10px 0 0;
 }
 
-.message-title {
+.name {
   font-size: 20px;
   font-weight: bold;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 50px;
   color: #f59607;
+  margin-left: 20px;
+}
+
+.right-side {
+  margin-right: 15px;
+}
+
+.btn {
+  background: none;
+  border: none;
+}
+.navigator {
+  width: 20px;
+  height: 20px;
+  margin-top: 23px;
+  border: 1px solid white;
+}
+
+.colon {
+  width: 20px;
+  height: 20px;
+  margin-left: 5px;
+  border: 1px solid white;
 }
 
 .content {
