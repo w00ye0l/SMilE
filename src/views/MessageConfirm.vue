@@ -14,9 +14,21 @@
       </div>
       <div>
         <div class="left-control">
+          <span class="memo">{{ memo }}</span>
           <img :src="require(`@/assets/yellowmark.png`)" class="left-message" />
         </div>
-        <img :src="require(`@/assets/whitemark.png`)" class="right-message" />
+        <div>
+          <span class="memo2">{{ memo2 }}</span>
+          <img :src="require(`@/assets/whitemark.png`)" class="right-message" />
+        </div>
+        <div class="left-control">
+          <span class="memo">{{ memo }}</span>
+          <img :src="require(`@/assets/yellowmark.png`)" class="left-message" />
+        </div>
+        <div>
+          <span class="memo2">{{ memo2 }}</span>
+          <img :src="require(`@/assets/whitemark.png`)" class="right-message" />
+        </div>
       </div>
     </div>
     <img :src="require(`@/assets/logobox.png`)" class="img" />
@@ -28,6 +40,7 @@ export default {
     return {
       name: "ENFP님",
       memo: "오늘은 날씨가 정말 좋네요 파스타 한 접시 하러 갈까요?",
+      memo2: "날씨가 별로여서 안 땡기네요",
     };
   },
   methods: {
@@ -114,11 +127,24 @@ export default {
   padding: 25px;
 }
 
+.memo {
+  position: absolute;
+  z-index: 2;
+  padding: 15px 30px 0 0;
+  margin-right: 35px;
+}
 .left-message {
   width: 200px;
   margin-right: 45px;
+  position: relative;
+  z-index: 1;
 }
-
+.memo2 {
+  position: absolute;
+  z-index: 2;
+  padding: 30px 30px 0 25px;
+  margin-left: 30px;
+}
 .right-message {
   width: 200px;
   margin-left: 45px;
