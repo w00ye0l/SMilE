@@ -34,7 +34,7 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 .title {
   margin: 0;
   padding: 30px 0 20px 0;

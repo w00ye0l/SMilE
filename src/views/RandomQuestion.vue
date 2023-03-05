@@ -128,7 +128,7 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 .title {
   margin: 0;
   padding: 30px 0 20px 0;
@@ -181,7 +181,7 @@ export default {
 
 .btn-control {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   margin-right: 40px;
 }
 

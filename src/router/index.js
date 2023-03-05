@@ -77,6 +77,11 @@ const routes = [
     component: () => import("../views/RandomQuestion.vue"),
   },
   {
+    path: "/writing",
+    name: "writing",
+    component: () => import("../views/WritingView.vue"),
+  },
+  {
     path: "/login",
     name: "login",
     component: () => import("../views/LoginView.vue"),
