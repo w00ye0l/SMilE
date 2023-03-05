@@ -93,13 +93,13 @@ export default {
 .title {
   margin: 0;
   padding: 30px 0 20px 0;
+  overflow: scroll;
 }
 
 .background {
   background-color: #fff9c8;
   height: 100vh;
   position: relative;
-  overflow: hidden;
 }
 
 .type-container {
