@@ -16,7 +16,7 @@
         <div @click="selectMBti" class="select">
           <div class="selected">
             <span class="selected-value">{{ this.mbti }}</span>
-            <img :src="require(`@/assets/arrow.png`)" class="arrow" />
+            <img :src="require(`@/assets/arrow2.png`)" class="arrow" />
           </div>
           <ul
             class="select-option"
@@ -42,7 +42,7 @@ export default {
   data() {
     return {
       selectMbti: false,
-      mbti: "선택해주세요",
+      mbti: "ENFP",
       mbtiList: [
         { name: "ENFJ" },
         { name: "ENFP" },
@@ -164,19 +164,20 @@ export default {
 }
 
 .selected {
-  width: 150px;
-  height: 50px;
+  width: 100px;
+  height: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: bold;
   background-color: white;
-  border-radius: 20px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  border: 1px solid black;
 }
 
 .selected-value {
   margin: 0;
+  font-weight: 500;
 }
 
 .arrow {
@@ -195,14 +196,14 @@ export default {
 
 .option {
   margin: 10px 0;
-  width: 150px;
-  height: 50px;
+  width: 100px;
+  height: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: bold;
   background-color: white;
-  border-radius: 20px;
-  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  border: 1px solid black;
 }
 </style>
