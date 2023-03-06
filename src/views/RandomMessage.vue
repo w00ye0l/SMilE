@@ -1,16 +1,27 @@
 <template>
   <div class="title background">
     <h2>랜덤 쪽지</h2>
-    <div class="select-box">
-      <select v-model="selected" class="select">
-        <option
-          v-for="(item, idx) in selectList"
-          :key="idx"
-          :value="item.value"
+    <div class="type-container">
+      <div @click="selectMBti" class="select">
+        <div class="selected">
+          <span class="selected-value">{{ this.mbti }}</span>
+          <img :src="require(`@/assets/arrow.png`)" class="arrow" />
+        </div>
+        <ul
+          class="select-option"
+          v-bind:class="{ active: selectMbti }"
+          @scroll="listScroll"
         >
-          {{ item.name }}
-        </option>
-      </select>
+          <li
+            class="option"
+            v-for="(item, index) in mbtiList"
+            :key="index"
+            v-on:click="selectMbtiOption(item.name)"
+          >
+            {{ item.name }}
+          </li>
+        </ul>
+      </div>
     </div>
     <div class="images">
       <img :src="require(`@/assets/randomimg1.png`)" class="img1" />
@@ -39,31 +50,41 @@
 export default {
   data() {
     return {
-      selected: "",
-      selectList: [
-        { name: "선택해주세요!", value: "" },
-        { name: "ESTJ", value: "a" },
-        { name: "ESTP", value: "b" },
-        { name: "ESFJ", value: "c" },
-        { name: "ESFP", value: "d" },
-        { name: "ENTJ", value: "e" },
-        { name: "ENTP", value: "f" },
-        { name: "ENFJ", value: "g" },
-        { name: "ENFP", value: "h" },
-        { name: "ISTJ", value: "i" },
-        { name: "ISTP", value: "j" },
-        { name: "ISFJ", value: "k" },
-        { name: "ISFP", value: "l" },
-        { name: "INTJ", value: "m" },
-        { name: "INTP", value: "n" },
-        { name: "INFJ", value: "o" },
-        { name: "INFP", value: "p" },
+      selectMbti: false,
+      mbti: "선택해주세요",
+      mbtiList: [
+        { name: "ENFJ" },
+        { name: "ENFP" },
+        { name: "ENTJ" },
+        { name: "ENTP" },
+        { name: "ESFJ" },
+        { name: "ESFP" },
+        { name: "ESTJ" },
+        { name: "ESTP" },
+        { name: "INFJ" },
+        { name: "INFP" },
+        { name: "INTJ" },
+        { name: "INTP" },
+        { name: "ISTJ" },
+        { name: "ISTP" },
+        { name: "ISFJ" },
+        { name: "ISFP" },
       ],
     };
   },
   methods: {
     pageLink() {
       this.$router.push({ path: "sendmessage" });
+    },
+    selectMBti() {
+      if (this.selectMbti === true) {
+        this.selectMbti = false;
+      } else {
+        this.selectMbti = true;
+      }
+    },
+    selectMbtiOption(option) {
+      this.mbti = option;
     },
   },
 };
@@ -72,6 +93,7 @@ export default {
 .title {
   margin: 0;
   padding: 30px 0 20px 0;
+  overflow: scroll;
 }
 
 .background {
@@ -80,26 +102,83 @@ export default {
   position: relative;
 }
 
-.select {
+.type-container {
+  padding: 30px 0;
   display: flex;
-  justify-content: left;
-  margin: 5px 0 0 15px;
-  width: 30vw;
-  height: 35px;
-  border: none;
-  font-size: 1rem;
-  font-weight: 400;
+  justify-content: center;
+  align-items: center;
+  margin-right: 100px;
 }
 
-.select-box {
-  width: 40vw;
-  margin: 15px 0 15px 0;
-  border-radius: 20px;
-  border: none;
-  box-shadow: 0px 1.5px 0px 1.5px #d3d3d3;
-  height: 45px;
+.type {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  font-weight: bold;
+  background-color: #fff9c8;
+  border: 0;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+  -webkit-appearance: none; /* 크롬 화살표 없애기 */
+  -moz-appearance: none; /* 파이어폭스 화살표 없애기 */
+  appearance: none; /* 화살표 없애기 */
+  text-align: center; /* 텍스트 가운데 정렬 */
+}
+
+.select-option {
+  padding: 0;
+  list-style-type: none;
+}
+
+.select {
   display: inline-block;
+  width: 50px;
+  height: 50px;
+}
+
+.selected {
+  width: 150px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
   background-color: white;
+  border-radius: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+}
+
+.selected-value {
+  margin: 0;
+}
+
+.arrow {
+  margin-left: 15px;
+}
+
+.select-option {
+  display: none;
+  position: relative;
+  z-index: 10;
+}
+
+.active {
+  display: initial;
+}
+
+.option {
+  margin: 10px 0;
+  width: 150px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.25);
 }
 
 .images {
