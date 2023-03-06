@@ -12,7 +12,7 @@
       <h3>추가</h3>
     </div>
     <div class="select">
-      <div class="type-container">
+      <div class="type-container btn-class">
         <div @click="selectMBti" class="select">
           <div class="selected">
             <span class="selected-value">{{ this.mbti }}</span>
@@ -33,14 +33,32 @@
             </li>
           </ul>
         </div>
+        <div>
+          <img :src="require(`@/assets/plus.png`)" class="plus" />
+        </div>
       </div>
     </div>
+  </div>
+  <div class="message-height">
+    <hr class="hr" />
+    <div class="third-title">
+      <h3 class="mbti-title">{{ title }}</h3>
+    </div>
+    <div class="memo-box">
+      <textarea v-model="memo" class="text-box" placeholder="내용을 입력하세요">
+      </textarea>
+    </div>
+  </div>
+  <hr class="hr2" />
+  <div>
+    <h3>작성 완료</h3>
   </div>
 </template>
 <script>
 export default {
   data() {
     return {
+      title: "ENFP",
       selectMbti: false,
       mbti: "ENFP",
       mbtiList: [
@@ -87,7 +105,7 @@ export default {
 }
 .background {
   background-color: #ffffff;
-  height: 100vh;
+  height: 30vh;
   position: relative;
 }
 
@@ -120,7 +138,7 @@ export default {
 
 .second-title {
   float: left;
-  margin-left: 30px;
+  margin-left: 45px;
 }
 
 .select {
@@ -161,17 +179,18 @@ export default {
   display: inline-block;
   width: 50px;
   height: 50px;
+  margin-left: 20px;
 }
 
 .selected {
   width: 100px;
-  height: 40px;
+  height: 35px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: bold;
   background-color: white;
-  border-radius: 10px;
+  border-radius: 5px;
   border: 1px solid black;
 }
 
@@ -197,13 +216,65 @@ export default {
 .option {
   margin: 10px 0;
   width: 100px;
-  height: 40px;
+  height: 35px;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-weight: bold;
+  font-weight: 500;
   background-color: white;
-  border-radius: 10px;
+  border-radius: 5px;
   border: 1px solid black;
+}
+
+.btn-control {
+  margin-left: 20px;
+}
+
+.plus {
+  width: 25px;
+  height: 25px;
+  margin-left: 40px;
+}
+
+.message-height {
+  height: 56.3vh;
+}
+.hr {
+  width: 80vw;
+}
+
+.third-title {
+  padding-left: 40px;
+}
+
+.mbti-title {
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-position: under;
+  text-decoration-thickness: 2px;
+  float: left;
+}
+
+.memo-box {
+  width: 80vw;
+  margin: 10px 0 15px 0;
+  border-radius: 15px;
+  border: none;
+  box-shadow: 0px 1.5px 0px 1.5px #d3d3d3;
+  height: 45vh;
+  background-color: white;
+  display: inline-block;
+  white-space: pre-line;
+}
+
+.text-box {
+  margin-top: 20px;
+  width: 70.8vw;
+  height: 40vh;
+  border: none;
+}
+
+.hr2 {
+  width: 80vw;
 }
 </style>
