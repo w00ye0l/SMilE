@@ -51,7 +51,7 @@
   </div>
   <hr class="hr2" />
   <div>
-    <h3>작성 완료</h3>
+    <h3 class="complete">작성 완료</h3>
   </div>
 </template>
 <script>
@@ -111,7 +111,8 @@ export default {
 
 .btn-control {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  margin-right: 30px;
 }
 
 .text {
@@ -150,7 +151,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: 100px;
+  margin-right: 80px;
 }
 
 .type {
@@ -173,11 +174,17 @@ export default {
 .select-option {
   padding: 0;
   list-style-type: none;
+  overflow: hidden;
+  overflow-y: scroll;
+  height: 180px;
+  width: 100px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 15px;
 }
 
 .select {
   display: inline-block;
-  width: 50px;
+  width: 100px;
   height: 50px;
   margin-left: 20px;
 }
@@ -210,12 +217,12 @@ export default {
 }
 
 .active {
-  display: initial;
+  display: block;
 }
 
 .option {
-  margin: 10px 0;
-  width: 100px;
+  margin: 3px 0 10px 5px;
+  width: 80px;
   height: 35px;
   display: flex;
   justify-content: center;
@@ -225,15 +232,9 @@ export default {
   border-radius: 5px;
   border: 1px solid black;
 }
-
-.btn-control {
-  margin-left: 20px;
-}
-
 .plus {
   width: 25px;
   height: 25px;
-  margin-left: 40px;
 }
 
 .message-height {
@@ -276,5 +277,11 @@ export default {
 
 .hr2 {
   width: 80vw;
+}
+
+.complete {
+  display: flex;
+  padding-left: 40px;
+  font-weight: 600;
 }
 </style>
