@@ -4,38 +4,48 @@
       <h1 class="title">회원가입</h1>
     </div>
 
-    <form @submit.prevent="submitForm" class="main-section">
+    <form @submit.prevent="submitForm" class="main-section" id="signup">
       <h2 class="profile-label">프로필 사진</h2>
       <button class="profile-btn">파일 선택</button>
 
       <div class="input-container">
         <div class="input-div">
-          <label class="input-label" for="">이메일</label>
-          <input class="input-box" type="email" />
+          <label class="input-label" for="email">이메일</label>
+          <input class="input-box" type="email" id="email" name="email" />
         </div>
 
         <div class="input-div">
-          <label class="input-label" for="">닉네임</label>
-          <input class="input-box" type="text" />
+          <label class="input-label" for="nickname">닉네임</label>
+          <input class="input-box" type="text" id="nickname" name="nickname" />
         </div>
 
         <div class="input-div">
-          <label class="input-label" for="">비밀번호</label>
-          <input class="input-box" type="password" />
+          <label class="input-label" for="password">비밀번호</label>
+          <input
+            class="input-box"
+            type="password"
+            id="password"
+            name="password"
+          />
         </div>
 
         <div class="input-div">
-          <label class="input-label" for="">비밀번호 확인</label>
-          <input class="input-box" type="password" />
+          <label class="input-label" for="passwordConfirm">비밀번호 확인</label>
+          <input
+            class="input-box"
+            type="password"
+            id="passwordConfirm"
+            name="passwordConfirm"
+          />
         </div>
 
         <div class="input-div">
-          <label class="input-label" for="">생년월일</label>
-          <input class="input-box" type="date" />
+          <label class="input-label" for="birthday">생년월일</label>
+          <input class="input-box" type="date" id="birthday" name="birthday" />
         </div>
 
         <div class="input-div">
-          <label class="input-label" for="">성별</label>
+          <label class="input-label" for="man">성별</label>
           <div class="gender-box">
             <label class="gender-label" for="man">
               <input
@@ -127,18 +137,34 @@
         </div>
       </div>
 
-      <button class="signup-btn">회원가입</button>
+      <button v-on:click="signup" class="signup-btn" type="submit">
+        회원가입
+      </button>
     </form>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+// import { signup } from "backend/controllers/auth";
+
 export default {
   data() {
     return {
+      image: "",
+      nickname: "",
+      password: "",
+      passwordConfirm: "",
+      age: "",
+      birthday: "",
       man: "off",
       woman: "off",
       gender: "",
+      mbti1: "",
+      mbti2: "",
+      mbti3: "",
+      mbti4: "",
+      errors: [],
     };
   },
   methods: {
@@ -168,6 +194,57 @@ export default {
           this.man = "on";
           this.gender = "woman";
         }
+      }
+    },
+    async submitForm() {
+      this.errors = [];
+
+      if (this.nickname === "") {
+        this.errors.push("The nickname is missing");
+      }
+
+      if (this.password === "") {
+        this.errors.push("The password is too short");
+      }
+
+      if (this.password !== this.passwordConfirm) {
+        this.errors.push("The password are not matching");
+      }
+
+      if (!this.errors.length) {
+        this.$store.commit("setIsLoading", true);
+
+        const formData = {
+          image: this.image,
+          nickname: this.nickname,
+          password: this.password,
+          age: this.age,
+          birthday: this.birthday,
+          gender: this.gender,
+          mbti1: this.mbti1,
+          mbti2: this.mbti2,
+          mbti3: this.mbti3,
+          mbti4: this.mbti4,
+        };
+
+        await axios
+          .post("/signup", formData)
+          // eslint-disable-next-line
+          .then((res) => {
+            this.$router.push("/login");
+          })
+          .catch((error) => {
+            console.log(formData);
+            if (error.res) {
+              for (const property in error.res.data) {
+                this.errors.push(`${property}: ${error.res.data[property]}`);
+              }
+            } else if (error.message) {
+              this.errors.push("Something went wrong. Please try again!");
+            }
+          });
+
+        this.$store.commit("setIsLoading", false);
       }
     },
   },
