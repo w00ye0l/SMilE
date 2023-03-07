@@ -114,12 +114,11 @@ export default {
       this.memo = "";
     },
     tempSave() {
-      this.mbti_complete.push({ name: `${this.mbti}` });
-      if (this.mbti_complete.length >= 5) {
-        console.log(1);
+      if (this.mbti_complete.length < 4) {
+        this.mbti_complete.push({ name: `${this.mbti}` });
+      } else {
         alert("4개 이상 만들 수 없습니다");
       }
-      this.mbti_complete.splice(4);
     },
   },
 };
