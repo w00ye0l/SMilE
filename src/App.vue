@@ -7,6 +7,18 @@
   <router-view />
 </template>
 
+<script>
+import axios from "axios";
+
+export default {
+  setup() {
+    axios.get("http://localhost:3000").then((res) => {
+      console.log(res);
+    });
+  },
+};
+</script>
+
 <style>
 @font-face {
   font-family: "Fredoka", sans-serif;
