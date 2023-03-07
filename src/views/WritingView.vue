@@ -4,7 +4,7 @@
     <div class="btn-control">
       <div class="text">hide text</div>
       <div>
-        <button class="btn-temp">임시저장</button>
+        <button class="btn-temp" @click="tempSave()">임시저장</button>
         <button class="btn-create">작성</button>
       </div>
     </div>
@@ -34,7 +34,9 @@
           </ul>
         </div>
         <div>
-          <img :src="require(`@/assets/plus.png`)" class="plus" />
+          <button class="plus-btn" @click="changeName()">
+            <img :src="require(`@/assets/plus.png`)" class="plus" />
+          </button>
         </div>
       </div>
     </div>
@@ -42,6 +44,7 @@
   <div class="message-height">
     <hr class="hr" />
     <div class="third-title">
+      <div class="space"></div>
       <h3 class="mbti-title">{{ title }}</h3>
     </div>
     <div class="memo-box">
@@ -52,15 +55,25 @@
   <hr class="hr2" />
   <div>
     <h3 class="complete">작성 완료</h3>
+    <div class="mbti-btn-control">
+      <div
+        v-for="(mbti, idx) in mbti_complete"
+        :key="idx"
+        class="mbti-completed"
+      >
+        {{ mbti.name }}
+      </div>
+    </div>
   </div>
 </template>
 <script>
 export default {
   data() {
     return {
-      title: "ENFP",
+      title: "",
       selectMbti: false,
-      mbti: "ENFP",
+      mbti: "선택",
+      memo: "",
       mbtiList: [
         { name: "ENFJ" },
         { name: "ENFP" },
@@ -79,6 +92,7 @@ export default {
         { name: "ISFJ" },
         { name: "ISFP" },
       ],
+      mbti_complete: [],
     };
   },
   methods: {
@@ -94,6 +108,18 @@ export default {
     },
     selectMbtiOption(option) {
       this.mbti = option;
+    },
+    changeName() {
+      this.title = this.mbti;
+      this.memo = "";
+    },
+    tempSave() {
+      this.mbti_complete.push({ name: `${this.mbti}` });
+      if (this.mbti_complete.length >= 5) {
+        console.log(1);
+        alert("4개 이상 만들 수 없습니다");
+      }
+      this.mbti_complete.splice(4);
     },
   },
 };
@@ -221,7 +247,7 @@ export default {
 }
 
 .option {
-  margin: 3px 0 10px 5px;
+  margin: 3px 0 10px 8px;
   width: 80px;
   height: 35px;
   display: flex;
@@ -238,7 +264,7 @@ export default {
 }
 
 .message-height {
-  height: 56.3vh;
+  height: 50.3vh;
 }
 .hr {
   width: 80vw;
@@ -253,16 +279,15 @@ export default {
   text-decoration: underline;
   text-underline-position: under;
   text-decoration-thickness: 2px;
-  float: left;
+  display: flex;
 }
-
 .memo-box {
   width: 80vw;
   margin: 10px 0 15px 0;
   border-radius: 15px;
   border: none;
   box-shadow: 0px 1.5px 0px 1.5px #d3d3d3;
-  height: 45vh;
+  height: 40vh;
   background-color: white;
   display: inline-block;
   white-space: pre-line;
@@ -271,7 +296,7 @@ export default {
 .text-box {
   margin-top: 20px;
   width: 70.8vw;
-  height: 40vh;
+  height: 35vh;
   border: none;
 }
 
@@ -283,5 +308,27 @@ export default {
   display: flex;
   padding-left: 40px;
   font-weight: 600;
+}
+
+.mbti-btn-control {
+  display: flex;
+  justify-content: space-evenly;
+  width: 99.3vw;
+}
+
+.mbti-completed {
+  font-weight: 500;
+  border-radius: 5px;
+  background-color: #ffe99d;
+  width: 55px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.plus-btn {
+  border: none;
+  background-color: transparent;
 }
 </style>
