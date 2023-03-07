@@ -74,7 +74,7 @@
                 type="radio"
                 name="gender"
                 v-model="gender"
-                value="man"
+                value="M"
               />
               <img
                 v-on:click="manCheck"
@@ -91,7 +91,7 @@
                 type="radio"
                 name="gender"
                 v-model="gender"
-                value="woman"
+                value="W"
               />
               <img
                 v-on:click="womanCheck"
@@ -172,6 +172,7 @@ export default {
   data() {
     return {
       image: "",
+      email: "",
       nickname: "",
       password: "",
       passwordConfirm: "",
@@ -189,29 +190,29 @@ export default {
   methods: {
     manCheck() {
       // console.log("m", this.gender, this.man, this.woman);
-      if (this.gender === "" || this.gender === "woman") {
+      if (this.gender === "" || this.gender === "W") {
         if (this.man === "off") {
           this.man = "on";
           this.woman = "off";
-          this.gender = "man";
+          this.gender = "M";
         } else {
           this.man = "off";
           this.woman = "on";
-          this.gender = "woman";
+          this.gender = "W";
         }
       }
     },
     womanCheck() {
       // console.log("w", this.gender, this.man, this.woman);
-      if (this.gender === "" || this.gender === "man") {
+      if (this.gender === "" || this.gender === "M") {
         if (this.woman === "off") {
           this.woman = "on";
           this.man = "off";
-          this.gender = "man";
+          this.gender = "M";
         } else {
           this.woman = "off";
           this.man = "on";
-          this.gender = "woman";
+          this.gender = "W";
         }
       }
     },
@@ -232,7 +233,8 @@ export default {
 
       if (!this.errors.length) {
         const formData = {
-          image: this.image,
+          image: null,
+          email: this.email,
           nickname: this.nickname,
           password: this.password,
           birthday: this.birthday,
@@ -244,7 +246,7 @@ export default {
         };
 
         await axios
-          .post("/signup", formData)
+          .post("/auth/signup", formData)
           // eslint-disable-next-line
           .then((res) => {
             this.$router.push("/login");

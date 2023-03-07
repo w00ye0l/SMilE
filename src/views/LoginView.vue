@@ -29,8 +29,20 @@
 
     <div class="login-container">
       <form @submit.prevent="submitForm" class="login-form">
-        <input class="input-box" type="email" placeholder="이메일" />
-        <input class="input-box" type="password" placeholder="비밀번호" />
+        <input
+          class="input-box"
+          type="email"
+          name="email"
+          v-model="email"
+          placeholder="이메일"
+        />
+        <input
+          class="input-box"
+          type="password"
+          name="password"
+          v-model="password"
+          placeholder="비밀번호"
+        />
         <button class="login-btn">로그인</button>
       </form>
 
@@ -40,7 +52,40 @@
 </template>
 
 <script>
-export default {};
+import axios from "axios";
+
+export default {
+  data() {
+    return {
+      email: "",
+      password: "",
+      errors: [],
+    };
+  },
+  methods: {
+    async submitForm() {
+      const formData = {
+        email: this.email,
+        password: this.password,
+      };
+      await axios
+        .post("/auth/login/", formData)
+        // eslint-disable-next-line
+        .then((res) => {
+          this.$router.push("/mypage");
+        })
+        .catch((error) => {
+          if (error.res) {
+            for (const property in error.res.data) {
+              this.errors.push(`${property}: ${error.res.data[property]}`);
+            }
+          } else if (error.message) {
+            this.errors.push("Something went wrong. Please try again!");
+          }
+        });
+    },
+  },
+};
 </script>
 
 <style scoped>

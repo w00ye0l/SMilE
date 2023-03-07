@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import "v-calendar/dist/style.css";
+// import "v-calendar/dist/style.css";
 
 export default {};
 </script>
