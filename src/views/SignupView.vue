@@ -11,12 +11,24 @@
       <div class="input-container">
         <div class="input-div">
           <label class="input-label" for="email">이메일</label>
-          <input class="input-box" type="email" id="email" name="email" />
+          <input
+            class="input-box"
+            type="email"
+            id="email"
+            name="email"
+            v-model="email"
+          />
         </div>
 
         <div class="input-div">
           <label class="input-label" for="nickname">닉네임</label>
-          <input class="input-box" type="text" id="nickname" name="nickname" />
+          <input
+            class="input-box"
+            type="text"
+            id="nickname"
+            name="nickname"
+            v-model="nickname"
+          />
         </div>
 
         <div class="input-div">
@@ -26,6 +38,7 @@
             type="password"
             id="password"
             name="password"
+            v-model="password"
           />
         </div>
 
@@ -36,12 +49,19 @@
             type="password"
             id="passwordConfirm"
             name="passwordConfirm"
+            v-model="passwordConfirm"
           />
         </div>
 
         <div class="input-div">
           <label class="input-label" for="birthday">생년월일</label>
-          <input class="input-box" type="date" id="birthday" name="birthday" />
+          <input
+            class="input-box"
+            type="date"
+            id="birthday"
+            name="birthday"
+            v-model="birthday"
+          />
         </div>
 
         <div class="input-div">
@@ -155,7 +175,6 @@ export default {
       nickname: "",
       password: "",
       passwordConfirm: "",
-      age: "",
       birthday: "",
       man: "off",
       woman: "off",
@@ -212,13 +231,10 @@ export default {
       }
 
       if (!this.errors.length) {
-        this.$store.commit("setIsLoading", true);
-
         const formData = {
           image: this.image,
           nickname: this.nickname,
           password: this.password,
-          age: this.age,
           birthday: this.birthday,
           gender: this.gender,
           mbti1: this.mbti1,
@@ -243,8 +259,6 @@ export default {
               this.errors.push("Something went wrong. Please try again!");
             }
           });
-
-        this.$store.commit("setIsLoading", false);
       }
     },
   },
