@@ -1,21 +1,34 @@
 <template>
-  <!-- <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link> |
-    <router-link to="/Entrance/first">FirstPage</router-link>
-  </nav> -->
-  <router-view />
+  <navComponent v-if="url !== '/'"></navComponent>
+  <router-view class="router-view" />
 </template>
 
 <script>
-// import axios from "axios";
+import navComponent from "@/components/NavComponent.vue";
 
 export default {
-  // setup() {
-  //   axios.get("http://localhost:3000").then((res) => {
-  //     console.log(res);
-  //   });
-  // },
+  components: { navComponent },
+  data() {
+    return {
+      url: "",
+    };
+  },
+  created() {
+    this.nowUrl(this.$route.path);
+  },
+  methods: {
+    nowUrl() {
+      console.log(this.$route.path);
+      return (this.url = this.$route.path);
+    },
+  },
+  watch: {
+    $route(to, from) {
+      if (to.path !== from.path) {
+        this.nowUrl(this.$route.path);
+      }
+    },
+  },
 };
 </script>
 
@@ -39,18 +52,6 @@ body {
 #app {
   text-align: center;
   color: #2c3e50;
-}
-
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
+  padding-bottom: 100px;
 }
 </style>
