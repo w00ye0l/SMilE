@@ -44,11 +44,19 @@
   <div class="message-height">
     <hr class="hr" />
     <div class="third-title">
-      <div class="space"></div>
-      <h3 class="mbti-title">{{ title }}</h3>
+      <div class="mbti-cancel">
+        <h3 class="mbti-title">{{ title }}</h3>
+        <button v-show="isShow" class="btn-cancel" @click="remove()">
+          <img :src="require(`@/assets/close.png`)" class="close" />
+        </button>
+      </div>
     </div>
     <div class="memo-box">
-      <textarea v-model="memo" class="text-box" placeholder="내용을 입력하세요">
+      <textarea
+        v-model="content"
+        class="text-box"
+        placeholder="내용을 입력하세요"
+      >
       </textarea>
     </div>
   </div>
@@ -61,7 +69,7 @@
         :key="idx"
         class="mbti-completed"
       >
-        {{ mbti.name }}
+        {{ mbti.id }}
       </div>
     </div>
   </div>
@@ -70,10 +78,10 @@
 export default {
   data() {
     return {
+      content: "",
       title: "",
       selectMbti: false,
       mbti: "선택",
-      memo: "",
       mbtiList: [
         { name: "ENFJ" },
         { name: "ENFP" },
@@ -93,6 +101,7 @@ export default {
         { name: "ISFP" },
       ],
       mbti_complete: [],
+      isShow: false,
     };
   },
   methods: {
@@ -110,14 +119,27 @@ export default {
       this.mbti = option;
     },
     changeName() {
+      this.content = "";
       this.title = this.mbti;
-      this.memo = "";
+      this.isShow = true;
     },
     tempSave() {
       if (this.mbti_complete.length < 4) {
-        this.mbti_complete.push({ name: `${this.mbti}` });
+        this.mbti_complete.push({ id: `${this.mbti}`, content: this.content });
       } else {
         alert("4개 이상 만들 수 없습니다");
+      }
+    },
+
+    remove() {
+      if (confirm("삭제하시겠습니까?")) {
+        for (let i in this.mbti_complete) {
+          if (this.mbti_complete[i].id === this.mbti) {
+            this.mbti_complete.splice(i, 1);
+            break;
+          }
+        }
+        localStorage.setItem("memos", JSON.stringify(this.memos));
       }
     },
   },
@@ -273,12 +295,26 @@ export default {
   padding-left: 40px;
 }
 
+.mbti-cancel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 80vw;
+}
 .mbti-title {
   font-weight: 500;
   text-decoration: underline;
   text-underline-position: under;
   text-decoration-thickness: 2px;
-  display: flex;
+}
+
+.btn-cancel {
+  background-color: transparent;
+  border: none;
+}
+.close {
+  width: 20px;
+  height: 20px;
 }
 .memo-box {
   width: 80vw;
