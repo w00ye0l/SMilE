@@ -128,12 +128,17 @@ export default {
     Swiper,
     SwiperSlide,
   },
+  data() {
+    return {
+      isDisabled: true,
+    };
+  },
   setup() {
     const onSwiper = (swiper) => {
       console.log(swiper);
     };
     const onSlideChange = () => {
-      console.log("slide");
+      // console.log("slide");
     };
     return {
       onSwiper,
