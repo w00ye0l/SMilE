@@ -147,7 +147,7 @@ export default {
     },
     call_btn(mbti) {
       for (const [key, value] of Object.entries(this.mbti_complete)) {
-        console.log(key, value);
+        console.log(value);
         if (key === mbti) {
           this.title = key;
           this.content = this.mbti_complete[key];

@@ -1,13 +1,13 @@
 <template>
   <div class="title background">
-    <h2>E_FP들의 답변</h2>
+    <h2>{{ $store.state.totalMbti }}들의 답변</h2>
     <div class="question">
       <span class="letter">{{ message }}</span>
     </div>
     <div class="memo-box" v-for="(item, index) in messageList" :key="index">
       <div class="img-title">
         <img :src="require(`@/assets/first_smile1.png`)" class="title-img" />
-        <span class="mbti"> {{ mbti }}</span>
+        <span class="mbti"> {{ $store.state.totalMbti }}</span>
       </div>
       <br />
       <div class="answer">
@@ -23,7 +23,6 @@ export default {
     return {
       message: "Q.친구가 기분이 안좋아서 화분을 샀다고 했다. 이때 나의 대답은?",
       answer: "무슨 일이야!",
-      mbti: "ENFP",
       messageList: [
         { name: "엥 기분이 왜  안 좋았지?" },
         { name: "무슨 일이야" },
