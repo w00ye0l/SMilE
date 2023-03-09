@@ -1,7 +1,9 @@
 const mysql = require('mysql2');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const { promisify } = require('util');
 
+// Database
 const db = mysql.createConnection({ // 모듈과 관련된 객체를 넣음
   host: process.env.DB_HOST, // db서버가 어떤 곳에 있느냐
   user: process.env.DB_USERNAME,
@@ -58,24 +60,33 @@ exports.login = async (req, res) => {
       console.log(results);
       if( !results || !(await bcrypt.compare(password, results[0].password )) ) {
         res.status(401)
+        console.log('not match')
       } else {
         const id = results[0].id; 
-
         const token = jwt.sign({ id }, process.env.JWT_SECRET, {
           expiresIn: process.env.JWT_EXPIRES_IN
         });
 
-        console.log("the token is:" + token)
+        console.log("the token is:" + token);
 
         const cookieOptions = {
           expires: new Date(
             Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
           ),
-          httpOnly: true
+          httpOnly: true,
+          // sameSite: 'none',
+          secure: true,
+          doamin: 'localhost',
+          credentials: true
         }
 
         res.cookie('jwt', token, cookieOptions );
-        res.status(200).redirect("/");
+        // res.send('cookie')
+        // res.send(jwt)
+        // res.status(200).redirect("/mypage");
+        res.status(200)
+        console.log('login success');
+        res.send("login!!!!!")
       }
     })
   } catch (error) {
