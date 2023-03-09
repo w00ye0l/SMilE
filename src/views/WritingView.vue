@@ -4,7 +4,7 @@
     <div class="btn-control">
       <div class="text">hide text</div>
       <div>
-        <button class="btn-temp">임시저장</button>
+        <button class="btn-temp" @click="tempSave()">임시저장</button>
         <button class="btn-create">작성</button>
       </div>
     </div>
@@ -34,7 +34,9 @@
           </ul>
         </div>
         <div>
-          <img :src="require(`@/assets/plus.png`)" class="plus" />
+          <button class="plus-btn" @click="changeName()">
+            <img :src="require(`@/assets/plus.png`)" class="plus" />
+          </button>
         </div>
       </div>
     </div>
@@ -42,25 +44,46 @@
   <div class="message-height">
     <hr class="hr" />
     <div class="third-title">
-      <h3 class="mbti-title">{{ title }}</h3>
+      <div class="mbti-cancel">
+        <h3 class="mbti-title">{{ title }}</h3>
+        <button v-show="isShow" class="btn-cancel" @click="remove(value)">
+          <img :src="require(`@/assets/close.png`)" class="close" />
+        </button>
+      </div>
     </div>
     <div class="memo-box">
-      <textarea v-model="memo" class="text-box" placeholder="내용을 입력하세요">
+      <textarea
+        v-model="content"
+        class="text-box"
+        placeholder="내용을 입력하세요"
+      >
       </textarea>
     </div>
   </div>
   <hr class="hr2" />
   <div>
-    <h3>작성 완료</h3>
+    <h3 class="complete">임시 저장</h3>
+    <div class="mbti-btn-control">
+      <div
+        v-for="(item, value) in mbti_complete"
+        :key="value"
+        class="mbti-completed"
+      >
+        <button class="temp-button" @click="call_btn(value)">
+          {{ value }}
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 <script>
 export default {
   data() {
     return {
-      title: "ENFP",
+      content: "",
+      title: "",
       selectMbti: false,
-      mbti: "ENFP",
+      mbti: "선택",
       mbtiList: [
         { name: "ENFJ" },
         { name: "ENFP" },
@@ -79,6 +102,8 @@ export default {
         { name: "ISFJ" },
         { name: "ISFP" },
       ],
+      mbti_complete: {},
+      isShow: false,
     };
   },
   methods: {
@@ -94,6 +119,42 @@ export default {
     },
     selectMbtiOption(option) {
       this.mbti = option;
+    },
+    changeName() {
+      this.content = "";
+      this.title = this.mbti;
+      this.isShow = true;
+    },
+    tempSave() {
+      if (Object.keys(this.mbti_complete).length < 4) {
+        this.mbti_complete[this.mbti] = this.content;
+      } else {
+        alert("4개 이상 만들 수 없습니다");
+      }
+    },
+
+    remove() {
+      if (confirm("삭제하시겠습니까?")) {
+        for (const key in this.mbti_complete) {
+          if (`${key}` === this.mbti) {
+            delete this.mbti_complete[key];
+            this.title = "";
+            this.content = "";
+            this.isShow = false;
+          }
+        }
+      }
+    },
+    call_btn(mbti) {
+      for (const [key, value] of Object.entries(this.mbti_complete)) {
+        console.log(key, value);
+        if (key === mbti) {
+          this.title = key;
+          this.content = this.mbti_complete[key];
+          this.isShow = true;
+          this.mbti = key;
+        }
+      }
     },
   },
 };
@@ -111,7 +172,8 @@ export default {
 
 .btn-control {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  margin-right: 30px;
 }
 
 .text {
@@ -150,7 +212,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: 100px;
+  margin-right: 80px;
 }
 
 .type {
@@ -173,11 +235,17 @@ export default {
 .select-option {
   padding: 0;
   list-style-type: none;
+  overflow: hidden;
+  overflow-y: scroll;
+  height: 180px;
+  width: 100px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 15px;
 }
 
 .select {
   display: inline-block;
-  width: 50px;
+  width: 100px;
   height: 50px;
   margin-left: 20px;
 }
@@ -210,12 +278,12 @@ export default {
 }
 
 .active {
-  display: initial;
+  display: block;
 }
 
 .option {
-  margin: 10px 0;
-  width: 100px;
+  margin: 3px 0 10px 8px;
+  width: 80px;
   height: 35px;
   display: flex;
   justify-content: center;
@@ -225,19 +293,13 @@ export default {
   border-radius: 5px;
   border: 1px solid black;
 }
-
-.btn-control {
-  margin-left: 20px;
-}
-
 .plus {
   width: 25px;
   height: 25px;
-  margin-left: 40px;
 }
 
 .message-height {
-  height: 56.3vh;
+  height: 50.3vh;
 }
 .hr {
   width: 80vw;
@@ -247,21 +309,34 @@ export default {
   padding-left: 40px;
 }
 
+.mbti-cancel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 80vw;
+}
 .mbti-title {
   font-weight: 500;
   text-decoration: underline;
   text-underline-position: under;
   text-decoration-thickness: 2px;
-  float: left;
 }
 
+.btn-cancel {
+  background-color: transparent;
+  border: none;
+}
+.close {
+  width: 20px;
+  height: 20px;
+}
 .memo-box {
   width: 80vw;
   margin: 10px 0 15px 0;
   border-radius: 15px;
   border: none;
   box-shadow: 0px 1.5px 0px 1.5px #d3d3d3;
-  height: 45vh;
+  height: 40vh;
   background-color: white;
   display: inline-block;
   white-space: pre-line;
@@ -270,11 +345,44 @@ export default {
 .text-box {
   margin-top: 20px;
   width: 70.8vw;
-  height: 40vh;
+  height: 35vh;
   border: none;
 }
 
 .hr2 {
   width: 80vw;
+}
+
+.complete {
+  display: flex;
+  padding-left: 40px;
+  font-weight: 600;
+}
+
+.mbti-btn-control {
+  display: flex;
+  justify-content: space-evenly;
+  width: 99.3vw;
+}
+
+.mbti-completed {
+  font-weight: 500;
+  border-radius: 5px;
+  background-color: #ffe99d;
+  width: 55px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.plus-btn {
+  border: none;
+  background-color: transparent;
+}
+
+.temp-button {
+  border: none;
+  background-color: transparent;
 }
 </style>

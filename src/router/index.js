@@ -82,6 +82,11 @@ const routes = [
     component: () => import("../views/WritingView.vue"),
   },
   {
+    path: "/community",
+    name: "community",
+    component: () => import("../views/CommunityView.vue"),
+  },
+  {
     path: "/login",
     name: "login",
     component: () => import("../views/LoginView.vue"),

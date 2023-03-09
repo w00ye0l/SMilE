@@ -7,11 +7,7 @@
           <span class="selected-value">{{ this.mbti }}</span>
           <img :src="require(`@/assets/arrow.png`)" class="arrow" />
         </div>
-        <ul
-          class="select-option"
-          v-bind:class="{ active: selectMbti }"
-          @scroll="listScroll"
-        >
+        <ul class="select-option" v-bind:class="{ active: selectMbti }">
           <li
             class="option"
             v-for="(item, index) in mbtiList"
@@ -107,7 +103,6 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: 100px;
 }
 
 .type {
@@ -130,16 +125,22 @@ export default {
 .select-option {
   padding: 0;
   list-style-type: none;
+  height: 240px;
+  width: 145px;
+  overflow: hidden;
+  overflow-y: scroll;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 15px;
 }
 
 .select {
   display: inline-block;
-  width: 50px;
+  width: 145px;
   height: 50px;
 }
 
 .selected {
-  width: 150px;
+  width: 145px;
   height: 50px;
   display: flex;
   justify-content: center;
@@ -165,12 +166,12 @@ export default {
 }
 
 .active {
-  display: initial;
+  display: block;
 }
 
 .option {
-  margin: 10px 0;
-  width: 150px;
+  margin: 2px 0 10px 3px;
+  width: 130px;
   height: 50px;
   display: flex;
   justify-content: center;
