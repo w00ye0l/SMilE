@@ -46,7 +46,7 @@
     <div class="third-title">
       <div class="mbti-cancel">
         <h3 class="mbti-title">{{ title }}</h3>
-        <button v-show="isShow" class="btn-cancel" @click="remove()">
+        <button v-show="isShow" class="btn-cancel" @click="remove(value)">
           <img :src="require(`@/assets/close.png`)" class="close" />
         </button>
       </div>
@@ -62,14 +62,16 @@
   </div>
   <hr class="hr2" />
   <div>
-    <h3 class="complete">작성 완료</h3>
+    <h3 class="complete">임시 저장</h3>
     <div class="mbti-btn-control">
       <div
-        v-for="(mbti, idx) in mbti_complete"
-        :key="idx"
+        v-for="(item, value) in mbti_complete"
+        :key="value"
         class="mbti-completed"
       >
-        {{ mbti.id }}
+        <button class="temp-button" @click="call_btn(value)">
+          {{ value }}
+        </button>
       </div>
     </div>
   </div>
@@ -100,7 +102,7 @@ export default {
         { name: "ISFJ" },
         { name: "ISFP" },
       ],
-      mbti_complete: [],
+      mbti_complete: {},
       isShow: false,
     };
   },
@@ -124,8 +126,8 @@ export default {
       this.isShow = true;
     },
     tempSave() {
-      if (this.mbti_complete.length < 4) {
-        this.mbti_complete.push({ id: `${this.mbti}`, content: this.content });
+      if (Object.keys(this.mbti_complete).length < 4) {
+        this.mbti_complete[this.mbti] = this.content;
       } else {
         alert("4개 이상 만들 수 없습니다");
       }
@@ -133,13 +135,25 @@ export default {
 
     remove() {
       if (confirm("삭제하시겠습니까?")) {
-        for (let i in this.mbti_complete) {
-          if (this.mbti_complete[i].id === this.mbti) {
-            this.mbti_complete.splice(i, 1);
-            break;
+        for (const key in this.mbti_complete) {
+          if (`${key}` === this.mbti) {
+            delete this.mbti_complete[key];
+            this.title = "";
+            this.content = "";
+            this.isShow = false;
           }
         }
-        localStorage.setItem("memos", JSON.stringify(this.memos));
+      }
+    },
+    call_btn(mbti) {
+      for (const [key, value] of Object.entries(this.mbti_complete)) {
+        console.log(key, value);
+        if (key === mbti) {
+          this.title = key;
+          this.content = this.mbti_complete[key];
+          this.isShow = true;
+          this.mbti = key;
+        }
       }
     },
   },
@@ -363,6 +377,11 @@ export default {
 }
 
 .plus-btn {
+  border: none;
+  background-color: transparent;
+}
+
+.temp-button {
   border: none;
   background-color: transparent;
 }
