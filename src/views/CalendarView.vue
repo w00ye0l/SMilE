@@ -1,28 +1,35 @@
 <template>
-  <section class="main-section">
-    <div class="header">
-      <h1 class="title">Calendar</h1>
-      <img src="@/assets/header-img.png" alt="" />
-    </div>
-    <div class="calendar-container">
-      <FullCalendar class="calendar" :options="calendarOptions" />
-    </div>
-
-    <div class="todo-list">
-      <div class="subtitle-box">
-        <h1 class="subtitle">
-          오늘 할 일 <span class="today">({{ today }})</span>
-        </h1>
-
-        <button class="add-btn" v-on:click="handleDatesSelect(today)">+</button>
+  <div>
+    <section class="main-section">
+      <div class="header">
+        <h1 class="title">Calendar</h1>
+        <img src="@/assets/header-img.png" alt="" />
       </div>
-    </div>
-  </section>
-  <ModalView
-    v-model:event="event"
-    v-if="modalOpen"
-    @close-modal="modalOpen = false"
-  ></ModalView>
+      <div class="calendar-container">
+        <FullCalendar class="calendar" :options="calendarOptions" />
+      </div>
+
+      <div class="todo-list">
+        <div class="subtitle-box">
+          <h1 class="subtitle">
+            오늘 할 일 <span class="today">({{ today }})</span>
+          </h1>
+
+          <button class="add-btn" v-on:click="handleDatesSelect(today)">
+            <font-awesome-icon
+              class="add-text fa-2xs"
+              icon="fa-solid fa-plus"
+            />
+          </button>
+        </div>
+      </div>
+    </section>
+    <ModalView
+      v-model:event="event"
+      v-if="modalOpen"
+      @close-modal="modalOpen = false"
+    ></ModalView>
+  </div>
 </template>
 
 <script>
@@ -170,6 +177,7 @@ export default {
   padding: 20px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   color: #f59607;
 }
 
@@ -184,6 +192,9 @@ export default {
 }
 
 .add-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 30px;
   height: 30px;
   font-size: 24px;
@@ -192,5 +203,10 @@ export default {
   background-color: #f59607;
   color: #fff9c8;
   box-shadow: 0 4px 5px rgba(0, 0, 0, 0.25);
+}
+
+.add-text {
+  width: 15px;
+  height: 15px;
 }
 </style>
