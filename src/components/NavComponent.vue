@@ -7,7 +7,7 @@
       <router-link class="nav" to="/docs">
         <img class="nav-img docs-tab" alt="" />
       </router-link>
-      <router-link class="nav" to="/">
+      <router-link class="nav" to="/community">
         <img class="nav-img community-tab" alt="" />
       </router-link>
       <router-link class="nav" to="/calendar">
