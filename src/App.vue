@@ -52,6 +52,29 @@ body {
 #app {
   text-align: center;
   color: #2c3e50;
-  padding-bottom: 100px;
+  padding-bottom: 80px;
+}
+
+.fc .fc-toolbar-title {
+  color: #f59607;
+}
+
+.fc .fc-button-primary {
+  background-color: #f59607 !important;
+  border-color: #f59607 !important;
+  color: var(--fc-button-text-color);
+}
+
+.fc-theme-standard .fc-scrollgrid {
+  border: 0 !important;
+}
+
+.fc-theme-standard td,
+.fc-theme-standard th {
+  border: 1px solid #f59607 !important;
+}
+
+.fc .fc-highlight {
+  background: #fffbed !important;
 }
 </style>
