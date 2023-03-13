@@ -90,7 +90,7 @@ export default {
           : date.getMonth() + 1;
       let day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
 
-      this.today = year + "." + month + "." + day;
+      this.today = year + "-" + month + "-" + day;
 
       const temp = this.today.split(".");
       this.titleDate = temp[0] + "." + temp[1];
