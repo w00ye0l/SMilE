@@ -19,7 +19,7 @@
       <swiper-slide class="wrap-swiper">
         <div class="slider">
           <div>
-            <h3 class="sub-title">
+            <h3>
               주변 사람들의<br />
               <span class="mbti">MBTI</span>를 저장해<br />한 눈에 확인하세요!
             </h3>
@@ -33,7 +33,7 @@
       <swiper-slide class="wrap-swiper">
         <div class="slider">
           <div class="main_content">
-            <h3 class="sub-title">
+            <h3>
               다른 사람들이<br />
               생각하는 <span class="mbti">MBTI</span>는<br />
               어떤지 같이 확인하세요!
@@ -52,7 +52,7 @@
       <swiper-slide class="wrap-swiper">
         <div class="slider">
           <div class="main_content">
-            <h3 class="sub-title">
+            <h3>
               일정을 기록하고<br />
               만나는 사람의 <span class="mbti">MBTI</span><br />
               대응법을 익혀요!
@@ -70,7 +70,7 @@
       <swiper-slide class="wrap-swiper">
         <div class="slider">
           <div class="main_content">
-            <h3 class="sub-title">
+            <h3>
               하루의 하나의 질문을 통해<br />
               다른 <span class="mbti">MBTI</span>의 생각을 확인해요!
             </h3>
@@ -113,10 +113,11 @@
         </div>
       </swiper-slide>
     </swiper>
-    <button :disabled="isDisabled" class="btn btn-start">시작하기</button>
+    <button :disabled="isDisabled" class="btn btn-start" @click="lastBtn()">
+      시작하기
+    </button>
   </div>
 </template>
-
 <script>
 // Import Swiper Vue.js components
 import { Swiper, SwiperSlide } from "swiper/vue";
@@ -128,17 +129,12 @@ export default {
     Swiper,
     SwiperSlide,
   },
-  data() {
-    return {
-      isDisabled: true,
-    };
-  },
   setup() {
     const onSwiper = (swiper) => {
       console.log(swiper);
     };
     const onSlideChange = () => {
-      // console.log("slide");
+      console.log("slide");
     };
     return {
       onSwiper,
@@ -146,14 +142,22 @@ export default {
       modules: [Pagination],
     };
   },
+  methods: {
+    lastBtn() {
+      this.$router.push({ path: "login" });
+    },
+  },
 };
 </script>
-
-<style scoped>
+<style>
 .background {
   position: relative;
   background-color: #fff9c8;
   height: 100vh;
+}
+
+#app {
+  padding-bottom: 0;
 }
 
 .head {
@@ -167,7 +171,7 @@ export default {
 }
 
 .slider {
-  height: 600px;
+  height: 630px;
 }
 
 .title {
@@ -182,7 +186,7 @@ export default {
   height: 25px;
 }
 
-.sub-title {
+h3 {
   font-weight: bold;
   font-size: 25px;
 }

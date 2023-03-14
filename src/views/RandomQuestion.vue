@@ -58,7 +58,7 @@
           </ul>
         </div>
       </div>
-      <p>E_FP들의 답변</p>
+      <p>{{ totalMbti }}들의 답변</p>
       <button class="btn-more" @click="pageLink">더보기</button>
     </div>
   </div>
@@ -77,6 +77,7 @@ export default {
       mbti2: "_",
       mbti3: "_",
       mbti4: "_",
+      totalMbti: "",
     };
   },
   methods: {
@@ -115,15 +116,23 @@ export default {
     },
     selectEIOption(option) {
       this.mbti1 = option;
+      this.totalMbti += this.mbti1;
+      this.$store.state.totalMbti = this.totalMbti;
     },
     selectNSOption(option) {
       this.mbti2 = option;
+      this.totalMbti += this.mbti2;
+      this.$store.state.totalMbti = this.totalMbti;
     },
     selectTFOption(option) {
       this.mbti3 = option;
+      this.totalMbti += this.mbti3;
+      this.$store.state.totalMbti = this.totalMbti;
     },
     selectPJOption(option) {
       this.mbti4 = option;
+      this.totalMbti += this.mbti4;
+      this.$store.state.totalMbti = this.totalMbti;
     },
   },
 };

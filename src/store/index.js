@@ -3,6 +3,7 @@ import { createStore } from "vuex";
 export default createStore({
   state: {
     selectMBTI: "",
+    total_mbti: "",
     events: [],
   },
   getters: {
