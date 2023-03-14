@@ -147,7 +147,6 @@ export default {
       console.log(swiper);
     };
     const onSlideChange = (swiper) => {
-      console.log(swiper.activeIndex);
       currentSlide.value = swiper.activeIndex + 1;
       if (currentSlide.value === 4) {
         isDisabled.value = true;
@@ -167,7 +166,6 @@ export default {
     lastBtn() {
       if (this.currentSlide === 4) {
         this.$router.push({ path: "login" });
-        this.isDisabled = true;
       }
     },
   },
