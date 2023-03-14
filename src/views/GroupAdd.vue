@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="hide-height">
+  <div class="group-info">
+    <div>
       <h2>그룹 추가</h2>
       <div class="category-addbtn">
         <p class="category-name1">내 그룹</p>
@@ -8,35 +8,35 @@
           <button class="group-add-btn" @click="addBtn()">추가</button>
         </div>
       </div>
-      <div class="group-name" v-for="(item, value) in groups" :key="value">
-        <span class="name">{{ item }}</span>
-        <div>
-          <div class="add-delete-img">
-            <button class="fix-btn" @click="fixBtn(value)">
-              <img :src="require(`@/assets/pencil.png`)" class="pencil" />
-            </button>
-            <button class="delete-btn" @click="removeBtn(value)">
-              <img :src="require(`@/assets/trashcan.png`)" class="trashcan" />
-            </button>
+      <div class="group-manage">
+        <div class="group-name" v-for="(item, value) in groups" :key="value">
+          <span class="name">{{ item }}</span>
+          <div>
+            <div class="add-delete-img">
+              <button class="fix-btn" @click="fixBtn()">
+                <img :src="require(`@/assets/pencil.png`)" class="pencil" />
+              </button>
+              <button class="delete-btn">
+                <img :src="require(`@/assets/trashcan.png`)" class="trashcan" />
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="add-group">
-      <p class="category-name2">{{ category }}</p>
-      <input
-        type="text"
-        :placeholder="placeholder"
-        v-model="groupId"
-        class="input-box"
-      />
-      <br />
-      <div class="btn-control">
-        <button class="add-btn" @click="registerBtn(), saveBtn()">
-          {{ button }}
-        </button>
-        <button class="cancel-btn" @click="pageLink()">취소</button>
-      </div>
+  </div>
+  <div class="add-group">
+    <p class="category-name2">{{ category }}</p>
+    <input
+      type="text"
+      :placeholder="placeholder"
+      v-model="groupId"
+      class="input-box"
+    />
+    <br />
+    <div class="btn-control">
+      <button class="add-btn" @click="registerBtn()">{{ button }}</button>
+      <button class="cancel-btn" @click="pageLink()">취소</button>
     </div>
   </div>
 </template>
@@ -52,8 +52,7 @@ export default {
       button: "-",
       members: "",
       groups: {},
-      keys: 0,
-      prevKey: -1,
+      key: 0,
     };
   },
   methods: {
@@ -66,49 +65,25 @@ export default {
       this.button = "추가";
       this.placeholder = "그룹 명";
     },
-    registerBtn() {
-      if (this.button === "추가") {
-        this.content = this.groupId;
-        this.groups[this.keys] = this.content;
-        this.keys++;
-        console.log(this.groups, 1);
-      }
-    },
-    fixBtn(number) {
-      this.button = "수정";
+    fixBtn() {
+      this.placeholder = this.groupId;
+      this.content = this.groupId;
       this.category = "그룹 및 수정";
-      this.prevKey = number;
-      for (const [key, value] of Object.entries(this.groups)) {
-        console.log(value);
-        if (key === this.prevKey) {
-          this.groupId = this.groups[key];
-        }
-      }
+      this.button = "수정";
       // this.groups[this.key] = this.content;
     },
-    removeBtn(number) {
-      this.prevKey = number;
-      if (confirm("삭제하시겠습니까?")) {
-        for (const key in this.groups) {
-          console.log(key, this.key);
-          if (`${key}` === this.prevKey.toString()) {
-            delete this.groups[key];
-          }
-        }
-      }
-    },
-    saveBtn() {
-      if (this.button === "수정") {
-        this.groups[this.prevKey] = this.groupId;
-      }
+    registerBtn() {
+      this.content = this.groupId;
+      this.groups[this.key] = this.content;
+      console.log(this.groups);
     },
   },
 };
 </script>
 
 <style scoped>
-.hide-height {
-  height: 60vh;
+.group-info {
+  height: 600px;
 }
 
 .category-addbtn {
@@ -138,16 +113,19 @@ export default {
   margin-left: 25px;
 }
 
+.group-manage {
+  width: 90vw;
+  margin: 0 0 15px 20px;
+  border-radius: 20px;
+  background-color: #ffd338;
+  box-shadow: 0px 1.5px 0px 1.5px #d3d3d3;
+}
+
 .group-name {
   margin: 10px 0 30px 30px;
   font-size: 20px;
   display: flex;
   justify-content: space-between;
-  width: 90vw;
-  margin: 0 0 15px 20px;
-  border-radius: 25px;
-  background-color: #ffd338;
-  box-shadow: 0px 1.5px 0px 1.5px #d3d3d3;
 }
 
 .add-delete-img {
@@ -178,7 +156,6 @@ export default {
 .input-box {
   width: 90vw;
   margin: 0 0 15px 0;
-  padding-left: 15px;
   border-radius: 20px;
   border: none;
   box-shadow: 0px 1.5px 0px 1.5px #d3d3d3;
@@ -187,8 +164,7 @@ export default {
 }
 
 input::placeholder {
-  text-indent: 5px;
-  padding-left: 0;
+  text-indent: 15px;
 }
 
 .btn-control {
@@ -230,6 +206,5 @@ input::placeholder {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-left: 15px;
 }
 </style>
