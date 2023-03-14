@@ -173,7 +173,7 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 .background {
   position: relative;
   background-color: #fff9c8;
