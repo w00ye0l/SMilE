@@ -43,7 +43,9 @@
           v-model="password"
           placeholder="비밀번호"
         />
-        <button class="login-btn">로그인</button>
+        <button v-on:click="login" class="login-btn" type="submit">
+          로그인
+        </button>
       </form>
 
       <router-link class="signup-link" to="signup">계정 만들기</router-link>
@@ -64,25 +66,42 @@ export default {
   },
   methods: {
     async submitForm() {
-      const formData = {
-        email: this.email,
-        password: this.password,
-      };
-      await axios
-        .post("/auth/login/", formData)
-        // eslint-disable-next-line
-        .then((res) => {
-          this.$router.push("/mypage");
-        })
-        .catch((error) => {
-          if (error.res) {
-            for (const property in error.res.data) {
-              this.errors.push(`${property}: ${error.res.data[property]}`);
+      this.errors = [];
+
+      if (!this.email || !this.password) {
+        // || : or
+        this.errors.push("please provide an email and password!!");
+      }
+
+      if (!this.errors.length) {
+        const formData = {
+          email: this.email,
+          password: this.password,
+        };
+        await axios
+          .post("/auth/login/", formData, {
+            withCredentials: true,
+          })
+          // eslint-disable-next-line
+          .then((res) => {
+            console.log("login");
+            this.$router.push("/mypage");
+          })
+          .catch((error) => {
+            console.log("not login");
+            if (error.res) {
+              for (const property in error.res.data) {
+                this.errors.push(`${property}: ${error.res.data[property]}`);
+              }
+            } else if (error.message) {
+              this.errors.push("Something went wrong. Please try again!");
             }
-          } else if (error.message) {
-            this.errors.push("Something went wrong. Please try again!");
-          }
-        });
+          });
+      }
+      // axios
+      //   .get("/mypage")
+      //   // eslint-disable-next-line
+      //   .then((res) => {});
     },
   },
 };
