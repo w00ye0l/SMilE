@@ -13,7 +13,6 @@
       }"
       :space-between="100"
       :pagination="{ clickable: true }"
-      ref="swiper"
       @swiper="onSwiper"
       @slideChange="onSlideChange"
     >
@@ -114,11 +113,7 @@
         </div>
       </swiper-slide>
     </swiper>
-    <button
-      class="btn btn-start"
-      @click="lastBtn()"
-      :class="{ disabled: isDisabled }"
-    >
+    <button :disabled="isDisabled" class="btn btn-start" @click="lastBtn()">
       시작하기
     </button>
   </div>
@@ -128,47 +123,28 @@
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Pagination } from "swiper";
 import "swiper/swiper-bundle.min.css";
-import { ref } from "vue";
 
 export default {
   components: {
     Swiper,
     SwiperSlide,
   },
-  data() {
-    return {
-      currentIndex: 0,
-    };
-  },
   setup() {
-    let currentSlide = ref(0);
-    let isDisabled = ref(false);
     const onSwiper = (swiper) => {
       console.log(swiper);
     };
-    const onSlideChange = (swiper) => {
-      console.log(swiper.activeIndex);
-      currentSlide.value = swiper.activeIndex + 1;
-      if (currentSlide.value === 4) {
-        isDisabled.value = true;
-      } else {
-        isDisabled.value = false;
-      }
+    const onSlideChange = () => {
+      console.log("slide");
     };
     return {
       onSwiper,
       onSlideChange,
-      currentSlide,
       modules: [Pagination],
-      isDisabled,
     };
   },
   methods: {
     lastBtn() {
-      if (this.currentSlide === 4) {
-        this.$router.push({ path: "login" });
-        this.isDisabled = true;
-      }
+      this.$router.push({ path: "login" });
     },
   },
 };
@@ -330,9 +306,5 @@ h3 {
   font-size: 18px;
   font-weight: 700;
   border: none;
-}
-
-.btn-start.disabled {
-  background-color: #f59607; /* 버튼 비활성화 시 적용될 색상 */
 }
 </style>
