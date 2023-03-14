@@ -93,6 +93,7 @@ export default {
           console.log(key, this.key);
           if (`${key}` === this.prevKey.toString()) {
             delete this.groups[key];
+            this.groupId = "";
           }
         }
       }

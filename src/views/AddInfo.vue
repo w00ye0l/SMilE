@@ -16,7 +16,7 @@
       <div @click="selectMBti" class="select">
         <div class="selected">
           <span class="selected-value">{{ this.mbti }}</span>
-          <img :src="require(`@/assets/arrow.png`)" class="arrow" />
+          <img :src="require(`@/assets/Polygon.png`)" class="arrow" />
         </div>
         <ul class="select-option" v-bind:class="{ active: selectMbti }">
           <li
@@ -53,7 +53,7 @@ export default {
     return {
       selectMbti: false,
       nameId: "",
-      selected: "",
+      mbti: "선택해주세요",
       memo: "",
       mbtiList: [
         { name: "ENFJ" },
