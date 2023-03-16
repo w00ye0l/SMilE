@@ -200,12 +200,12 @@ export default {
 
 .second-title {
   float: left;
-  margin-left: 45px;
+  margin: 0 0 0 45px;
 }
 
 .select {
   float: left;
-  margin: 15px 25px 0 0;
+  margin: 20px 25px 0 0;
 }
 .type-container {
   padding: 30px 0;
@@ -247,7 +247,7 @@ export default {
   display: inline-block;
   width: 100px;
   height: 50px;
-  margin-left: 20px;
+  margin-left: 15px;
 }
 
 .selected {
@@ -296,6 +296,7 @@ export default {
 .plus {
   width: 25px;
   height: 25px;
+  margin-top: 5px;
 }
 
 .message-height {

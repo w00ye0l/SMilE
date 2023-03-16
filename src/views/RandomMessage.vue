@@ -196,7 +196,7 @@ export default {
 .img2 {
   position: absolute;
   top: 250px;
-  right: -40px;
+  left: 220px;
   width: 230px;
 }
 
