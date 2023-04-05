@@ -13,6 +13,9 @@
       </div>
       <div class="date">
         <span class>2022/02/16 14:36</span>
+        <button>
+          <img :src="require(`@/assets/cancel.png`)" class="cancel" />
+        </button>
       </div>
     </div>
     <div class="dropbox">
@@ -75,5 +78,10 @@
 
 .content {
   margin-left: 8px;
+}
+
+.cancel {
+  width: 10px;
+  border: none;
 }
 </style>
