@@ -226,7 +226,6 @@ input::placeholder {
   border: none;
   background-color: transparent;
 }
-
 .name {
   display: flex;
   justify-content: center;
