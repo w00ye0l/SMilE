@@ -6,7 +6,12 @@
         전체삭제
       </button>
     </div>
-    <div class="dropbox" v-for="(message, index) in messages" :key="index">
+    <div
+      class="dropbox"
+      @click="messageLink()"
+      v-for="(message, index) in messages"
+      :key="index"
+    >
       <div class="name-img">
         <img :src="require(`@/assets/yellowsmile.png`)" class="smile" />
         <div class="name-content">
@@ -30,32 +35,25 @@
 </template>
 <script>
 export default {
-  data() {
-    return {
-      messages: [
-        {
-          name: "익명",
-          content: "오늘은 날씨가 좋네요",
-          date: "2022/02/16 14:36",
-        },
-        {
-          name: "익명",
-          content: "오늘은 날씨가 좋네요",
-          date: "2022/02/16 14:36",
-        },
-      ],
-    };
+  computed: {
+    messages() {
+      return this.$store.state.messages;
+    },
   },
+  data() {},
   methods: {
     deleteMessage(index) {
       if (confirm("삭제하시겠습니까?")) {
-        this.messages.splice(index, 1);
+        this.$store.commit("deleteMessage", index);
       }
     },
     deleteAllMessages() {
       if (confirm("전체 삭제하시겠습니까?")) {
-        this.messages = [];
+        this.$store.commit("deleteAllMessages");
       }
+    },
+    messageLink() {
+      this.$router.push({ path: "messageconfirm" });
     },
   },
 };
@@ -104,6 +102,9 @@ export default {
 
 .content {
   margin-left: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .cancel {

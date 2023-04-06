@@ -14,21 +14,21 @@
       </div>
       <div>
         <div class="left-control">
-          <span class="memo">{{ memo }}</span>
+          <span class="memo">{{ $store.state.memo }}</span>
           <img :src="require(`@/assets/yellowmark.png`)" class="left-message" />
         </div>
         <div>
-          <span class="memo2">{{ memo2 }}</span>
+          <span class="memo2">{{ $store.state.memo }}</span>
           <img :src="require(`@/assets/whitemark.png`)" class="right-message" />
         </div>
-        <div class="left-control">
-          <span class="memo">{{ memo }}</span>
+        <!-- <div class="left-control">
+          <span class="memo">{{ $store.state.memo }}</span>
           <img :src="require(`@/assets/yellowmark.png`)" class="left-message" />
         </div>
         <div>
-          <span class="memo2">{{ memo2 }}</span>
+          <span class="memo2">{{ $store.state.memo }}</span>
           <img :src="require(`@/assets/whitemark.png`)" class="right-message" />
-        </div>
+        </div> -->
       </div>
     </div>
     <img :src="require(`@/assets/logobox.png`)" class="img" />
@@ -63,9 +63,7 @@
 export default {
   data() {
     return {
-      name: "ENFP님",
-      memo: "오늘은 날씨가 정말 좋네요 파스타 한 접시 하러 갈까요?",
-      memo2: "날씨가 별로여서 안 땡기네요",
+      name: "",
       modal: false,
       radioValues: "",
     };
