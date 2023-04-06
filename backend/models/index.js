@@ -1,15 +1,16 @@
-const fs = require('fs');
-const path = require('path');
 const Sequelize = require('sequelize');
-const process = require('process');
-const basename = path.basename(__filename);
 
-
-// DB 연결
+// 클래스 불러오기
 const User = require('./user')
 
 const env = process.env.NODE_ENV || 'development';
+
+// const fs = require('fs');
+// const path = require('path');
+// const basename = path.basename(__filename);
+
 const config = require(__dirname + '/../config/config.json')[env];
+
 const db = {};
 
 const sequelize = new Sequelize(config.database, config.username, config.password, config)
@@ -36,7 +37,6 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
 // });
 
 db.sequelize = sequelize;
-
 
 // 모델 클래스를 넣음.
 db.User = User;

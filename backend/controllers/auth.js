@@ -26,7 +26,7 @@ const User = require('../models/user');
 
 const router = express.Router();
 
-// 회원가입
+// 회원가입 
 exports.signup = async (req, res, next) => {
   const { nickname, email, password, birthday, gender, mbti1, mbti2, mbti3, mbti4, image } = req.body;
   try {
@@ -35,7 +35,7 @@ exports.signup = async (req, res, next) => {
     if (exUser) {
       console.log('signuppp')
       return next();
-    }
+    } else {
     // 정상적인 회원가입 절차면 해시화
     const hashedPassword = await bcrypt.hash(password, 12);
 
@@ -50,7 +50,8 @@ exports.signup = async (req, res, next) => {
       image: image,
     });
     console.log('11');
-    res.end()
+    res.end();
+  }
     // return res.redirect('/login');
   } catch (error) {
     console.error(error);
@@ -61,7 +62,7 @@ exports.signup = async (req, res, next) => {
 // 로그인
 exports.login = async (req, res, next) => { 
   //? local로 실행이 되면 localstrategy.js를 찾아 실행
-  passport.authenticate('local', {session: false}, (authError, user, info) => {
+  passport.authenticate('local', (authError, user, info) => {
     // done(err)가 처리된 경우
     if (authError) {
       console.error(authError);
@@ -69,7 +70,7 @@ exports.login = async (req, res, next) => {
     }
     // done(null, false, { message: '비밀번호가 일치하지 않습니다.' }) 가 처리된 경우
     if (!user) {
-      return res.redirect(`/?loginError=${info.message}`);
+      // return res.redirect(`/?loginError=${info.message}`);
     }
     return req.login(user, (loginError) => {
       if (loginError) {
