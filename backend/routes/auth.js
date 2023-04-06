@@ -1,12 +1,12 @@
 const express = require('express');
-const authController = require('../controllers/auth.js')
+const passport = require('passport');
+
+const { isLoggedIn, isNotLoggedIn } = require('../middlewares');
+const { signup } = require('../controllers/auth');
 
 const router = express.Router();
 
-// 회원가입
-router.post('/signup', authController.signup );
-
-// 로그인
-router.post('/login', authController.login );
+// POST /auth/signup
+router.post('/signup', isNotLoggedIn, signup);
 
 module.exports = router;
