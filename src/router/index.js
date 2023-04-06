@@ -42,7 +42,7 @@ const routes = [
     component: () => import("../views/MyPage.vue"),
   },
   {
-    path: "/messagebox",
+    path: "/messagebox/",
     name: "messagebox",
     component: () => import("../views/MessageBox.vue"),
   },
@@ -52,19 +52,21 @@ const routes = [
     component: () => import("../views/RandomMessage.vue"),
   },
   {
-    path: "/sendmessage",
+    path: "/sendmessage/:index",
     name: "sendmessage",
     component: () => import("../views/SendMessage.vue"),
+    props: true,
   },
   {
-    path: "/messagecheck",
+    path: "/messagecheck/",
     name: "messagecheck",
     component: () => import("../views/MessageCheck.vue"),
   },
   {
-    path: "/messageconfirm",
+    path: "/messageconfirm/:index",
     name: "messageconfirm",
     component: () => import("../views/MessageConfirm.vue"),
+    props: true,
   },
   {
     path: "/randomanswer",

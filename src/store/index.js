@@ -7,17 +7,17 @@ export default createStore({
     events: [],
     messages: [
       {
-        name: "익명",
+        name: "ENFJ",
         content: "오늘은 날씨가 좋네요",
         date: "2022/02/16 14:36",
       },
       {
-        name: "익명",
-        content: "오늘은 날씨가 흐립니다",
-        date: "2022/02/16 15:36",
+        name: "INFP",
+        content: "내일은 날씨가 흐립니다 내일은 어떨 거 같나요",
+        date: "2022/02/15 15:10",
       },
     ],
-    memo: "",
+    memos: [],
   },
   getters: {
     EVENTS: (state) => state.events,
@@ -33,7 +33,7 @@ export default createStore({
       state.messages = [];
     },
     updateMemo(state, memo) {
-      state.memo = memo;
+      state.memos.push(memo);
     },
   },
   actions: {},

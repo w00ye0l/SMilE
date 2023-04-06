@@ -6,9 +6,9 @@
           <img :src="require(`@/assets/cancel.png`)" class="cancel" />
         </button>
       </div>
+      <p class="message-title">{{ message.name }}</p>
       <div>
-        <p class="message-title">{{ name }}</p>
-        <p class="content">{{ memo }}</p>
+        <p class="content">{{ message.content }}</p>
       </div>
     </div>
     <img :src="require(`@/assets/logobox.png`)" class="img" />
@@ -16,15 +16,21 @@
 </template>
 <script>
 export default {
+  computed: {
+    message() {
+      const index = parseInt(this.$route.params.index);
+      return this.$store.state.messages[index];
+    },
+  },
+  mounted() {
+    console.log(this.$route.params);
+  },
   data() {
-    return {
-      name: "배고픈 당신에게",
-      memo: "오늘은 날씨가 정말 좋네요 파스타 한 접시 하러 갈까요?",
-    };
+    return {};
   },
   methods: {
     pageLink() {
-      this.$router.push({ path: "randommessage" });
+      this.$router.push({ name: "messageconfirm" });
     },
   },
 };

@@ -8,7 +8,7 @@
     </div>
     <div
       class="dropbox"
-      @click="messageLink()"
+      @click="messageLink(index)"
       v-for="(message, index) in messages"
       :key="index"
     >
@@ -40,7 +40,9 @@ export default {
       return this.$store.state.messages;
     },
   },
-  data() {},
+  data() {
+    return {};
+  },
   methods: {
     deleteMessage(index) {
       if (confirm("삭제하시겠습니까?")) {
@@ -52,8 +54,8 @@ export default {
         this.$store.commit("deleteAllMessages");
       }
     },
-    messageLink() {
-      this.$router.push({ path: "messageconfirm" });
+    messageLink(index) {
+      this.$router.push({ name: "messageconfirm", params: { index: index } });
     },
   },
 };
@@ -101,6 +103,7 @@ export default {
 }
 
 .content {
+  width: 150px;
   margin-left: 8px;
   white-space: nowrap;
   overflow: hidden;

@@ -24,17 +24,24 @@
 export default {
   data() {
     return {
-      memo: this.$store.state.memo,
+      memo: "",
+      newMessage: null,
     };
   },
   methods: {
     pageLink() {
-      this.$router.push({ path: "messageconfirm" });
-      this.memo = "";
+      if (this.memo === "") {
+        alert("내용을 입력해주세요");
+      } else {
+        this.$store.commit("updateMemo", this.newMessage);
+        this.$router.push({ path: "messageconfirm" });
+      }
     },
     updateMemo() {
-      console.log(this.$store.state.memo);
-      this.$store.commit("updateMemo", this.memo);
+      this.newMessage = {
+        content: this.memo,
+        date: new Date().toLocaleDateString(),
+      };
     },
   },
 };
