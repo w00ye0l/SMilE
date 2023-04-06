@@ -58,6 +58,7 @@ exports.signup = async (req, res, next) => {
   }
 };
 
+// 로그인
 exports.login = async (req, res, next) => { 
   //? local로 실행이 되면 localstrategy.js를 찾아 실행
   passport.authenticate('local', {session: false}, (authError, user, info) => {
@@ -80,4 +81,10 @@ exports.login = async (req, res, next) => {
     });
 
   })(req, res, next); // 미들웨어 내의 미들웨어에는 (req, res, next)를 붙입니다.
+};
+
+//로그아웃
+exports.logout = (req, res) => {
+  req.logout();
+  req.session.destroy();
 };
