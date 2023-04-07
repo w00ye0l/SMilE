@@ -5,6 +5,12 @@ export default createStore({
     selectMBTI: "",
     total_mbti: "",
     events: [],
+    mypage: [
+      {
+        nickname: "카페모카",
+        mbti: "INFP",
+      },
+    ],
     messages: [
       {
         name: "ENFJ",
@@ -18,9 +24,11 @@ export default createStore({
       },
     ],
     memos: [],
+    messageCount: 0,
   },
   getters: {
     EVENTS: (state) => state.events,
+    messageCount: (state) => state.messages.length,
   },
   mutations: {
     ADD_EVENT: (state, event) => {
