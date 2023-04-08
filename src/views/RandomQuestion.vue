@@ -7,7 +7,12 @@
     <div class="my-answer">
       <h3 class="second-title">나의 답변</h3>
       <div class="memo-box">
-        <textarea v-model="memo" class="text" placeholder="내용을 입력하세요">
+        <textarea
+          v-model="memo"
+          class="text"
+          @input="updateAnswer()"
+          placeholder="내용을 입력하세요"
+        >
         </textarea>
       </div>
       <div class="btn-control">
@@ -69,6 +74,7 @@ export default {
     return {
       message: "Q.친구가 기분이 안좋아서 화분을 샀다고 했다. 이때 나의 대답은?",
       memo: "",
+      newAnswer: null,
       selectEI: false,
       selectNS: false,
       selectTF: false,
@@ -82,7 +88,12 @@ export default {
   },
   methods: {
     pageLink() {
-      this.$router.push({ path: "randomanswer" });
+      if (this.memo === "") {
+        alert("내용을 입력해주세요");
+      } else {
+        this.$store.commit("updateAnswer", this.newAnswer);
+        this.$router.push({ path: "randomanswer" });
+      }
     },
     selectMBTI(selected) {
       if (selected === "EI") {
@@ -117,22 +128,29 @@ export default {
     selectEIOption(option) {
       this.mbti1 = option;
       this.totalMbti += this.mbti1;
-      this.$store.state.totalMbti = this.totalMbti;
+      this.updateAnswer();
     },
     selectNSOption(option) {
       this.mbti2 = option;
       this.totalMbti += this.mbti2;
-      this.$store.state.totalMbti = this.totalMbti;
+      this.updateAnswer();
     },
     selectTFOption(option) {
       this.mbti3 = option;
       this.totalMbti += this.mbti3;
-      this.$store.state.totalMbti = this.totalMbti;
+      this.updateAnswer();
     },
     selectPJOption(option) {
       this.mbti4 = option;
       this.totalMbti += this.mbti4;
-      this.$store.state.totalMbti = this.totalMbti;
+      this.updateAnswer();
+    },
+    updateAnswer() {
+      this.newAnswer = {
+        content: this.memo,
+        date: new Date().toLocaleDateString(),
+        mbti: this.totalMbti,
+      };
     },
   },
 };

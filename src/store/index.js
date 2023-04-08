@@ -3,7 +3,6 @@ import { createStore } from "vuex";
 export default createStore({
   state: {
     selectMBTI: "",
-    total_mbti: "",
     events: [],
     mypage: [
       {
@@ -24,11 +23,13 @@ export default createStore({
       },
     ],
     memos: [],
+    answers: [],
     messageCount: 0,
   },
   getters: {
     EVENTS: (state) => state.events,
     messageCount: (state) => state.messages.length,
+    answers: (state) => state.answers,
   },
   mutations: {
     ADD_EVENT: (state, event) => {
@@ -42,6 +43,9 @@ export default createStore({
     },
     updateMemo(state, memo) {
       state.memos.push(memo);
+    },
+    updateAnswer(state, memo) {
+      state.answers.push(memo);
     },
   },
   actions: {},

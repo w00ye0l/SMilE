@@ -1,17 +1,19 @@
 <template>
   <div class="title background">
-    <h2>{{ $store.state.totalMbti }}들의 답변</h2>
+    <div v-for="(item, index) in answers" :key="index">
+      <h2>{{ item.mbti }}들의 답변</h2>
+    </div>
     <div class="question">
       <span class="letter">{{ message }}</span>
     </div>
-    <div class="memo-box" v-for="(item, index) in messageList" :key="index">
+    <div class="memo-box" v-for="(item, index) in answers" :key="index">
       <div class="img-title">
         <img :src="require(`@/assets/first_smile1.png`)" class="title-img" />
-        <span class="mbti"> {{ $store.state.totalMbti }}</span>
+        <span class="mbti"> {{ item.mbti }}</span>
       </div>
       <br />
       <div class="answer">
-        {{ item.name }}
+        {{ item.content }}
       </div>
     </div>
   </div>
@@ -19,16 +21,14 @@
 
 <script>
 export default {
+  computed: {
+    answers() {
+      return this.$store.getters.answers;
+    },
+  },
   data() {
     return {
       message: "Q.친구가 기분이 안좋아서 화분을 샀다고 했다. 이때 나의 대답은?",
-      answer: "무슨 일이야!",
-      messageList: [
-        { name: "엥 기분이 왜  안 좋았지?" },
-        { name: "무슨 일이야" },
-        { name: "나쁜일 있어?" },
-        { name: "기분이 별로네" },
-      ],
     };
   },
 };
