@@ -3,6 +3,7 @@ import { createStore } from "vuex";
 export default createStore({
   state: {
     selectMBTI: "",
+    totalMbti: "",
     events: [],
     mypage: [
       {
@@ -21,6 +22,11 @@ export default createStore({
         content: "내일은 날씨가 흐립니다 내일은 어떨 거 같나요",
         date: "2022/02/15 15:10",
       },
+      {
+        name: "ENFJ",
+        content: "오늘은 피곤하네요",
+        date: "2022/02/16 14:36",
+      },
     ],
     memos: [],
     answers: [],
@@ -30,6 +36,7 @@ export default createStore({
     EVENTS: (state) => state.events,
     messageCount: (state) => state.messages.length,
     answers: (state) => state.answers,
+    messages: (state) => state.messages,
   },
   mutations: {
     ADD_EVENT: (state, event) => {

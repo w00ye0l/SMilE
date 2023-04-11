@@ -1,15 +1,13 @@
 <template>
   <div class="title background">
-    <div v-for="(item, index) in answers" :key="index">
-      <h2>{{ item.mbti }}들의 답변</h2>
-    </div>
+    <h2>{{ $store.state.totalMbti }}들의 답변</h2>
     <div class="question">
       <span class="letter">{{ message }}</span>
     </div>
-    <div class="memo-box" v-for="(item, index) in answers" :key="index">
+    <div class="memo-box" v-for="(item, index) in messages" :key="index">
       <div class="img-title">
         <img :src="require(`@/assets/first_smile1.png`)" class="title-img" />
-        <span class="mbti"> {{ item.mbti }}</span>
+        <!-- <span class="mbti"> {{ item.content }}</span> -->
       </div>
       <br />
       <div class="answer">
@@ -22,8 +20,13 @@
 <script>
 export default {
   computed: {
-    answers() {
-      return this.$store.getters.answers;
+    messages() {
+      return this.$store.getters.messages;
+    },
+    filterMessages() {
+      return this.messages.filter(
+        (item) => item.name === this.$store.state.totalMbti
+      );
     },
   },
   data() {

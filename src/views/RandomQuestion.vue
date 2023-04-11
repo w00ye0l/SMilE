@@ -16,7 +16,7 @@
         </textarea>
       </div>
       <div class="btn-control">
-        <button class="btn" @click="pageLink">작성 완료</button>
+        <button class="btn" @click="completed()">작성 완료</button>
       </div>
     </div>
     <div class="other-answer">
@@ -79,19 +79,29 @@ export default {
       selectNS: false,
       selectTF: false,
       selectPJ: false,
-      mbti1: "_",
-      mbti2: "_",
-      mbti3: "_",
-      mbti4: "_",
+      mbti1: "",
+      mbti2: "",
+      mbti3: "",
+      mbti4: "",
       totalMbti: "",
     };
   },
   methods: {
-    pageLink() {
+    completed() {
       if (this.memo === "") {
         alert("내용을 입력해주세요");
       } else {
+        alert("내용이 작성됐습니다.");
         this.$store.commit("updateAnswer", this.newAnswer);
+        this.memo = "";
+      }
+    },
+
+    pageLink() {
+      if (this.totalMbti.length !== 4) {
+        alert("MBTI를 선택해주세요");
+      } else {
+        this.$store.state.totalMbti = this.totalMbti;
         this.$router.push({ path: "randomanswer" });
       }
     },
@@ -128,28 +138,34 @@ export default {
     selectEIOption(option) {
       this.mbti1 = option;
       this.totalMbti += this.mbti1;
-      this.updateAnswer();
+      this.updateTotalMbti();
     },
     selectNSOption(option) {
       this.mbti2 = option;
       this.totalMbti += this.mbti2;
-      this.updateAnswer();
+      this.updateTotalMbti();
     },
     selectTFOption(option) {
       this.mbti3 = option;
       this.totalMbti += this.mbti3;
-      this.updateAnswer();
+      this.updateTotalMbti();
     },
     selectPJOption(option) {
       this.mbti4 = option;
       this.totalMbti += this.mbti4;
-      this.updateAnswer();
+      this.updateTotalMbti();
+    },
+    updateTotalMbti() {
+      this.totalMbti = "";
+      if (this.mbti1 !== "") this.totalMbti += this.mbti1;
+      if (this.mbti2 !== "") this.totalMbti += this.mbti2;
+      if (this.mbti3 !== "") this.totalMbti += this.mbti3;
+      if (this.mbti4 !== "") this.totalMbti += this.mbti4;
     },
     updateAnswer() {
       this.newAnswer = {
         content: this.memo,
         date: new Date().toLocaleDateString(),
-        mbti: this.totalMbti,
       };
     },
   },

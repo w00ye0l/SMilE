@@ -52,7 +52,7 @@ body {
 #app {
   text-align: center;
   color: #2c3e50;
-  padding-bottom: 80px;
+  /* padding-bottom: 80px; */
 }
 
 .fc .fc-toolbar-title {
