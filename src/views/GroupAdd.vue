@@ -9,7 +9,7 @@
         </div>
       </div>
       <div class="group-name" v-for="(item, value) in groups" :key="value">
-        <span class="name">{{ item }}</span>
+        <span class="name">{{ item.groupId }}</span>
         <div>
           <div class="add-delete-img">
             <button class="fix-btn" @click="fixBtn(value)">
@@ -27,7 +27,7 @@
       <input
         type="text"
         :placeholder="placeholder"
-        v-model="groupId"
+        v-model="inputValue"
         class="input-box"
       />
       <br />
@@ -42,21 +42,25 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
 export default {
   data() {
     return {
-      groupId: "",
       placeholder: "",
       content: "-",
       category: "-",
       button: "-",
       members: "",
-      groups: {},
       keys: 0,
       prevKey: -1,
+      inputValue: "",
     };
   },
+  computed: {
+    ...mapState(["groupId", "groups"]),
+  },
   methods: {
+    ...mapActions(["addGroup", "updateGroup", "removeGroup"]),
     pageLink() {
       this.$router.push({ path: "savingmbti" });
     },
@@ -68,39 +72,31 @@ export default {
     },
     registerBtn() {
       if (this.button === "추가") {
-        this.content = this.groupId;
-        this.groups[this.keys] = this.content;
-        this.keys++;
-        console.log(this.groups, 1);
+        this.addGroup({ groupId: this.groupId });
       }
     },
     fixBtn(number) {
       this.button = "수정";
       this.category = "그룹 및 수정";
       this.prevKey = number;
-      for (const [key, value] of Object.entries(this.groups)) {
-        console.log(value);
-        if (key === this.prevKey) {
-          this.groupId = this.groups[key];
-        }
-      }
-      // this.groups[this.key] = this.content;
+      this.inputValue = this.groups[number].groupId;
+    },
+    updateGroupId(value) {
+      this.$store.commit("SET_GROUP_ID", {
+        groups: this.groups,
+        key: this.prevKey,
+        value,
+      });
     },
     removeBtn(number) {
       this.prevKey = number;
       if (confirm("삭제하시겠습니까?")) {
-        for (const key in this.groups) {
-          console.log(key, this.key);
-          if (`${key}` === this.prevKey.toString()) {
-            delete this.groups[key];
-            this.groupId = "";
-          }
-        }
+        this.removeGroup(number);
       }
     },
     saveBtn() {
       if (this.button === "수정") {
-        this.groups[this.prevKey] = this.groupId;
+        this.updateGroup({ key: this.prevKey, groupId: this.inputValue });
       }
     },
   },

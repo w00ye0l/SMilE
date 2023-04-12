@@ -4,7 +4,7 @@
     <div class="question">
       <span class="letter">{{ message }}</span>
     </div>
-    <div class="memo-box" v-for="(item, index) in messages" :key="index">
+    <div class="memo-box" v-for="(item, index) in filterMessages" :key="index">
       <div class="img-title">
         <img :src="require(`@/assets/first_smile1.png`)" class="title-img" />
         <!-- <span class="mbti"> {{ item.content }}</span> -->

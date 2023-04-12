@@ -100,6 +100,7 @@ export default {
     pageLink() {
       if (this.totalMbti.length !== 4) {
         alert("MBTI를 선택해주세요");
+        console.log(this.totalMbti);
       } else {
         this.$store.state.totalMbti = this.totalMbti;
         this.$router.push({ path: "randomanswer" });
@@ -195,12 +196,13 @@ export default {
 }
 
 .my-answer {
-  height: 32vh;
+  height: 28vh;
 }
 
 .second-title {
   display: flex;
   padding: 0 50px 0 55px;
+  margin-bottom: 0;
 }
 
 .memo-box {
@@ -238,13 +240,13 @@ export default {
 }
 
 .other-answer {
-  height: 37vh;
+  height: 33vh;
   background-color: #fff9c8;
 }
 
 .third-title {
   display: flex;
-  padding: 20px 50px 0 55px;
+  padding: 10px 50px 0 45px;
 }
 
 .type-container {

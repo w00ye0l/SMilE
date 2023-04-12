@@ -31,6 +31,9 @@ export default createStore({
     memos: [],
     answers: [],
     messageCount: 0,
+    groups: [],
+    keys: 0,
+    groupId: "",
   },
   getters: {
     EVENTS: (state) => state.events,
@@ -54,7 +57,36 @@ export default createStore({
     updateAnswer(state, memo) {
       state.answers.push(memo);
     },
+
+    ADD_GROUP(state, payload) {
+      state.groups[state.keys] = payload;
+      state.keys++;
+    },
+
+    UPDATE_GROUP(state, payload) {
+      state.groups[payload.key].groupId = payload.groupId;
+    },
+    REMOVE_GROUP(state, payload) {
+      state.groups.splice(payload, 1);
+    },
+
+    SET_GROUP_ID(state, payload) {
+      state.groupId = payload.value;
+      if (payload.key !== -1) {
+        state.groups[payload.key].groupId = payload.value;
+      }
+    },
   },
-  actions: {},
+  actions: {
+    addGroup({ commit }, payload) {
+      commit("ADD_GROUP", { groupId: payload.groupId });
+    },
+    updateGroup({ commit }, payload) {
+      commit("UPDATE_GROUP", payload);
+    },
+    removeGroup({ commit }, payload) {
+      commit("REMOVE_GROUP", payload);
+    },
+  },
   modules: {},
 });
