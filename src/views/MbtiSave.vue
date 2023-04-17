@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <h2 class="title">내 주변엔?</h2>
     <div class="background">
       <div class="add-tab">
@@ -8,34 +8,20 @@
           <img :src="require(`@/assets/plus.png`)" class="right-tab-img" />
         </button>
       </div>
-      <div class="btn-control">
-        <button class="family">가족</button>
-        <button class="friend">친구</button>
-        <button class="coworker">직장 동료</button>
+      <div class="group-control">
+        <div v-for="(group, index) in groups" :key="index">
+          <span class="family">{{ group.groupId }}</span>
+        </div>
       </div>
     </div>
-    <div>
-      <h3 class="category">가족</h3>
-      <div class="user-info">
-        <span class="circle"></span>
-        <span class="name">홍길동</span>
-        <span class="character">INFP</span>
-      </div>
-    </div>
-    <div>
-      <h3 class="category">친구</h3>
-      <div class="user-info">
-        <span class="circle"></span>
-        <span class="name">홍길동</span>
-        <span class="character">INFP</span>
-      </div>
-    </div>
-    <div>
-      <h3 class="category">직장 동료</h3>
-      <div class="user-info">
-        <span class="circle"></span>
-        <span class="name">홍길동</span>
-        <span class="character">INFP</span>
+    <div v-for="(group, index) in groups" :key="index">
+      <div class="groups">
+        <h3 class="category">{{ group.groupId }}</h3>
+        <div class="user-info">
+          <span class="circle"></span>
+          <span class="name">홍길동</span>
+          <span class="character">INFP</span>
+        </div>
       </div>
     </div>
     <div class="black-bg box-sizing" v-if="modal == true">
@@ -66,12 +52,16 @@
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 export default {
   data() {
     return {
       radioValues: "",
       modal: false,
     };
+  },
+  computed: {
+    ...mapState(["groups"]),
   },
   methods: {
     modalclick() {
@@ -89,7 +79,7 @@ export default {
 <style scoped>
 .title {
   margin: 0;
-  padding: 40px 0 20px 0;
+  padding: 20px 0 20px 0;
 }
 
 .background {
@@ -121,39 +111,22 @@ export default {
   background: transparent;
 }
 
-.btn-control {
+.group-control {
   display: flex;
-  justify-content: flex-start;
+  align-items: center;
 }
 
 .family {
   background-color: #ffd338;
-  width: 3rem;
-  height: 2rem;
+  width: 4.7rem;
+  height: 2.5rem;
   border-radius: 1.7rem;
   border: none;
   margin: 0 0.8rem 0 1rem;
   box-shadow: 0px 1.5px 0px 1.5px #d3d3d3;
-}
-
-.friend {
-  background-color: #ffd338;
-  width: 3rem;
-  height: 2rem;
-  border-radius: 1.7rem;
-  border: none;
-  margin: 0 0.8rem 0 0;
-  box-shadow: 0px 1.5px 0px 1.5px #d3d3d3;
-}
-
-.coworker {
-  background-color: #ffd338;
-  width: 5rem;
-  height: 2rem;
-  border-radius: 1.7rem;
-  border: none;
-  margin: 0 0.8rem 0 0;
-  box-shadow: 0px 1.5px 0px 1.5px #d3d3d3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .category {
@@ -215,7 +188,7 @@ export default {
   width: 90vw;
   background: white;
   position: absolute;
-  bottom: 20px;
+  bottom: 90px;
   border-radius: 15px;
   padding: 20px;
   height: 150px;
@@ -237,5 +210,9 @@ export default {
 .radio-button {
   width: 17px;
   height: 17px;
+}
+
+.container {
+  padding-bottom: 90px;
 }
 </style>

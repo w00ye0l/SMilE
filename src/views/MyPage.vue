@@ -60,7 +60,7 @@
 export default {
   computed: {
     messageCount() {
-      return this.$store.getters.messageCount;
+      return this.$store.getters.MESSAGE_COUNT;
     },
   },
   data() {

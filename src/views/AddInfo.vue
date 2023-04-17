@@ -1,53 +1,55 @@
 <template>
-  <div class="head">
-    <h2>MBTI 정보 추가</h2>
-  </div>
-  <div class="body-color">
-    <span class="category-name">MBTI 정보</span>
-    <span class="name">이름</span>
-    <input
-      type="text"
-      placeholder="이름"
-      v-model="nameId"
-      class="name-input-box"
-    />
-    <span class="mbti">MBTI</span>
-    <div class="type-container">
-      <div @click="selectMBti" class="select">
-        <div class="selected">
-          <span class="selected-value">{{ this.mbti }}</span>
-          <img :src="require(`@/assets/Polygon.png`)" class="arrow" />
+  <div class="container">
+    <div class="head">
+      <h2>MBTI 정보 추가</h2>
+    </div>
+    <div class="body-color">
+      <span class="name">이름</span>
+      <input
+        type="text"
+        placeholder="이름"
+        v-model="nameId"
+        class="name-input-box"
+      />
+      <span class="mbti">MBTI</span>
+      <div class="type-container">
+        <div @click="selectMBti" class="select">
+          <div class="selected">
+            <span class="selected-value">{{ this.mbti }}</span>
+            <img :src="require(`@/assets/Polygon.png`)" class="arrow" />
+          </div>
+          <ul class="select-option" v-bind:class="{ active: selectMbti }">
+            <li
+              class="option"
+              v-for="(item, index) in mbtiList"
+              :key="index"
+              v-on:click="selectMbtiOption(item.name)"
+            >
+              {{ item.name }}
+            </li>
+          </ul>
         </div>
-        <ul class="select-option" v-bind:class="{ active: selectMbti }">
-          <li
-            class="option"
-            v-for="(item, index) in mbtiList"
-            :key="index"
-            v-on:click="selectMbtiOption(item.name)"
-          >
-            {{ item.name }}
-          </li>
-        </ul>
       </div>
-    </div>
-    <span class="group">그룹</span>
-    <div class="btn-control">
-      <button class="family">가족</button>
-      <button class="friend">친구</button>
-      <button class="coworker">직장 동료</button>
-    </div>
-    <span class="memo">메모</span>
-    <div class="memo-box">
-      <br />
-      <textarea v-model="memo" class="text"></textarea>
-    </div>
-    <div class="add-cancel-control">
-      <button class="add-btn" @click="pageLink">추가</button>
-      <button class="cancel-btn" @click="pageLink">취소</button>
+      <span class="group">그룹</span>
+      <div class="group-control">
+        <div v-for="(group, index) in groups" :key="index">
+          <span class="family">{{ group.groupId }}</span>
+        </div>
+      </div>
+      <span class="memo">메모</span>
+      <div class="memo-box">
+        <br />
+        <textarea v-model="memo" class="text"></textarea>
+      </div>
+      <div class="add-cancel-control">
+        <button class="add-btn" @click="pageLink">추가</button>
+        <button class="cancel-btn" @click="pageLink">취소</button>
+      </div>
     </div>
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 export default {
   data() {
     return {
@@ -75,6 +77,9 @@ export default {
       ],
     };
   },
+  computed: {
+    ...mapState(["groups"]),
+  },
   methods: {
     pageLink() {
       this.$router.push({ path: "savingmbti" });
@@ -95,7 +100,11 @@ export default {
 </script>
 <style scoped>
 .head {
-  height: 100px;
+  height: 60px;
+}
+
+.container {
+  padding-bottom: 85px;
 }
 .body-color {
   height: 86.5vh;
@@ -148,39 +157,23 @@ input::placeholder {
   margin-left: 30px;
   padding-top: 20px;
 }
-.btn-control {
+.group-control {
   display: flex;
-  justify-content: flex-start;
+  align-items: center;
+  margin-left: 5px;
 }
 
 .family {
   background-color: #ffd338;
-  width: 3rem;
-  height: 2rem;
+  width: 4.7rem;
+  height: 2.5rem;
   border-radius: 1.7rem;
   border: none;
-  margin: 1rem 0.8rem 0 1.5rem;
+  margin: 1rem 0.8rem 0 1.1rem;
   box-shadow: 0px 1.5px 0px 1.5px #d3d3d3;
-}
-
-.friend {
-  background-color: #ffd338;
-  width: 3rem;
-  height: 2rem;
-  border-radius: 1.7rem;
-  border: none;
-  margin: 1rem 0.8rem 0 0;
-  box-shadow: 0px 1.5px 0px 1.5px #d3d3d3;
-}
-
-.coworker {
-  background-color: #ffd338;
-  width: 5rem;
-  height: 2rem;
-  border-radius: 1.7rem;
-  border: none;
-  margin: 1rem 0.8rem 0 0;
-  box-shadow: 0px 1.5px 0px 1.5px #d3d3d3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .memo {

@@ -32,7 +32,7 @@
       />
       <br />
       <div class="btn-control">
-        <button class="add-btn" @click="registerBtn(), saveBtn()">
+        <button class="add-btn" @click="registerBtn()">
           {{ button }}
         </button>
         <button class="cancel-btn" @click="pageLink()">취소</button>
@@ -71,15 +71,26 @@ export default {
       this.placeholder = "그룹 명";
     },
     registerBtn() {
-      if (this.button === "추가") {
-        this.addGroup({ groupId: this.groupId });
+      if (this.inputValue === "") {
+        alert("그룹의 이름을 작성해주세요.");
+      } else if (this.groups.length >= 3) {
+        alert("최대 3개의 그룹까지만 생성할 수 있습니다.");
+      } else {
+        if (this.button === "추가") {
+          this.addGroup({ groupId: this.inputValue });
+          this.inputValue = "";
+        }
       }
     },
     fixBtn(number) {
-      this.button = "수정";
-      this.category = "그룹 및 수정";
-      this.prevKey = number;
-      this.inputValue = this.groups[number].groupId;
+      if (this.groups[number]) {
+        this.button = "수정";
+        this.category = "그룹 및 수정";
+        this.prevKey = number;
+        this.inputValue = this.groups[number].groupId;
+      } else {
+        console.warn("Invalid index:", number);
+      }
     },
     updateGroupId(value) {
       this.$store.commit("SET_GROUP_ID", {
@@ -94,11 +105,11 @@ export default {
         this.removeGroup(number);
       }
     },
-    saveBtn() {
-      if (this.button === "수정") {
-        this.updateGroup({ key: this.prevKey, groupId: this.inputValue });
-      }
-    },
+    // saveBtn() {
+    //   if (this.button === "수정") {
+    //     this.updateGroup({ key: this.prevKey, groupId: this.inputValue });
+    //   }
+    // },
   },
 };
 </script>

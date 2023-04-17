@@ -33,7 +33,7 @@ export default {
       if (this.memo === "") {
         alert("내용을 입력해주세요");
       } else {
-        this.$store.commit("updateMemo", this.newMessage);
+        this.$store.commit("UPDATE_MEMO", this.newMessage);
         this.$router.push({ path: "messageconfirm" });
       }
     },

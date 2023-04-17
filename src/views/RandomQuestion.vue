@@ -92,7 +92,7 @@ export default {
         alert("내용을 입력해주세요");
       } else {
         alert("내용이 작성됐습니다.");
-        this.$store.commit("updateAnswer", this.newAnswer);
+        this.$store.commit("UPDATE_ANSWER", this.newAnswer);
         this.memo = "";
       }
     },

@@ -21,7 +21,7 @@
 export default {
   computed: {
     messages() {
-      return this.$store.getters.messages;
+      return this.$store.getters.MESSAGES;
     },
     filterMessages() {
       return this.messages.filter(

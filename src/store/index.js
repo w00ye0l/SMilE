@@ -37,24 +37,24 @@ export default createStore({
   },
   getters: {
     EVENTS: (state) => state.events,
-    messageCount: (state) => state.messages.length,
-    answers: (state) => state.answers,
-    messages: (state) => state.messages,
+    MESSAGE_COUNT: (state) => state.messages.length,
+    ANSWERS: (state) => state.answers,
+    MESSAGES: (state) => state.messages,
   },
   mutations: {
     ADD_EVENT: (state, event) => {
       state.events.push(event);
     },
-    deleteMessage: (state, index) => {
+    DELETE_MESSAGE: (state, index) => {
       state.messages.splice(index, 1);
     },
-    deleteAllMessages: (state) => {
+    DELETE_ALL_MESSAGE: (state) => {
       state.messages = [];
     },
-    updateMemo(state, memo) {
+    UPDATE_MEMO(state, memo) {
       state.memos.push(memo);
     },
-    updateAnswer(state, memo) {
+    UPDATE_ANSWER(state, memo) {
       state.answers.push(memo);
     },
 

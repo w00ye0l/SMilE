@@ -46,12 +46,12 @@ export default {
   methods: {
     deleteMessage(index) {
       if (confirm("삭제하시겠습니까?")) {
-        this.$store.commit("deleteMessage", index);
+        this.$store.commit("DELETE_MESSAGE", index);
       }
     },
     deleteAllMessages() {
       if (confirm("전체 삭제하시겠습니까?")) {
-        this.$store.commit("deleteAllMessages");
+        this.$store.commit("DELETE_ALL_MESSAGE");
       }
     },
     messageLink(index) {
