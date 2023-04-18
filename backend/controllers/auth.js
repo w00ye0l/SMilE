@@ -5,26 +5,7 @@ const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const { promisify } = require('util');
 
-// // Database
-// const db = mysql.createConnection({ // 모듈과 관련된 객체를 넣음
-//   host: process.env.DB_HOST, // db서버가 어떤 곳에 있느냐
-//   user: process.env.DB_USERNAME,
-//   password: process.env.DB_PASSWORD,
-//   database: process.env.DB_NAME,
-//   port: process.env.DB_PORT,
-// });
-
-// db.connect( (error) => {
-//   if(error) {
-//     console.log(error);
-//   } else {
-//     console.log("MySQL Connected, controllers");
-//   }
-// });
-
 const User = require('../models/user');
-
-const router = express.Router();
 
 // 회원가입 
 exports.signup = async (req, res, next) => {
@@ -73,11 +54,25 @@ exports.login = async (req, res, next) => {
       // return res.redirect(`/?loginError=${info.message}`);
     }
     return req.login(user, (loginError) => {
+      // const user = req.user
+      // const accessToken = jwt.sign( { id: user.email } , process.env.JWT_SECRET, {
+      //     expiresIn: process.env.JWT_EXPIRES_IN
+      //   });
+      // const token = { access_token: accessToken }
+      // res.cookie('token', token, 
+      // { httpOnly: true, 
+      //   maxAge: 30 * 24 * 60 * 60 * 1000 , 
+      //   secure: true,
+      //   domain: 'localhost',
+      //   credentials: true,
+      //   signed: true });
+      // // err(res, 200, '', token)
       if (loginError) {
         console.error(loginError);
         return next(loginError);
       }
       console.log('login success22');
+      console.log(req.user);
       res.end();
     });
 
