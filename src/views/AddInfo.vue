@@ -274,8 +274,8 @@ input::placeholder {
 .type-container {
   padding: 30px 0;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 }
 
 .type {

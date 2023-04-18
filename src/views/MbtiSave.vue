@@ -22,6 +22,7 @@
             class="user-info"
             v-for="(groupItem, groupIndex) in groupData[group.groupId]"
             :key="groupIndex"
+            @click="toAddInfo(group.groupId, groupItem)"
           >
             <span class="circle"></span>
             <span class="name">{{ groupItem.name }}</span>
@@ -90,6 +91,17 @@ export default {
         alert("그룹을 먼저 추가해주세요");
       }
     },
+    toAddInfo(groupId, groupItem) {
+      this.$router.push({
+        name: "infodetail",
+        query: {
+          groupId,
+          groupItem: JSON.stringify(groupItem),
+          mbti: groupItem.mbti,
+          memo: groupItem.memo,
+        },
+      });
+    },
   },
 };
 </script>
@@ -135,7 +147,8 @@ export default {
 
 .family {
   background-color: #ffd338;
-  width: 4.7rem;
+  padding: 10px;
+  width: 6rem;
   height: 2.5rem;
   border-radius: 1.7rem;
   border: none;
@@ -184,8 +197,7 @@ export default {
 
 .character {
   display: flex;
-  justify-content: flex-start;
-  margin-left: 1.75rem;
+  justify-content: center;
   font-weight: 500;
 }
 

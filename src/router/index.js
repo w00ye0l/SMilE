@@ -20,6 +20,7 @@ const routes = [
     path: "/savingmbti",
     name: "savingmbti",
     component: () => import("../views/MbtiSave.vue"),
+    props: true,
   },
   {
     path: "/groupadd",
@@ -35,6 +36,10 @@ const routes = [
     path: "/infodetail",
     name: "infodetail",
     component: () => import("../views/InfoDetail.vue"),
+    props: (route) => ({
+      groupId: route.query.groupId,
+      groupItem: JSON.parse(route.query.groupItem),
+    }),
   },
   {
     path: "/mypage",

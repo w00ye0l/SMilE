@@ -29,6 +29,7 @@
         :placeholder="placeholder"
         v-model="inputValue"
         class="input-box"
+        maxlength="10"
       />
       <br />
       <div class="btn-control">
@@ -73,11 +74,18 @@ export default {
     registerBtn() {
       if (this.inputValue === "") {
         alert("그룹의 이름을 작성해주세요.");
-      } else if (this.groups.length >= 3) {
+      } else if (
+        this.groups.some((group) => group.groupId === this.inputValue)
+      ) {
+        alert("이미 존재하는 그룹 이름입니다.");
+      } else if (this.groups.length >= 3 && this.button === "추가") {
         alert("최대 3개의 그룹까지만 생성할 수 있습니다.");
       } else {
         if (this.button === "추가") {
           this.addGroup({ groupId: this.inputValue });
+          this.inputValue = "";
+        } else if (this.button === "수정") {
+          this.updateGroup({ key: this.prevKey, groupId: this.inputValue });
           this.inputValue = "";
         }
       }
@@ -105,11 +113,6 @@ export default {
         this.removeGroup(number);
       }
     },
-    // saveBtn() {
-    //   if (this.button === "수정") {
-    //     this.updateGroup({ key: this.prevKey, groupId: this.inputValue });
-    //   }
-    // },
   },
 };
 </script>

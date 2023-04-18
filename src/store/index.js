@@ -83,6 +83,22 @@ export default createStore({
       }
       state.groupData[payload.groupId].push(payload.data);
     },
+    updateGroupData(state, payload) {
+      if (!state.groupData[payload.groupId]) {
+        state.groupData[payload.groupId] = [];
+      }
+      const groupIndex = state.groupData[payload.groupId].findIndex(
+        (item) => item.name === payload.name
+      );
+      if (groupIndex !== -1) {
+        if (payload.mbti) {
+          state.groupData[payload.groupId][groupIndex].mbti = payload.mbti;
+        }
+        if (payload.memo) {
+          state.groupData[payload.groupId][groupIndex].memo = payload.memo;
+        }
+      }
+    },
   },
   actions: {
     addGroup({ commit }, payload) {
