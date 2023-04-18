@@ -34,6 +34,7 @@ export default createStore({
     groups: [],
     keys: 0,
     groupId: "",
+    groupData: {},
   },
   getters: {
     EVENTS: (state) => state.events,
@@ -76,6 +77,12 @@ export default createStore({
         state.groups[payload.key].groupId = payload.value;
       }
     },
+    ADD_GROUP_DATA(state, payload) {
+      if (!state.groupData[payload.groupId]) {
+        state.groupData[payload.groupId] = [];
+      }
+      state.groupData[payload.groupId].push(payload.data);
+    },
   },
   actions: {
     addGroup({ commit }, payload) {
@@ -86,6 +93,9 @@ export default createStore({
     },
     removeGroup({ commit }, payload) {
       commit("REMOVE_GROUP", payload);
+    },
+    addGroupData({ commit }, payload) {
+      commit("ADD_GROUP_DATA", payload);
     },
   },
   modules: {},

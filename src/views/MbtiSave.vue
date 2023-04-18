@@ -14,13 +14,19 @@
         </div>
       </div>
     </div>
-    <div v-for="(group, index) in groups" :key="index">
+    <div v-for="(group, index) in filteredGroups" :key="index">
       <div class="groups">
         <h3 class="category">{{ group.groupId }}</h3>
-        <div class="user-info">
-          <span class="circle"></span>
-          <span class="name">홍길동</span>
-          <span class="character">INFP</span>
+        <div class="user-control">
+          <div
+            class="user-info"
+            v-for="(groupItem, groupIndex) in groupData[group.groupId]"
+            :key="groupIndex"
+          >
+            <span class="circle"></span>
+            <span class="name">{{ groupItem.name }}</span>
+            <span class="character">{{ groupItem.mbti }}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -61,7 +67,14 @@ export default {
     };
   },
   computed: {
-    ...mapState(["groups"]),
+    ...mapState(["groups", "groupData"]),
+    filteredGroups() {
+      return this.groups.filter(
+        (group) =>
+          this.groupData[group.groupId] &&
+          this.groupData[group.groupId].length > 0
+      );
+    },
   },
   methods: {
     modalclick() {
@@ -71,7 +84,11 @@ export default {
       this.$router.push({ path: "groupadd" });
     },
     mbtiLink() {
-      this.$router.push({ path: "addinfo" });
+      if (this.groups.length > 0) {
+        this.$router.push({ path: "addinfo" });
+      } else {
+        alert("그룹을 먼저 추가해주세요");
+      }
     },
   },
 };
@@ -131,7 +148,7 @@ export default {
 
 .category {
   font-size: 1.4rem;
-  margin-left: 1.2rem;
+  margin-left: 1.5rem;
   display: flex;
   justify-content: flex-start;
 }
@@ -158,15 +175,17 @@ export default {
 }
 
 .name {
-  display: flex;
-  justify-content: flex-start;
-  margin: 0.5rem 0 0.1rem 1.7rem;
+  margin: 0.5rem 0 0.1rem 0;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .character {
   display: flex;
   justify-content: flex-start;
-  margin-left: 2rem;
+  margin-left: 1.75rem;
   font-weight: 500;
 }
 
@@ -214,5 +233,15 @@ export default {
 
 .container {
   padding-bottom: 90px;
+}
+
+.user-control {
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.user-control::-webkit-scrollbar {
+  display: none;
 }
 </style>

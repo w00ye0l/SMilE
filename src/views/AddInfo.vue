@@ -32,9 +32,15 @@
       </div>
       <span class="group">그룹</span>
       <div class="group-control">
-        <div v-for="(group, index) in groups" :key="index">
-          <span class="family">{{ group.groupId }}</span>
-        </div>
+        <button
+          v-for="(group, index) in groups"
+          :key="index"
+          @click="selectGroup(group.groupId)"
+          class="family"
+          :class="{ selected: selectedGroup === group.groupId }"
+        >
+          {{ group.groupId }}
+        </button>
       </div>
       <span class="memo">메모</span>
       <div class="memo-box">
@@ -42,14 +48,14 @@
         <textarea v-model="memo" class="text"></textarea>
       </div>
       <div class="add-cancel-control">
-        <button class="add-btn" @click="pageLink">추가</button>
-        <button class="cancel-btn" @click="pageLink">취소</button>
+        <button class="add-btn" @click="addLink">추가</button>
+        <button class="cancel-btn" @click="cancelLink">취소</button>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -75,17 +81,50 @@ export default {
         { name: "ISFJ" },
         { name: "ISFP" },
       ],
+      selectedGroup: "",
     };
   },
   computed: {
     ...mapState(["groups"]),
   },
   methods: {
-    pageLink() {
+    ...mapActions(["addGroupData"]),
+    validateInput() {
+      if (!this.nameId.trim()) {
+        alert("이름을 입력해주세요.");
+        return false;
+      }
+      if (this.mbti === "선택해주세요") {
+        alert("MBTI를 선택해주세요.");
+        return false;
+      }
+      if (!this.memo.trim()) {
+        alert("메모를 입력해주세요.");
+        return false;
+      }
+      if (this.selectedGroup === "") {
+        alert("그룹을 선택해주세요.");
+        return false;
+      }
+      return true;
+    },
+    addLink() {
+      if (this.validateInput()) {
+        this.addGroupData({
+          groupId: this.selectedGroup,
+          data: {
+            name: this.nameId,
+            mbti: this.mbti,
+            memo: this.memo,
+          },
+        });
+        this.$router.push({ path: "savingmbti" });
+      }
+    },
+    cancelLink() {
       this.$router.push({ path: "savingmbti" });
     },
     selectMBti() {
-      console.log(1);
       if (this.selectMbti === true) {
         this.selectMbti = false;
       } else {
@@ -94,6 +133,9 @@ export default {
     },
     selectMbtiOption(option) {
       this.mbti = option;
+    },
+    selectGroup(groupId) {
+      this.selectedGroup = groupId;
     },
   },
 };
@@ -136,9 +178,10 @@ export default {
   box-shadow: 0px 1.5px 0px 1.5px #d3d3d3;
   height: 45px;
   display: inline-block;
+  padding-left: 15px;
 }
 input::placeholder {
-  text-indent: 15px;
+  text-indent: 5px;
 }
 
 .mbti {
@@ -319,5 +362,13 @@ input::placeholder {
 
 .arrow {
   margin-right: 30px;
+}
+
+.family.selected {
+  background-color: #f59607;
+  width: 77px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
 }
 </style>
