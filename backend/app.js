@@ -20,6 +20,7 @@ passportConfig(); // 패스포트 설정
 // 인증 라우터
 const pageRouter = require('./routes/pages');
 const authRouter = require('./routes/auth');
+const mypageRouter = require('./routes/mypage');
 
 sequelize.sync({ force: false })
   .then(() => {
@@ -46,7 +47,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // parse JSON bodies (as sent by API clients)
 app.use(express.json());
-app.use(cookieParser());
+// app.use(cookieParser());
 
 app.use(morgan('dev')); // log
 app.use(express.static(path.join(__dirname, 'public'))); // 요청시 기본 경로 설정
@@ -69,6 +70,7 @@ app.use(passport.session()); // req.session 객체에 passport 인증 완료 정
 // 경로 지정
 app.use('/', pageRouter);
 app.use('/auth', authRouter);
+app.use('/mypage', mypageRouter);
 
 // 일부러 에러 발생시키기 TEST용
 app.use((req, res, next) => {
