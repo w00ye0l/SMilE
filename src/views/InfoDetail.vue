@@ -35,9 +35,9 @@
       </div>
       <span class="group">이 MBTI는 어떨까?</span>
       <div class="btn-control">
-        <button class="feature">상대법</button>
-        <button class="feature">주의할 점</button>
-        <button class="feature">특징</button>
+        <button class="feature" @click="docMove(this.mbti)">상대법</button>
+        <button class="feature" @click="docMove(this.mbti)">주의할 점</button>
+        <button class="feature" @click="docMove(this.mbti)">특징</button>
       </div>
       <div class="add-cancel-control">
         <button class="revise-btn" @click="modify()">수정</button>
@@ -100,6 +100,15 @@ export default {
     },
     pageLink() {
       this.$router.push({ path: "savingmbti" });
+    },
+    docMove(mbti) {
+      this.$store.state.selectMBti = mbti;
+      this.$router.push({
+        path: "/doc",
+        query: {
+          id: mbti,
+        },
+      });
     },
     ...mapMutations(["updateGroupData"]),
   },
