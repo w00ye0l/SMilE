@@ -127,6 +127,7 @@ export default {
       }
     },
     tempSave() {
+      console.log(this.mbti_complete);
       if (this.mbti === undefined || this.mbti === null || this.mbti === "") {
         alert("MBTI를 선택해 주세요.");
         return;
@@ -375,6 +376,7 @@ export default {
   display: flex;
   justify-content: space-evenly;
   width: 99.3vw;
+  padding-bottom: 120px;
 }
 
 .mbti-completed {
