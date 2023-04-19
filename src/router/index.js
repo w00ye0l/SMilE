@@ -20,6 +20,7 @@ const routes = [
     path: "/savingmbti",
     name: "savingmbti",
     component: () => import("../views/MbtiSave.vue"),
+    props: true,
   },
   {
     path: "/groupadd",
@@ -35,6 +36,10 @@ const routes = [
     path: "/infodetail",
     name: "infodetail",
     component: () => import("../views/InfoDetail.vue"),
+    props: (route) => ({
+      groupId: route.query.groupId,
+      groupItem: JSON.parse(route.query.groupItem),
+    }),
   },
   {
     path: "/mypage",
@@ -42,7 +47,7 @@ const routes = [
     component: () => import("../views/MyPage.vue"),
   },
   {
-    path: "/messagebox",
+    path: "/messagebox/",
     name: "messagebox",
     component: () => import("../views/MessageBox.vue"),
   },
@@ -52,19 +57,21 @@ const routes = [
     component: () => import("../views/RandomMessage.vue"),
   },
   {
-    path: "/sendmessage",
+    path: "/sendmessage/:index",
     name: "sendmessage",
     component: () => import("../views/SendMessage.vue"),
+    props: true,
   },
   {
-    path: "/messagecheck",
+    path: "/messagecheck/",
     name: "messagecheck",
     component: () => import("../views/MessageCheck.vue"),
   },
   {
-    path: "/messageconfirm",
+    path: "/messageconfirm/:index",
     name: "messageconfirm",
     component: () => import("../views/MessageConfirm.vue"),
+    props: true,
   },
   {
     path: "/randomanswer",

@@ -7,11 +7,16 @@
     <div class="my-answer">
       <h3 class="second-title">나의 답변</h3>
       <div class="memo-box">
-        <textarea v-model="memo" class="text" placeholder="내용을 입력하세요">
+        <textarea
+          v-model="memo"
+          class="text"
+          @input="updateAnswer()"
+          placeholder="내용을 입력하세요"
+        >
         </textarea>
       </div>
       <div class="btn-control">
-        <button class="btn" @click="pageLink">작성 완료</button>
+        <button class="btn" @click="completed()">작성 완료</button>
       </div>
     </div>
     <div class="other-answer">
@@ -69,20 +74,37 @@ export default {
     return {
       message: "Q.친구가 기분이 안좋아서 화분을 샀다고 했다. 이때 나의 대답은?",
       memo: "",
+      newAnswer: null,
       selectEI: false,
       selectNS: false,
       selectTF: false,
       selectPJ: false,
-      mbti1: "_",
-      mbti2: "_",
-      mbti3: "_",
-      mbti4: "_",
+      mbti1: "",
+      mbti2: "",
+      mbti3: "",
+      mbti4: "",
       totalMbti: "",
     };
   },
   methods: {
+    completed() {
+      if (this.memo === "") {
+        alert("내용을 입력해주세요");
+      } else {
+        alert("내용이 작성됐습니다.");
+        this.$store.commit("UPDATE_ANSWER", this.newAnswer);
+        this.memo = "";
+      }
+    },
+
     pageLink() {
-      this.$router.push({ path: "randomanswer" });
+      if (this.totalMbti.length !== 4) {
+        alert("MBTI를 선택해주세요");
+        console.log(this.totalMbti);
+      } else {
+        this.$store.state.totalMbti = this.totalMbti;
+        this.$router.push({ path: "randomanswer" });
+      }
     },
     selectMBTI(selected) {
       if (selected === "EI") {
@@ -117,22 +139,35 @@ export default {
     selectEIOption(option) {
       this.mbti1 = option;
       this.totalMbti += this.mbti1;
-      this.$store.state.totalMbti = this.totalMbti;
+      this.updateTotalMbti();
     },
     selectNSOption(option) {
       this.mbti2 = option;
       this.totalMbti += this.mbti2;
-      this.$store.state.totalMbti = this.totalMbti;
+      this.updateTotalMbti();
     },
     selectTFOption(option) {
       this.mbti3 = option;
       this.totalMbti += this.mbti3;
-      this.$store.state.totalMbti = this.totalMbti;
+      this.updateTotalMbti();
     },
     selectPJOption(option) {
       this.mbti4 = option;
       this.totalMbti += this.mbti4;
-      this.$store.state.totalMbti = this.totalMbti;
+      this.updateTotalMbti();
+    },
+    updateTotalMbti() {
+      this.totalMbti = "";
+      if (this.mbti1 !== "") this.totalMbti += this.mbti1;
+      if (this.mbti2 !== "") this.totalMbti += this.mbti2;
+      if (this.mbti3 !== "") this.totalMbti += this.mbti3;
+      if (this.mbti4 !== "") this.totalMbti += this.mbti4;
+    },
+    updateAnswer() {
+      this.newAnswer = {
+        content: this.memo,
+        date: new Date().toLocaleDateString(),
+      };
     },
   },
 };
@@ -161,12 +196,13 @@ export default {
 }
 
 .my-answer {
-  height: 32vh;
+  height: 28vh;
 }
 
 .second-title {
   display: flex;
   padding: 0 50px 0 55px;
+  margin-bottom: 0;
 }
 
 .memo-box {
@@ -204,13 +240,13 @@ export default {
 }
 
 .other-answer {
-  height: 37vh;
+  height: 33vh;
   background-color: #fff9c8;
 }
 
 .third-title {
   display: flex;
-  padding: 20px 50px 0 55px;
+  padding: 10px 50px 0 45px;
 }
 
 .type-container {

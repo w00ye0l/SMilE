@@ -7,10 +7,15 @@
           <img :src="require(`@/assets/cancel.png`)" class="cancel" />
         </button>
         <button class="add-btn">
-          <span class="send">보내기</span>
+          <span class="send" @click="pageLink()">보내기</span>
         </button>
       </div>
-      <textarea v-model="memo" class="text" placeholder="내용을 입력하세요">
+      <textarea
+        v-model="memo"
+        class="text"
+        @input="updateMemo()"
+        placeholder="내용을 입력하세요"
+      >
       </textarea>
     </div>
   </div>
@@ -20,11 +25,23 @@ export default {
   data() {
     return {
       memo: "",
+      newMessage: null,
     };
   },
   methods: {
     pageLink() {
-      this.$router.push({ path: "randommessage" });
+      if (this.memo === "") {
+        alert("내용을 입력해주세요");
+      } else {
+        this.$store.commit("UPDATE_MEMO", this.newMessage);
+        this.$router.push({ path: "messageconfirm" });
+      }
+    },
+    updateMemo() {
+      this.newMessage = {
+        content: this.memo,
+        date: new Date().toLocaleDateString(),
+      };
     },
   },
 };

@@ -9,7 +9,7 @@
         </div>
       </div>
       <div class="group-name" v-for="(item, value) in groups" :key="value">
-        <span class="name">{{ item }}</span>
+        <span class="name">{{ item.groupId }}</span>
         <div>
           <div class="add-delete-img">
             <button class="fix-btn" @click="fixBtn(value)">
@@ -27,12 +27,13 @@
       <input
         type="text"
         :placeholder="placeholder"
-        v-model="groupId"
+        v-model="inputValue"
         class="input-box"
+        maxlength="10"
       />
       <br />
       <div class="btn-control">
-        <button class="add-btn" @click="registerBtn(), saveBtn()">
+        <button class="add-btn" @click="registerBtn()">
           {{ button }}
         </button>
         <button class="cancel-btn" @click="pageLink()">취소</button>
@@ -42,21 +43,25 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
 export default {
   data() {
     return {
-      groupId: "",
       placeholder: "",
       content: "-",
       category: "-",
       button: "-",
       members: "",
-      groups: {},
       keys: 0,
       prevKey: -1,
+      inputValue: "",
     };
   },
+  computed: {
+    ...mapState(["groupId", "groups"]),
+  },
   methods: {
+    ...mapActions(["addGroup", "updateGroup", "removeGroup"]),
     pageLink() {
       this.$router.push({ path: "savingmbti" });
     },
@@ -67,40 +72,45 @@ export default {
       this.placeholder = "그룹 명";
     },
     registerBtn() {
-      if (this.button === "추가") {
-        this.content = this.groupId;
-        this.groups[this.keys] = this.content;
-        this.keys++;
-        console.log(this.groups, 1);
+      if (this.inputValue === "") {
+        alert("그룹의 이름을 작성해주세요.");
+      } else if (
+        this.groups.some((group) => group.groupId === this.inputValue)
+      ) {
+        alert("이미 존재하는 그룹 이름입니다.");
+      } else if (this.groups.length >= 3 && this.button === "추가") {
+        alert("최대 3개의 그룹까지만 생성할 수 있습니다.");
+      } else {
+        if (this.button === "추가") {
+          this.addGroup({ groupId: this.inputValue });
+          this.inputValue = "";
+        } else if (this.button === "수정") {
+          this.updateGroup({ key: this.prevKey, groupId: this.inputValue });
+          this.inputValue = "";
+        }
       }
     },
     fixBtn(number) {
-      this.button = "수정";
-      this.category = "그룹 및 수정";
-      this.prevKey = number;
-      for (const [key, value] of Object.entries(this.groups)) {
-        console.log(value);
-        if (key === this.prevKey) {
-          this.groupId = this.groups[key];
-        }
+      if (this.groups[number]) {
+        this.button = "수정";
+        this.category = "그룹 및 수정";
+        this.prevKey = number;
+        this.inputValue = this.groups[number].groupId;
+      } else {
+        console.warn("Invalid index:", number);
       }
-      // this.groups[this.key] = this.content;
+    },
+    updateGroupId(value) {
+      this.$store.commit("SET_GROUP_ID", {
+        groups: this.groups,
+        key: this.prevKey,
+        value,
+      });
     },
     removeBtn(number) {
       this.prevKey = number;
       if (confirm("삭제하시겠습니까?")) {
-        for (const key in this.groups) {
-          console.log(key, this.key);
-          if (`${key}` === this.prevKey.toString()) {
-            delete this.groups[key];
-            this.groupId = "";
-          }
-        }
-      }
-    },
-    saveBtn() {
-      if (this.button === "수정") {
-        this.groups[this.prevKey] = this.groupId;
+        this.removeGroup(number);
       }
     },
   },

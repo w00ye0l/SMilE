@@ -2,7 +2,7 @@
   <div class="background title">
     <div class="message-box">
       <div class="nav">
-        <p class="name">{{ name }}</p>
+        <p class="name">{{ message.name }}</p>
         <div class="right-side">
           <button class="btn" @click="sendMessage()">
             <img :src="require(`@/assets/navigator.png`)" class="navigator" />
@@ -13,20 +13,12 @@
         </div>
       </div>
       <div>
-        <div class="left-control">
-          <span class="memo">{{ memo }}</span>
+        <div class="left-control" @click="pageLink()">
+          <span class="memo">{{ message.content }}</span>
           <img :src="require(`@/assets/yellowmark.png`)" class="left-message" />
         </div>
-        <div>
-          <span class="memo2">{{ memo2 }}</span>
-          <img :src="require(`@/assets/whitemark.png`)" class="right-message" />
-        </div>
-        <div class="left-control">
-          <span class="memo">{{ memo }}</span>
-          <img :src="require(`@/assets/yellowmark.png`)" class="left-message" />
-        </div>
-        <div>
-          <span class="memo2">{{ memo2 }}</span>
+        <div v-for="(memo, index) in memos" :key="index">
+          <span class="memo2">{{ memo.content }}</span>
           <img :src="require(`@/assets/whitemark.png`)" class="right-message" />
         </div>
       </div>
@@ -61,11 +53,17 @@
 </template>
 <script>
 export default {
+  computed: {
+    message() {
+      const index = parseInt(this.$route.params.index);
+      return this.$store.state.messages[index];
+    },
+    memos() {
+      return this.$store.state.memos;
+    },
+  },
   data() {
     return {
-      name: "ENFP님",
-      memo: "오늘은 날씨가 정말 좋네요 파스타 한 접시 하러 갈까요?",
-      memo2: "날씨가 별로여서 안 땡기네요",
       modal: false,
       radioValues: "",
     };
@@ -74,14 +72,21 @@ export default {
     modalClick() {
       this.modal = true;
     },
+    pageLink() {
+      this.$router.push({ name: "messagecheck" });
+    },
     profileView() {
       this.$router.push({ path: "mypage" });
     },
     toBox() {
-      this.$router.push({ path: "messagebox" });
+      this.$router.go(-1);
     },
-    sendMessage() {
-      this.$router.push({ path: "sendmessage" });
+    sendMessage(index) {
+      const message = this.$store.state.messages[index];
+      console.log(index);
+      if (message) {
+        this.$router.push({ name: "sendmessage", params: { index: index } });
+      }
     },
   },
 };
@@ -166,8 +171,14 @@ export default {
 .memo {
   position: absolute;
   z-index: 2;
-  padding: 15px 30px 0 0;
-  margin-right: 35px;
+  padding: 20px 30px 0 0;
+  margin: 0 0 35px 30px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 210px;
 }
 .left-message {
   width: 200px;
@@ -177,12 +188,19 @@ export default {
 .memo2 {
   position: absolute;
   z-index: 2;
-  padding: 30px 30px 0 25px;
-  margin-left: 30px;
+  padding: 20px 30px 0 25px;
+  margin: 0 0 35px 50px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 230px;
 }
 .right-message {
   width: 200px;
   margin-left: 45px;
+  z-index: 1;
 }
 
 .box-sizing {
