@@ -3,7 +3,7 @@ const passport = require('passport');
 const path = require('path');
 
 const { isLoggedIn, isNotLoggedIn } = require('../middlewares');
-const { signup, login, logout } = require('../controllers/auth');
+const { signup, login, logout, remove } = require('../controllers/auth');
 
 const router = express.Router();
 
@@ -15,5 +15,8 @@ router.post('/login', isNotLoggedIn, login);
 
 // GET /auth/logout
 router.get('/logout', isLoggedIn, logout);
+
+// DELETE /auth/delete
+router.delete('/remove/:id', isLoggedIn, remove)
 
 module.exports = router;

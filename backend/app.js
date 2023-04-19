@@ -21,6 +21,7 @@ passportConfig(); // 패스포트 설정
 const pageRouter = require('./routes/pages');
 const authRouter = require('./routes/auth');
 const mypageRouter = require('./routes/mypage');
+const groupRouter = require('./routes/group');
 
 sequelize.sync({ force: false })
   .then(() => {
@@ -71,6 +72,7 @@ app.use(passport.session()); // req.session 객체에 passport 인증 완료 정
 app.use('/', pageRouter);
 app.use('/auth', authRouter);
 app.use('/mypage', mypageRouter);
+app.use('/group', groupRouter);
 
 // 일부러 에러 발생시키기 TEST용
 app.use((req, res, next) => {

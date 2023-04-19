@@ -84,3 +84,17 @@ exports.logout = (req, res) => {
   req.logout();
   req.session.destroy();
 };
+
+// 회원탈퇴
+exports.remove = (req, res, next) => {
+  try {
+    User.destroy({ 
+      where: { id: req.params.id },
+      truncate: false,
+    });
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+  res.end();
+};
