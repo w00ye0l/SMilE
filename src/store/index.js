@@ -35,6 +35,28 @@ export default createStore({
     keys: 0,
     groupId: "",
     groupData: {},
+    title: {},
+    contents: {},
+    mbti: "선택",
+    mbti_complete: {},
+    mbtiList: [
+      { name: "ENFJ" },
+      { name: "ENFP" },
+      { name: "ENTJ" },
+      { name: "ENTP" },
+      { name: "ESFJ" },
+      { name: "ESFP" },
+      { name: "ESTJ" },
+      { name: "ESTP" },
+      { name: "INFJ" },
+      { name: "INFP" },
+      { name: "INTJ" },
+      { name: "INTP" },
+      { name: "ISTJ" },
+      { name: "ISTP" },
+      { name: "ISFJ" },
+      { name: "ISFP" },
+    ],
   },
   getters: {
     EVENTS: (state) => state.events,
@@ -83,7 +105,7 @@ export default createStore({
       }
       state.groupData[payload.groupId].push(payload.data);
     },
-    updateGroupData(state, payload) {
+    UPDATE_GROUP_DATA(state, payload) {
       if (!state.groupData[payload.groupId]) {
         state.groupData[payload.groupId] = [];
       }
@@ -99,6 +121,24 @@ export default createStore({
         }
       }
     },
+    UPDATE_CONTENT(state, payload) {
+      state.contents[payload.mbti] = payload.content;
+    },
+    SET_TITLE(state, title) {
+      state.title = title;
+    },
+    UPDATE_MBTI(state, mbti) {
+      state.mbti = mbti;
+      if (!Object.prototype.hasOwnProperty.call(state.contents, mbti)) {
+        state.contents[mbti] = "";
+      }
+    },
+    ADD_TO_MBTI_COMPLETE(state, mbti) {
+      state.mbti_complete[mbti.key] = mbti.value;
+    },
+    REMOVE_FROM_MBTI_COMPLETE(state, key) {
+      delete state.mbti_complete[key];
+    },
   },
   actions: {
     addGroup({ commit }, payload) {
@@ -112,6 +152,21 @@ export default createStore({
     },
     addGroupData({ commit }, payload) {
       commit("ADD_GROUP_DATA", payload);
+    },
+    updateContent({ commit }, content) {
+      commit("UPDATE_CONTENT", content);
+    },
+    updateTitle({ commit }, title) {
+      commit("SET_TITLE", title);
+    },
+    updateMbti({ commit }, mbti) {
+      commit("UPDATE_MBTI", mbti);
+    },
+    addToMbtiComplete({ commit }, payload) {
+      commit("ADD_TO_MBTI_COMPLETE", payload);
+    },
+    removeFromMbtiComplete({ commit }, key) {
+      commit("REMOVE_FROM_MBTI_COMPLETE", key);
     },
   },
   modules: {},

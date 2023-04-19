@@ -1,5 +1,5 @@
 <template>
-  <div class="title background">
+  <div class="title background" v-bind="$attrs">
     <h2>글 쓰기</h2>
     <div class="btn-control">
       <div class="text">hide text</div>
@@ -45,17 +45,22 @@
     <hr class="hr" />
     <div class="third-title">
       <div class="mbti-cancel">
-        <h3 class="mbti-title">{{ title }}</h3>
-        <button v-show="isShow" class="btn-cancel" @click="remove(value)">
+        <h3 class="mbti-title" v-show="Object.keys(title).length > 0">
+          {{ title }}
+        </h3>
+        <button v-show="isShow" class="btn-cancel" @click="remove()">
           <img :src="require(`@/assets/close.png`)" class="close" />
         </button>
       </div>
     </div>
     <div class="memo-box">
       <textarea
-        v-model="content"
+        @input="
+          updateContent({ mbti: this.mbti, content: $event.target.value })
+        "
         class="text-box"
         placeholder="내용을 입력하세요"
+        ref="textarea"
       >
       </textarea>
     </div>
@@ -65,48 +70,39 @@
     <h3 class="complete">임시 저장</h3>
     <div class="mbti-btn-control">
       <div
-        v-for="(item, value) in mbti_complete"
-        :key="value"
+        v-for="(value, key) in mbti_complete"
+        :key="key"
         class="mbti-completed"
       >
-        <button class="temp-button" @click="call_btn(value)">
-          {{ value }}
+        <button class="temp-button" @click="call_btn(key)">
+          {{ key }}
         </button>
       </div>
     </div>
   </div>
 </template>
 <script>
+import { mapState, mapActions } from "vuex";
 export default {
   data() {
     return {
-      content: "",
-      title: "",
       selectMbti: false,
-      mbti: "선택",
-      mbtiList: [
-        { name: "ENFJ" },
-        { name: "ENFP" },
-        { name: "ENTJ" },
-        { name: "ENTP" },
-        { name: "ESFJ" },
-        { name: "ESFP" },
-        { name: "ESTJ" },
-        { name: "ESTP" },
-        { name: "INFJ" },
-        { name: "INFP" },
-        { name: "INTJ" },
-        { name: "INTP" },
-        { name: "ISTJ" },
-        { name: "ISTP" },
-        { name: "ISFJ" },
-        { name: "ISFP" },
-      ],
-      mbti_complete: {},
       isShow: false,
+      content: "",
     };
   },
+  computed: {
+    ...mapState(["contents", "title", "mbti", "mbti_complete", "mbtiList"]),
+  },
+
   methods: {
+    ...mapActions([
+      "updateContent",
+      "updateTitle",
+      "updateMbti",
+      "addToMbtiComplete",
+      "removeFromMbtiComplete",
+    ]),
     pageLink() {
       this.$router.push({ path: "sendmessage" });
     },
@@ -118,16 +114,29 @@ export default {
       }
     },
     selectMbtiOption(option) {
-      this.mbti = option;
+      console.log("Selected option:", option);
+      this.updateMbti(option);
     },
     changeName() {
-      this.content = "";
-      this.title = this.mbti;
-      this.isShow = true;
+      if (this.mbti === "선택") {
+        alert("mbti를 선택해주세요");
+      } else {
+        this.updateContent({ mbti: this.mbti, content: "" });
+        this.updateTitle(this.mbti);
+        this.isShow = true;
+      }
     },
     tempSave() {
+      if (this.mbti === undefined || this.mbti === null || this.mbti === "") {
+        alert("MBTI를 선택해 주세요.");
+        return;
+      }
+
       if (Object.keys(this.mbti_complete).length < 4) {
-        this.mbti_complete[this.mbti] = this.content;
+        this.addToMbtiComplete({
+          key: this.mbti,
+          value: this.contents[this.mbti] || "",
+        });
       } else {
         alert("4개 이상 만들 수 없습니다");
       }
@@ -135,25 +144,27 @@ export default {
 
     remove() {
       if (confirm("삭제하시겠습니까?")) {
-        for (const key in this.mbti_complete) {
-          if (`${key}` === this.mbti) {
-            delete this.mbti_complete[key];
-            this.title = "";
-            this.content = "";
-            this.isShow = false;
-          }
+        this.removeFromMbtiComplete(this.mbti);
+        this.updateTitle("");
+        this.updateContent("");
+        this.updateMbti("선택");
+        this.isShow = false;
+
+        if (Object.keys(this.mbti_complete).length === 0) {
+          this.updateMbti("선택");
         }
       }
     },
     call_btn(mbti) {
-      for (const [key, value] of Object.entries(this.mbti_complete)) {
-        console.log(value);
-        if (key === mbti) {
-          this.title = key;
-          this.content = this.mbti_complete[key];
-          this.isShow = true;
-          this.mbti = key;
-        }
+      if (Object.prototype.hasOwnProperty.call(this.mbti_complete, mbti)) {
+        this.updateTitle(mbti);
+        this.updateContent({
+          mbti: mbti,
+          content: this.mbti_complete[mbti],
+        });
+        this.isShow = true;
+        this.updateMbti(mbti);
+        this.$refs.textarea.value = this.mbti_complete[mbti];
       }
     },
   },
@@ -200,7 +211,7 @@ export default {
 
 .second-title {
   float: left;
-  margin: 0 0 0 45px;
+  margin: 0 0 0 40px;
 }
 
 .select {
@@ -247,7 +258,7 @@ export default {
   display: inline-block;
   width: 100px;
   height: 50px;
-  margin-left: 15px;
+  margin-left: 23px;
 }
 
 .selected {
