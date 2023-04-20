@@ -5,16 +5,12 @@ const router = express.Router();
 
 // 메인페이지
 router.get('/', (req, res) => {
+  res.send('hello home')
   console.log('home');
 });
 
 router.use((req, res, next) => {
   res.locals.user = req.user;
-  // res.locals.followerCount = req.user ? req.user.Followers.length : 0;
-  // res.locals.followingCount = req.user ? req.user.Followings.length : 0;
-  // res.locals.followerIdList = req.user
-  //   ? req.user.Followings.map((f) => f.id)
-  //   : [];
   next();
 });
 

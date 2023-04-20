@@ -30,14 +30,13 @@ exports.signup = async (req, res, next) => {
       mbti1: mbti1, mbti2: mbti2, mbti3: mbti3, mbti4: mbti4, 
       image: image,
     });
-    console.log('11');
-    res.end();
   }
     // return res.redirect('/login');
   } catch (error) {
     console.error(error);
     return next(error);
   }
+  res.send(req.body);
 };
 
 // 로그인
@@ -72,8 +71,7 @@ exports.login = async (req, res, next) => {
         return next(loginError);
       }
       console.log('login success22');
-      console.log(req.user);
-      res.end();
+      res.send(req.user);
     });
 
   })(req, res, next); // 미들웨어 내의 미들웨어에는 (req, res, next)를 붙입니다.

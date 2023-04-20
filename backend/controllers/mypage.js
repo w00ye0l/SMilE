@@ -13,7 +13,8 @@ exports.myprofile = async (req, res, next) => {
     const user = await User.findOne({
       where: { id: req.params.id }
     });
-    console.log('mypage:', req.user)
+    // console.log('mypage:', req.user)
+    res.send(req.user)
     } catch(err){
       console.error(err);
       console.log("데이터 조회 실패");
