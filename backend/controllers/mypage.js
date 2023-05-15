@@ -1,19 +1,11 @@
-const express = require('express');
-const mysql = require('mysql2');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-const passport = require('passport');
-const { promisify } = require('util');
-
 const User = require('../models/user');
 
 // 마이페이지
 exports.myprofile = async (req, res, next) => { 
   try{  
     const user = await User.findOne({
-      where: { id: req.params.id }
+      // where: { id: req.params.id }
     });
-    // console.log('mypage:', req.user)
     res.send(req.user)
     } catch(err){
       console.error(err);
