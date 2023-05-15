@@ -23,7 +23,7 @@ const routes = [
     props: true,
   },
   {
-    path: "/groupadd",
+    path: "/ groupadd",
     name: "groupadd",
     component: () => import("../views/GroupAdd.vue"),
   },
@@ -49,28 +49,28 @@ const routes = [
   {
     path: "/messagebox/",
     name: "messagebox",
-    component: () => import("../views/MessageBox.vue"),
+    component: () => import("../unused/MessageBox.vue"),
   },
   {
     path: "/randommessage",
     name: "randommessage",
-    component: () => import("../views/RandomMessage.vue"),
+    component: () => import("../unused/RandomMessage.vue"),
   },
   {
     path: "/sendmessage/:index",
     name: "sendmessage",
-    component: () => import("../views/SendMessage.vue"),
+    component: () => import("../unused/SendMessage.vue"),
     props: true,
   },
   {
     path: "/messagecheck/",
     name: "messagecheck",
-    component: () => import("../views/MessageCheck.vue"),
+    component: () => import("../../MessageCheck.vue"),
   },
   {
     path: "/messageconfirm/:index",
     name: "messageconfirm",
-    component: () => import("../views/MessageConfirm.vue"),
+    component: () => import("../unused/MessageConfirm.vue"),
     props: true,
   },
   {
@@ -86,12 +86,12 @@ const routes = [
   {
     path: "/writing",
     name: "writing",
-    component: () => import("../views/WritingView.vue"),
+    component: () => import("../unused/WritingView.vue"),
   },
   {
     path: "/community",
     name: "community",
-    component: () => import("../views/CommunityView.vue"),
+    component: () => import("../unused/CommunityView.vue"),
   },
   {
     path: "/login",
@@ -116,7 +116,7 @@ const routes = [
   {
     path: "/calendar",
     name: "calendar",
-    component: () => import("../views/CalendarView.vue"),
+    component: () => import("../unused/CalendarView.vue"),
   },
 ];
 

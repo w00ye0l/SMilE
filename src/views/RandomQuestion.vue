@@ -165,6 +165,7 @@ export default {
     },
     updateAnswer() {
       this.newAnswer = {
+        mbti: this.totalMbti,
         content: this.memo,
         date: new Date().toLocaleDateString(),
       };
