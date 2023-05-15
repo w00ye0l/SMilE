@@ -99,7 +99,7 @@ export default {
       this.$router.go(-1);
     },
     pageLink() {
-      this.$router.push({ path: "savingmbti" });
+      this.$router.push({ path: "/mbti" });
     },
     docMove(mbti) {
       this.$store.state.selectMBti = mbti;

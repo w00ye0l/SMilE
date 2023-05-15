@@ -118,11 +118,11 @@ export default {
             memo: this.memo,
           },
         });
-        this.$router.push({ path: "savingmbti" });
+        this.$router.push({ path: "/mbti" });
       }
     },
     cancelLink() {
-      this.$router.push({ path: "savingmbti" });
+      this.$router.push({ path: "/mbti" });
     },
     selectMBti() {
       if (this.selectMbti === true) {

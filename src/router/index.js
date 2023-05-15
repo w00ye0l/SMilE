@@ -28,7 +28,7 @@ const routes = [
     component: () => import("../views/GroupAdd.vue"),
   },
   {
-    path: "/addinfo",
+    path: "/mbti/addMbti",
     name: "addinfo",
     component: () => import("../views/AddInfo.vue"),
   },
@@ -55,6 +55,11 @@ const routes = [
     path: "/randomquestion",
     name: "randomquestion",
     component: () => import("../views/RandomQuestion.vue"),
+  },
+  {
+    path: "/randomanswer/detail",
+    name: "randomanswerdetail",
+    component: () => import("../views/RandomAnswerDetail.vue"),
   },
   {
     path: "/login",
