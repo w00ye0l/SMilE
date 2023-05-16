@@ -15,7 +15,7 @@ export default createStore({
       {
         name: "ENFJ",
         content:
-          "오늘은 날씨가 좋네요 내일 뭐하시나요? .................dkssudadfasdfadfsjkladfs",
+          "오늘은 날씨가 좋네요 내일 뭐하시나요?ads.ads.ads.ads.d.as.dsa..........dsa.adsdas.ads.dsa.ads.dsa.ads.dasajojaqwjejewlkjwlkqejlkjawlkdjawlkdjawjkadsjldjakjdkasjdkasjdaskjaskjdkjalsdasjkladjklajsldkjaslkdjasjdlkasjdalksjdlaksjdlkasjdaslkj",
         date: "2022/02/16 14:36",
       },
       {

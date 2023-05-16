@@ -55,7 +55,7 @@ export default {
 }
 .background {
   background-color: #fff9c8;
-  height: 100vh;
+  height: 93vh;
   position: relative;
 }
 
@@ -78,7 +78,7 @@ export default {
   border-radius: 20px;
   border: none;
   box-shadow: 0px 1.5px 0px 1.5px #d3d3d3;
-  height: 18vh;
+  height: 16.5vh;
   background-color: white;
   display: inline-block;
   white-space: pre-line;

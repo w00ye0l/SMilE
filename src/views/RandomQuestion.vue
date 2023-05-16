@@ -72,7 +72,7 @@
 export default {
   data() {
     return {
-      message: "Q.친구가 기분이 안좋아서 화분을 샀다고 했다. 이때 나의 대답은?",
+      message: "Q.친구가 기분이 안좋아서 화분을 샀다고 했다. 이때 나의 대답은",
       memo: "",
       newAnswer: null,
       selectEI: false,
@@ -98,7 +98,12 @@ export default {
     },
 
     pageLink() {
-      if (this.totalMbti.length !== 4) {
+      if (
+        this.mbti1 === "_" ||
+        this.mbti2 === "_" ||
+        this.mbti3 === "_" ||
+        this.mbti4 === "_"
+      ) {
         alert("MBTI를 선택해주세요");
         console.log(this.totalMbti);
       } else {

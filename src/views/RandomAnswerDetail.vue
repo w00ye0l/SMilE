@@ -7,7 +7,7 @@
       </div>
     </div>
     <div class="memo-box">
-      <p>{{ selectedMessage.content }}</p>
+      <p class="content">{{ selectedMessage.content }}</p>
     </div>
     <div class="btn">
       <button class="back-btn" @click="backLink()">뒤로가기</button>
@@ -47,10 +47,12 @@ export default {
   border-radius: 20px;
   border: none;
   box-shadow: 0px 1.5px 0px 1.5px #d3d3d3;
-  height: 50vh;
+  height: 60vh;
   background-color: white;
   display: inline-block;
   white-space: pre-line;
+  overflow-y: scroll;
+  word-wrap: break-word;
 }
 
 .small-box {
@@ -96,5 +98,10 @@ export default {
   border: none;
   background-color: #f59607;
   margin-top: 15px;
+}
+
+.content {
+  padding: 10px 18px 0 18px;
+  line-height: 28px;
 }
 </style>
