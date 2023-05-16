@@ -1,18 +1,18 @@
 <template>
   <div class="container">
     <ul class="navbar">
-      <router-link class="nav" to="/savingmbti">
+      <router-link class="nav" to="/mbti">
         <img class="nav-img mbti-tab" alt="" />
       </router-link>
       <router-link class="nav" to="/docs">
         <img class="nav-img docs-tab" alt="" />
       </router-link>
-      <router-link class="nav" to="/community">
+      <!-- <router-link class="nav" to="/community">
         <img class="nav-img community-tab" alt="" />
       </router-link>
       <router-link class="nav" to="/calendar">
         <img class="nav-img calendar-tab" alt="" />
-      </router-link>
+      </router-link> -->
       <router-link class="nav" to="/mypage">
         <img class="nav-img profile-tab" alt="" />
       </router-link>
