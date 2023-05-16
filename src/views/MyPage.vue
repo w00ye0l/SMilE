@@ -1,14 +1,19 @@
 <template>
-  <div>
-    <h2 class="title">마이 페이지</h2>
-    <div class="img-box">
-      <img :src="require(`@/assets/Avatar.png`)" class="avatar" />
+  <div class="main">
+    <div class="title-container">
+      <h1 class="title">프로필</h1>
+      <button class="setting-btn" @click="openModal">
+        <img :src="require('@/assets/Settings.png')" alt="" />
+      </button>
+    </div>
+    <div class="profile-container">
+      <img :src="require('@/assets/Avatar.png')" class="avatar" />
       <div class="my-name-mbti">
-        <span class="my-name">{{ $store.state.mypage[0].nickname }}</span>
-        <span class="my-mbti">{{ $store.state.mypage[0].mbti }}</span>
+        <span class="my-name">{{ nickname }}</span>
+        <span class="my-mbti">{{ mbti }}</span>
       </div>
     </div>
-    <button class="btn-edit" @click="openModal">프로필 수정</button>
+
     <div class="black-bg box-sizing" v-if="modalOpen">
       <div class="white-bg">
         <form>
@@ -45,28 +50,59 @@
         </form>
       </div>
     </div>
-    <div class="dropbox">
-      <span class="category-name">쪽지함</span>
-      <button class="btn-more" @click="pageLink">더보기</button>
+
+    <div class="question-container">
+      <p class="question-subtitle">답변하지 않은 질문이 있어요!</p>
+      <h3 class="question-title">오늘의 질문</h3>
+
+      <button class="question-btn">답변하러 가기</button>
     </div>
-    <div class="box-container">
-      <div v-for="index in messageCount" :key="index" class="message">
-        <span class="message-content"> 새로운 쪽지가 도착했습니다.</span>
-      </div>
+
+    <hr />
+
+    <div class="content-container">
+      <h3 class="content-title">MBTI 기록하기</h3>
+      <router-link class="content-detail" to="/savingmbti">
+        <div class="content-imgBox">
+          <img class="content-img" src="@/assets/saveMbti.png" alt="" />
+        </div>
+        <p class="content">
+          주변 사람들의 MBTI 정보를 저장하여 한 눈에 확인해보아요.
+        </p>
+        <img class="go-content" src="@/assets/right-arrow.png" alt="" />
+      </router-link>
+    </div>
+
+    <hr />
+
+    <div class="content-container">
+      <h3 class="content-title">MBTI 설명서</h3>
+      <router-link class="content-detail" to="/docs">
+        <div class="content-imgBox">
+          <img class="content-img" src="@/assets/docsMbti.png" alt="" />
+        </div>
+        <p class="content">
+          모든 MBTI에 대한 정보를 확인해 MBTI에 대한 이해를 키워요.
+        </p>
+        <img class="go-content" src="@/assets/right-arrow.png" alt="" />
+      </router-link>
     </div>
   </div>
 </template>
+
 <script>
+import axios from "axios";
+
 export default {
-  computed: {
-    messageCount() {
-      return this.$store.getters.MESSAGE_COUNT;
-    },
-  },
   data() {
     return {
       modalOpen: false,
+      nickname: "",
+      mbti: "",
     };
+  },
+  mounted() {
+    this.getData();
   },
   methods: {
     openModal() {
@@ -78,73 +114,82 @@ export default {
     pageLink() {
       this.$router.push({ path: "messagebox" });
     },
+    async getData() {
+      await axios
+        .get("/mypage", {
+          withCredentials: true,
+        })
+        .then((res) => {
+          console.log(res);
+          console.log(res.data.nickname);
+          this.nickname = res.data.nickname;
+          this.mbti =
+            res.data.mbti1 + res.data.mbti2 + res.data.mbti3 + res.data.mbti4;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  },
+  computed: {
+    messageCount() {
+      return this.$store.getters.MESSAGE_COUNT;
+    },
   },
 };
 </script>
-<style>
+
+<style scoped>
+.main {
+  width: 100%;
+  /* height: 110vh; */
+}
+
+.title-container {
+  padding: 50px 0 10px 0;
+  position: relative;
+  box-sizing: border-box;
+}
+
 .title {
   margin: 0;
-  padding: 40px 0 20px 0;
+  font-size: 24px;
+}
+
+.setting-btn {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 70%;
+  right: 5%;
+  width: 30px;
+  height: 30px;
+  background-color: #ffd338;
+  border: 0;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.profile-container {
+  margin: 30px 0;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  height: 120px;
+  background: #fff9c8;
 }
 
 .avatar {
-  float: left;
-  margin: 15px 0 0 30px;
-}
-
-.img-box {
-  background: #fff9c8;
-  margin: 20px 0 0 20px;
-  width: 90vw;
-  height: 120px;
-  border-radius: 20px;
-  border: 1px solid black;
+  width: 80px;
+  height: 80px;
 }
 
 .my-name-mbti {
   display: flex;
   flex-direction: column;
-  float: left;
-  margin: 20px 0 0 20px;
   font-size: 20px;
-}
-
-.my-name {
-  margin-left: 10px;
-}
-
-.my-mbti {
-  margin-top: 10px;
-}
-
-.category-name {
-  font-size: 20px;
-  font-weight: 600;
-  justify-content: left;
-  margin-left: 20px;
-}
-
-.dropbox {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}
-
-.btn-more {
-  border: none;
-  background: none;
-  font-size: 18px;
-  margin-right: 25px;
-}
-
-.btn-edit {
-  margin-top: 20px;
-  width: 90vw;
-  height: 35px;
-  font-size: 15px;
-  font-weight: 500;
-  border-radius: 5rem;
-  border: 1px solid rgb(220, 220, 220);
 }
 
 .black-bg {
@@ -166,11 +211,6 @@ export default {
   padding: 20px;
   height: 55vh;
   top: 150px;
-}
-
-.modal-container h3 {
-  font-size: 24px;
-  margin-bottom: 20px;
 }
 
 .form-row {
@@ -225,31 +265,89 @@ export default {
   margin-top: 20px;
 }
 
-.box-container {
-  width: 90vw;
-  box-shadow: 0px 1.5px 0px 1.5px #d3d3d3;
-  border-radius: 20px;
-  height: 30vh;
-  margin: 10px 0 0 15px;
-  overflow-y: scroll;
+.question-container {
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.message {
+.question-subtitle {
+  margin: 0;
+  margin-bottom: 5px;
+  color: #999999;
+}
+
+.question-title {
+  margin: 0;
+  margin-bottom: 25px;
+}
+
+.question-btn {
+  padding: 5px 20px;
+  height: 30px;
+  font-size: 14px;
+  font-weight: bold;
+  background-color: #ffd338;
+  border: 0;
+  border-radius: 20px;
+}
+
+hr {
+  background-color: #fff9c8;
+  height: 3px;
+  border: 0;
+}
+
+.content-container {
+  display: inline-block;
+  margin: auto;
+  padding: 20px 0;
+  width: 85%;
+  box-sizing: border-box;
+  border: #f59607;
+  text-align: start;
+}
+
+.content-title {
+  margin: 0;
+  margin-bottom: 10px;
+}
+
+.content-detail {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #000;
+  text-decoration: none;
+  border-radius: 10px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
+}
+
+.content-imgBox {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 85vw;
-  height: 35px;
-  font-size: 15px;
-  font-weight: 500;
-  border-radius: 5rem;
-  margin: 15px 0 10px 10px;
-  border: 1px solid rgb(220, 220, 220);
-  background-color: #ffd338;
+  width: 20vw;
+  height: 20vw;
+  border-radius: 50%;
+  background-color: #fff9c8;
+  box-sizing: border-box;
 }
 
-.message-content {
-  display: flex;
-  align-items: center;
+.content-img {
+  height: 60%;
+}
+
+.content {
+  margin: 0;
+  width: 50%;
+  word-break: keep-all;
+}
+
+.go-content {
+  width: 8%;
 }
 </style>
