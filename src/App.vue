@@ -1,6 +1,6 @@
 <template>
-  <navComponent v-if="url !== '/'"></navComponent>
   <router-view class="router-view" />
+  <navComponent v-if="url !== '/'"></navComponent>
 </template>
 
 <script>
@@ -51,8 +51,13 @@ body {
 
 #app {
   text-align: center;
-  color: #2c3e50;
+  /* color: #2c3e50; */
   /* padding-bottom: 80px; */
+}
+
+.router-view {
+  height: 100%;
+  margin-bottom: 80px;
 }
 
 .fc .fc-toolbar-title {
