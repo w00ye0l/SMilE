@@ -63,7 +63,7 @@ export default {
   methods: {
     ...mapActions(["addGroup", "updateGroup", "removeGroup"]),
     pageLink() {
-      this.$router.push({ path: "savingmbti" });
+      this.$router.push({ path: "/mbti" });
     },
     addBtn() {
       this.content = this.groupId;

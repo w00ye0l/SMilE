@@ -17,24 +17,24 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
   },
   {
-    path: "/savingmbti",
-    name: "savingmbti",
+    path: "/mbti",
+    name: "mbti",
     component: () => import("../views/MbtiSave.vue"),
     props: true,
   },
   {
-    path: "/groupadd",
-    name: "groupadd",
+    path: "/mbti/addGroup",
+    name: "addgroup",
     component: () => import("../views/GroupAdd.vue"),
   },
   {
-    path: "/addinfo",
+    path: "/mbti/addMbti",
     name: "addinfo",
     component: () => import("../views/AddInfo.vue"),
   },
   {
-    path: "/infodetail",
-    name: "infodetail",
+    path: "/mbti/detail",
+    name: "detail",
     component: () => import("../views/InfoDetail.vue"),
     props: (route) => ({
       groupId: route.query.groupId,
@@ -47,33 +47,6 @@ const routes = [
     component: () => import("../views/MyPage.vue"),
   },
   {
-    path: "/messagebox/",
-    name: "messagebox",
-    component: () => import("../views/MessageBox.vue"),
-  },
-  {
-    path: "/randommessage",
-    name: "randommessage",
-    component: () => import("../views/RandomMessage.vue"),
-  },
-  {
-    path: "/sendmessage/:index",
-    name: "sendmessage",
-    component: () => import("../views/SendMessage.vue"),
-    props: true,
-  },
-  {
-    path: "/messagecheck/",
-    name: "messagecheck",
-    component: () => import("../views/MessageCheck.vue"),
-  },
-  {
-    path: "/messageconfirm/:index",
-    name: "messageconfirm",
-    component: () => import("../views/MessageConfirm.vue"),
-    props: true,
-  },
-  {
     path: "/randomanswer",
     name: "randomanswer",
     component: () => import("../views/RandomAnswer.vue"),
@@ -84,14 +57,9 @@ const routes = [
     component: () => import("../views/RandomQuestion.vue"),
   },
   {
-    path: "/writing",
-    name: "writing",
-    component: () => import("../views/WritingView.vue"),
-  },
-  {
-    path: "/community",
-    name: "community",
-    component: () => import("../views/CommunityView.vue"),
+    path: "/randomanswer/detail",
+    name: "randomanswerdetail",
+    component: () => import("../views/RandomAnswerDetail.vue"),
   },
   {
     path: "/login",
@@ -112,11 +80,6 @@ const routes = [
     path: "/doc",
     name: "doc",
     component: () => import("../views/DocView.vue"),
-  },
-  {
-    path: "/calendar",
-    name: "calendar",
-    component: () => import("../views/CalendarView.vue"),
   },
 ];
 

@@ -4,10 +4,15 @@
     <div class="question">
       <span class="letter">{{ message }}</span>
     </div>
-    <div class="memo-box" v-for="(item, index) in filterMessages" :key="index">
+    <div
+      class="memo-box"
+      v-for="(item, index) in filterMessages"
+      :key="index"
+      @click="selectMessage(item)"
+    >
       <div class="img-title">
         <img :src="require(`@/assets/first_smile1.png`)" class="title-img" />
-        <!-- <span class="mbti"> {{ item.content }}</span> -->
+        <span class="mbti"> {{ item.name }}</span>
       </div>
       <br />
       <div class="answer">
@@ -34,6 +39,12 @@ export default {
       message: "Q.친구가 기분이 안좋아서 화분을 샀다고 했다. 이때 나의 대답은?",
     };
   },
+  methods: {
+    selectMessage(message) {
+      this.$store.commit("SET_SELECTED_MESSAGE", message);
+      this.$router.push({ name: "randomanswerdetail" });
+    },
+  },
 };
 </script>
 <style scoped>
@@ -44,7 +55,7 @@ export default {
 }
 .background {
   background-color: #fff9c8;
-  height: 100vh;
+  height: 93vh;
   position: relative;
 }
 
@@ -67,7 +78,7 @@ export default {
   border-radius: 20px;
   border: none;
   box-shadow: 0px 1.5px 0px 1.5px #d3d3d3;
-  height: 18vh;
+  height: 16.5vh;
   background-color: white;
   display: inline-block;
   white-space: pre-line;
@@ -92,6 +103,10 @@ export default {
 
 .answer {
   display: flex;
-  margin-left: 25px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>

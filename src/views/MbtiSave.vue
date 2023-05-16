@@ -82,11 +82,11 @@ export default {
       this.modal = true;
     },
     pageLink() {
-      this.$router.push({ path: "groupadd" });
+      this.$router.push({ path: "/mbti/addGroup" });
     },
     mbtiLink() {
       if (this.groups.length > 0) {
-        this.$router.push({ path: "addinfo" });
+        this.$router.push({ path: "/mbti/addMbti" });
       } else {
         alert("그룹을 먼저 추가해주세요");
       }
