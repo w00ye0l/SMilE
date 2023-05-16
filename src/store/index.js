@@ -14,13 +14,24 @@ export default createStore({
     messages: [
       {
         name: "ENFJ",
-        content: "오늘은 날씨가 좋네요",
+        content:
+          "오늘은 날씨가 좋네요 내일 뭐하시나요? .................dkssudadfasdfadfsjkladfs",
         date: "2022/02/16 14:36",
       },
       {
         name: "INFP",
         content: "내일은 날씨가 흐립니다 내일은 어떨 거 같나요",
         date: "2022/02/15 15:10",
+      },
+      {
+        name: "ENFJ",
+        content: "오늘은 피곤하네요",
+        date: "2022/02/16 14:36",
+      },
+      {
+        name: "ENFJ",
+        content: "오늘은 피곤하네요",
+        date: "2022/02/16 14:36",
       },
       {
         name: "ENFJ",
@@ -57,6 +68,7 @@ export default createStore({
       { name: "ISFJ" },
       { name: "ISFP" },
     ],
+    selectMessage: "",
   },
   getters: {
     EVENTS: (state) => state.events,
@@ -138,6 +150,10 @@ export default createStore({
     },
     REMOVE_FROM_MBTI_COMPLETE(state, key) {
       delete state.mbti_complete[key];
+    },
+
+    SET_SELECTED_MESSAGE(state, message) {
+      state.selectedMessage = message;
     },
   },
   actions: {

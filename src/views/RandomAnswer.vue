@@ -4,10 +4,15 @@
     <div class="question">
       <span class="letter">{{ message }}</span>
     </div>
-    <div class="memo-box" v-for="(item, index) in filterMessages" :key="index">
+    <div
+      class="memo-box"
+      v-for="(item, index) in filterMessages"
+      :key="index"
+      @click="selectMessage(item)"
+    >
       <div class="img-title">
         <img :src="require(`@/assets/first_smile1.png`)" class="title-img" />
-        <!-- <span class="mbti"> {{ item.content }}</span> -->
+        <span class="mbti"> {{ item.name }}</span>
       </div>
       <br />
       <div class="answer">
@@ -33,6 +38,12 @@ export default {
     return {
       message: "Q.친구가 기분이 안좋아서 화분을 샀다고 했다. 이때 나의 대답은?",
     };
+  },
+  methods: {
+    selectMessage(message) {
+      this.$store.commit("SET_SELECTED_MESSAGE", message);
+      this.$router.push({ name: "randomanswerdetail" });
+    },
   },
 };
 </script>
@@ -92,6 +103,10 @@ export default {
 
 .answer {
   display: flex;
-  margin-left: 25px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>
