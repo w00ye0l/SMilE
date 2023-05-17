@@ -21,6 +21,7 @@ class Group extends Sequelize.Model {
 
   static associate(db) {
     db.Group.belongsTo(db.User, { foreignKey: 'userID', targetKey: 'id', onDelete: 'cascade', onUpdate: 'cascade' });
+    db.Group.hasMany(db.Guest, { foreignKey: { name : 'groupID', allowNull : false, primaryKey : true }, targetKey: 'id' });
   } 
 };
 
