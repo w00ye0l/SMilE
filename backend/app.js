@@ -23,6 +23,7 @@ const pageRouter = require('./routes/pages');
 const authRouter = require('./routes/auth');
 const mypageRouter = require('./routes/mypage');
 const groupRouter = require('./routes/group');
+const guestRouter = require('./routes/guest');
 
 sequelize.sync({ force: false })
   .then(() => {
@@ -34,7 +35,7 @@ sequelize.sync({ force: false })
 const port = 3000;
 
 app.use(cors({  // front 서버인 127.0.0.1:8080 의 요청을 허용하도록 cors 사용
-    origin: 'http://localhost:8080',
+    origin: ['http://localhost:8080','http://localhost:8081'],
     credentials:true,
 }));
 
@@ -69,6 +70,7 @@ app.use('/', pageRouter);
 app.use('/auth', authRouter);
 app.use('/mypage', mypageRouter);
 app.use('/group', groupRouter);
+app.use('/guest', guestRouter);
 
 // 일부러 에러 발생시키기 TEST용
 app.use((req, res, next) => {
