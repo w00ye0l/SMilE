@@ -2,10 +2,10 @@ const Group = require('../models/group');
 const User = require('../models/user');
 
 // group 생성
-exports.create = (req, res, next) => {
+exports.create = async (req, res, next) => {
   console.log('group',req.body);
   try {
-    Group.create({
+    await Group.create({
       name: req.body.name,
       userID: req.user.id
     });
