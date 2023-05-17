@@ -3,6 +3,7 @@ const Sequelize = require('sequelize');
 // 클래스 불러오기
 const User = require('./user')
 const Group = require('./group');
+const Guest = require('./guest');
 
 const env = process.env.NODE_ENV || 'development';
 
@@ -42,15 +43,17 @@ db.sequelize = sequelize;
 // 모델 클래스를 넣음.
 db.User = User;
 db.Group = Group;
+db.Guest = Guest;
 
 // 모델과 테이블 종합적인 연결이 설정
 User.initiate(sequelize); 
 Group.initiate(sequelize);
-
+Guest.initiate(sequelize);
 
 // db객체 안에 있는 모델들 간의 관계가 설정된다.
 User.associate(db);
 Group.associate(db);
+Guest.associate(db);
 
 // 모듈로 꺼낸다.
 module.exports = db;
