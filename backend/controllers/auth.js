@@ -79,8 +79,10 @@ exports.login = async (req, res, next) => {
 
 //로그아웃
 exports.logout = (req, res) => {
-  req.logout();
-  req.session.destroy();
+  req.logout(() => {
+    req.session.destroy(); // passport 업데이트 이후 함수 안에 넣어야 실행됨
+  });
+  res.end();
 };
 
 // 회원탈퇴
