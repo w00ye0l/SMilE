@@ -34,7 +34,7 @@ sequelize.sync({ force: false })
 const port = 3000;
 
 app.use(cors({  // front 서버인 127.0.0.1:8080 의 요청을 허용하도록 cors 사용
-    origin: 'http://localhost:8080',
+    origin: ['http://localhost:8080', 'http://localhost:8081'],
     credentials:true,
 }));
 
