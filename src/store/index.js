@@ -95,19 +95,24 @@ export default createStore({
 
     ADD_GROUP(state, payload) {
       state.groups[state.keys] = payload;
-      state.keys++;
+      state.keys = state.groups.length;
     },
 
     UPDATE_GROUP(state, payload) {
       state.groups[payload.key].groupId = payload.groupId;
     },
-    REMOVE_GROUP(state, payload) {
-      state.groups.splice(payload, 1);
+    REMOVE_GROUP(state, index) {
+      if (index > -1 && index < state.groups.length) {
+        state.groups.splice(index, 1);
+        state.keys--;
+      } else {
+        console.warn("Invalid index for removal:", index);
+      }
     },
 
     SET_GROUP_ID(state, payload) {
       state.groupId = payload.value;
-      if (payload.key !== -1) {
+      if (payload.key !== -1 && state.groups[payload.key]) {
         state.groups[payload.key].groupId = payload.value;
       }
     },

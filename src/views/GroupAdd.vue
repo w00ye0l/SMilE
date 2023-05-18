@@ -15,46 +15,43 @@
             <button class="fix-btn" @click="fixBtn(value)">
               <img :src="require(`@/assets/pencil.png`)" class="pencil" />
             </button>
-            <button class="delete-btn" @click="removeBtn(value)">
+            <button class="delete-btn" @click="removeBtn(item.groupId)">
               <img :src="require(`@/assets/trashcan.png`)" class="trashcan" />
             </button>
           </div>
         </div>
       </div>
     </div>
-    <div class="add-group">
-      <p class="category-name2">{{ category }}</p>
-      <input
-        type="text"
-        :placeholder="placeholder"
-        v-model="inputValue"
-        class="input-box"
-        maxlength="10"
-      />
-      <br />
-      <div class="btn-control">
-        <button class="add-btn" @click="registerBtn()">
-          {{ button }}
-        </button>
-        <button class="cancel-btn" @click="pageLink()">취소</button>
-      </div>
-    </div>
+    <GroupBtn
+      v-if="showOn"
+      :category="category"
+      :placeholder="placeholder"
+      :button="button"
+      :inputValue="inputValue"
+      :groups="groups"
+      @register="registerBtn"
+    />
   </div>
 </template>
 
 <script>
+import GroupBtn from "@/views/GroupBtn.vue";
 import { mapState, mapActions } from "vuex";
 export default {
+  components: {
+    GroupBtn,
+  },
   data() {
     return {
-      placeholder: "",
+      placeholder: "그룹 명",
       content: "-",
-      category: "-",
-      button: "-",
+      category: "추가할 그룹 명",
+      button: "추가",
       members: "",
       keys: 0,
       prevKey: -1,
       inputValue: "",
+      showOn: false,
     };
   },
   computed: {
@@ -62,23 +59,22 @@ export default {
   },
   methods: {
     ...mapActions(["addGroup", "updateGroup", "removeGroup"]),
-    pageLink() {
-      this.$router.push({ path: "/mbti" });
-    },
     addBtn() {
-      this.content = this.groupId;
+      this.showOn = true;
       this.category = "추가할 그룹 명";
       this.button = "추가";
       this.placeholder = "그룹 명";
+      this.inputValue = "";
     },
-    registerBtn() {
+    registerBtn(inputValue) {
+      this.inputValue = inputValue;
       if (this.inputValue === "") {
         alert("그룹의 이름을 작성해주세요.");
       } else if (
         this.groups.some((group) => group.groupId === this.inputValue)
       ) {
         alert("이미 존재하는 그룹 이름입니다.");
-      } else if (this.groups.length >= 3 && this.button === "추가") {
+      } else if (this.groups.length === 3 && this.button === "추가") {
         alert("최대 3개의 그룹까지만 생성할 수 있습니다.");
       } else {
         if (this.button === "추가") {
@@ -101,16 +97,30 @@ export default {
       }
     },
     updateGroupId(value) {
-      this.$store.commit("SET_GROUP_ID", {
-        groups: this.groups,
-        key: this.prevKey,
-        value,
-      });
+      if (this.prevKey !== -1) {
+        this.$store.commit("SET_GROUP_ID", {
+          groups: this.groups,
+          key: this.prevKey,
+          value,
+        });
+      }
     },
-    removeBtn(number) {
-      this.prevKey = number;
+    removeBtn(groupId) {
       if (confirm("삭제하시겠습니까?")) {
-        this.removeGroup(number);
+        const index = this.groups.findIndex((item) => item.groupId === groupId);
+        if (index !== -1) {
+          this.removeGroup(index);
+          if (this.prevKey === index) {
+            this.prevKey = -1;
+            this.inputValue = "";
+            this.button = "추가";
+            this.category = "추가할 그룹 명";
+            this.placeholder = "그룹 명";
+          } else if (this.prevKey > index) {
+            this.prevKey--;
+          }
+          this.$store.commit("SET_GROUP_ID", { key: this.prevKey, value: "" });
+        }
       }
     },
   },
@@ -172,62 +182,6 @@ export default {
 .trashcan {
   margin: 0 0 5px 0;
 }
-.add-group {
-  background: #fff9c8;
-  height: 255px;
-}
-
-.category-name2 {
-  display: flex;
-  font-size: 20px;
-  font-weight: 600;
-  justify-content: left;
-  margin-left: 20px;
-  padding-top: 30px;
-}
-
-.input-box {
-  width: 90vw;
-  margin: 0 0 15px 0;
-  padding-left: 15px;
-  border-radius: 20px;
-  border: none;
-  box-shadow: 0px 1.5px 0px 1.5px #d3d3d3;
-  height: 45px;
-  display: inline-block;
-}
-
-input::placeholder {
-  text-indent: 5px;
-  padding-left: 0;
-}
-
-.btn-control {
-  margin-top: 20px;
-  display: flex;
-  justify-content: space-evenly;
-}
-
-.add-btn {
-  width: 100px;
-  height: 40px;
-  border-radius: 17px;
-  border: none;
-  background-color: #f59607;
-  margin-left: 50px;
-  font-size: 17px;
-}
-
-.cancel-btn {
-  width: 100px;
-  height: 40px;
-  border-radius: 17px;
-  border: none;
-  background-color: #ffffff;
-  margin-right: 50px;
-  font-size: 17px;
-}
-
 .fix-btn {
   border: none;
   background-color: transparent;
