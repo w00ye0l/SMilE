@@ -7,11 +7,21 @@
       </button>
     </div>
     <div class="profile-container">
+      <img
+        class="profile-img left-img"
+        src="@/assets/mypage_smile1.png"
+        alt=""
+      />
       <img :src="require('@/assets/Avatar.png')" class="avatar" />
-      <div class="my-name-mbti">
-        <span class="my-name">{{ nickname }}</span>
-        <span class="my-mbti">{{ mbti }}</span>
+      <div class="my-info">
+        <span class="name">{{ nickname }}</span>
+        <span class="mbti">{{ mbti }}</span>
       </div>
+      <img
+        class="profile-img right-img"
+        src="@/assets/mypage_smile2.png"
+        alt=""
+      />
     </div>
 
     <div class="black-bg box-sizing" v-if="modalOpen">
@@ -151,13 +161,29 @@ export default {
 }
 
 .profile-container {
-  margin: 30px 0;
+  position: relative;
+  margin-top: 30px;
+  padding: 0 60px;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   width: 100%;
-  height: 120px;
+  height: 130px;
   background: #fff9c8;
+}
+
+.profile-img {
+  position: absolute;
+}
+
+.left-img {
+  left: 0;
+  bottom: 0;
+}
+
+.right-img {
+  right: 0;
+  top: 0;
 }
 
 .avatar {
@@ -165,10 +191,23 @@ export default {
   height: 80px;
 }
 
-.my-name-mbti {
+.my-info {
   display: flex;
   flex-direction: column;
   font-size: 20px;
+  gap: 5px;
+}
+
+.name {
+  font-weight: 500;
+}
+
+.mbti {
+  padding: 5px 16px;
+  color: #fff;
+  font-weight: 500;
+  background-color: #f59607;
+  border-radius: 20px;
 }
 
 .black-bg {
@@ -254,13 +293,15 @@ export default {
 
 .question-subtitle {
   margin: 0;
-  margin-bottom: 5px;
+  margin-bottom: 0;
   color: #999999;
+  font-size: 14px;
 }
 
 .question-title {
   margin: 0;
   margin-bottom: 25px;
+  font-size: 18px;
 }
 
 .question-btn {
