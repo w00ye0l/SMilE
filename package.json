@@ -19,9 +19,12 @@
     "swiper": "^9.0.5",
     "v-calendar": "^3.0.0-alpha.8",
     "vue": "^3.2.13",
+    "vue-cookies": "^1.8.3",
     "vue-router": "^4.0.3",
     "vue-simple-search-dropdown": "^1.0.1",
-    "vuex": "^4.0.0"
+    "vue3-cookies": "^1.0.6",
+    "vuex": "^4.0.0",
+    "vuex-persistedstate": "^4.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
