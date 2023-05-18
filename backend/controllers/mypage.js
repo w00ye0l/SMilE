@@ -6,10 +6,11 @@ const User = require('../models/user');
 exports.myProfile = async (req, res, next) => { 
   try{  
     const user = await User.findOne({
-      // where: { id: req.params.id }
+      where: { id: req.user.id }, // 현재 로그인한 사용자의 ID를 조회
+      attributes: { exclude: ['password'] } // 비밀번호를 제외한 다른 속성만 선택
     });
 
-    res.send(req.user);
+    res.send(user);
     } catch(err){
       console.error(err);
       console.log("데이터 조회 실패");
