@@ -15,8 +15,7 @@ export default createStore({
     messages: [
       {
         name: "ENFJ",
-        content:
-          "오늘은 날씨가 좋네요 내일 뭐하시나요?ads.ads.ads.ads.d.as.dsa..........dsa.adsdas.ads.dsa.ads.dsa.ads.dasajojaqwjejewlkjwlkqejlkjawlkdjawlkdjawjkadsjldjakjdkasjdkasjdaskjaskjdkjalsdasjkladjklajsldkjaslkdjasjdlkasjdalksjdlaksjdlkasjdaslkj",
+        content: "오늘은 날씨가 좋네요 내일 뭐하시나요?",
         date: "2022/02/16 14:36",
       },
       {
@@ -164,7 +163,7 @@ export default createStore({
 
     SET_SELECTED_MBTI(state, mbti) {
       state.selectMBTI = mbti;
-
+    },
     SET_NICKNAME(state, nickname) {
       state.mypage.nickname = nickname;
     },
