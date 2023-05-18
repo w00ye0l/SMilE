@@ -55,8 +55,13 @@
 
 <script>
 import axios from "axios";
+import { useCookies } from "vue3-cookies";
 
 export default {
+  setup() {
+    const { cookies } = useCookies();
+    return { cookies };
+  },
   data() {
     return {
       email: "",
@@ -84,8 +89,8 @@ export default {
           })
           // eslint-disable-next-line
           .then((res) => {
-            console.log("login");
-            this.$router.push("/mypage");
+            this.cookies.set("id", res.data.id);
+            this.$store.dispatch("getData");
           })
           .catch((error) => {
             console.log("not login");
@@ -98,10 +103,6 @@ export default {
             }
           });
       }
-      // axios
-      //   .get("/mypage")
-      //   // eslint-disable-next-line
-      //   .then((res) => {});
     },
   },
 };
