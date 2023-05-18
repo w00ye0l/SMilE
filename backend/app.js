@@ -23,6 +23,7 @@ const pageRouter = require('./routes/pages');
 const authRouter = require('./routes/auth');
 const mypageRouter = require('./routes/mypage');
 const groupRouter = require('./routes/group');
+const guestRouter = require('./routes/guest');
 
 sequelize.sync({ force: false })
   .then(() => {
@@ -69,6 +70,7 @@ app.use('/', pageRouter);
 app.use('/auth', authRouter);
 app.use('/mypage', mypageRouter);
 app.use('/group', groupRouter);
+app.use('/guest', guestRouter);
 
 // 일부러 에러 발생시키기 TEST용
 app.use((req, res, next) => {

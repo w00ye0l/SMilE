@@ -2,14 +2,14 @@ const Group = require('../models/group');
 const User = require('../models/user');
 
 // group 생성
-exports.create = (req, res, next) => {
-  const { name, userID } = req.body; 
+exports.create = async (req, res, next) => {
+  console.log('group',req.body);
   try {
-    Group.create({
-      name: name,
-      userID: userID 
+    await Group.create({
+      name: req.body.name,
+      userID: req.user.id
     });
-    console.log('groupin');
+    res.send(req.body);
   } catch (error) {
     console.error(error);
     return next(error);
@@ -19,13 +19,15 @@ exports.create = (req, res, next) => {
 
 // 전체 group 조회
 exports.index = async (req, res, next) => {
+  const user = req.user;
   try {
     const groups = await Group.findAll({
-      include: [{
-        model: User
-      }]
+      where : {
+        userID : user.id,
+      }
     });
     console.log(groups);
+    res.send(groups);
   } catch (error) {
     console.error(error);
     return next(error);
@@ -37,12 +39,13 @@ exports.index = async (req, res, next) => {
 exports.read = async (req, res, next) => {
   try {
     const groups = await Group.findOne({
-      include: [{
-        model: User
-      }],
-      where: { id: req.params.id }
-    })
-    console.log(groups.id, groups.name, groups.userID);
+      where: { 
+        id: req.params.id,
+        userID : req.user.id
+      }
+    });
+    console.log(groups);
+    res.send(groups);
   } catch (error) {
     console.error(error);
     return next(error);
@@ -51,14 +54,17 @@ exports.read = async (req, res, next) => {
 };
 
 // group 수정
-exports.update =  (req, res, next) => {
-  const { name } = req.body;
+exports.update = async (req, res, next) => {
   try {
-    Group.update({
-      name: name,
+    await Group.update({
+      name: req.body.name,
     },{
-      where: { id: req.params.id }, // url에 포함된 정보를 가져올 때는 params에서 가져옴
-    })
+      where: { 
+        id: req.params.id,
+        userID : req.user.id
+      }
+      // where: { id: req.params.id }, // url에 포함된 정보를 가져올 때는 params에서 가져옴
+    });
   } catch (error) {
     console.error(error);
     return next(error);
@@ -66,11 +72,15 @@ exports.update =  (req, res, next) => {
   res.end();
 };
 
+
 // group 삭제
-exports.remove = (req, res, next) => {
+exports.remove = async (req, res, next) => {
   try {
-    Group.destroy({ 
-      where: { id: req.params.id },
+    await Group.destroy({ 
+      where: { 
+        id: req.params.id,
+        userID : req.user.id
+      },
       truncate: false,
     });
   } catch (error) {
