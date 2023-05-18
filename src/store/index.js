@@ -161,6 +161,10 @@ export default createStore({
     SET_SELECTED_MESSAGE(state, message) {
       state.selectedMessage = message;
     },
+
+    SET_SELECTED_MBTI(state, mbti) {
+      state.selectMBTI = mbti;
+
     SET_NICKNAME(state, nickname) {
       state.mypage.nickname = nickname;
     },

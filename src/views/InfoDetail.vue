@@ -3,7 +3,7 @@
     <div class="head"></div>
     <div v-if="group" class="body-color">
       <span class="circle"></span>
-      <p class="name">{{ group.name }}</p>
+      <span class="name">{{ group.name }}</span>
       <span class="mbti">MBTI</span>
       <div class="type-container">
         <div @click="selectMBti" class="select">
@@ -102,7 +102,7 @@ export default {
       this.$router.push({ path: "/mbti" });
     },
     docMove(mbti) {
-      this.$store.state.selectMBti = mbti;
+      this.$store.commit("SET_SELECTED_MBTI", mbti);
       this.$router.push({
         path: "/doc",
         query: {
@@ -124,16 +124,17 @@ export default {
 </script>
 <style scoped>
 .head {
-  height: 100px;
+  height: 70px;
 }
 .body-color {
-  height: 88.5vh;
+  height: 83.4vh;
   background-color: #fff9c8;
+  position: relative;
 }
 
 .name {
   font-size: 20px;
-  padding-top: 50px;
+  padding-top: 55px;
   font-weight: bold;
   display: flex;
   justify-content: center;
@@ -144,7 +145,7 @@ export default {
   height: 100px;
   border-radius: 50%;
   left: 38%;
-  top: 7.5%;
+  top: -6.5%;
   background-color: #ffd338;
   position: absolute;
 }
