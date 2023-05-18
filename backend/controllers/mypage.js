@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/user');
 
 // 마이페이지
-exports.myprofile = async (req, res, next) => { 
+exports.myProfile = async (req, res, next) => { 
   try{  
     const user = await User.findOne({
       // where: { id: req.params.id }
@@ -31,8 +31,38 @@ exports.myprofile = async (req, res, next) => {
 //   res.end();
 // };
 
+// 회원정보 수정
+exports.updateProfile = async (req, res, next) => {
+  const { nickname, email, birthday, gender, mbti1, mbti2, mbti3, mbti4, image } = req.body;
+  try {
+    // 현재 로그인한 사용자의 정보 가져오기
+    const user = await User.findOne({ where: { id: req.user.id } });
+    if (!user) {
+      return res.status(404).json({ message: '로그인한 사용자가 아닙니다!' });
+    }
+
+    // 회원 정보 업데이트
+    user.nickname = nickname;
+    user.email = email;
+    user.birthday = birthday;
+    user.gender = gender;
+    user.mbti1 = mbti1;
+    user.mbti2 = mbti2;
+    user.mbti3 = mbti3;
+    user.mbti4 = mbti4;
+    user.image = image;
+
+    await user.save();
+
+    res.send(user);
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+};
+
 // 비밀번호 변경
-exports.changePW = async (req, res, next) => {
+exports.editPW = async (req, res, next) => {
   const { currentPassword, newPassword, confirmPassword } = req.body;
 
   try {
@@ -40,18 +70,18 @@ exports.changePW = async (req, res, next) => {
     const user = await User.findOne({ where: { id: req.user.id } });
 
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: '로그인한 사용자가 아닙니다!' });
     }
 
     // 현재 비밀번호 확인
     const isMatch = await bcrypt.compare(currentPassword, user.password);
     if (!isMatch) {
-      return res.status(401).json({ message: 'Invalid current password' });
+      return res.status(401).json({ message: '비밀번호가 일치하지 않습니다.' });
     }
 
     // 새로운 비밀번호 확인
     if (newPassword !== confirmPassword) {
-      return res.status(400).json({ message: 'New passwords do not match' });
+      return res.status(400).json({ message: '새 비밀번호가 일치하지 않습니다.' });
     }
 
     // 새로운 비밀번호 해시화
