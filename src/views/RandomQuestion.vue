@@ -99,12 +99,12 @@ export default {
 
     pageLink() {
       if (
-        this.mbti1 === "_" ||
-        this.mbti2 === "_" ||
-        this.mbti3 === "_" ||
-        this.mbti4 === "_"
+        this.mbti1 === "" &&
+        this.mbti2 === "" &&
+        this.mbti3 === "" &&
+        this.mbti4 === ""
       ) {
-        alert("MBTI를 선택해주세요");
+        alert("적어도 하나의 MBTI를 선택해주세요");
         console.log(this.totalMbti);
       } else {
         this.$store.state.totalMbti = this.totalMbti;

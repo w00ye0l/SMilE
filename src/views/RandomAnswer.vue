@@ -29,8 +29,10 @@ export default {
       return this.$store.getters.MESSAGES;
     },
     filterMessages() {
-      return this.messages.filter(
-        (item) => item.name === this.$store.state.totalMbti
+      return this.messages.filter((item) =>
+        item.name
+          .split("")
+          .some((char) => this.$store.state.totalMbti.includes(char))
       );
     },
   },
