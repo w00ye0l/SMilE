@@ -1,6 +1,7 @@
 import { createStore } from "vuex";
 import axios from "axios";
 import router from "../router/index.js";
+import createPersistedState from "vuex-persistedstate";
 
 export default createStore({
   state: {
@@ -211,4 +212,9 @@ export default createStore({
     },
   },
   modules: {},
+  plugins: [
+    createPersistedState({
+      storage: window.sessionStorage,
+    }),
+  ],
 });
