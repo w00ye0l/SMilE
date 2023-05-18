@@ -63,7 +63,7 @@ export default {
     },
     toAddInfo(groupId, groupItem) {
       this.$router.push({
-        name: "infodetail",
+        name: "detail",
         query: {
           groupId,
           groupItem: JSON.stringify(groupItem),
