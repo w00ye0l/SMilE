@@ -14,7 +14,7 @@ exports.signup = async (req, res, next) => {
     // 이메일 중복 가입 방지
     const exUser = await User.findOne({ where: { email } });
     if (exUser) {
-      return res.status(409).json({ message: '이미 존재하는 이메일입니다.' });
+      return res.status(409).json({ message: "이미 존재하는 이메일입니다." });
     } else {
       // 정상적인 회원가입 절차면 해시화
       const hashedPassword = await bcrypt.hash(password, 12);
@@ -49,29 +49,20 @@ exports.login = async (req, res, next) => {
       console.error(authError);
       return next(authError); // 에러처리 미들웨어로 보낸다.
     }
+
     if (!user) {
       return res.status(400).json({ message: "비밀번호가 일치하지 않습니다." });
     }
+
     return req.login(user, (loginError) => {
-      // const user = req.user
-      // const accessToken = jwt.sign( { id: user.email } , process.env.JWT_SECRET, {
-      //     expiresIn: process.env.JWT_EXPIRES_IN
-      //   });
-      // const token = { access_token: accessToken }
-      // res.cookie('token', token,
-      // { httpOnly: true,
-      //   maxAge: 30 * 24 * 60 * 60 * 1000 ,
-      //   secure: true,
-      //   domain: 'localhost',
-      //   credentials: true,
-      //   signed: true });
-      // // err(res, 200, '', token)
       if (loginError) {
         console.error(loginError);
         return next(loginError);
       }
+      const userData = JSON.parse(JSON.stringify(user));
+      delete userData.password;
       console.log("login success");
-      res.send(req.user);
+      res.send(userData);
     });
   })(req, res, next); // 미들웨어 내의 미들웨어에는 (req, res, next)를 붙입니다.
 };
@@ -86,15 +77,28 @@ exports.logout = (req, res) => {
 };
 
 // 회원탈퇴
-exports.remove = (req, res, next) => {
+exports.remove = async (req, res, next) => {
+  const logInUser = req.user.id; // 로그인한 사용자의 ID
   try {
-    User.destroy({
+    const user = await User.findOne({ where: { id: req.params.id } });
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ message: "해당 사용자를 찾을 수 없습니다." });
+    }
+
+    if (user.id !== logInUser) {
+      return res.status(403).json({ message: "권한이 없습니다." });
+    }
+    await User.destroy({
       where: { id: req.params.id },
       truncate: false,
     });
+
+    res.end();
   } catch (error) {
     console.error(error);
     return next(error);
   }
-  res.end();
 };
