@@ -62,7 +62,7 @@
 
     <div class="content-container">
       <h3 class="content-title">MBTI 기록하기</h3>
-      <router-link class="content-detail" to="/savingmbti">
+      <router-link class="content-detail" to="/mbti">
         <div class="content-imgBox">
           <img class="content-img" src="@/assets/saveMbti.png" alt="" />
         </div>
@@ -91,18 +91,13 @@
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
   data() {
     return {
       modalOpen: false,
-      nickname: "",
-      mbti: "",
+      nickname: this.$store.state.mypage.nickname,
+      mbti: this.$store.state.mypage.mbti,
     };
-  },
-  mounted() {
-    this.getData();
   },
   methods: {
     openModal() {
@@ -113,22 +108,6 @@ export default {
     },
     pageLink() {
       this.$router.push({ path: "messagebox" });
-    },
-    async getData() {
-      await axios
-        .get("/mypage", {
-          withCredentials: true,
-        })
-        .then((res) => {
-          console.log(res);
-          console.log(res.data.nickname);
-          this.nickname = res.data.nickname;
-          this.mbti =
-            res.data.mbti1 + res.data.mbti2 + res.data.mbti3 + res.data.mbti4;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
     },
   },
   computed: {
