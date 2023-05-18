@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
+import { useCookies } from "vue3-cookies";
 
 const routes = [
   {
@@ -45,6 +46,7 @@ const routes = [
     path: "/mypage",
     name: "mypage",
     component: () => import("../views/MyPage.vue"),
+    beforeEnter: requireAuth,
   },
   {
     path: "/randomanswer",
@@ -88,5 +90,16 @@ const router = createRouter({
   routes,
   linkActiveClass: "route-active",
 });
+
+function requireAuth(to, from, next) {
+  const { cookies } = useCookies();
+  // console.log("id", cookies.get("id"));
+  if (cookies.get("id")) {
+    next();
+  } else {
+    // console.log("none");
+    next("login");
+  }
+}
 
 export default router;
