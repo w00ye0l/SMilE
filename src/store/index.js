@@ -1,16 +1,16 @@
 import { createStore } from "vuex";
+import axios from "axios";
+import router from "../router/index.js";
 
 export default createStore({
   state: {
     selectMBTI: "",
     totalMbti: "",
     events: [],
-    mypage: [
-      {
-        nickname: "카페모카",
-        mbti: "INFP",
-      },
-    ],
+    mypage: {
+      nickname: "",
+      mbti: "",
+    },
     messages: [
       {
         name: "ENFJ",
@@ -155,6 +155,12 @@ export default createStore({
     SET_SELECTED_MESSAGE(state, message) {
       state.selectedMessage = message;
     },
+    SET_NICKNAME(state, nickname) {
+      state.mypage.nickname = nickname;
+    },
+    SET_MBTI(state, mbti) {
+      state.mypage.mbti = mbti;
+    },
   },
   actions: {
     addGroup({ commit }, payload) {
@@ -183,6 +189,25 @@ export default createStore({
     },
     removeFromMbtiComplete({ commit }, key) {
       commit("REMOVE_FROM_MBTI_COMPLETE", key);
+    },
+    getData({ commit }) {
+      console.log("getData Actions");
+      axios
+        .get("/mypage", {
+          withCredentials: true,
+        })
+        .then((res) => {
+          commit("SET_NICKNAME", res.data.nickname);
+          commit(
+            "SET_MBTI",
+            res.data.mbti1 + res.data.mbti2 + res.data.mbti3 + res.data.mbti4
+          );
+          console.log(this.state.mypage);
+        })
+        .then(() => router.push("/mypage"))
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
   modules: {},
