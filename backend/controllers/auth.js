@@ -14,8 +14,7 @@ exports.signup = async (req, res, next) => {
     // 이메일 중복 가입 방지
     const exUser = await User.findOne({ where: { email } });
     if (exUser) {
-      console.log("signup");
-      return next();
+      return res.status(409).json({ message: '이미 존재하는 이메일입니다.' });
     } else {
       // 정상적인 회원가입 절차면 해시화
       const hashedPassword = await bcrypt.hash(password, 12);
