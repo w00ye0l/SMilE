@@ -102,7 +102,7 @@ export default {
       this.$router.push({ path: "/mbti" });
     },
     docMove(mbti) {
-      this.$store.state.selectMBti = mbti;
+      this.$store.commit("SET_SELECTED_MBTI", mbti);
       this.$router.push({
         path: "/doc",
         query: {
