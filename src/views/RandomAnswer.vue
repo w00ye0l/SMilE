@@ -28,6 +28,9 @@ export default {
     messages() {
       return this.$store.getters.MESSAGES;
     },
+    message() {
+      return this.$store.state.message;
+    },
     filterMessages() {
       return this.messages.filter((item) =>
         item.name
@@ -36,15 +39,15 @@ export default {
       );
     },
   },
-  data() {
-    return {
-      message: "Q.친구가 기분이 안좋아서 화분을 샀다고 했다. 이때 나의 대답은?",
-    };
-  },
+  data() {},
   methods: {
     selectMessage(message) {
+      console.log(message.name);
       this.$store.commit("SET_SELECTED_MESSAGE", message);
-      this.$router.push({ name: "randomanswerdetail" });
+      this.$router.push({
+        name: "randomanswerdetail",
+        params: { name: message.name },
+      });
     },
   },
 };

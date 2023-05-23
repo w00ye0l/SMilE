@@ -15,7 +15,7 @@ export default createStore({
     messages: [
       {
         name: "ENFJ",
-        content: "오늘은 날씨가 좋네요 내일 뭐하시나요?",
+        content: "오늘은 날씨가 좋네요 내일 뭐하시나요?asassaasasasasasas",
         date: "2022/02/16 14:36",
       },
       {
@@ -37,6 +37,11 @@ export default createStore({
         name: "ENFJ",
         content: "오늘은 피곤하네요",
         date: "2022/02/16 14:36",
+      },
+      {
+        name: "INFJ",
+        content: "내일은 날씨가 흐립니다 내일은 어떨 거 같나요",
+        date: "2022/02/15 15:10",
       },
     ],
     memos: [],
@@ -69,6 +74,9 @@ export default createStore({
       { name: "ISFP" },
     ],
     selectMessage: "",
+    message: "Q. 친구가 기분이 안좋아서 화분을 샀다. 나의 대답은?..",
+    newComment: "",
+    comments: [],
   },
   getters: {
     EVENTS: (state) => state.events,
@@ -169,6 +177,12 @@ export default createStore({
     },
     SET_MBTI(state, mbti) {
       state.mypage.mbti = mbti;
+    },
+    UPDATE_NEW_COMMENT(state, payload) {
+      state.newComment = payload;
+    },
+    ADD_COMMENT(state, payload) {
+      state.comments.push(payload);
     },
   },
   actions: {
