@@ -20,18 +20,18 @@ const routes = [
   {
     path: "/mbti",
     name: "mbti",
-    component: () => import("../views/MbtiSave.vue"),
+    component: () => import("../views/MbtiView.vue"),
     props: true,
   },
   {
     path: "/mbti/addGroup",
     name: "addgroup",
-    component: () => import("../views/GroupAdd.vue"),
+    component: () => import("../views/GroupView.vue"),
   },
   {
     path: "/mbti/addMbti",
     name: "addinfo",
-    component: () => import("../views/AddInfo.vue"),
+    component: () => import("../views/AddMbtiView.vue"),
   },
   {
     path: "/mbti/detail",

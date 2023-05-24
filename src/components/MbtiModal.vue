@@ -1,22 +1,20 @@
 <template>
-  <div class="black-bg box-sizing">
+  <div class="black-bg" @click.self="$emit('close')">
     <div class="white-bg">
       <div class="radio-button-control">
         <input
           type="radio"
-          :model="radioValues"
-          value="그룹추가"
+          id="그룹추가"
           class="radio-button"
           @click="pageLink"
         />
         <label for="그룹추가" class="radio-name">그룹추가</label>
       </div>
-      <br />
+
       <div class="radio-button-control">
         <input
           type="radio"
-          :model="radioValues"
-          value="MBTI 정보 추가"
+          id="MBTI 정보 추가"
           class="radio-button"
           @click="mbtiLink"
         />
@@ -25,12 +23,14 @@
     </div>
   </div>
 </template>
+
 <script>
 export default {
   props: {
     groups: {
       type: Array,
       required: true,
+      close: Function,
     },
   },
   data() {
@@ -52,11 +52,8 @@ export default {
   },
 };
 </script>
-<style scoped>
-.box-sizing {
-  box-sizing: border-box;
-}
 
+<style scoped>
 .black-bg {
   width: 100vw;
   height: 100vh;
@@ -68,30 +65,31 @@ export default {
 }
 
 .white-bg {
-  width: 90vw;
-  background: white;
   position: absolute;
-  bottom: 90px;
-  border-radius: 15px;
-  padding: 20px;
+  bottom: 100px;
+  padding: 35px 20px;
+  width: 90vw;
   height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: white;
+  border-radius: 15px;
 }
 
 .radio-button-control {
   display: flex;
-  justify-content: left;
-  margin: 10px 0 5px 0;
   align-items: center;
 }
 
 .radio-name {
-  font-size: 17px;
   margin-left: 10px;
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 500;
 }
 
 .radio-button {
-  width: 17px;
-  height: 17px;
+  width: 18px;
+  height: 18px;
 }
 </style>
