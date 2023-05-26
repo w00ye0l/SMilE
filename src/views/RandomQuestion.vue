@@ -4,7 +4,7 @@
     <div class="question">
       <span class="letter">{{ message }}</span>
     </div>
-    <div class="my-answer">
+    <form @submit.prevent="submitForm" class="my-answer">
       <h3 class="second-title">나의 답변</h3>
       <div class="memo-box">
         <textarea
@@ -18,7 +18,7 @@
       <div class="btn-control">
         <button class="btn" @click="completed()">작성 완료</button>
       </div>
-    </div>
+    </form>
     <div class="other-answer">
       <h3 class="third-title">다른 사람들의 답변</h3>
       <div class="type-container">
@@ -207,13 +207,13 @@ export default {
 
 .second-title {
   display: flex;
-  padding: 0 50px 0 55px;
-  margin-bottom: 0;
+  padding: 0 50px 0 45px;
+  margin-bottom: 5px;
 }
 
 .memo-box {
   width: 80vw;
-  margin: 10px 0 15px 0;
+  margin: 10px 0 18px 0;
   border-radius: 20px;
   border: none;
   box-shadow: 0px 1.5px 0px 1.5px #d3d3d3;
@@ -252,7 +252,7 @@ export default {
 
 .third-title {
   display: flex;
-  padding: 10px 50px 0 45px;
+  padding: 20px 50px 0 45px;
 }
 
 .type-container {
