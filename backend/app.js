@@ -24,6 +24,7 @@ const authRouter = require('./routes/auth');
 const mypageRouter = require('./routes/mypage');
 const groupRouter = require('./routes/group');
 const guestRouter = require('./routes/guest');
+const randomRouter = require('./routes/random');
 
 sequelize.sync({ force: false })
   .then(() => {
@@ -44,6 +45,7 @@ app.use(cors({  // front 서버인 127.0.0.1:8080 의 요청을 허용하도록 
 // app.set('views', path.join(__dirname, 'views'));
 // // console.log(__dirname)
 // app.use(express.static(publicDirectory));
+app.use('/uploads', express.static('uploads'));
 
 app.use(morgan('dev')); // log
 app.use(express.static(path.join(__dirname, 'public'))); // 요청시 기본 경로 설정
@@ -71,6 +73,7 @@ app.use('/auth', authRouter);
 app.use('/mypage', mypageRouter);
 app.use('/group', groupRouter);
 app.use('/guest', guestRouter);
+app.use('/random', randomRouter);
 
 // 일부러 에러 발생시키기 TEST용
 app.use((req, res, next) => {
