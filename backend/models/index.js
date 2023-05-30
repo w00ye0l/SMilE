@@ -4,6 +4,8 @@ const Sequelize = require('sequelize');
 const User = require('./user')
 const Group = require('./group');
 const Guest = require('./guest');
+const Question = require('./question');
+const Answer = require('./answer');
 
 const env = process.env.NODE_ENV || 'development';
 
@@ -16,6 +18,7 @@ const config = require(__dirname + '/../config/config.json')[env];
 const db = {};
 
 const sequelize = new Sequelize(config.database, config.username, config.password, config)
+// sequelize.options.logging = false;
 
 // fs
 //   .readdirSync(__dirname)
@@ -44,16 +47,22 @@ db.sequelize = sequelize;
 db.User = User;
 db.Group = Group;
 db.Guest = Guest;
+db.Question = Question;
+db.Answer = Answer;
 
 // 모델과 테이블 종합적인 연결이 설정
 User.initiate(sequelize); 
 Group.initiate(sequelize);
 Guest.initiate(sequelize);
+Question.initiate(sequelize);
+Answer.initiate(sequelize);
 
 // db객체 안에 있는 모델들 간의 관계가 설정된다.
 User.associate(db);
 Group.associate(db);
 Guest.associate(db);
+Question.associate(db);
+Answer.associate(db);
 
 // 모듈로 꺼낸다.
 module.exports = db;
