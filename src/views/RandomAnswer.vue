@@ -2,45 +2,42 @@
   <div class="title background">
     <h2>{{ $store.state.totalMbti }}들의 답변</h2>
     <div class="question">
-      <span class="letter">{{ message }}</span>
+      <span class="letter">{{ this.message }}</span>
     </div>
-    <div
-      class="memo-box"
-      v-for="(item, index) in filterMessages"
-      :key="index"
-      @click="selectMessage(item)"
-    >
+    <div class="memo-box">
       <div class="img-title">
         <img :src="require(`@/assets/first_smile1.png`)" class="title-img" />
-        <span class="mbti"> {{ item.name }}</span>
+        <!-- <span class="mbti"> {{ item.name }}</span> -->
       </div>
       <br />
-      <div class="answer">
+      <!-- <div class="answer">
         {{ item.content }}
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
 export default {
-  computed: {
-    messages() {
-      return this.$store.getters.MESSAGES;
-    },
-    message() {
-      return this.$store.state.message;
-    },
-    filterMessages() {
-      return this.messages.filter((item) =>
-        item.name
-          .split("")
-          .some((char) => this.$store.state.totalMbti.includes(char))
-      );
-    },
+  mounted() {
+    this.getRandomMessage();
   },
-  data() {},
+  data() {
+    return {
+      message: "",
+    };
+  },
   methods: {
+    async getRandomMessage() {
+      await axios
+        .get("/random/question/", { withCredentials: true })
+        .then((res) => {
+          this.randomMessage = res.data;
+          this.message = this.randomMessage.question[0].question;
+          this.id = this.randomMessage.question[0].id;
+        });
+    },
     selectMessage(message) {
       console.log(message.name);
       this.$store.commit("SET_SELECTED_MESSAGE", message);
