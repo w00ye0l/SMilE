@@ -25,6 +25,7 @@ const mypageRouter = require('./routes/mypage');
 const groupRouter = require('./routes/group');
 const guestRouter = require('./routes/guest');
 const randomRouter = require('./routes/random');
+const answerRouter = require('./routes/answer');
 
 sequelize.sync({ force: false })
   .then(() => {
@@ -74,6 +75,7 @@ app.use('/mypage', mypageRouter);
 app.use('/group', groupRouter);
 app.use('/guest', guestRouter);
 app.use('/random', randomRouter);
+app.use('/answer', answerRouter);
 
 // 일부러 에러 발생시키기 TEST용
 app.use((req, res, next) => {
