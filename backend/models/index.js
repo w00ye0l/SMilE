@@ -18,6 +18,10 @@ const config = require(__dirname + '/../config/config.json')[env];
 const db = {};
 
 const sequelize = new Sequelize(config.database, config.username, config.password, config)
+// const Op = require('sequelize')
+// const operatorsAliases = {
+//     $eq: Sequelize.Op.eq
+// }
 // sequelize.options.logging = false;
 
 // fs
