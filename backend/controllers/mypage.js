@@ -44,7 +44,6 @@ exports.updateProfile = async (req, res, next) => {
 
     // 회원 정보 업데이트
     user.nickname = nickname;
-    user.email = email;
     user.birthday = birthday;
     user.gender = gender;
     user.mbti1 = mbti1;
