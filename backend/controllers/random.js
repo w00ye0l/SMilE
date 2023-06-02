@@ -5,9 +5,6 @@ const User = require("../models/user");
 const fs = require("fs");
 const Sequelize = require('sequelize');
 const { Op } = require('sequelize');
-const operatorsAliases = {
-  $eq: Sequelize.Op.eq
-};;
 
 let data; // data.json 파일을 저장할 변수
 let currentIdx = 0; // 현재 처리 중인 인덱스
@@ -136,31 +133,34 @@ exports.index = async (req, res, next) => {
 // mbti별 답변 조회
 exports.mbtiIndex = async (req, res, next) => {
   const questionID = req.params.id;
-  const { mbti1, mbti2, mbti3, mbti4 } = req.query;
-
+  // const { mbti1, mbti2, mbti3, mbti4 } = req.query;
+  const mbti1 = req.params.mbti1 || '';
+  const mbti2 = req.params.mbti2 || '';
+  const mbti3 = req.params.mbti3 || '';
+  const mbti4 = req.params.mbti4 || '';
   try {
     let mbtiInfo = {
-      questionID: questionID,
+      questionId: questionID,
     };
 
     if (mbti1) {
       mbtiInfo['$User.mbti1$'] = {
-        [Op.like]: `${mbti1}%`,
+        [Op.like]: `${mbti1.toLowerCase()}%`,
       };
     }
     if (mbti2) {
       mbtiInfo['$User.mbti2$'] = {
-        [Op.like]: `${mbti2}%`,
+        [Op.like]: `${mbti2.toLowerCase()}%`,
       };
     }
     if (mbti3) {
       mbtiInfo['$User.mbti3$'] = {
-        [Op.like]: `${mbti3}%`,
+        [Op.like]: `${mbti3.toLowerCase()}%`,
       };
     }
     if (mbti4) {
       mbtiInfo['$User.mbti4$'] = {
-        [Op.like]: `${mbti4}%`,
+        [Op.like]: `${mbti4.toLowerCase()}%`,
       };
     }
 
@@ -172,7 +172,14 @@ exports.mbtiIndex = async (req, res, next) => {
       },
     });
 
-    res.status(200).json(answers);
+    let url = `/random/${questionID}/`;
+
+    url += mbti1 ? mbti1.toLowerCase() : '_';
+    url += mbti2 ? mbti2.toLowerCase() : '_';
+    url += mbti3 ? mbti3.toLowerCase() : '_';
+    url += mbti4 ? mbti4.toLowerCase() : '_';
+    
+    res.status(200).json({ answers, url });
   } catch (error) {
     console.error(error);
     return next(error);

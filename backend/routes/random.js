@@ -16,9 +16,9 @@ router.get('/question', isLoggedIn, question);
 // 질문 한 개당 답변 전체 조회
 router.get('/index/:id', isLoggedIn, index);
 
-// GET /random/:questionid/mbti?mbti1=I&mbti2=T
+// GET /random/:questionid/i___
 // MBTI별 질문 조회
-router.get('/:id/mbti', isLoggedIn, mbtiIndex);
+router.get('/:id/mbti/:mbti1:mbti2:mbti3:mbti4', isLoggedIn, mbtiIndex);
 
 // 답변
 
