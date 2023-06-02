@@ -40,8 +40,8 @@
           <button
             v-for="(group, index) in groups"
             :key="index"
-            @click="selectGroup(group.name)"
-            :class="{ group, 'selected-group': selectedGroup === group.name }"
+            @click="selectGroup(group.id)"
+            :class="{ group, 'selected-group': selectedGroup === group.id }"
           >
             {{ group.name }}
           </button>
@@ -54,8 +54,8 @@
       </div>
 
       <div class="btn-container">
-        <button class="btn add-btn" @click="addLink">추가</button>
-        <button class="btn cancel-btn" @click="cancelLink">취소</button>
+        <button class="btn add-btn" @click="addGuest">추가</button>
+        <button class="btn cancel-btn" @click="goToBack">취소</button>
       </div>
     </div>
   </div>
@@ -72,7 +72,7 @@ export default {
       nameId: "",
       selectedMbti: "선택해주세요",
       memo: "",
-      selectedGroup: "",
+      selectedGroup: 0,
       groups: [],
     };
   },
@@ -98,27 +98,25 @@ export default {
         alert("MBTI를 선택해주세요.");
         return false;
       }
-      if (!this.memo.trim()) {
-        alert("메모를 입력해주세요.");
-        return false;
-      }
       if (this.selectedGroup === "") {
         alert("그룹을 선택해주세요.");
         return false;
       }
       return true;
     },
-    async addLink() {
+    async addGuest() {
       if (this.validateInput()) {
         const formData = {
           name: this.nameId,
           mbti: this.selectedMbti,
-          group: this.selectedGroup,
+          groupID: this.selectedGroup,
           memo: this.memo,
         };
         console.log(formData);
         await axios
-          .post("/guest/create", formData, { withCredentials: true })
+          .post(`/guest/${this.selectedGroup}/create`, formData, {
+            withCredentials: true,
+          })
           .then((res) => {
             console.log(res);
           })
@@ -128,7 +126,7 @@ export default {
         this.$router.push({ path: "/mbti" });
       }
     },
-    cancelLink() {
+    goToBack() {
       this.$router.push({ path: "/mbti" });
     },
     selectMBti() {
