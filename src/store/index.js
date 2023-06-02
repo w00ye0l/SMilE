@@ -50,6 +50,10 @@ export default createStore({
     newComment: "",
     comments: [],
     id: 0,
+    mbti1: "_",
+    mbti2: "_",
+    mbti3: "_",
+    mbti4: "_",
   },
   getters: {
     EVENTS: (state) => state.events,
@@ -126,6 +130,18 @@ export default createStore({
     },
     SET_ID(state, id) {
       state.id = id;
+    },
+    SET_MBTI1(state, mbti1) {
+      state.mbti1 = mbti1;
+    },
+    SET_MBTI2(state, mbti2) {
+      state.mbti2 = mbti2;
+    },
+    SET_MBTI3(state, mbti3) {
+      state.mbti3 = mbti3;
+    },
+    SET_MBTI4(state, mbti4) {
+      state.mbti4 = mbti4;
     },
   },
   actions: {
