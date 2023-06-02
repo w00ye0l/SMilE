@@ -11,18 +11,41 @@
       </div>
 
       <div class="group-box">
-        <div class="group-name" v-for="(group, index) in groups" :key="index">
+        <a
+          class="group-name"
+          v-for="(group, index) in groups"
+          :key="index"
+          :href="`#${group.name}`"
+        >
           {{ group.name }}
           <!-- <p class="group-text">{{ group.name }}</p> -->
-        </div>
+        </a>
       </div>
     </div>
 
-    <div class="friends-box">
-      <div class="friend-info" v-for="(guest, index) in mbti" :key="index">
-        <span class="profile-img"></span>
-        <span class="friend-name">{{ guest.name }}</span>
-        <span class="friend-mbti">{{ guest.mbti }}</span>
+    <div class="friends-container">
+      <div
+        class="friends-box"
+        v-for="(group, index) in groups"
+        :key="index"
+        :id="group.name"
+      >
+        <h2>{{ group.name }}</h2>
+        <div class="friends-list">
+          <div
+            class="friend-info"
+            v-for="(guest, index) in mbti.filter(
+              (guest) => guest.groupID === group.id
+            )"
+            :key="index"
+            v-bind="guest"
+            @click="goToDetail(guest)"
+          >
+            <div class="profile-img"></div>
+            <p class="friend-name">{{ guest.name }}</p>
+            <p class="friend-mbti">{{ guest.mbti }}</p>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -32,7 +55,7 @@
 
 <script>
 import axios from "axios";
-import { mapState } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import Modal from "@/components/MbtiModal.vue";
 
 export default {
@@ -41,30 +64,26 @@ export default {
   },
   data() {
     return {
-      radioValues: "",
       modal: false,
-      groups: [],
+      // groups: [],
       mbti: [],
+      guest: [],
     };
-  },
-  computed: {
-    ...mapState(["groupData"]),
-    filteredGroups() {
-      return this.groups.filter(
-        (group) =>
-          this.groupData[group.groupId] &&
-          this.groupData[group.groupId].length > 0
-      );
-    },
   },
   mounted() {
     this.getGroup();
     this.getMbti();
   },
+  computed: {
+    ...mapGetters({ groups: "GROUPS" }),
+  },
   methods: {
+    ...mapActions(["setGroups"]),
     async getGroup() {
       await axios.get("/group/index", { withCredentials: true }).then((res) => {
-        this.groups = res.data;
+        this.setGroups(res.data);
+        // this.groups = res.data;
+        console.log(this.groups);
       });
     },
     async getMbti() {
@@ -84,24 +103,25 @@ export default {
     modalClose() {
       this.modal = false;
     },
-    toAddInfo(groupId, groupItem) {
-      this.$router.push({
-        name: "detail",
-        query: {
-          groupId,
-          groupItem: JSON.stringify(groupItem),
-          mbti: groupItem.mbti,
-          memo: groupItem.memo,
-        },
-      });
+    goToDetail(guest) {
+      console.log(guest);
+      this.$store.commit("UPDATE_SELECT_GUEST", guest);
+      console.log(this.$store.state.selectGuest);
+      this.$router.push({ name: "detail" });
     },
   },
 };
 </script>
 
 <style scoped>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 .main-container {
-  height: calc(100vh - 80px);
+  margin-bottom: 80px;
+  height: calc(100% - 80px);
 }
 
 .title {
@@ -110,7 +130,6 @@ export default {
 }
 
 .group-container {
-  margin-bottom: 20px;
   padding: 10px 0;
   background-color: #fff9c8;
 }
@@ -122,6 +141,7 @@ export default {
 }
 
 .group-title {
+  margin: 20px 0;
   font-size: 20px;
 }
 
@@ -153,18 +173,36 @@ export default {
 
 .group-name {
   padding: 5px 20px;
+  color: #000;
+  text-decoration: none;
   background-color: #ffd338;
   border-radius: 20px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
   word-break: keep-all;
 }
 
+.friends-container {
+  padding: 15px 0;
+  height: calc(100vh - 341px);
+  overflow-x: auto;
+}
+
 .friends-box {
-  padding: 20px;
+  margin-bottom: 20px;
+  padding: 10px 20px;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: flex-start;
   flex-wrap: wrap;
+}
+
+.friends-list {
+  padding: 15px 5px;
+  display: flex;
+  width: 100%;
+  height: 100%;
   gap: 10px;
+  overflow-y: scroll;
 }
 
 .friend-info {
@@ -173,7 +211,7 @@ export default {
   justify-content: center;
   align-items: center;
   padding: 10px;
-  width: 80px;
+  min-width: 100px;
   border-radius: 20px;
   background-color: white;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
@@ -186,6 +224,13 @@ export default {
   justify-content: flex-start;
   border-radius: 50%;
   background-color: #fff9c8;
+}
+
+.friend-name {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .friend-mbti {
