@@ -1,23 +1,23 @@
 const express = require('express');
-const { index, read, create, update, remove } = require('../controllers/guest')
+const { index, read, create, update, remove } = require('../controllers/guest');
 
-const { isLoggedIn, isNotLoggedIn } = require('../middlewares');
+const { isLoggedIn } = require('../middlewares');
 
 const router = express.Router();
 
-// GET /group/index
+// GET /guest/index
 router.get('/index', isLoggedIn, index);
 
-// GET /group/read
+// GET /guest/read/:guestid
 router.get('/read/:id', isLoggedIn, read);
 
-// POST /group/create
-router.post('/create', isLoggedIn, create)
+// POST /guest/:groupid/create
+router.post('/:id/create', isLoggedIn, create)
 
-// PUT /group/update/:id
+// PUT /guest/update/:guestid
 router.put('/update/:id', isLoggedIn, update)
 
-// DELETE /group/delete/:id
+// DELETE /guest/delete/:guestid
 router.delete('/remove/:id', isLoggedIn, remove)
 
 module.exports = router;
