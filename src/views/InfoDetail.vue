@@ -1,82 +1,111 @@
 <template>
-  <div>
-    <div class="head"></div>
-    <div v-if="group" class="body-color">
-      <span class="circle"></span>
-      <span class="name">{{ group.name }}</span>
-      <span class="mbti">MBTI</span>
-      <div class="type-container">
-        <div @click="selectMBti" class="select">
-          <div class="selected">
-            <span class="selected-value">{{ this.mbti }}</span>
-            <img :src="require(`@/assets/arrow.png`)" class="arrow" />
-          </div>
-          <ul class="select-option" v-bind:class="{ active: selectMbti }">
-            <li
-              class="option"
-              v-for="(item, index) in selectList"
-              :key="index"
-              v-on:click="selectMbtiOption(item.name)"
-            >
-              {{ item.name }}
-            </li>
-          </ul>
+  <div class="main-container">
+    <div class="profile-box">
+      <div class="profile-img"></div>
+      <input class="profile-name" v-model="name" />
+    </div>
+
+    <div class="form-control">
+      <label class="form-label">MBTI</label>
+      <div class="selected-mbti" @click="selectMBti">
+        <div class="mbti-box">
+          <p>{{ mbti }}</p>
+          <img :src="require(`@/assets/Polygon.png`)" class="arrow" />
         </div>
+
+        <ul class="mbti-option" v-bind:class="{ active: selectMbti }">
+          <li
+            class="mbti"
+            v-for="(mbti, index) in mbtiList"
+            :key="index"
+            v-on:click="selectMbtiOption(mbti)"
+          >
+            {{ mbti }}
+          </li>
+        </ul>
       </div>
-      <span class="group">그룹</span>
-      <div class="btn-control">
-        <button class="family">{{ groupId }}</button>
+    </div>
+
+    <div class="form-control">
+      <label class="form-label">그룹</label>
+      <button class="group">
+        {{ groupName }}
+      </button>
+    </div>
+
+    <div class="form-control">
+      <label class="form-label">메모</label>
+      <textarea class="memo-box" v-model="memo"></textarea>
+    </div>
+
+    <div class="form-control">
+      <label class="form-label">이 MBTI는 어떨까?</label>
+      <div class="doc-btn-container">
+        <button class="doc-btn" @click="docMove(guest.mbti)">상대법</button>
+        <button class="doc-btn" @click="docMove(guest.mbti)">주의할 점</button>
+        <button class="doc-btn" @click="docMove(guest.mbti)">특징</button>
       </div>
-      <span class="memo">메모</span>
-      <div class="memo-box">
-        <br />
-        <textarea v-model="memo" class="text" placeholder="어저꾸 저저꾸">
-        </textarea>
-      </div>
-      <span class="group">이 MBTI는 어떨까?</span>
-      <div class="btn-control">
-        <button class="feature" @click="docMove(this.mbti)">상대법</button>
-        <button class="feature" @click="docMove(this.mbti)">주의할 점</button>
-        <button class="feature" @click="docMove(this.mbti)">특징</button>
-      </div>
-      <div class="add-cancel-control">
-        <button class="revise-btn" @click="modify()">수정</button>
-        <button class="cancel-btn" @click="pageLink()">닫기</button>
-      </div>
+    </div>
+
+    <div class="btn-container">
+      <button class="btn edit-btn" @click="editDetail" :disabled="changeDetail">
+        수정
+      </button>
+      <button class="btn cancel-btn" @click="closeDetail">닫기</button>
     </div>
   </div>
 </template>
+
 <script>
-import { mapMutations } from "vuex";
+import axios from "axios";
+
 export default {
-  props: ["groupId", "groupItem"],
   data() {
     return {
       selectMbti: false,
-      selected: "",
-      memo: "",
-      selectList: [
-        { name: "선택해주세요!", value: "" },
-        { name: "ESTJ", value: "a" },
-        { name: "ESTP", value: "b" },
-        { name: "ESFJ", value: "c" },
-        { name: "ESFP", value: "d" },
-        { name: "ENTJ", value: "e" },
-        { name: "ENTP", value: "f" },
-        { name: "ENFJ", value: "g" },
-        { name: "ENFP", value: "h" },
-        { name: "ISTJ", value: "i" },
-        { name: "ISTP", value: "j" },
-        { name: "ISFJ", value: "k" },
-        { name: "ISFP", value: "l" },
-        { name: "INTJ", value: "m" },
-        { name: "INTP", value: "n" },
-        { name: "INFJ", value: "o" },
-        { name: "INFP", value: "p" },
-      ],
-      group: null,
-      mbti: "",
+      name: this.$store.state.selectGuest.name,
+      mbti: this.$store.state.selectGuest.mbti,
+      groupID: this.$store.state.selectGuest.groupID,
+      memo: this.$store.state.selectGuest.memo,
+      changeDetail: true,
     };
+  },
+  computed: {
+    guest() {
+      return this.$store.state.selectGuest;
+    },
+    mbtiList() {
+      return this.$store.state.mbtiList;
+    },
+    groups() {
+      return this.$store.state.groups;
+    },
+    groupName() {
+      return this.groups.filter((obj) => obj["id"] === this.groupID)[0].name;
+    },
+  },
+  watch: {
+    name: function () {
+      if (this.guest.name !== this.name) {
+        this.changeDetail = false;
+      } else {
+        this.changeDetail = true;
+      }
+    },
+    mbti: function () {
+      if (this.guest.mbti !== this.mbti) {
+        this.changeDetail = false;
+      } else {
+        this.changeDetail = true;
+      }
+    },
+    memo: function () {
+      if (this.guest.memo !== this.memo) {
+        this.changeDetail = false;
+      } else {
+        this.changeDetail = true;
+      }
+    },
   },
   methods: {
     selectMBti() {
@@ -86,20 +115,8 @@ export default {
         this.selectMbti = true;
       }
     },
-    selectMbtiOption(option) {
-      this.mbti = option;
-    },
-    modify() {
-      this.updateGroupData({
-        groupId: this.groupId,
-        name: this.group.name,
-        mbti: this.mbti,
-        memo: this.memo,
-      });
-      this.$router.go(-1);
-    },
-    pageLink() {
-      this.$router.push({ path: "/mbti" });
+    selectMbtiOption(selectedMbti) {
+      this.mbti = selectedMbti;
     },
     docMove(mbti) {
       this.$store.commit("SET_SELECTED_MBTI", mbti);
@@ -110,205 +127,190 @@ export default {
         },
       });
     },
-    ...mapMutations(["updateGroupData"]),
-  },
-  mounted() {
-    this.group = JSON.parse(this.$route.query.groupItem);
-    this.mbti = this.$route.query.mbti;
-    this.memo = this.$route.query.memo;
-    this.selected = this.selectList.find(
-      (item) => item.name === this.mbti
-    ).value;
+    async editDetail() {
+      const formData = {
+        name: this.name,
+        mbti: this.mbti,
+        memo: this.memo,
+        groupID: this.groupID,
+      };
+
+      console.log(formData);
+
+      await axios
+        .put(`/guest/update/${this.guest.id}`, formData, {
+          withCredentials: true,
+        })
+        .then((res) => {
+          console.log(res);
+          this.$router.push({ name: "mbti" });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    closeDetail() {
+      this.$router.push({ name: "mbti" });
+    },
   },
 };
 </script>
+
 <style scoped>
-.head {
-  height: 70px;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-.body-color {
-  height: 83.4vh;
-  background-color: #fff9c8;
+
+.main-container {
   position: relative;
+  margin-bottom: 80px;
+  padding: 50px 20px;
+  height: calc(100vh - 80px);
+  background-color: #fff9c8;
 }
 
-.name {
-  font-size: 20px;
-  padding-top: 55px;
-  font-weight: bold;
+.profile-box {
+  margin-bottom: 30px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  gap: 10px;
 }
 
-.circle {
+.profile-img {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  left: 38%;
-  top: -6.5%;
+  border: 5px solid #fff;
   background-color: #ffd338;
-  position: absolute;
 }
 
-.mbti {
+.profile-name {
+  padding: 5px;
+  width: fit-content;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  border: 0;
+  border-radius: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+}
+
+.form-control {
+  margin-bottom: 40px;
   display: flex;
-  font-size: 17px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.form-label {
+  margin-bottom: 10px;
+  padding-left: 10px;
   font-weight: 600;
-  justify-content: left;
-  margin-left: 30px;
-  padding-top: 30px;
+  font-size: 18px;
 }
 
-.type-container {
-  padding: 15px 0;
-  display: flex;
-  align-items: center;
+.selected-mbti {
+  position: relative;
+  width: 100%;
 }
 
-.select-option {
-  padding: 10px 0 0 0;
-  list-style-type: none;
-  height: 240px;
-  width: 80vw;
-  overflow: hidden;
-  overflow-y: scroll;
-  border: 1px solid rgba(0, 0, 0, 0.3);
-  border-radius: 15px;
-  display: none;
-  position: absolute;
-  z-index: 10;
-  margin-left: 20px;
-}
-
-.select {
-  display: inline-block;
-  width: 90vw;
-  height: 50px;
-}
-
-.selected {
-  width: 90vw;
-  height: 45px;
-  margin-left: 20px;
+.mbti-box {
+  padding: 10px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+}
+
+.mbti-option {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 120%;
+  padding: 10px 0;
+  width: 100%;
+  height: 200px;
+  overflow-y: auto;
+  list-style-type: none;
+  border: 1px solid rgba(145, 145, 145, 0.3);
+  border-radius: 15px;
+  z-index: 10;
+  gap: 10px;
+}
+
+.active {
+  display: flex;
+}
+
+.mbti {
+  width: 90%;
+  padding: 10px 20px;
   font-weight: bold;
   background-color: white;
   border-radius: 20px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
 }
 
-.selected-value {
-  margin: 0 0 0 15px;
-}
-
-.arrow {
-  margin-right: 30px;
-}
-
-.active {
-  display: block;
-}
-
-.option {
-  margin: 2px 0 10px 20px;
-  width: 70vw;
-  height: 45px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: bold;
-  background-color: white;
-  border-radius: 20px;
-  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.25);
-}
-
 .group {
-  display: flex;
-  font-size: 17px;
-  font-weight: 600;
-  justify-content: left;
-  margin-left: 30px;
-  padding-top: 20px;
-}
-.btn-control {
-  display: flex;
-  justify-content: flex-start;
-}
-
-.family {
+  padding: 10px 20px;
   background-color: #ffd338;
-  width: 6rem;
-  height: 2.5rem;
-  border-radius: 1.7rem;
-  border: none;
-  margin: 1rem 0.8rem 0 1.5rem;
-  box-shadow: 0px 1.5px 0px 1.5px #d3d3d3;
-}
-
-.memo {
-  display: flex;
-  font-size: 17px;
-  font-weight: 600;
-  justify-content: left;
-  margin-left: 30px;
-  padding-top: 20px;
+  border-radius: 20px;
+  border: 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
 }
 
 .memo-box {
-  width: 90vw;
-  margin: 15px 0 15px 0;
+  padding: 20px;
+  width: 100%;
+  height: 120px;
   border-radius: 20px;
-  border: none;
-  box-shadow: 0px 1.5px 0px 1.5px #d3d3d3;
-  height: 12vh;
-  background-color: white;
-  display: inline-block;
-  white-space: pre-line;
+  border: 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
 }
 
-.text {
-  width: 80vw;
-  height: 8vh;
-  border: none;
-  margin-left: 10px;
-}
-
-.add-cancel-control {
-  margin-top: 20px;
+.doc-btn-container {
+  width: 100%;
   display: flex;
   justify-content: space-evenly;
 }
 
-.revise-btn {
+.doc-btn {
+  width: 6rem;
+  height: 2rem;
+  font-size: 14px;
+  background-color: #ffd338;
+  border-radius: 20px;
+  border: none;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+}
+
+.btn-container {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.btn {
   width: 100px;
   height: 40px;
-  border-radius: 18px;
+  border-radius: 20px;
+  font-size: 18px;
+}
+
+.edit-btn {
   border: none;
   background-color: #f59607;
-  margin-left: 50px;
-  font-size: 17px;
 }
 
 .cancel-btn {
-  width: 100px;
-  height: 40px;
-  border-radius: 18px;
-  border: none;
+  border: solid 1px #f59607;
   background-color: #ffffff;
-  margin-right: 50px;
-  font-size: 17px;
-}
-
-.feature {
-  background-color: #ffd338;
-  width: 6rem;
-  height: 2rem;
-  border-radius: 1.7rem;
-  border: none;
-  margin: 1rem 0 3rem 2rem;
-  box-shadow: 0px 1.5px 0px 1.5px #d3d3d3;
-  font-size: 15px;
 }
 </style>
