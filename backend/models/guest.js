@@ -11,15 +11,10 @@ class Guest extends Sequelize.Model {
         type: Sequelize.STRING(20),
         allowNull: false,
       },
-      group: {
-        type: Sequelize.STRING(20),
-        allowNull: false,
-      },
       memo: {
         type: Sequelize.STRING(20),
         allowNull: true,
       },
-
     }, {
       sequelize,
       timestamps: false,
