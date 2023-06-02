@@ -37,10 +37,6 @@ const routes = [
     path: "/mbti/detail",
     name: "detail",
     component: () => import("../views/InfoDetail.vue"),
-    props: (route) => ({
-      groupId: route.query.groupId,
-      groupItem: JSON.parse(route.query.groupItem),
-    }),
   },
   {
     path: "/mypage",

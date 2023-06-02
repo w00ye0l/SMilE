@@ -2,10 +2,16 @@
   <div class="main">
     <div class="title-container">
       <h1 class="title">프로필</h1>
-      <button class="setting-btn" @click="openModal">
-        <img :src="require('@/assets/Settings.png')" alt="" />
-      </button>
+      <div class="btn-container">
+        <button class="setting-btn" @click="openModal">
+          <img :src="require('@/assets/Settings.png')" alt="" />
+        </button>
+        <button class="logout-btn" @click="logout">
+          <img :src="require('@/assets/Logout.png')" alt="" />
+        </button>
+      </div>
     </div>
+
     <div class="profile-container">
       <img
         class="profile-img left-img"
@@ -24,40 +30,29 @@
       />
     </div>
 
-    <div class="black-bg box-sizing" v-if="modalOpen">
-      <div class="white-bg">
-        <form>
-          <div class="form-row">
-            <label for="profile-img" class="modal-font-size">
-              프로필 사진 변경
-            </label>
-            <input type="file" />
-          </div>
-          <div class="form-row">
-            <label for="current-pw" class="modal-font-size">
-              현재 비밀번호
-            </label>
-            <input type="password" id="current-pw" />
-          </div>
-          <div class="form-row">
-            <label for="new-pw" class="modal-font-size">새 비밀번호</label>
-            <input type="password" id="new-pw" />
-          </div>
-          <div class="form-row">
-            <label for="new-pw-confirm" class="modal-font-size">
-              새 비밀번호 확인
-            </label>
-            <input type="password" id="new-pw-confirm" />
-          </div>
-          <div class="form-actions">
-            <button type="submit" class="btn-save" @click="closeModal">
-              저장
-            </button>
-            <button type="button" class="btn-cancel" @click="closeModal">
-              취소
-            </button>
-          </div>
-        </form>
+    <div class="modal-background" v-if="modalOpen" @click.self="closeModal">
+      <div class="modal-body">
+        <div class="tab-list">
+          <p
+            class="tab"
+            :class="currentTab === 'Profile' ? 'active' : none"
+            v-on:click="currentTab = 'Profile'"
+          >
+            회원정보 변경
+          </p>
+          <p
+            class="tab"
+            :class="currentTab === 'Password' ? 'active' : none"
+            v-on:click="currentTab = 'Password'"
+          >
+            비밀번호 변경
+          </p>
+        </div>
+        <component
+          class="change-container"
+          :is="currentTab"
+          @closeModal="closeModal"
+        ></component>
       </div>
     </div>
 
@@ -101,13 +96,27 @@
 </template>
 
 <script>
+import axios from "axios";
+import { useCookies } from "vue3-cookies";
+import ChangeProfileVue from "@/components/ChangeProfile.vue";
+import ChangePasswordVue from "@/components/ChangePassword.vue";
+
 export default {
   data() {
     return {
       modalOpen: false,
       nickname: this.$store.state.mypage.nickname,
       mbti: this.$store.state.mypage.mbti,
+      currentTab: "Profile",
     };
+  },
+  setup() {
+    const { cookies } = useCookies();
+    return { cookies };
+  },
+  components: {
+    Profile: ChangeProfileVue,
+    Password: ChangePasswordVue,
   },
   methods: {
     openModal() {
@@ -116,22 +125,29 @@ export default {
     closeModal() {
       this.modalOpen = false;
     },
-    pageLink() {
-      this.$router.push({ path: "messagebox" });
-    },
-  },
-  computed: {
-    messageCount() {
-      return this.$store.getters.MESSAGE_COUNT;
+    async logout() {
+      await axios
+        .get("/auth/logout", { withCredentials: true })
+        .then((res) => {
+          this.cookies.remove("id");
+          console.log(res);
+          this.$router.push({ name: "home" });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };
 </script>
 
 <style scoped>
+.change-container {
+  height: 100%;
+}
+
 .main {
   width: 100%;
-  /* height: 110vh; */
 }
 
 .title-container {
@@ -145,19 +161,36 @@ export default {
   font-size: 24px;
 }
 
-.setting-btn {
+.btn-container {
   position: absolute;
+  top: 70%;
+  right: 0;
+  display: flex;
+  align-items: center;
+  transform: translate(-50%, -50%);
+  gap: 10px;
+}
+
+.setting-btn {
   display: flex;
   justify-content: center;
   align-items: center;
-  top: 70%;
-  right: 5%;
   width: 30px;
   height: 30px;
   background-color: #ffd338;
   border: 0;
   border-radius: 50%;
-  transform: translate(-50%, -50%);
+}
+
+.logout-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  background-color: #fff9c8;
+  border: 0;
+  border-radius: 50%;
 }
 
 .profile-container {
@@ -210,77 +243,42 @@ export default {
   border-radius: 20px;
 }
 
-.black-bg {
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
-  position: absolute;
+.modal-background {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   top: 0;
   left: 0;
   padding: 20px;
-}
-
-.white-bg {
-  width: 90vw;
-  background: white;
-  position: absolute;
-  bottom: 20px;
-  border-radius: 15px;
-  padding: 20px;
-  height: 55vh;
-  top: 150px;
-}
-
-.form-row {
-  margin-bottom: 20px;
-}
-
-.form-row label {
-  display: flex;
-  margin-bottom: 10px;
-  font-weight: bold;
-}
-
-.form-row input {
-  display: block;
   width: 100%;
-  padding: 10px;
-  border-radius: 7px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-  background-color: #f1f1f1;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
 }
 
-.form-actions {
+.modal-body {
+  padding: 20px;
+  width: 100%;
+  height: 70%;
+  background: white;
+  border-radius: 20px;
+}
+
+.tab-list {
   display: flex;
-  justify-content: center;
-  margin-top: 20px;
+  justify-content: space-evenly;
 }
 
-.btn-cancel {
-  padding: 10px 20px;
-  background-color: white;
-  color: #fff;
-  border-radius: 5px;
-  border: none;
-  cursor: pointer;
-  color: blue;
+.tab {
+  margin: 0;
+  width: fit-content;
 }
 
-.btn-save {
-  padding: 10px 20px;
-  background-color: white;
-  color: blue;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  margin-right: 10px;
-  width: 80px;
-}
-
-.modal-font-size {
-  font-size: 15px;
-  margin-top: 20px;
+.active {
+  padding-bottom: 1px;
+  color: #f59607;
+  border-bottom: 1px solid #f59607;
 }
 
 .question-container {
@@ -352,6 +350,8 @@ hr {
   align-items: center;
   width: 20vw;
   height: 20vw;
+  max-width: 100px;
+  max-height: 100px;
   border-radius: 50%;
   background-color: #fff9c8;
   box-sizing: border-box;
@@ -368,6 +368,6 @@ hr {
 }
 
 .go-content {
-  width: 8%;
+  max-width: 8%;
 }
 </style>

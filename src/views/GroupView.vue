@@ -28,13 +28,14 @@
       :button="button"
       :propGroupName="propGroupName"
       :propGroupId="groupId"
+      @updateGroups="getGroup"
     />
   </div>
 </template>
 
 <script>
 import GroupBtn from "@/components/GroupAddComponent.vue";
-import { mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import axios from "axios";
 
 export default {
@@ -49,18 +50,21 @@ export default {
       propGroupName: "",
       showOn: true,
       groupId: 0,
-      groups: [],
     };
   },
   mounted() {
     this.getGroup();
   },
+  computed: {
+    ...mapGetters({ groups: "GROUPS" }),
+  },
   methods: {
-    ...mapActions(["addGroup", "updateGroup", "removeGroup"]),
+    ...mapActions(["setGroups"]),
     async getGroup() {
       await axios.get("/group/index", { withCredentials: true }).then((res) => {
         console.log(res.data);
-        this.groups = res.data;
+        this.setGroups(res.data);
+        // this.groups = res.data;
       });
     },
     addBtn() {
@@ -84,6 +88,7 @@ export default {
           .delete(`/group/remove/${groupId}`, { withCredentials: true })
           .then((res) => {
             console.log(res);
+            this.getGroup();
           })
           .catch((err) => {
             console.log(err);

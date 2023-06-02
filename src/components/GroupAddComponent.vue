@@ -28,7 +28,7 @@ export default {
     button: String,
     propGroupName: String,
     propGroupId: Number,
-    getGroup: Function,
+    updateGroups: Function,
   },
   data() {
     return {
@@ -48,6 +48,7 @@ export default {
         .post("/group/create", formData, { withCredentials: true })
         .then((res) => {
           console.log(res);
+          this.$emit("updateGroups");
         })
         .catch((err) => {
           console.log(err);
@@ -63,6 +64,7 @@ export default {
         .put(`/group/update/${id}`, formData, { withCredentials: true })
         .then((res) => {
           console.log(res);
+          this.$emit("updateGroups");
         })
         .catch((err) => {
           console.log(err);

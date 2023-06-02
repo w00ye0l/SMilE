@@ -249,7 +249,7 @@ export default {
           .post("/auth/signup", formData)
           // eslint-disable-next-line
           .then((res) => {
-            this.$router.push("/login");
+            this.$router.push({ name: "login" });
           })
           .catch((error) => {
             console.log(formData);

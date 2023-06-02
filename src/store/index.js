@@ -10,6 +10,8 @@ export default createStore({
     events: [],
     mypage: {
       nickname: "",
+      birthday: "",
+      gender: "",
       mbti: "",
     },
     messages: [
@@ -48,6 +50,7 @@ export default createStore({
     answers: [],
     messageCount: 0,
     groups: [],
+    selectGuest: [],
     keys: 0,
     groupId: "",
     groupData: {},
@@ -83,6 +86,7 @@ export default createStore({
     MESSAGE_COUNT: (state) => state.messages.length,
     ANSWERS: (state) => state.answers,
     MESSAGES: (state) => state.messages,
+    GROUPS: (state) => state.groups,
   },
   mutations: {
     ADD_EVENT: (state, event) => {
@@ -99,52 +103,6 @@ export default createStore({
     },
     UPDATE_ANSWER(state, memo) {
       state.answers.push(memo);
-    },
-
-    ADD_GROUP(state, payload) {
-      state.groups[state.keys] = payload;
-      state.keys = state.groups.length;
-    },
-
-    UPDATE_GROUP(state, payload) {
-      state.groups[payload.key].groupId = payload.groupId;
-    },
-    REMOVE_GROUP(state, index) {
-      if (index > -1 && index < state.groups.length) {
-        state.groups.splice(index, 1);
-        state.keys--;
-      } else {
-        console.warn("Invalid index for removal:", index);
-      }
-    },
-
-    SET_GROUP_ID(state, payload) {
-      state.groupId = payload.value;
-      if (payload.key !== -1 && state.groups[payload.key]) {
-        state.groups[payload.key].groupId = payload.value;
-      }
-    },
-    ADD_GROUP_DATA(state, payload) {
-      if (!state.groupData[payload.groupId]) {
-        state.groupData[payload.groupId] = [];
-      }
-      state.groupData[payload.groupId].push(payload.data);
-    },
-    UPDATE_GROUP_DATA(state, payload) {
-      if (!state.groupData[payload.groupId]) {
-        state.groupData[payload.groupId] = [];
-      }
-      const groupIndex = state.groupData[payload.groupId].findIndex(
-        (item) => item.name === payload.name
-      );
-      if (groupIndex !== -1) {
-        if (payload.mbti) {
-          state.groupData[payload.groupId][groupIndex].mbti = payload.mbti;
-        }
-        if (payload.memo) {
-          state.groupData[payload.groupId][groupIndex].memo = payload.memo;
-        }
-      }
     },
     UPDATE_CONTENT(state, payload) {
       state.contents[payload.mbti] = payload.content;
@@ -175,6 +133,12 @@ export default createStore({
     SET_NICKNAME(state, nickname) {
       state.mypage.nickname = nickname;
     },
+    SET_BIRTHDAY(state, birthday) {
+      state.mypage.birthday = birthday;
+    },
+    SET_GENDER(state, gender) {
+      state.mypage.gender = gender;
+    },
     SET_MBTI(state, mbti) {
       state.mypage.mbti = mbti;
     },
@@ -184,20 +148,14 @@ export default createStore({
     ADD_COMMENT(state, payload) {
       state.comments.push(payload);
     },
+    SET_GROUPS(state, payload) {
+      state.groups = payload;
+    },
+    UPDATE_SELECT_GUEST(state, payload) {
+      state.selectGuest = payload;
+    },
   },
   actions: {
-    addGroup({ commit }, payload) {
-      commit("ADD_GROUP", { groupId: payload.groupId });
-    },
-    updateGroup({ commit }, payload) {
-      commit("UPDATE_GROUP", payload);
-    },
-    removeGroup({ commit }, payload) {
-      commit("REMOVE_GROUP", payload);
-    },
-    addGroupData({ commit }, payload) {
-      commit("ADD_GROUP_DATA", payload);
-    },
     updateContent({ commit }, content) {
       commit("UPDATE_CONTENT", content);
     },
@@ -214,13 +172,16 @@ export default createStore({
       commit("REMOVE_FROM_MBTI_COMPLETE", key);
     },
     getData({ commit }) {
-      console.log("getData Actions");
       axios
         .get("/mypage", {
           withCredentials: true,
         })
         .then((res) => {
+          console.log(res);
+          console.log(res.data.password);
           commit("SET_NICKNAME", res.data.nickname);
+          commit("SET_BIRTHDAY", res.data.birthday.slice(0, 10));
+          commit("SET_GENDER", res.data.gender);
           commit(
             "SET_MBTI",
             res.data.mbti1 + res.data.mbti2 + res.data.mbti3 + res.data.mbti4
@@ -231,6 +192,9 @@ export default createStore({
         .catch((err) => {
           console.log(err);
         });
+    },
+    setGroups({ commit }, payload) {
+      commit("SET_GROUPS", payload);
     },
   },
   modules: {},
