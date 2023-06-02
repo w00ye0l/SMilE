@@ -61,7 +61,6 @@ exports.login = async (req, res, next) => {
       }
       const userData = JSON.parse(JSON.stringify(user));
       delete userData.password;
-      console.log("login success");
       res.send(userData);
     });
   })(req, res, next); // 미들웨어 내의 미들웨어에는 (req, res, next)를 붙입니다.
@@ -71,9 +70,9 @@ exports.login = async (req, res, next) => {
 exports.logout = (req, res) => {
   req.logout(() => {
     req.session.destroy(); // passport 업데이트 이후 함수 안에 넣어야 실행됨
+    res.clearCookie('connect.sid'); // connect.sid 쿠키 삭제
+    res.send("로그아웃");
   });
-
-  res.end();
 };
 
 // 회원탈퇴
