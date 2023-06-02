@@ -94,11 +94,12 @@ export default {
   methods: {
     async getRandomMessage() {
       await axios
-        .get("/random/question/", { withCredentials: true })
+        .get("/random/question", { withCredentials: true })
         .then((res) => {
           this.randomMessage = res.data;
           this.message = this.randomMessage.question;
           this.$store.commit("SET_ID", this.randomMessage.id);
+          console.log(this.randomMessage);
         });
     },
     validComment() {
@@ -114,8 +115,9 @@ export default {
           questionID: this.$store.state.id,
           answer: this.memo,
         };
+        console.log(formData);
         await axios
-          .post(`/answer/${this.$store.state.id}/create`, formData, {
+          .post(`/random/answer/${this.$store.state.id}/create`, formData, {
             withCredentials: true,
           })
           .then((res) => {
