@@ -76,10 +76,11 @@ function getQuestion() {
 
 loadData();
 
+// */20 * * * * *
 // '0 0 12 * * *' 정각마다 바뀜
 
 // schedule 함수
-job = schedule.scheduleJob('*/20 * * * * *', async () => { // 20초마다 함수 실행(테스트용)
+job = schedule.scheduleJob('0 0 12 * * *', async () => {
   try {
     const question = await getQuestion();
 
@@ -100,14 +101,15 @@ exports.question = async (req, res, next) => {
 
     if (!latestQuestionDB) {
       console.log("더 이상 질문이 없습니다.");
-      return res.json({ question: latestQuestion });
+      return res.json({ question: latestQuestionDB.question, id: latestQuestionDB.id });
     }
 
-    latestQuestion = latestQuestionDB.question;
+    const latestQuestion = latestQuestionDB.question;
+    const latestQuestionId = latestQuestionDB.id;
 
     console.log("랜덤 질문이 선택되었습니다:", latestQuestion);
 
-    res.json({ question: latestQuestion });
+    res.json({ question: latestQuestion , id: latestQuestionId});
   } catch (error) {
     console.error("질문을 가져오는 동안 오류가 발생했습니다.", error);
     res.status(500).json({ error: "서버 오류" });

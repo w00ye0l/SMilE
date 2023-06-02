@@ -2,7 +2,7 @@ const Question = require("../models/question");
 const Answer = require("../models/answer");
 
 // Random 질문에 대한 답변 생성
-exports.create = async (req, res, next) => {
+exports.answerCreate = async (req, res, next) => {
   try {
     const { answer } = req.body;
     const questionID = req.params.id;
@@ -49,7 +49,7 @@ exports.create = async (req, res, next) => {
 };
 
 // Random 답변 id로 조회(상세 페이지)
-exports.read = async (req, res, next) => {
+exports.answerRead = async (req, res, next) => {
   try {
     const answer = await Answer.findOne({
       where: {
@@ -69,7 +69,7 @@ exports.read = async (req, res, next) => {
 };
 
 // Random 답변 수정
-exports.update = async (req, res, next) => {
+exports.answerUpdate = async (req, res, next) => {
   try {
     const { answer } = req.body;
     const userID = req.user.id;
@@ -107,7 +107,7 @@ exports.update = async (req, res, next) => {
 };
 
 // Random 답변 삭제
-exports.remove = async (req, res, next) => {
+exports.answerRemove = async (req, res, next) => {
   try {
     const userID = req.user.id;
 
