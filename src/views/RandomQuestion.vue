@@ -85,7 +85,6 @@ export default {
       mbti3: "",
       mbti4: "",
       totalMbti: "",
-      id: 0,
       message: "",
     };
   },
@@ -98,8 +97,9 @@ export default {
         .get("/random/question/", { withCredentials: true })
         .then((res) => {
           this.randomMessage = res.data;
+          console.log(this.randomMessage);
           this.message = this.randomMessage.question[0].question;
-          this.id = this.randomMessage.question[0].id;
+          this.$store.commit("SET_ID", this.randomMessage.question[0].id);
         });
     },
     validComment() {
@@ -110,13 +110,15 @@ export default {
       return true;
     },
     async completed() {
-      console.log(this.id);
+      console.log(this.$store.state.id);
       if (this.validComment()) {
         const formData = {
-          memo: this.memo,
+          questionID: this.$store.state.id,
+          answer: this.memo,
         };
+        console.log(this.memo);
         await axios
-          .post(`/random/answer/${this.id}`, formData, {
+          .post(`/random/answer/${this.$store.state.id}`, formData, {
             withCredentials: true,
           })
           .then((res) => {
