@@ -2,7 +2,7 @@
   <div class="title background">
     <h2>오늘의 질문</h2>
     <div class="question">
-      <span class="letter">{{ message }}</span>
+      <span class="letter">{{ this.message }}</span>
     </div>
     <form @submit.prevent="submitForm" class="my-answer">
       <h3 class="second-title">나의 답변</h3>
@@ -69,10 +69,11 @@
   </div>
 </template>
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
-      message: "Q.친구가 기분이 안좋아서 화분을 샀다고 했다. 이때 나의 대답은",
+      randomMessage: [],
       memo: "",
       newAnswer: null,
       selectEI: false,
@@ -84,19 +85,51 @@ export default {
       mbti3: "",
       mbti4: "",
       totalMbti: "",
+      message: "",
     };
   },
+  mounted() {
+    this.getRandomMessage();
+  },
   methods: {
-    completed() {
-      if (this.memo === "") {
+    async getRandomMessage() {
+      await axios
+        .get("/random/question/", { withCredentials: true })
+        .then((res) => {
+          this.randomMessage = res.data;
+          console.log(this.randomMessage);
+          this.message = this.randomMessage.question[0].question;
+          this.$store.commit("SET_ID", this.randomMessage.question[0].id);
+        });
+    },
+    validComment() {
+      if (!this.memo.trim()) {
         alert("내용을 입력해주세요");
-      } else {
-        alert("내용이 작성됐습니다.");
-        this.$store.commit("UPDATE_ANSWER", this.newAnswer);
+        return false;
+      }
+      return true;
+    },
+    async completed() {
+      console.log(this.$store.state.id);
+      if (this.validComment()) {
+        const formData = {
+          questionID: this.$store.state.id,
+          answer: this.memo,
+        };
+        console.log(this.memo);
+        await axios
+          .post(`/random/answer/${this.$store.state.id}`, formData, {
+            withCredentials: true,
+          })
+          .then((res) => {
+            console.log(res.data);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
         this.memo = "";
       }
     },
-
     pageLink() {
       if (
         this.mbti1 === "" &&

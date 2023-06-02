@@ -32,7 +32,7 @@
         </div>
       </div>
     </div>
-    <div class="input-with-image">
+    <form @submit.prevent="submitForm" class="input-with-image">
       <input
         type="text"
         placeholder="댓글 추가..."
@@ -42,7 +42,7 @@
       <button @click="postComment" class="image-button">
         <img :src="require(`@/assets/direction.png`)" alt="이미지" />
       </button>
-    </div>
+    </form>
   </div>
 </template>
 
