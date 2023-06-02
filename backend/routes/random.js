@@ -18,7 +18,7 @@ router.get('/index/:id', isLoggedIn, index);
 
 // GET /random/:questionid/i___
 // MBTI별 질문 조회
-router.get('/:id/mbti/:mbti1:mbti2:mbti3:mbti4', isLoggedIn, mbtiIndex);
+router.get('/:id/:mbti1:mbti2:mbti3:mbti4', isLoggedIn, mbtiIndex);
 
 // 답변
 
