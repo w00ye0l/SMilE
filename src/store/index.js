@@ -14,38 +14,7 @@ export default createStore({
       gender: "",
       mbti: "",
     },
-    messages: [
-      {
-        name: "ENFJ",
-        content: "오늘은 날씨가 좋네요 내일 뭐하시나요?asassaasasasasasas",
-        date: "2022/02/16 14:36",
-      },
-      {
-        name: "INFP",
-        content: "내일은 날씨가 흐립니다 내일은 어떨 거 같나요",
-        date: "2022/02/15 15:10",
-      },
-      {
-        name: "ENFJ",
-        content: "오늘은 피곤하네요",
-        date: "2022/02/16 14:36",
-      },
-      {
-        name: "ENFJ",
-        content: "오늘은 피곤하네요",
-        date: "2022/02/16 14:36",
-      },
-      {
-        name: "ENFJ",
-        content: "오늘은 피곤하네요",
-        date: "2022/02/16 14:36",
-      },
-      {
-        name: "INFJ",
-        content: "내일은 날씨가 흐립니다 내일은 어떨 거 같나요",
-        date: "2022/02/15 15:10",
-      },
-    ],
+    messages: [],
     memos: [],
     answers: [],
     messageCount: 0,
@@ -80,6 +49,11 @@ export default createStore({
     message: "Q. 친구가 기분이 안좋아서 화분을 샀다. 나의 대답은?..",
     newComment: "",
     comments: [],
+    id: 0,
+    mbti1: "_",
+    mbti2: "_",
+    mbti3: "_",
+    mbti4: "_",
   },
   getters: {
     EVENTS: (state) => state.events,
@@ -153,6 +127,21 @@ export default createStore({
     },
     UPDATE_SELECT_GUEST(state, payload) {
       state.selectGuest = payload;
+    },
+    SET_ID(state, id) {
+      state.id = id;
+    },
+    SET_MBTI1(state, mbti1) {
+      state.mbti1 = mbti1;
+    },
+    SET_MBTI2(state, mbti2) {
+      state.mbti2 = mbti2;
+    },
+    SET_MBTI3(state, mbti3) {
+      state.mbti3 = mbti3;
+    },
+    SET_MBTI4(state, mbti4) {
+      state.mbti4 = mbti4;
     },
   },
   actions: {
