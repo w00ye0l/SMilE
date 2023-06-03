@@ -4,15 +4,15 @@
     <div class="question">
       <span class="letter">{{ this.message }}</span>
     </div>
-    <div class="memo-box">
+    <div class="memo-box" v-for="(message, index) in mbtiMessage" :key="index">
       <div class="img-title">
         <img :src="require(`@/assets/first_smile1.png`)" class="title-img" />
-        <!-- <span class="mbti"> {{ item.name }}</span> -->
+        <!-- <span class="mbti"> {{ message }}</span> -->
       </div>
       <br />
-      <!-- <div class="answer">
-        {{ item.content }}
-      </div> -->
+      <div class="answer">
+        {{ message }}
+      </div>
     </div>
   </div>
 </template>
@@ -22,11 +22,28 @@ import axios from "axios";
 export default {
   mounted() {
     this.getRandomMessage();
+    this.mbtiMessages();
   },
   data() {
     return {
       message: "",
+      mbtiMessage: "",
+      mbti: "",
     };
+  },
+  computed: {
+    mbti1() {
+      return this.$store.state.mbti1.toLowerCase();
+    },
+    mbti2() {
+      return this.$store.state.mbti2.toLowerCase();
+    },
+    mbti3() {
+      return this.$store.state.mbti3.toLowerCase();
+    },
+    mbti4() {
+      return this.$store.state.mbti4.toLowerCase();
+    },
   },
   methods: {
     async getRandomMessage() {
@@ -34,8 +51,25 @@ export default {
         .get("/random/question/", { withCredentials: true })
         .then((res) => {
           this.randomMessage = res.data;
-          this.message = this.randomMessage.question[0].question;
-          this.id = this.randomMessage.question[0].id;
+          this.message = this.randomMessage.question;
+        });
+    },
+    async mbtiMessages() {
+      await axios
+        .get(
+          `/random/${this.$store.state.id}/${this.mbti1}${this.mbti2}${this.mbti3}${this.mbti4}`,
+          {
+            withCredentials: true,
+          }
+        )
+        .then((res) => {
+          this.messages = res.data;
+          console.log(this.messages);
+          this.mbti = this.messages.answers.map((el) => el.userID);
+          this.mbtiMessage = this.messages.answers.map((obj) => obj.answer);
+        })
+        .catch((error) => {
+          console.log(error);
         });
     },
     selectMessage(message) {
