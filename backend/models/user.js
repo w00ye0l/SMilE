@@ -61,6 +61,7 @@ class User extends Sequelize.Model {
     db.User.hasMany(db.Group, { foreignKey: 'userID', sourceKey: 'id' });
     db.User.hasMany(db.Guest, { foreignKey: 'userID', sourceKey: 'id' });
     db.User.hasMany(db.Answer, { foreignKey: 'userID', sourceKey: 'id' });
+    db.User.hasMany(db.Comment, { foreignKey: 'userID', sourceKey: 'id' });
   }
 };
 
