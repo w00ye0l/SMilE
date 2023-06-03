@@ -1,5 +1,6 @@
 const Question = require("../models/question");
 const Answer = require("../models/answer");
+const Comment = require('../models/comment');
 
 // Random 질문에 대한 답변 생성
 exports.answerCreate = async (req, res, next) => {
@@ -124,6 +125,12 @@ exports.answerRemove = async (req, res, next) => {
     if (existAnswer.userID !== userID) {
       return res.status(403).json({ error: "로그인한 사용자가 아닙니다" });
     }
+
+    await Comment.destroy({
+      where: {
+        answerID: req.params.id,
+      },
+    });
 
     await Answer.destroy({
       where: {
