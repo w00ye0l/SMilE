@@ -168,7 +168,7 @@ exports.mbtiIndex = async (req, res, next) => {
       where: mbtiInfo,
       include: {
         model: User,
-        attributes: [], // User 모델의 필드를 가져오지 않음
+        attributes: ['mbti1', 'mbti2', 'mbti3', 'mbti4']
       },
     });
 
