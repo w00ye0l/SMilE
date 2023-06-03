@@ -25,6 +25,7 @@ class Answer extends Sequelize.Model {
   static associate(db) {
     db.Answer.belongsTo(db.User, { foreignKey: 'userID', targetKey: 'id', onDelete: 'cascade', onUpdate: 'cascade' });
     db.Answer.belongsTo(db.Question, { foreignKey: 'questionID', sourceKey: 'id', onDelete: 'cascade', onUpdate: 'cascade' });
+    db.Answer.hasMany(db.Comment, { foreignKey: 'answerID', targetKey: 'id', onDelete: 'cascade', onUpdate: 'cascade', foreignKeyConstraint: true });
   }
 }
 
