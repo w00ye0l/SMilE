@@ -115,7 +115,6 @@ export default {
           questionID: this.$store.state.id,
           answer: this.memo,
         };
-        console.log(formData);
         await axios
           .post(`/random/answer/${this.$store.state.id}/create`, formData, {
             withCredentials: true,
@@ -137,7 +136,6 @@ export default {
         this.mbti4 === ""
       ) {
         alert("적어도 하나의 MBTI를 선택해주세요");
-        console.log(this.totalMbti);
       } else {
         this.$store.state.totalMbti = this.totalMbti;
         this.$router.push({ path: "randomanswer" });
@@ -175,21 +173,25 @@ export default {
     },
     selectEIOption(option) {
       this.mbti1 = option;
+      this.$store.commit("SET_MBTI1", this.mbti1);
       this.totalMbti += this.mbti1;
       this.updateTotalMbti();
     },
     selectNSOption(option) {
       this.mbti2 = option;
+      this.$store.commit("SET_MBTI2", this.mbti2);
       this.totalMbti += this.mbti2;
       this.updateTotalMbti();
     },
     selectTFOption(option) {
       this.mbti3 = option;
+      this.$store.commit("SET_MBTI3", this.mbti3);
       this.totalMbti += this.mbti3;
       this.updateTotalMbti();
     },
     selectPJOption(option) {
       this.mbti4 = option;
+      this.$store.commit("SET_MBTI4", this.mbti4);
       this.totalMbti += this.mbti4;
       this.updateTotalMbti();
     },
