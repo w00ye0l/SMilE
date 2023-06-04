@@ -4,7 +4,12 @@
     <div class="question">
       <span class="letter">{{ this.message }}</span>
     </div>
-    <div class="memo-box" v-for="(message, index) in mbtiMessage" :key="index">
+    <div
+      class="memo-box"
+      v-for="(message, index) in mbtiMessage"
+      :key="index"
+      @click="selectMessage(message)"
+    >
       <div class="img-title">
         <img :src="require(`@/assets/first_smile1.png`)" class="title-img" />
         <span class="mbti"> {{ message.mbti }}</span>
@@ -79,10 +84,9 @@ export default {
     },
     selectMessage(message) {
       console.log(message.name);
-      this.$store.commit("SET_SELECTED_MESSAGE", message);
       this.$router.push({
         name: "randomanswerdetail",
-        params: { name: message.name },
+        params: { name: message.answer, mbti: message.mbti },
       });
     },
   },
