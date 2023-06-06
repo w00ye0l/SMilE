@@ -1,131 +1,121 @@
 <template>
-  <div>
-    <h1>정보 변경</h1>
-    <form @submit.prevent="submitForm">
-      <div class="input-div">
-        <label for="nickname" class="input-label">닉네임</label>
-        <input class="input-box" type="text" id="nickname" v-model="nickname" />
-      </div>
-      <div class="input-div">
-        <label class="input-label" for="birthday">생년월일</label>
-        <input
-          class="input-box"
-          type="date"
-          id="birthday"
-          name="birthday"
-          v-model="birthday"
-        />
-      </div>
+  <form class="form-container" @submit.prevent="onSubmit">
+    <div class="input-div">
+      <label for="nickname" class="input-label">닉네임</label>
+      <input class="input-box" type="text" id="nickname" v-model="nickname" />
+    </div>
+    <div class="input-div">
+      <label class="input-label" for="birthday">생년월일</label>
+      <input
+        class="input-box"
+        type="date"
+        id="birthday"
+        name="birthday"
+        v-model="birthday"
+      />
+    </div>
 
-      <div class="input-div">
-        <label class="input-label">성별</label>
-        <div class="gender-box">
-          <label class="gender-label" for="man">
-            <input
-              class="gender-radio"
-              id="man"
-              type="radio"
-              name="gender"
-              v-model="gender"
-              value="M"
-            />
-            <img
-              v-on:click="manCheck"
-              class="gender-img"
-              v-bind:src="require(`@/assets/m-${man}.png`)"
-              alt=""
-            />
+    <div class="input-div">
+      <label class="input-label">성별</label>
+      <div class="gender-box">
+        <label class="gender-label" for="man">
+          <input
+            class="gender-radio"
+            id="man"
+            type="radio"
+            name="gender"
+            v-model="gender"
+            value="M"
+          />
+          <img
+            v-on:click="manCheck"
+            class="gender-img"
+            v-bind:src="require(`@/assets/m-${man}.png`)"
+            alt=""
+          />
+        </label>
+
+        <label class="gender-label" for="woman">
+          <input
+            class="gender-radio"
+            id="woman"
+            type="radio"
+            name="gender"
+            v-model="gender"
+            value="W"
+          />
+          <img
+            v-on:click="womanCheck"
+            class="gender-img"
+            v-bind:src="require(`@/assets/w-${woman}.png`)"
+            alt=""
+          />
+        </label>
+      </div>
+    </div>
+
+    <div class="mbti-div">
+      <label class="input-label">MBTI</label>
+      <div class="mbti-box">
+        <!-- E/I -->
+        <div class="mbti-set">
+          <label>
+            <input name="mbti1" type="radio" v-model="mbti1" value="E" />
+            <div class="mbti-btn">E</div>
           </label>
+          <label>
+            <input name="mbti1" type="radio" v-model="mbti1" value="I" />
+            <div class="mbti-btn">I</div>
+          </label>
+        </div>
 
-          <label class="gender-label" for="woman">
-            <input
-              class="gender-radio"
-              id="woman"
-              type="radio"
-              name="gender"
-              v-model="gender"
-              value="W"
-            />
-            <img
-              v-on:click="womanCheck"
-              class="gender-img"
-              v-bind:src="require(`@/assets/w-${woman}.png`)"
-              alt=""
-            />
+        <!-- N/S -->
+        <div class="mbti-set">
+          <label>
+            <input name="mbti2" type="radio" v-model="mbti2" value="N" />
+            <div class="mbti-btn">N</div>
+          </label>
+          <label>
+            <input name="mbti2" type="radio" v-model="mbti2" value="S" />
+            <div class="mbti-btn">S</div>
+          </label>
+        </div>
+
+        <!-- F/T -->
+        <div class="mbti-set">
+          <label>
+            <input name="mbti3" type="radio" v-model="mbti3" value="F" />
+            <div class="mbti-btn">F</div>
+          </label>
+          <label>
+            <input name="mbti3" type="radio" v-model="mbti3" value="T" />
+            <div class="mbti-btn">T</div>
+          </label>
+        </div>
+
+        <!-- J/P -->
+        <div class="mbti-set">
+          <label>
+            <input name="mbti4" type="radio" v-model="mbti4" value="J" />
+            <div class="mbti-btn">J</div>
+          </label>
+          <label>
+            <input name="mbti4" type="radio" v-model="mbti4" value="P" />
+            <div class="mbti-btn">P</div>
           </label>
         </div>
       </div>
+    </div>
 
-      <div class="mbti-div">
-        <label class="input-label">MBTI</label>
-        <div class="mbti-box">
-          <!-- E/I -->
-          <div class="mbti-set">
-            <label>
-              <input name="mbti1" type="radio" v-model="mbti1" value="E" />
-              <div class="mbti-btn">E</div>
-            </label>
-            <label>
-              <input name="mbti1" type="radio" v-model="mbti1" value="I" />
-              <div class="mbti-btn">I</div>
-            </label>
-          </div>
-
-          <!-- N/S -->
-          <div class="mbti-set">
-            <label>
-              <input name="mbti2" type="radio" v-model="mbti2" value="N" />
-              <div class="mbti-btn">N</div>
-            </label>
-            <label>
-              <input name="mbti2" type="radio" v-model="mbti2" value="S" />
-              <div class="mbti-btn">S</div>
-            </label>
-          </div>
-
-          <!-- F/T -->
-          <div class="mbti-set">
-            <label>
-              <input name="mbti3" type="radio" v-model="mbti3" value="F" />
-              <div class="mbti-btn">F</div>
-            </label>
-            <label>
-              <input name="mbti3" type="radio" v-model="mbti3" value="T" />
-              <div class="mbti-btn">T</div>
-            </label>
-          </div>
-
-          <!-- J/P -->
-          <div class="mbti-set">
-            <label>
-              <input name="mbti4" type="radio" v-model="mbti4" value="J" />
-              <div class="mbti-btn">J</div>
-            </label>
-            <label>
-              <input name="mbti4" type="radio" v-model="mbti4" value="P" />
-              <div class="mbti-btn">P</div>
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <div class="setting-btn-container">
-        <button type="submit" class="btn-save" @click="updateMyProfile">
-          저장
-        </button>
-        <button type="button" class="btn-cancel" @click="close">취소</button>
-      </div>
-    </form>
-  </div>
+    <div class="setting-btn-container">
+      <div class="btn btn-update" @click="updateInfo">수정</div>
+      <div class="btn btn-cancel" @click="$emit('closeModal')">취소</div>
+    </div>
+  </form>
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
-  props: {
-    closeModal: Function,
-  },
   data() {
     return {
       nickname: "",
@@ -139,7 +129,7 @@ export default {
       mbti4: "",
     };
   },
-  mounted() {
+  beforeMount() {
     this.nickname = this.$store.state.mypage.nickname;
     this.birthday = this.$store.state.mypage.birthday;
     this.gender = this.$store.state.mypage.gender;
@@ -154,9 +144,6 @@ export default {
     this.mbti4 = this.$store.state.mypage.mbti[3];
   },
   methods: {
-    close() {
-      this.$emit("closeModal");
-    },
     manCheck() {
       if (this.gender === "W") {
         if (this.man === "off") {
@@ -183,7 +170,7 @@ export default {
         }
       }
     },
-    async updateMyProfile() {
+    async updateInfo() {
       const formData = {
         nickname: this.nickname,
         birthday: this.birthday,
@@ -194,21 +181,21 @@ export default {
         mbti4: this.mbti4,
       };
       console.log(formData);
-      await axios
-        .put("/mypage/update", formData, { withCredentials: true })
-        .then((res) => {
-          this.$store.dispatch("getData");
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      this.$store.dispatch("updateMyProfile", formData);
+      this.$emit("closeModal");
     },
   },
 };
 </script>
 
 <style scoped>
+.form-container {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #fff9c8;
+  border-radius: 20px;
+}
+
 .input-div {
   margin: 20px 0;
   display: flex;
@@ -293,7 +280,32 @@ export default {
 }
 
 .mbti-set input:checked + div {
-  color: #fff;
+  background-color: #ffd338;
+}
+
+.setting-btn-container {
+  width: 80%;
+  margin: auto;
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.btn {
+  width: 80px;
+  padding: 5px 10px;
+  font-size: 18px;
+  border: 0;
+  border-radius: 20px;
+}
+
+.btn-update {
   background-color: #f59607;
+  color: #fff;
+}
+
+.btn-cancel {
+  background-color: #fff;
+  border: 1px solid #f59607;
 }
 </style>
