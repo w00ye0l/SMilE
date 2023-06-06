@@ -1,6 +1,8 @@
 <template>
-  <router-view class="router-view" />
-  <navComponent v-if="url !== '/'"></navComponent>
+  <div id="app">
+    <router-view class="router-view" />
+    <navComponent v-if="url !== '/'"></navComponent>
+  </div>
 </template>
 
 <script>
