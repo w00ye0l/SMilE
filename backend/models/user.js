@@ -45,6 +45,11 @@ class User extends Sequelize.Model {
         type: Sequelize.ENUM('J','P'),
         allowNull: false,
       },
+      answered: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
     }, {
       sequelize, // static init의 매개변수와 연결되는 옵션
       timestamps: false, // 자동으로 날짜 컬럼을 추가하는 옵션
