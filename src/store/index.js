@@ -1,7 +1,7 @@
 import { createStore } from "vuex";
 import axios from "axios";
-import router from "../router/index.js";
 import createPersistedState from "vuex-persistedstate";
+import router from "@/router";
 
 export default createStore({
   state: {
@@ -171,14 +171,13 @@ export default createStore({
     removeFromMbtiComplete({ commit }, key) {
       commit("REMOVE_FROM_MBTI_COMPLETE", key);
     },
-    getData({ commit }) {
+    async getData({ commit }) {
       axios
         .get("/mypage", {
           withCredentials: true,
         })
         .then((res) => {
           console.log(res);
-          console.log(res.data.password);
           commit("SET_NICKNAME", res.data.nickname);
           commit("SET_BIRTHDAY", res.data.birthday.slice(0, 10));
           commit("SET_GENDER", res.data.gender);
@@ -187,14 +186,31 @@ export default createStore({
             res.data.mbti1 + res.data.mbti2 + res.data.mbti3 + res.data.mbti4
           );
           console.log(this.state.mypage);
+          router.push({ name: "mypage" });
         })
-        .then(() => router.push("/mypage"))
         .catch((err) => {
           console.log(err);
         });
     },
     setGroups({ commit }, payload) {
       commit("SET_GROUPS", payload);
+    },
+    async updateMyProfile({ commit }, payload) {
+      await axios
+        .put("/mypage/update", payload, { withCredentials: true })
+        .then((res) => {
+          console.log(res);
+          commit("SET_NICKNAME", res.data.nickname);
+          commit("SET_BIRTHDAY", res.data.birthday.slice(0, 10));
+          commit("SET_GENDER", res.data.gender);
+          commit(
+            "SET_MBTI",
+            res.data.mbti1 + res.data.mbti2 + res.data.mbti3 + res.data.mbti4
+          );
+        })
+        .catch((err) => {
+          console.log(err.response.data.message);
+        });
     },
   },
   modules: {},
