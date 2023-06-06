@@ -69,13 +69,19 @@ export default {
         )
         .then((res) => {
           this.messages = res.data;
+          console.log(this.messages);
           this.mbti = this.messages.answers.map((el) => el.User);
           this.mbtiMessage = this.messages.answers.map((obj) => {
             let totalMbti = "";
             for (let key in obj.User) {
               totalMbti += obj.User[key];
             }
-            return { answer: obj.answer, mbti: totalMbti };
+            return {
+              answer: obj.answer,
+              mbti: totalMbti,
+              userID: obj.userID,
+              id: obj.id,
+            };
           });
         })
         .catch((error) => {
@@ -86,7 +92,12 @@ export default {
       console.log(message.name);
       this.$router.push({
         name: "randomanswerdetail",
-        params: { name: message.answer, mbti: message.mbti },
+        params: {
+          name: message.answer,
+          mbti: message.mbti,
+          user: message.userID,
+          id: message.id,
+        },
       });
     },
   },

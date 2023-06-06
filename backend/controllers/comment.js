@@ -75,7 +75,7 @@ exports.commentRead = async (req, res, next) => {
         userID: req.user.id,
       },
     });
-    
+
     if (!existComment) {
       return res.status(404).json({ message: "댓글을 찾을 수 없습니다" });
     }
@@ -83,7 +83,7 @@ exports.commentRead = async (req, res, next) => {
     if (existComment.userID !== req.user.id) {
       return res.status(403).json({ message: "다른 사용자의 정보입니다" });
     }
-    
+
     res.status(200).send(existComment);
   } catch (error) {
     console.error(error);
@@ -111,15 +111,15 @@ exports.commentUpdate = async (req, res, next) => {
       return res.status(403).json({ message: "다른 사용자의 정보입니다" });
     }
 
-    // const existAnswer = await Answer.findOne({
-    //   where: {
-    //     id: answerID,
-    //   },
-    // });
+    const existAnswer = await Answer.findOne({
+      where: {
+        id: answerID,
+      },
+    });
 
-    // if (!existAnswer) {
-    //   return res.status(404).json({ message: "해당 답변이 없습니다" });
-    // }
+    if (!existAnswer) {
+      return res.status(404).json({ message: "해당 답변이 없습니다" });
+    }
     const comments = await Comment.update(
       {
         comment: comment
