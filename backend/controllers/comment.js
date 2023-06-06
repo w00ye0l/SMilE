@@ -1,5 +1,6 @@
 const Comment = require("../models/comment");
 const Answer = require("../models/answer");
+const User = require("../models/user")
 
 // 댓글 생성
 exports.commentCreate = async (req, res, next) => {
@@ -70,6 +71,10 @@ exports.commentRead = async (req, res, next) => {
     const comments = await Comment.findAll({
       where: {
         answerID: answerID,
+      },
+      include: {
+        model: User,
+        attributes: ['mbti1', 'mbti2', 'mbti3', 'mbti4']
       },
     });
 
