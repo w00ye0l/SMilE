@@ -1,48 +1,132 @@
 <template>
-  <div>
-    <h1>비밀번호 변경</h1>
-    <form @submit.prevent="submitForm">
-      <div class="form-row">
-        <label for="current-pw" class="modal-font-size">현재 비밀번호</label>
-        <input type="password" id="current-pw" />
-      </div>
+  <form class="form-container" @submit.prevent="onSubmit">
+    <div class="input-div">
+      <label for="currentPw" class="input-label">현재 비밀번호</label>
+      <input
+        class="input-box"
+        type="password"
+        name="currentPw"
+        id="currentPw"
+        v-model="currentPw"
+      />
+    </div>
 
-      <div class="form-row">
-        <label for="new-pw" class="modal-font-size">새 비밀번호</label>
-        <input type="password" id="new-pw" />
-      </div>
+    <div class="input-div">
+      <label for="newPw" class="input-label">새 비밀번호</label>
+      <input
+        class="input-box"
+        type="password"
+        name="newPw"
+        id="newPw"
+        v-model="newPw"
+      />
+    </div>
 
-      <div class="form-row">
-        <label for="new-pw-confirm" class="modal-font-size"
-          >새 비밀번호 확인</label
-        >
-        <input type="password" id="new-pw-confirm" />
-      </div>
+    <div class="input-div">
+      <label for="newPwConfirm" class="input-label">새 비밀번호 확인</label>
+      <input
+        class="input-box"
+        type="password"
+        name="newPwConfirm"
+        id="newPwConfirm"
+        v-model="newPwConfirm"
+      />
+    </div>
 
-      <div class="setting-btn-container">
-        <button type="submit" class="btn-save" @click="closeModal">저장</button>
-        <button type="button" class="btn-cancel" @click="$emit('closeModal')">
-          취소
-        </button>
-      </div>
-    </form>
-  </div>
+    <div class="setting-btn-container">
+      <div class="btn btn-update" @click="updatePassword">저장</div>
+      <div class="btn btn-cancel" @click="$emit('closeModal')">취소</div>
+    </div>
+  </form>
 </template>
 
 <script>
+import axios from "axios";
 export default {
-  props: {
-    // currentPw: "",
-    // newPw: "",
-    // newPwConfirm: "",
-    closeModal: Function,
+  data() {
+    return {
+      currentPw: "",
+      newPw: "",
+      newPwConfirm: "",
+    };
   },
   methods: {
-    // checkCurrentPassword() {
-    //   if (currentPw !== )
-    // },
+    async updatePassword() {
+      const formData = {
+        currentPassword: this.currentPw,
+        newPassword: this.newPw,
+        confirmPassword: this.newPwConfirm,
+      };
+
+      await axios
+        .put("/mypage/editpw", formData, { withCredentials: true })
+        .then((res) => {
+          console.log(res);
+          this.$emit("closeModal");
+        })
+        .catch((err) => {
+          console.log(err.response.data.message);
+        });
+    },
   },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.form-container {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #fff9c8;
+  border-radius: 20px;
+}
+
+.input-div {
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.input-label {
+  margin-bottom: 5px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.input-box {
+  width: 100%;
+  height: 30px;
+  padding: 0 20px;
+  font-size: 16px;
+  border: 0;
+  border-radius: 20px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
+}
+
+.setting-btn-container {
+  width: 80%;
+  margin: auto;
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.btn {
+  width: 80px;
+  padding: 5px 10px;
+  font-size: 18px;
+  border: 0;
+  border-radius: 20px;
+}
+
+.btn-update {
+  background-color: #f59607;
+  color: #fff;
+}
+
+.btn-cancel {
+  background-color: #fff;
+  border: 1px solid #f59607;
+}
+</style>

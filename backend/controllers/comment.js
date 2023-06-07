@@ -1,7 +1,8 @@
 const Comment = require("../models/comment");
 const Answer = require("../models/answer");
+const User = require("../models/user")
 
-// guest 생성
+// 댓글 생성
 exports.commentCreate = async (req, res, next) => {
   try {
     const { comment } = req.body;
@@ -48,31 +49,52 @@ exports.commentCreate = async (req, res, next) => {
   }
 };
 
-// 답변의 전체 댓글 조회
-exports.commentIndex = async (req, res, next) => {
-  const user = req.user;
+// 답변별 댓글 조회
+exports.commentRead = async (req, res, next) => {
   try {
-    const existComment = await Comment.findAll({
+    const answerID = req.params.id;
+
+    if (!answerID) {
+      res.status(400).json({ message: "답변 ID가 맞지 않습니다." });
+      return;
+    }
+
+    const existAnswer = await Answer.findOne({
       where: {
-        userID: user.id,
+        id: answerID,
       },
     });
 
-    res.status(200).send(existComment);
+    if (!existAnswer) {
+      return res.status(404).json({ message: "해당 답변이 없습니다" });
+    }
+    const comments = await Comment.findAll({
+      where: {
+        answerID: answerID,
+      },
+      include: {
+        model: User,
+        attributes: ['mbti1', 'mbti2', 'mbti3', 'mbti4']
+      },
+    });
+
+    if (comments.length === 0) {
+      return res.status(404).json({ message: "해당 댓글이 없습니다" });
+    }
+
+    res.status(200).send(comments);
   } catch (error) {
     console.error(error);
     return next(error);
   }
-  res.end();
 };
 
-// 댓글 상세 조회
-exports.commentRead = async (req, res, next) => {
+// 댓글 상세 조회(작성자만 확인 가능)
+exports.commentIndex = async (req, res, next) => {
   try {
     const existComment = await Comment.findOne({
       where: {
         id: req.params.id,
-        userID: req.user.id,
       },
     });
 
@@ -89,13 +111,12 @@ exports.commentRead = async (req, res, next) => {
     console.error(error);
     return next(error);
   }
-  res.end();
 };
 
 // 댓글 수정
 exports.commentUpdate = async (req, res, next) => {
   try {
-    const { comment, answerID } = req.body;
+    const { comment } = req.body;
     const userID = req.user.id;
     const existComment = await Comment.findOne({
       where: {
@@ -111,6 +132,7 @@ exports.commentUpdate = async (req, res, next) => {
       return res.status(403).json({ message: "다른 사용자의 정보입니다" });
     }
 
+
     const existAnswer = await Answer.findOne({
       where: {
         id: answerID,
@@ -121,6 +143,7 @@ exports.commentUpdate = async (req, res, next) => {
       return res.status(404).json({ message: "해당 답변이 없습니다" });
     }
     const comments = await Comment.update(
+    await Comment.update(
       {
         comment: comment
       },
@@ -137,7 +160,6 @@ exports.commentUpdate = async (req, res, next) => {
     console.error(error);
     return next(error);
   }
-  res.end();
 };
 
 // 댓글 삭제
@@ -171,5 +193,4 @@ exports.commentRemove = async (req, res, next) => {
     console.error(error);
     return next(error);
   }
-  res.end();
 };

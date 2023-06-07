@@ -30,31 +30,7 @@
       />
     </div>
 
-    <div class="modal-background" v-if="modalOpen" @click.self="closeModal">
-      <div class="modal-body">
-        <div class="tab-list">
-          <p
-            class="tab"
-            :class="currentTab === 'Profile' ? 'active' : none"
-            v-on:click="currentTab = 'Profile'"
-          >
-            회원정보 변경
-          </p>
-          <p
-            class="tab"
-            :class="currentTab === 'Password' ? 'active' : none"
-            v-on:click="currentTab = 'Password'"
-          >
-            비밀번호 변경
-          </p>
-        </div>
-        <component
-          class="change-container"
-          :is="currentTab"
-          @closeModal="closeModal"
-        ></component>
-      </div>
-    </div>
+    <SettingModalVue v-if="modalOpen" @close="closeModal" />
 
     <div class="question-container">
       <p class="question-subtitle">답변하지 않은 질문이 있어요!</p>
@@ -98,25 +74,27 @@
 <script>
 import axios from "axios";
 import { useCookies } from "vue3-cookies";
-import ChangeProfileVue from "@/components/ChangeProfile.vue";
-import ChangePasswordVue from "@/components/ChangePassword.vue";
+import { mapState } from "vuex";
+import SettingModalVue from "@/components/SettingModal.vue";
 
 export default {
   data() {
     return {
       modalOpen: false,
-      nickname: this.$store.state.mypage.nickname,
-      mbti: this.$store.state.mypage.mbti,
-      currentTab: "Profile",
     };
+  },
+  computed: {
+    ...mapState({
+      nickname: (state) => state.mypage.nickname,
+      mbti: (state) => state.mypage.mbti,
+    }),
   },
   setup() {
     const { cookies } = useCookies();
     return { cookies };
   },
   components: {
-    Profile: ChangeProfileVue,
-    Password: ChangePasswordVue,
+    SettingModalVue,
   },
   methods: {
     openModal() {
@@ -142,10 +120,6 @@ export default {
 </script>
 
 <style scoped>
-.change-container {
-  height: 100%;
-}
-
 .main {
   width: 100%;
 }
@@ -237,48 +211,11 @@ export default {
 
 .mbti {
   padding: 5px 16px;
+  width: 80px;
   color: #fff;
   font-weight: 500;
   background-color: #f59607;
   border-radius: 20px;
-}
-
-.modal-background {
-  position: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  top: 0;
-  left: 0;
-  padding: 20px;
-  width: 100%;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
-}
-
-.modal-body {
-  padding: 20px;
-  width: 100%;
-  height: 70%;
-  background: white;
-  border-radius: 20px;
-}
-
-.tab-list {
-  display: flex;
-  justify-content: space-evenly;
-}
-
-.tab {
-  margin: 0;
-  width: fit-content;
-}
-
-.active {
-  padding-bottom: 1px;
-  color: #f59607;
-  border-bottom: 1px solid #f59607;
 }
 
 .question-container {
