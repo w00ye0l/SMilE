@@ -2,19 +2,20 @@
   <div class="background">
     <div class="small-box-control">
       <div class="small-box">
-        <span class="mbti"> {{ message }}</span>
+        <span class="mbti"> {{ this.message }}</span>
       </div>
     </div>
     <div class="memo-box">
       <div class="comment-box-top">
         <div class="img-title1">
           <img :src="require(`@/assets/first_smile1.png`)" class="title-img" />
-          <span class="mbti-name"> {{ $route.params.name }}</span>
+          <span class="mbti-name"> {{ $route.params.mbti }}</span>
         </div>
-        <p class="content">{{ selectedMessage.content }}</p>
+        <p class="content">{{ $route.params.name }}</p>
       </div>
       <hr />
       <div class="comments-container">
+        <div v-if="comments.length === 0">아직 댓글이 없습니다.</div>
         <div
           class="comment-box"
           v-for="(comment, index) in comments"
@@ -39,7 +40,7 @@
         v-model="newComment"
         class="name-input-box"
       />
-      <button @click="postComment" class="image-button">
+      <button @click="postComment()" class="image-button">
         <img :src="require(`@/assets/direction.png`)" alt="이미지" />
       </button>
     </form>
@@ -47,40 +48,72 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import axios from "axios";
 export default {
+  mounted() {
+    this.getRandomMessage();
+    this.getComments();
+  },
   data() {
     return {
       newComment: "",
+      message: "",
+      comments: "",
     };
   },
-  computed: {
-    selectedMessage() {
-      return this.$store.state.selectedMessage;
-    },
-    message() {
-      return this.$store.state.message;
-    },
-    ...mapState(["comments"]),
-  },
+  computed: {},
   methods: {
-    ...mapMutations(["UPDATE_NEW_COMMENT", "ADD_COMMENT"]),
     backLink() {
       this.$router.go(-1);
     },
-    postComment() {
+    validComment() {
       if (this.newComment.trim() === "") {
-        return;
+        alert("댓글을 입력하세요");
+        return false;
       }
-
-      this.ADD_COMMENT({
-        name: this.$route.params.name,
-        userId: "(USERID)",
-        content: this.newComment,
-      });
-
-      this.UPDATE_NEW_COMMENT(this.newComment);
-      this.newComment = "";
+      return true;
+    },
+    async postComment() {
+      if (this.validComment()) {
+        const formData = {
+          answerID: this.$route.params.id,
+          comment: this.newComment,
+        };
+        try {
+          const res = await axios.post(
+            `/random/comment/${this.$route.params.id}/create`,
+            formData,
+            {
+              withCredentials: true,
+            }
+          );
+          console.log(res);
+        } catch (error) {
+          console.log(error);
+        }
+        this.newComment = "";
+      }
+    },
+    async getComments() {
+      console.log(this.$route.params.id);
+      await axios
+        .get(`/random/comment/read/3`, {
+          withCredentials: true,
+        })
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    async getRandomMessage() {
+      await axios
+        .get("/random/question/", { withCredentials: true })
+        .then((res) => {
+          this.randomMessage = res.data;
+          this.message = this.randomMessage.question;
+        });
     },
   },
 };

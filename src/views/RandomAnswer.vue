@@ -4,14 +4,19 @@
     <div class="question">
       <span class="letter">{{ this.message }}</span>
     </div>
-    <div class="memo-box" v-for="(message, index) in mbtiMessage" :key="index">
+    <div
+      class="memo-box"
+      v-for="(message, index) in mbtiMessage"
+      :key="index"
+      @click="selectMessage(message)"
+    >
       <div class="img-title">
         <img :src="require(`@/assets/first_smile1.png`)" class="title-img" />
-        <!-- <span class="mbti"> {{ message }}</span> -->
+        <span class="mbti"> {{ message.mbti }}</span>
       </div>
       <br />
       <div class="answer">
-        {{ message }}
+        {{ message.answer }}
       </div>
     </div>
   </div>
@@ -65,8 +70,19 @@ export default {
         .then((res) => {
           this.messages = res.data;
           console.log(this.messages);
-          this.mbti = this.messages.answers.map((el) => el.userID);
-          this.mbtiMessage = this.messages.answers.map((obj) => obj.answer);
+          this.mbti = this.messages.answers.map((el) => el.User);
+          this.mbtiMessage = this.messages.answers.map((obj) => {
+            let totalMbti = "";
+            for (let key in obj.User) {
+              totalMbti += obj.User[key];
+            }
+            return {
+              answer: obj.answer,
+              mbti: totalMbti,
+              userID: obj.userID,
+              id: obj.id,
+            };
+          });
         })
         .catch((error) => {
           console.log(error);
@@ -74,10 +90,14 @@ export default {
     },
     selectMessage(message) {
       console.log(message.name);
-      this.$store.commit("SET_SELECTED_MESSAGE", message);
       this.$router.push({
         name: "randomanswerdetail",
-        params: { name: message.name },
+        params: {
+          name: message.answer,
+          mbti: message.mbti,
+          user: message.userID,
+          id: message.id,
+        },
       });
     },
   },
