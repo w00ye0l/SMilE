@@ -153,7 +153,8 @@ exports.commentUpdate = async (req, res, next) => {
           userID: req.user.id,
         },
       }
-    );
+    ));
+
 
     res.status(200).json({ message: "댓글이 수정되었습니다" });
   } catch (error) {
