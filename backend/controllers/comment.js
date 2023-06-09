@@ -132,17 +132,6 @@ exports.commentUpdate = async (req, res, next) => {
       return res.status(403).json({ message: "다른 사용자의 정보입니다" });
     }
 
-
-    const existAnswer = await Answer.findOne({
-      where: {
-        id: answerID,
-      },
-    });
-
-    if (!existAnswer) {
-      return res.status(404).json({ message: "해당 답변이 없습니다" });
-    }
-    const comments = await Comment.update(
     await Comment.update(
       {
         comment: comment
