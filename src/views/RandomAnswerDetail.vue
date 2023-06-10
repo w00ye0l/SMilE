@@ -18,17 +18,27 @@
         <div v-if="comments.length === 0">아직 댓글이 없습니다.</div>
         <div
           class="comment-box"
-          v-for="(comment, index) in comments"
+          v-for="(
+            { id, comment, userID, User: { mbti1, mbti2, mbti3, mbti4 } }, index
+          ) in comments"
           :key="index"
         >
-          <div class="img-title2">
-            <img :src="require(`@/assets/Avatar.png`)" class="title-img" />
-            <div>
-              <span class="mbti-name"> {{ comment.name }}</span>
-              <span class="mbti-id">{{ comment.userId }}</span>
+          <div class="comment-content">
+            <div class="img-title2">
+              <img :src="require(`@/assets/Avatar.png`)" class="title-img" />
+              <div class="user-content">
+                <span class="mbti-name">
+                  {{ [mbti1, mbti2, mbti3, mbti4].join("") }}
+                </span>
+                <span class="mbti-id">{{ userID }}</span>
+              </div>
+            </div>
+            <div class="comment-actions">
+              <span class="modify" @click="modifyComment(id)">수정</span>
+              <span class="delete" @click="removeComment(id)">삭제</span>
             </div>
           </div>
-          <span class="answer">{{ comment.content }}</span>
+          <span class="answer">{{ comment }}</span>
           <hr />
         </div>
       </div>
@@ -59,6 +69,7 @@ export default {
       newComment: "",
       message: "",
       comments: "",
+      editingCommentId: null,
     };
   },
   computed: {},
@@ -73,6 +84,12 @@ export default {
       }
       return true;
     },
+    async modifyComment(commentId) {
+      const commentToEdit = this.comments.find((c) => c.id === commentId);
+      this.newComment = commentToEdit.comment;
+      this.editingCommentId = commentId;
+      console.log(this.editingCommentId);
+    },
     async postComment() {
       if (this.validComment()) {
         const formData = {
@@ -80,14 +97,23 @@ export default {
           comment: this.newComment,
         };
         try {
-          const res = await axios.post(
-            `/random/comment/${this.$route.params.id}/create`,
-            formData,
-            {
-              withCredentials: true,
-            }
-          );
-          console.log(res);
+          if (this.editingCommentId) {
+            await axios.put(
+              `/random/comment/update/${this.editingCommentId}`,
+              formData,
+              {
+                withCredentials: true,
+              }
+            );
+            this.editingCommentId = null;
+          } else {
+            await axios.post(
+              `/random/comment/${this.$route.params.id}/create`,
+              formData,
+              { withCredentials: true }
+            );
+          }
+          await this.getComments();
         } catch (error) {
           console.log(error);
         }
@@ -97,11 +123,12 @@ export default {
     async getComments() {
       console.log(this.$route.params.id);
       await axios
-        .get(`/random/comment/read/3`, {
+        .get(`/random/comment/${this.$route.params.id}/read`, {
           withCredentials: true,
         })
         .then((res) => {
-          console.log(res.data);
+          this.comments = res.data;
+          console.log(this.comments);
         })
         .catch((error) => {
           console.log(error);
@@ -114,6 +141,18 @@ export default {
           this.randomMessage = res.data;
           this.message = this.randomMessage.question;
         });
+    },
+    async removeComment(commentId) {
+      if (confirm("삭제하시겠습니까?")) {
+        try {
+          await axios.delete(`/random/comment/remove/${commentId}`, {
+            withCredentials: true,
+          });
+          await this.getComments();
+        } catch (err) {
+          console.log(err);
+        }
+      }
     },
   },
 };
@@ -187,14 +226,14 @@ export default {
   margin: 0 0 0 5px;
   font-size: 20px;
   font-weight: 600;
-  padding: 2px 10px 0 10px;
+  padding: 2px 5px 0 10px;
 }
 
 .mbti-id {
   margin: 0 0 0 5px;
   font-size: 20px;
   font-weight: 400;
-  padding: 2px 0 0 10px;
+  padding: 2px 0 0 5px;
 }
 
 .btn {
@@ -265,9 +304,30 @@ export default {
   border: none;
   background: none;
 }
-
+.comment-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 300px;
+}
 .img-title2 {
   margin: 0 0 0 20px;
   display: flex;
+  align-items: center;
+}
+.comment-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.user-content {
+  display: flex;
+}
+
+.modify {
+  color: skyblue;
+}
+.delete {
+  color: red;
 }
 </style>
