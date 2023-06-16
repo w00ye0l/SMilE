@@ -9,35 +9,44 @@ const User = require("../models/user");
 
 // 회원가입
 exports.signup = async (req, res, next) => {
-  const { nickname, email, password, birthday, gender, mbti1, mbti2, mbti3, mbti4, image } = req.body;
-  try {
-    // 이메일 중복 가입 방지
-    const exUser = await User.findOne({ where: { email } });
-    if (exUser) {
-      return res.status(409).json({ message: "이미 존재하는 이메일입니다." });
-    } else {
-      // 정상적인 회원가입 절차면 해시화
-      const hashedPassword = await bcrypt.hash(password, 12);
+  const { image, email, nickname, password, birthday, gender, mbti1, mbti2, mbti3, mbti4 } = req.body;
 
-      // DB에 해당 회원정보 생성
-      await User.create({
-        nickname: nickname,
-        email: email,
-        password: hashedPassword,
-        gender: gender,
-        birthday: birthday,
-        mbti1: mbti1,
-        mbti2: mbti2,
-        mbti3: mbti3,
-        mbti4: mbti4,
-        image: image,
-      });
-    }
+  // 이메일 중복 가입 방지
+  const exUser = await User.findOne({ where: { email } });
+  if (exUser) {
+    return res.status(409).json({ message: "이미 존재하는 이메일입니다." });
+  }
+
+  // 이메일 중복이 아닌 경우에 실행
+  const hashedPassword = await bcrypt.hash(password, 12);
+  let imageUrl = null;
+  if (req.file) {
+    imageUrl = req.file.location;
+  } 
+
+  try {
+    const user = await User.create({
+      image: imageUrl,
+      email: email,
+      nickname: nickname,
+      password: hashedPassword,
+      birthday: birthday,
+      gender: gender,
+      mbti1: mbti1,
+      mbti2: mbti2,
+      mbti3: mbti3,
+      mbti4: mbti4,
+    });
+    // console.log(user);
+
+    // const userImageUrl = user.image;
+
+    res.status(200).json({ "user": user });
+
   } catch (error) {
     console.error(error);
-    return next(error);
+    next(error);
   }
-  res.send(req.body);
 };
 
 // 로그인
