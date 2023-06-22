@@ -7,12 +7,9 @@
       <router-link class="nav" to="/docs">
         <img class="nav-img docs-tab" alt="" />
       </router-link>
-      <!-- <router-link class="nav" to="/community">
+      <router-link class="nav" to="/randomquestion">
         <img class="nav-img community-tab" alt="" />
       </router-link>
-      <router-link class="nav" to="/calendar">
-        <img class="nav-img calendar-tab" alt="" />
-      </router-link> -->
       <router-link class="nav" to="/mypage">
         <img class="nav-img profile-tab" alt="" />
       </router-link>
@@ -55,7 +52,6 @@ export default {};
   align-items: center;
   width: 40px;
   height: 40px;
-  /* background-color: red; */
 }
 
 /* 선택 전 tab-css */
@@ -67,9 +63,6 @@ export default {};
 }
 .community-tab {
   content: url("@/assets/community_off.png");
-}
-.calendar-tab {
-  content: url("@/assets/calendar_off.png");
 }
 .profile-tab {
   content: url("@/assets/profile_off.png");
@@ -84,9 +77,6 @@ export default {};
 }
 .route-active > .community-tab {
   content: url("@/assets/community_on.png");
-}
-.route-active > .calendar-tab {
-  content: url("@/assets/calendar_on.png");
 }
 .route-active > .profile-tab {
   content: url("@/assets/profile_on.png");
