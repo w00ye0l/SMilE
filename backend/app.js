@@ -10,7 +10,7 @@ const bodyParser = require('body-parser');
 
 const cors = require('cors');
 
-dotenv.config({ path: './.env'});
+dotenv.config({path: path.join(__dirname, '/.env')});
 
 const { sequelize } = require('./models');
 const app = express();
@@ -41,17 +41,10 @@ app.use(
     credentials:true,
 }));
 
-// 이미지
-// const publicDirectory = path.join(__dirname, './public');
-// app.set('views', path.join(__dirname, 'views'));
-// // console.log(__dirname)
-// app.use(express.static(publicDirectory));
 app.use('/uploads', express.static('uploads'));
 
 app.use(morgan('dev')); // log
 app.use(express.static(path.join(__dirname, 'public'))); // 요청시 기본 경로 설정
-// app.use(express.json()); // json 파싱
-// app.use(express.urlencoded({ extended: false })); // url 파싱
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
