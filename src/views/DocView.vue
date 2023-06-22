@@ -57,7 +57,6 @@ export default {
 
 <style scoped>
 .body {
-  height: 100vh;
   background-color: #fff9c8;
 }
 
@@ -70,7 +69,6 @@ export default {
 }
 
 .main-section {
-  height: 88vh;
   background-color: #fff;
   border-radius: 20px 20px 0 0;
 }
@@ -91,6 +89,7 @@ export default {
 .info-container {
   padding: 20px;
   width: 100%;
+  height: calc(100vh - 250px);
   display: flex;
   flex-direction: column;
   position: relative;

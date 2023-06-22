@@ -18,7 +18,6 @@
           :href="`#${group.name}`"
         >
           {{ group.name }}
-          <!-- <p class="group-text">{{ group.name }}</p> -->
         </a>
       </div>
     </div>
@@ -65,7 +64,6 @@ export default {
   data() {
     return {
       modal: false,
-      // groups: [],
       mbti: [],
       guest: [],
     };
@@ -120,13 +118,12 @@ export default {
   box-sizing: border-box;
 }
 .main-container {
-  margin-bottom: 80px;
-  height: calc(100% - 80px);
+  height: calc(100vh - 80px);
 }
 
 .title {
   margin: 0;
-  padding: 40px 0;
+  padding: 50px 0;
 }
 
 .group-container {

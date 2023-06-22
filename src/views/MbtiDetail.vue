@@ -1,7 +1,15 @@
 <template>
   <div class="main-container">
     <div class="profile-box">
-      <div class="profile-img"></div>
+      <div class="profile-img-box">
+        <div class="profile-img"></div>
+        <img
+          class="delete-mbti-img"
+          src="@/assets/trashcan.png"
+          alt=""
+          @click="deleteDetail"
+        />
+      </div>
       <input class="profile-name" v-model="name" />
     </div>
 
@@ -149,6 +157,16 @@ export default {
           console.log(err);
         });
     },
+    async deleteDetail() {
+      await axios
+        .delete(`/guest/remove/${this.guest.id}`, { withCredentials: true })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     closeDetail() {
       this.$router.push({ name: "mbti" });
     },
@@ -165,7 +183,6 @@ export default {
 
 .main-container {
   position: relative;
-  margin-bottom: 80px;
   padding: 50px 20px;
   height: calc(100vh - 80px);
   background-color: #fff9c8;
@@ -180,12 +197,24 @@ export default {
   gap: 10px;
 }
 
+.profile-img-box {
+  width: 100%;
+  position: relative;
+}
+
 .profile-img {
+  margin: auto;
   width: 100px;
   height: 100px;
   border-radius: 50%;
   border: 5px solid #fff;
   background-color: #ffd338;
+}
+
+.delete-mbti-img {
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 .profile-name {
