@@ -36,7 +36,7 @@ const routes = [
   {
     path: "/mbti/detail",
     name: "detail",
-    component: () => import("../views/InfoDetail.vue"),
+    component: () => import("../views/MbtiDetail.vue"),
   },
   {
     path: "/mypage",
