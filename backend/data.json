@@ -1,0 +1,79 @@
+{
+  "question": [
+    {
+      "id": "1",
+      "question": "이러면 아무도 너 안 좋아해",
+      "isUsed": false
+    },
+    {
+      "id": "2",
+      "question": "나 너랑 별로 안 맞는 것 같아",
+      "isUsed": false
+    },
+    {
+      "id": "3",
+      "question": "나 배탈 난 것 같아",
+      "isUsed": false
+    },
+    {
+      "id": "4",
+      "question": "슬픔을 나누면",
+      "isUsed": false
+    },
+    {
+      "id": "5",
+      "question": "나 시험 떨어졌어",
+      "isUsed": false
+    },
+    {
+      "id": "6",
+      "question": "'나 차 사고 났어'라고 말한 의미",
+      "isUsed": false
+    },
+    {
+      "id": "7",
+      "question": "너 힘들어 보여서 케이크 사 왔어",
+      "isUsed": false
+    },
+    {
+      "id": "8",
+      "question": "'잠시 생각해볼게'라고 말한 의미",
+      "isUsed": false
+    },
+    {
+      "id": "9",
+      "question": "나 너무 우울해서 염색했어",
+      "isUsed": false
+    },
+    {
+      "id": "10",
+      "question": "너 적성에 안 맞으니깐 그만둬",
+      "isUsed": false
+    },
+    {
+      "id": "11",
+      "question": "친하지 않은 사람 위로할 때",
+      "isUsed": false
+    },
+    {
+      "id": "12",
+      "question": "약속이 취소됐을 때 나의 기분은?",
+      "isUsed": false
+    },
+    {
+      "id": "13",
+      "question": "깻잎 논쟁에 대해 어떻게 생각해?",
+      "isUsed": false
+    },
+    {
+      "id": "14",
+      "question": "'너 이 일 안 맞아'라는 말을 들었을 때 나의 기분은?",
+      "isUsed": false
+    },
+    {
+      "id": "15",
+      "question": "친구가 음식을 열심히 만들었는데 맛이 별로일 때 나의 대답은?",
+      "isUsed": true
+    }
+  ]
+}
