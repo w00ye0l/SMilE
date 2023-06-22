@@ -160,6 +160,9 @@ export default createStore({
     removeFromMbtiComplete({ commit }, key) {
       commit("REMOVE_FROM_MBTI_COMPLETE", key);
     },
+    selectMbti({ commit }, selectMBTI) {
+      commit("SET_SELECTED_MBTI", selectMBTI);
+    },
     async getData({ commit }) {
       axios
         .get("/mypage", {
