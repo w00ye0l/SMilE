@@ -177,7 +177,7 @@ export default {
 .background {
   position: relative;
   background-color: #fff9c8;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 #app {
@@ -190,12 +190,12 @@ export default {
 
 .header {
   color: #f59607;
-  font-size: 2rem;
+  font-size: 40px;
   font-weight: bold;
 }
 
 .slider {
-  height: 630px;
+  height: 75vh;
 }
 
 .title {
@@ -206,8 +206,8 @@ export default {
 .title-img {
   margin-top: 5px;
   padding-left: 1px;
-  width: 25px;
-  height: 25px;
+  width: 30px;
+  height: 30px;
 }
 
 h3 {
@@ -221,104 +221,952 @@ h3 {
 
 .img1 {
   position: absolute;
-  right: -60px;
-  width: 250px;
+  right: -3%;
+  width: 180px;
+  bottom: 25vh;
+  max-width: 280px;
 }
 
 .img2 {
   position: absolute;
-  left: -60px;
-  top: 300px;
-  width: 250px;
+  left: -3%;
+  bottom: 10%;
+  width: 180px;
+  max-width: 280px;
 }
 
-.left-img {
-  position: absolute;
-  left: -30px;
-  top: 320px;
+@media (max-width: 280px) {
+  .img1 {
+    right: -11%;
+  }
+
+  .img2 {
+    left: -11%;
+  }
+
+  .left-img {
+    position: absolute;
+    left: -7%;
+    top: 40%;
+    max-width: 150px;
+  }
+
+  .mid-img {
+    position: absolute;
+    left: 30%;
+    top: 40%;
+    max-width: 150px;
+  }
+
+  .right-img {
+    position: absolute;
+    right: -16%;
+    top: 40%;
+    max-width: 150px;
+  }
+
+  .left-img2 {
+    position: absolute;
+    left: 15%;
+    top: 40%;
+    max-width: 150px;
+  }
+
+  .right-info {
+    position: absolute;
+    top: 35%;
+    right: 7%;
+    max-width: 80px;
+  }
+
+  .left1-img {
+    position: absolute;
+    width: 180px;
+    top: 300px;
+    left: -70px;
+  }
+
+  .question-mark {
+    position: absolute;
+    width: 50px;
+    top: 240px;
+    left: 25px;
+  }
+
+  .ex-mark {
+    position: absolute;
+    top: 160px;
+    width: 25px;
+    right: 30px;
+  }
+
+  .right-img1 {
+    position: absolute;
+    width: 100px;
+    top: 275px;
+    right: 70px;
+  }
+
+  .right-img2 {
+    position: absolute;
+    width: 100px;
+    top: 295px;
+    right: -10px;
+  }
+
+  .right-img3 {
+    position: absolute;
+    width: 100px;
+    top: 200px;
+    right: 50px;
+  }
+
+  .right-img4 {
+    position: absolute;
+    width: 100px;
+    top: 220px;
+    right: -25px;
+  }
+
+  .right-img5 {
+    position: absolute;
+    top: 370px;
+    right: -10px;
+    width: 100px;
+  }
+
+  .right-img6 {
+    position: absolute;
+    width: 100px;
+    top: 360px;
+    right: 70px;
+  }
 }
 
-.mid-img {
-  left: 120px;
-  top: 320px;
-  position: absolute;
+@media (min-width: 281px) and (max-width: 375px) {
+  .img1 {
+    right: -11%;
+  }
+
+  .img2 {
+    left: -11%;
+  }
+
+  .left-img {
+    position: absolute;
+    left: 3%;
+    top: 40%;
+    max-width: 150px;
+  }
+
+  .mid-img {
+    position: absolute;
+    left: 30%;
+    top: 40%;
+    max-width: 150px;
+  }
+
+  .right-img {
+    position: absolute;
+    right: 5%;
+    top: 40%;
+    max-width: 150px;
+  }
+
+  .left-img2 {
+    position: absolute;
+    left: 15%;
+    top: 40%;
+    max-width: 150px;
+  }
+
+  .right-info {
+    position: absolute;
+    top: 35%;
+    right: 15%;
+    max-width: 80px;
+  }
+
+  .left1-img {
+    position: absolute;
+    width: 180px;
+    top: 300px;
+    left: -70px;
+  }
+
+  .question-mark {
+    position: absolute;
+    width: 50px;
+    top: 240px;
+    left: 25px;
+  }
+
+  .ex-mark {
+    position: absolute;
+    top: 160px;
+    width: 25px;
+    right: 30px;
+  }
+
+  .right-img1 {
+    position: absolute;
+    width: 100px;
+    top: 275px;
+    right: 70px;
+  }
+
+  .right-img2 {
+    position: absolute;
+    width: 100px;
+    top: 295px;
+    right: -10px;
+  }
+
+  .right-img3 {
+    position: absolute;
+    width: 100px;
+    top: 200px;
+    right: 50px;
+  }
+
+  .right-img4 {
+    position: absolute;
+    width: 100px;
+    top: 220px;
+    right: -25px;
+  }
+
+  .right-img5 {
+    position: absolute;
+    top: 370px;
+    right: -10px;
+    width: 100px;
+  }
+
+  .right-img6 {
+    position: absolute;
+    width: 100px;
+    top: 360px;
+    right: 70px;
+  }
 }
 
-.right-img {
-  right: -50px;
-  top: 320px;
-  position: absolute;
+@media (min-width: 376px) and (max-width: 540px) {
+  .img1 {
+    right: -13%;
+    width: 220px;
+  }
+
+  .img2 {
+    left: -13%;
+    width: 220px;
+  }
+
+  h3 {
+    font-size: 30px;
+  }
+
+  .left-img {
+    position: absolute;
+    left: -5%;
+    top: 40%;
+    max-width: 400px;
+  }
+
+  .mid-img {
+    position: absolute;
+    left: 29%;
+    top: 40%;
+    max-width: 400px;
+  }
+
+  .right-img {
+    position: absolute;
+    right: -10%;
+    top: 40%;
+    max-width: 400px;
+  }
+
+  .left-img2 {
+    position: absolute;
+    left: 5%;
+    top: 35%;
+    width: 250px;
+  }
+
+  .right-info {
+    position: absolute;
+    top: 35%;
+    right: 11%;
+    width: 100px;
+  }
+
+  .left1-img {
+    position: absolute;
+    width: 180px;
+    top: 300px;
+    left: -70px;
+  }
+
+  .question-mark {
+    position: absolute;
+    width: 50px;
+    top: 240px;
+    left: 25px;
+  }
+
+  .ex-mark {
+    position: absolute;
+    top: 160px;
+    width: 25px;
+    right: 30px;
+  }
+
+  .right-img1 {
+    position: absolute;
+    width: 100px;
+    top: 275px;
+    right: 70px;
+  }
+
+  .right-img2 {
+    position: absolute;
+    width: 100px;
+    top: 295px;
+    right: -10px;
+  }
+
+  .right-img3 {
+    position: absolute;
+    width: 100px;
+    top: 200px;
+    right: 50px;
+  }
+
+  .right-img4 {
+    position: absolute;
+    width: 100px;
+    top: 220px;
+    right: -25px;
+  }
+
+  .right-img5 {
+    position: absolute;
+    top: 370px;
+    right: -10px;
+    width: 100px;
+  }
+
+  .right-img6 {
+    position: absolute;
+    width: 100px;
+    top: 360px;
+    right: 70px;
+  }
 }
 
-.left-img2 {
-  position: absolute;
-  left: 20px;
-  top: 295px;
-  width: 250px;
+@media (min-width: 540px) and (max-width: 767px) {
+  .img1 {
+    right: -13%;
+    width: 220px;
+  }
+
+  .img2 {
+    left: -13%;
+    width: 220px;
+  }
+
+  h3 {
+    font-size: 30px;
+  }
+
+  .left-img {
+    position: absolute;
+    left: 7%;
+    top: 40%;
+    max-width: 400px;
+  }
+
+  .mid-img {
+    position: absolute;
+    left: 33%;
+    top: 40%;
+    max-width: 400px;
+  }
+
+  .right-img {
+    position: absolute;
+    right: 7%;
+    top: 40%;
+    max-width: 400px;
+  }
+
+  .left-img2 {
+    position: absolute;
+    left: 5%;
+    top: 35%;
+    width: 250px;
+  }
+
+  .right-info {
+    position: absolute;
+    top: 35%;
+    right: 15%;
+    width: 100px;
+  }
+
+  .left1-img {
+    position: absolute;
+    width: 180px;
+    top: 300px;
+    left: -70px;
+  }
+
+  .question-mark {
+    position: absolute;
+    width: 50px;
+    top: 240px;
+    left: 25px;
+  }
+
+  .ex-mark {
+    position: absolute;
+    top: 160px;
+    width: 25px;
+    right: 30px;
+  }
+
+  .right-img1 {
+    position: absolute;
+    width: 100px;
+    top: 275px;
+    right: 70px;
+  }
+
+  .right-img2 {
+    position: absolute;
+    width: 100px;
+    top: 295px;
+    right: -10px;
+  }
+
+  .right-img3 {
+    position: absolute;
+    width: 100px;
+    top: 200px;
+    right: 50px;
+  }
+
+  .right-img4 {
+    position: absolute;
+    width: 100px;
+    top: 220px;
+    right: -25px;
+  }
+
+  .right-img5 {
+    position: absolute;
+    top: 370px;
+    right: -10px;
+    width: 100px;
+  }
+
+  .right-img6 {
+    position: absolute;
+    width: 100px;
+    top: 360px;
+    right: 70px;
+  }
 }
 
-.right-info {
-  position: absolute;
-  top: 300px;
-  right: 35px;
-  width: 100px;
+@media (min-width: 768px) and (max-width: 908px) {
+  .img1 {
+    right: -8.5%;
+    width: 300px;
+  }
+
+  .img2 {
+    left: -8.5%;
+    width: 300px;
+  }
+
+  h3 {
+    font-size: 40px;
+  }
+
+  .header {
+    font-size: 60px;
+  }
+
+  .title-img {
+    width: 47px;
+    height: 47px;
+  }
+  .left-img {
+    position: absolute;
+    left: 21%;
+    top: 40%;
+    max-width: 400px;
+  }
+
+  .mid-img {
+    position: absolute;
+    left: 38%;
+    top: 40%;
+    max-width: 400px;
+  }
+
+  .right-img {
+    position: absolute;
+    right: 21.5%;
+    top: 40%;
+    max-width: 400px;
+  }
+
+  .left-img2 {
+    position: absolute;
+    left: 30%;
+    top: 35%;
+    width: 250px;
+  }
+
+  .right-info {
+    position: absolute;
+    top: 35%;
+    right: 25%;
+    width: 100px;
+  }
+
+  .left1-img {
+    position: absolute;
+    width: 350px;
+    top: 300px;
+    left: -70px;
+  }
+
+  .question-mark {
+    position: absolute;
+    width: 100px;
+    top: 190px;
+    left: 95px;
+  }
+
+  .ex-mark {
+    position: absolute;
+    top: 120px;
+    width: 45px;
+    right: 80px;
+  }
+
+  .right-img1 {
+    position: absolute;
+    width: 230px;
+    top: 360px;
+    right: 150px;
+  }
+
+  .right-img2 {
+    position: absolute;
+    width: 230px;
+    top: 380px;
+    right: -40px;
+  }
+
+  .right-img3 {
+    position: absolute;
+    width: 230px;
+    top: 180px;
+    right: 100px;
+  }
+
+  .right-img4 {
+    position: absolute;
+    width: 230px;
+    top: 210px;
+    right: -50px;
+  }
+
+  .right-img5 {
+    position: absolute;
+    width: 230px;
+    top: 550px;
+    right: -40px;
+  }
+
+  .right-img6 {
+    position: absolute;
+    width: 230px;
+    top: 550px;
+    right: 140px;
+  }
 }
 
-.left1-img {
-  position: absolute;
-  width: 230px;
-  top: 350px;
-  left: -70px;
+@media (min-width: 912px) and (max-width: 1240px) {
+  .img1 {
+    right: -8.5%;
+    width: 300px;
+  }
+
+  .img2 {
+    left: -8.5%;
+    width: 300px;
+  }
+
+  h3 {
+    font-size: 40px;
+  }
+
+  .header {
+    font-size: 60px;
+  }
+
+  .title-img {
+    width: 47px;
+    height: 47px;
+  }
+
+  .left-img {
+    position: absolute;
+    left: 25%;
+    top: 40%;
+    max-width: 400px;
+  }
+
+  .mid-img {
+    position: absolute;
+    left: 40%;
+    top: 40%;
+    max-width: 400px;
+  }
+
+  .right-img {
+    position: absolute;
+    right: 25%;
+    top: 40%;
+    max-width: 400px;
+  }
+
+  .left-img2 {
+    position: absolute;
+    left: 30%;
+    top: 35%;
+    width: 250px;
+  }
+
+  .right-info {
+    position: absolute;
+    top: 35%;
+    right: 30%;
+    width: 100px;
+  }
+  .left1-img {
+    position: absolute;
+    width: 350px;
+    top: 300px;
+    left: -70px;
+  }
+
+  .question-mark {
+    position: absolute;
+    width: 100px;
+    top: 190px;
+    left: 95px;
+  }
+
+  .ex-mark {
+    position: absolute;
+    top: 120px;
+    width: 45px;
+    right: 80px;
+  }
+
+  .right-img1 {
+    position: absolute;
+    width: 230px;
+    top: 360px;
+    right: 150px;
+  }
+
+  .right-img2 {
+    position: absolute;
+    width: 230px;
+    top: 380px;
+    right: -40px;
+  }
+
+  .right-img3 {
+    position: absolute;
+    width: 230px;
+    top: 180px;
+    right: 100px;
+  }
+
+  .right-img4 {
+    position: absolute;
+    width: 230px;
+    top: 210px;
+    right: -50px;
+  }
+
+  .right-img5 {
+    position: absolute;
+    width: 230px;
+    top: 550px;
+    right: -40px;
+  }
+
+  .right-img6 {
+    position: absolute;
+    width: 230px;
+    top: 550px;
+    right: 140px;
+  }
 }
 
-.question-mark {
-  position: absolute;
-  width: 70px;
-  top: 255px;
-  left: 35px;
+@media (min-width: 1240px) and (max-width: 1620px) {
+  .img1 {
+    right: -6.5%;
+    width: 300px;
+  }
+
+  .img2 {
+    left: -6.5%;
+    width: 300px;
+  }
+
+  h3 {
+    font-size: 40px;
+  }
+
+  .header {
+    font-size: 60px;
+  }
+
+  .title-img {
+    width: 47px;
+    height: 47px;
+  }
+
+  .left-img {
+    position: absolute;
+    left: 37%;
+    top: 40%;
+    max-width: 400px;
+  }
+
+  .mid-img {
+    position: absolute;
+    left: 46%;
+    top: 40%;
+    max-width: 400px;
+  }
+
+  .right-img {
+    position: absolute;
+    right: 34%;
+    top: 40%;
+    max-width: 400px;
+  }
+
+  .left-img2 {
+    position: absolute;
+    left: 33%;
+    top: 35%;
+    width: 250px;
+  }
+
+  .right-info {
+    position: absolute;
+    top: 35%;
+    right: 39%;
+    width: 100px;
+  }
+
+  .left1-img {
+    position: absolute;
+    width: 350px;
+    top: 300px;
+    left: -70px;
+  }
+
+  .question-mark {
+    position: absolute;
+    width: 100px;
+    top: 190px;
+    left: 95px;
+  }
+
+  .ex-mark {
+    position: absolute;
+    top: 10px;
+    width: 45px;
+    right: 80px;
+  }
+
+  .right-img1 {
+    position: absolute;
+    width: 200px;
+    top: 240px;
+    right: 130px;
+  }
+
+  .right-img2 {
+    position: absolute;
+    width: 200px;
+    top: 260px;
+    right: -40px;
+  }
+
+  .right-img3 {
+    position: absolute;
+    width: 200px;
+    top: 90px;
+    right: 100px;
+  }
+
+  .right-img4 {
+    position: absolute;
+    width: 200px;
+    top: 120px;
+    right: -30px;
+  }
+
+  .right-img5 {
+    position: absolute;
+    width: 200px;
+    top: 400px;
+    right: -30px;
+  }
+
+  .right-img6 {
+    position: absolute;
+    width: 200px;
+    top: 400px;
+    right: 120px;
+  }
 }
 
-.ex-mark {
-  position: absolute;
-  top: 230px;
-  width: 30px;
-  right: 30px;
-}
+@media (min-width: 1630px) and (max-width: 1920px) {
+  .img1 {
+    right: -6.5%;
+    width: 300px;
+  }
 
-.right-img1 {
-  position: absolute;
-  top: 375px;
-  right: 78px;
-}
+  .img2 {
+    left: -6.5%;
+    width: 300px;
+  }
 
-.right-img2 {
-  position: absolute;
-  top: 400px;
-  right: -20px;
-}
+  h3 {
+    font-size: 40px;
+  }
 
-.right-img3 {
-  position: absolute;
-  top: 275px;
-  right: 50px;
-}
+  .header {
+    font-size: 60px;
+  }
 
-.right-img4 {
-  position: absolute;
-  top: 300px;
-  right: -45px;
-}
+  .title-img {
+    width: 47px;
+    height: 47px;
+  }
 
-.right-img5 {
-  position: absolute;
-  top: 495px;
-  right: -20px;
-}
+  .left-img {
+    position: absolute;
+    left: 38%;
+    top: 40%;
+    max-width: 400px;
+  }
 
-.right-img6 {
-  position: absolute;
-  top: 480px;
-  right: 80px;
+  .mid-img {
+    position: absolute;
+    left: 45%;
+    top: 40%;
+    max-width: 400px;
+  }
+
+  .right-img {
+    position: absolute;
+    right: 38%;
+    top: 40%;
+    max-width: 400px;
+  }
+
+  .left-img2 {
+    position: absolute;
+    left: 33%;
+    top: 35%;
+    width: 250px;
+  }
+
+  .right-info {
+    position: absolute;
+    top: 35%;
+    right: 39%;
+    width: 100px;
+  }
+
+  .left1-img {
+    position: absolute;
+    width: 350px;
+    top: 300px;
+    left: -70px;
+  }
+
+  .question-mark {
+    position: absolute;
+    width: 100px;
+    top: 190px;
+    left: 95px;
+  }
+
+  .ex-mark {
+    position: absolute;
+    top: 10px;
+    width: 45px;
+    right: 80px;
+  }
+
+  .right-img1 {
+    position: absolute;
+    width: 200px;
+    top: 240px;
+    right: 130px;
+  }
+
+  .right-img2 {
+    position: absolute;
+    width: 200px;
+    top: 260px;
+    right: -40px;
+  }
+
+  .right-img3 {
+    position: absolute;
+    width: 200px;
+    top: 90px;
+    right: 100px;
+  }
+
+  .right-img4 {
+    position: absolute;
+    width: 200px;
+    top: 120px;
+    right: -30px;
+  }
+
+  .right-img5 {
+    position: absolute;
+    width: 200px;
+    top: 400px;
+    right: -30px;
+  }
+
+  .right-img6 {
+    position: absolute;
+    width: 200px;
+    top: 400px;
+    right: 120px;
+  }
 }
 
 .btn-start {
