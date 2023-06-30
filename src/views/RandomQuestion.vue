@@ -1,6 +1,6 @@
 <template>
   <div class="title background">
-    <h2>오늘의 질문</h2>
+    <h2 class="title-name">오늘의 질문</h2>
     <div class="question">
       <span class="letter">{{ this.message }}</span>
     </div>
@@ -24,7 +24,7 @@
       <div class="type-container">
         <div v-on:click="selectMBTI('EI')" class="select">
           <div class="selected">
-            <p class="selected-value">{{ this.mbti1 }}</p>
+            <p class="selected-value">{{ mbti1 }}</p>
           </div>
           <ul class="select-option" v-bind:class="{ active: selectEI }">
             <li class="option" v-on:click="selectEIOption('_')">_</li>
@@ -34,7 +34,7 @@
         </div>
         <div v-on:click="selectMBTI('NS')" class="select">
           <div class="selected">
-            <p class="selected-value">{{ this.mbti2 }}</p>
+            <p class="selected-value">{{ mbti2 }}</p>
           </div>
           <ul class="select-option" v-bind:class="{ active: selectNS }">
             <li class="option" v-on:click="selectNSOption('_')">_</li>
@@ -44,7 +44,7 @@
         </div>
         <div v-on:click="selectMBTI('TF')" class="select">
           <div class="selected">
-            <p class="selected-value">{{ this.mbti3 }}</p>
+            <p class="selected-value">{{ mbti3 }}</p>
           </div>
           <ul class="select-option" v-bind:class="{ active: selectTF }">
             <li class="option" v-on:click="selectTFOption('_')">_</li>
@@ -54,7 +54,7 @@
         </div>
         <div v-on:click="selectMBTI('PJ')" class="select">
           <div class="selected">
-            <p class="selected-value">{{ this.mbti4 }}</p>
+            <p class="selected-value">{{ mbti4 }}</p>
           </div>
           <ul class="select-option" v-bind:class="{ active: selectPJ }">
             <li class="option" v-on:click="selectPJOption('_')">_</li>
@@ -63,7 +63,7 @@
           </ul>
         </div>
       </div>
-      <p>{{ totalMbti }}들의 답변</p>
+      <p class="total-mbti">{{ totalMbti }}들의 답변</p>
       <button class="btn-more" @click="pageLink">더보기</button>
     </div>
   </div>
@@ -80,11 +80,11 @@ export default {
       selectNS: false,
       selectTF: false,
       selectPJ: false,
-      mbti1: "",
-      mbti2: "",
-      mbti3: "",
-      mbti4: "",
-      totalMbti: "",
+      mbti1: "_",
+      mbti2: "_",
+      mbti3: "_",
+      mbti4: "_",
+      totalMbti: "____",
       message: "",
     };
   },
@@ -124,6 +124,14 @@ export default {
           })
           .catch((error) => {
             console.log(error);
+            if (error.response) {
+              if (
+                error.response.data.message ===
+                "이미 해당 질문에 대한 답변을 작성하셨습니다."
+              ) {
+                alert("이미 작성하셨습니다");
+              }
+            }
           });
         this.memo = "";
       }
@@ -213,18 +221,23 @@ export default {
 };
 </script>
 <style scoped>
+.title-name {
+  font-size: 24px;
+}
 .title {
   margin: 0;
-  padding: 30px 0 20px 0;
+  margin-bottom: 80px;
+  padding: 0;
 }
 .background {
   background-color: #ffffff;
   height: 100vh;
   position: relative;
+  overflow: auto;
 }
 .question {
   background-color: #fff9c8;
-  height: 15vh;
+  height: 23%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -233,16 +246,23 @@ export default {
 .letter {
   font-weight: bold;
   padding: 0 50px 0 50px;
+  font-size: 20px;
 }
 
 .my-answer {
-  height: 28vh;
+  max-height: 33vh;
+  margin-bottom: 4vw;
 }
 
 .second-title {
   display: flex;
-  padding: 0 50px 0 45px;
+  padding: 0 2.5vw 0 10.25vw;
   margin-bottom: 5px;
+  font-size: 24px;
+}
+
+textarea {
+  font-size: 24px;
 }
 
 .memo-box {
@@ -252,6 +272,7 @@ export default {
   border: none;
   box-shadow: 0px 1.5px 0px 1.5px #d3d3d3;
   height: 18vh;
+  max-height: 21vh;
   background-color: white;
   display: inline-block;
   white-space: pre-line;
@@ -267,30 +288,33 @@ export default {
 .btn-control {
   display: flex;
   justify-content: flex-end;
-  margin-right: 40px;
+  width: 100%;
 }
 
 .btn {
   border-radius: 20px;
   width: 100px;
-  height: 35px;
+  height: 36px;
+  font-size: 15px;
   font-weight: bold;
   border: none;
   background-color: #f59607;
+  margin: 1.3% 9% 0 0;
 }
 
 .other-answer {
-  height: 33vh;
+  min-height: 45vh;
   background-color: #fff9c8;
 }
 
 .third-title {
   display: flex;
-  padding: 20px 50px 0 45px;
+  padding: 2.5vw 2.5vw 0 10vw;
+  font-size: 24px;
 }
 
 .type-container {
-  padding: 0 0 50px 0;
+  padding: 0 0 10px 0;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
@@ -331,9 +355,13 @@ export default {
   justify-content: center;
   align-items: center;
   font-weight: bold;
-  background-color: #fff9c8;
+  background-color: #ffe99d;
   border-radius: 50%;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+}
+
+.total-mbti {
+  font-size: 18px;
 }
 
 .selected-value {
@@ -366,7 +394,8 @@ export default {
 .btn-more {
   border-radius: 20px;
   width: 100px;
-  height: 35px;
+  height: 36px;
+  font-size: 15px;
   font-weight: bold;
   border: none;
   background-color: #ffd338;
