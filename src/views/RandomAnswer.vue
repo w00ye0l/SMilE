@@ -169,12 +169,12 @@ export default {
   margin: 0;
   padding: 0;
   overflow: scroll;
+  margin-bottom: 80px;
 }
 .background {
   background-color: #fff9c8;
-  height: 92vh;
+  height: 100vh;
   position: relative;
-  width: 100%;
 }
 
 .question {
