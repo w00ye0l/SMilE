@@ -62,7 +62,7 @@ const routes = [
   },
   {
     path: "/randomanswer/modify/:name",
-    name: "randomanswerModify",
+    name: "randomanswermodify",
     component: () => import("../views/RandomAnswerModify.vue"),
     props: true,
   },
