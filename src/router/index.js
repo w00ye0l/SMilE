@@ -61,6 +61,12 @@ const routes = [
     props: true,
   },
   {
+    path: "/randomanswer/modify/:name",
+    name: "randomanswerModify",
+    component: () => import("../views/RandomAnswerModify.vue"),
+    props: true,
+  },
+  {
     path: "/login",
     name: "login",
     component: () => import("../views/LoginView.vue"),
