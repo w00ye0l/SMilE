@@ -23,19 +23,6 @@ exports.commentCreate = async (req, res, next) => {
       return res.status(404).json({ message: "해당 답변이 없습니다" });
     }
 
-    // userID와 answerID로 이미 답변이 존재하는지 확인
-    const existComment = await Comment.findOne({
-      where: {
-        userID: req.user.id,
-        answerID: answerID,
-      },
-    });
-
-    if (existComment) {
-      res.status(400).json({ message: "이미 해당 답변에 대한 댓글을 작성하셨습니다." });
-      return;
-    }
-
     const createComment = await Comment.create({
       userID: req.user.id,
       answerID: existAnswer.id,
@@ -77,10 +64,6 @@ exports.commentRead = async (req, res, next) => {
         attributes: ['mbti1', 'mbti2', 'mbti3', 'mbti4']
       },
     });
-
-    if (comments.length === 0) {
-      return res.status(404).json({ message: "해당 댓글이 없습니다" });
-    }
 
     res.status(200).send(comments);
   } catch (error) {
