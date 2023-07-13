@@ -7,7 +7,7 @@
     </div>
     <div class="small-box-control">
       <div class="small-box">
-        <span class="mbti">Q. {{ this.message }}</span>
+        <span class="mbti">Q. {{ this.question }}</span>
       </div>
     </div>
     <div class="memo-box">
@@ -25,7 +25,7 @@
             <span class="writing-delete" @click="writingDelete()">삭제</span>
           </div>
         </div>
-        <p class="content">{{ $route.params.name }}</p>
+        <p class="content">{{ content }}</p>
       </div>
       <hr />
       <div class="comments-container">
@@ -82,6 +82,7 @@ export default {
   mounted() {
     this.getRandomMessage();
     this.getComments();
+    this.getAnswer();
   },
   data() {
     return {
@@ -89,6 +90,10 @@ export default {
       message: "",
       comments: "",
       editingCommentId: null,
+      content: "",
+      totalMbti: "",
+      question: "",
+      answer: "",
     };
   },
   computed: {},
@@ -136,27 +141,51 @@ export default {
         this.newComment = "";
       }
     },
+    async getRandomMessage() {
+      await axios
+        .get("/random/question/", { withCredentials: true })
+        .then((res) => {
+          this.randomMessage = res.data;
+          this.question = this.randomMessage.question;
+        });
+    },
+    async getAnswer() {
+      await axios
+        .get(`/random/answer/read/${this.$route.params.id}`, {
+          withCredentials: true,
+        })
+        .then((res) => {
+          this.answer = res.data;
+          this.content = this.answer.answer.answer;
+          console.log(this.answer);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
     async getComments() {
-      console.log(this.$route.params.id);
       await axios
         .get(`/random/comment/${this.$route.params.id}/read`, {
           withCredentials: true,
         })
         .then((res) => {
           this.comments = res.data;
-          console.log(this.comments);
         })
         .catch((error) => {
           console.log(error);
         });
     },
-    async getRandomMessage() {
-      await axios
-        .get("/random/question/", { withCredentials: true })
-        .then((res) => {
-          this.randomMessage = res.data;
-          this.message = this.randomMessage.question;
-        });
+    async writingDelete() {
+      if (confirm("삭제하시겠습니까?")) {
+        try {
+          await axios.delete(`/random/answer/remove/${this.$route.params.id}`, {
+            withCredentials: true,
+          });
+          this.$router.go(-1);
+        } catch (error) {
+          console.log(error);
+        }
+      }
     },
     async removeComment(commentId) {
       if (confirm("삭제하시겠습니까?")) {
@@ -178,7 +207,6 @@ export default {
         name: "randomanswermodify",
         params: {
           id: this.$route.params.id,
-          name: this.$route.params.name,
         },
       });
     },
