@@ -55,13 +55,13 @@ const routes = [
     component: () => import("../views/RandomQuestion.vue"),
   },
   {
-    path: "/randomanswer/detail/:name/:mbti/:user/:id",
+    path: "/randomanswer/detail/:id",
     name: "randomanswerdetail",
     component: () => import("../views/RandomAnswerDetail.vue"),
     props: true,
   },
   {
-    path: "/randomanswer/modify/:name/:id",
+    path: "/randomanswer/modify/:id",
     name: "randomanswermodify",
     component: () => import("../views/RandomAnswerModify.vue"),
     props: true,
