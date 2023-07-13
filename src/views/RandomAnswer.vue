@@ -96,9 +96,6 @@ export default {
       this.$router.push({
         name: "randomanswerdetail",
         params: {
-          name: message.answer,
-          mbti: message.mbti,
-          user: message.userID,
           id: message.id,
         },
       });
