@@ -86,6 +86,7 @@ export default {
               id: obj.id,
             };
           });
+          console.log(this.mbtiMessage.totalMbti);
         })
         .catch((error) => {
           console.log(error);
@@ -97,6 +98,7 @@ export default {
         name: "randomanswerdetail",
         params: {
           id: message.id,
+          mbti: message.mbti,
         },
       });
     },
