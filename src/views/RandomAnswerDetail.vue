@@ -1,17 +1,31 @@
 <template>
-  <div class="background">
+  <div class="background title">
+    <div class="arrow-box">
+      <button class="back-btn" @click="back()">
+        <img :src="require(`@/assets/back.png`)" class="back-img" />
+      </button>
+    </div>
     <div class="small-box-control">
       <div class="small-box">
-        <span class="mbti"> {{ this.message }}</span>
+        <span class="mbti">Q. {{ this.question }}</span>
       </div>
     </div>
     <div class="memo-box">
       <div class="comment-box-top">
-        <div class="img-title1">
-          <img :src="require(`@/assets/first_smile1.png`)" class="title-img" />
-          <span class="mbti-name"> {{ $route.params.mbti }}</span>
+        <div class="my-writing-box">
+          <div class="img-title1">
+            <img
+              :src="require(`@/assets/first_smile1.png`)"
+              class="title-img"
+            />
+            <span class="mbti-name"> {{ $route.params.mbti }}</span>
+          </div>
+          <div class="text-modify-delete">
+            <span class="writing-modify" @click="writingModify()">수정</span>
+            <span class="writing-delete" @click="writingDelete()">삭제</span>
+          </div>
         </div>
-        <p class="content">{{ $route.params.name }}</p>
+        <p class="content">{{ content }}</p>
       </div>
       <hr />
       <div class="comments-container">
@@ -44,12 +58,17 @@
       </div>
     </div>
     <form @submit.prevent="submitForm" class="input-with-image">
-      <input
-        type="text"
-        placeholder="댓글 추가..."
-        v-model="newComment"
-        class="name-input-box"
-      />
+      <div class="name-input-box-control">
+        <div class="name-input-box">
+          <div class="textarea-control">
+            <textarea
+              type="text"
+              placeholder="댓글 추가..."
+              v-model="newComment"
+            />
+          </div>
+        </div>
+      </div>
       <button @click="postComment()" class="image-button">
         <img :src="require(`@/assets/direction.png`)" alt="이미지" />
       </button>
@@ -63,6 +82,7 @@ export default {
   mounted() {
     this.getRandomMessage();
     this.getComments();
+    this.getAnswer();
   },
   data() {
     return {
@@ -70,13 +90,14 @@ export default {
       message: "",
       comments: "",
       editingCommentId: null,
+      content: "",
+      totalMbti: "",
+      question: "",
+      answer: "",
     };
   },
   computed: {},
   methods: {
-    backLink() {
-      this.$router.go(-1);
-    },
     validComment() {
       if (this.newComment.trim() === "") {
         alert("댓글을 입력하세요");
@@ -120,27 +141,51 @@ export default {
         this.newComment = "";
       }
     },
+    async getRandomMessage() {
+      await axios
+        .get("/random/question/", { withCredentials: true })
+        .then((res) => {
+          this.randomMessage = res.data;
+          this.question = this.randomMessage.question;
+        });
+    },
+    async getAnswer() {
+      await axios
+        .get(`/random/answer/read/${this.$route.params.id}`, {
+          withCredentials: true,
+        })
+        .then((res) => {
+          this.answer = res.data;
+          this.content = this.answer.answer.answer;
+          console.log(this.answer);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
     async getComments() {
-      console.log(this.$route.params.id);
       await axios
         .get(`/random/comment/${this.$route.params.id}/read`, {
           withCredentials: true,
         })
         .then((res) => {
           this.comments = res.data;
-          console.log(this.comments);
         })
         .catch((error) => {
           console.log(error);
         });
     },
-    async getRandomMessage() {
-      await axios
-        .get("/random/question/", { withCredentials: true })
-        .then((res) => {
-          this.randomMessage = res.data;
-          this.message = this.randomMessage.question;
-        });
+    async writingDelete() {
+      if (confirm("삭제하시겠습니까?")) {
+        try {
+          await axios.delete(`/random/answer/remove/${this.$route.params.id}`, {
+            withCredentials: true,
+          });
+          this.$router.go(-1);
+        } catch (error) {
+          console.log(error);
+        }
+      }
     },
     async removeComment(commentId) {
       if (confirm("삭제하시겠습니까?")) {
@@ -154,6 +199,17 @@ export default {
         }
       }
     },
+    back() {
+      this.$router.go(-1);
+    },
+    writingModify() {
+      this.$router.push({
+        name: "randomanswermodify",
+        params: {
+          id: this.$route.params.id,
+        },
+      });
+    },
   },
 };
 </script>
@@ -161,13 +217,81 @@ export default {
 .background {
   background-color: #fff9c8;
   height: 100vh;
-  margin: 0;
-  padding-top: 30px;
+  position: relative;
+  overflow: auto;
+}
+
+@media (max-width: 767px) {
+  .back-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    left: 10%;
+    top: 1%;
+    margin-top: 1%;
+  }
+  .back-img {
+    width: 70%;
+    height: 70%;
+  }
+
+  textarea {
+    width: 80%;
+    border: none;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .back-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    left: 9.5%;
+    top: 1.3%;
+    margin-top: 1%;
+  }
+  .back-img {
+    width: 70%;
+    height: 70%;
+  }
+
+  textarea {
+    width: 92%;
+    border: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .back-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    left: 10%;
+    top: 1%;
+    margin-top: 0.3%;
+  }
+  .back-img {
+    width: 20px;
+    height: 20px;
+  }
+
+  textarea {
+    width: 93%;
+    border: none;
+  }
 }
 
 .title {
   margin: 0;
-  padding: 40px 0 20px 0;
+  margin-bottom: 80px;
+  padding: 0;
+}
+
+.arrow-box {
+  height: 3vh;
 }
 
 .memo-box {
@@ -198,6 +322,7 @@ export default {
   display: flex;
   justify-content: center;
   align-content: center;
+  margin-top: 15px;
 }
 
 .img-title1 {
@@ -241,15 +366,6 @@ export default {
   justify-content: center;
   margin: 0;
 }
-.back-btn {
-  border-radius: 20px;
-  width: 100px;
-  height: 35px;
-  font-weight: bold;
-  border: none;
-  background-color: #f59607;
-  margin-top: 15px;
-}
 
 .content {
   padding: 10px 18px 0 18px;
@@ -263,38 +379,67 @@ export default {
 
 .answer {
   display: flex;
-  margin: 10px 0 0 20px;
-  overflow: hidden;
+  margin: 10px 0 0 10px;
+  overflow: auto;
+  flex-direction: column;
 }
 
 .comment-box-top {
-  height: 80%;
-  overflow-y: auto;
+  height: auto;
+}
+
+.my-writing-box {
+  display: flex;
+  justify-content: space-between;
+  width: 98.5%;
+}
+
+.text-modify-delete {
+  margin: 0 10px 0 20px;
+  padding-top: 25px;
+  display: flex;
+  gap: 10px;
+}
+
+.writing-modify {
+  color: skyblue;
+}
+
+.writing-delete {
+  color: red;
 }
 
 .comments-container {
-  height: 13.5%;
-  overflow-y: auto;
+  overflow: scroll;
+}
+
+.name-input-box-control {
+  display: flex;
+  justify-content: center;
 }
 .name-input-box {
-  width: 81vw;
+  width: 80%;
+  height: auto;
   margin: 5px 0 15px 0;
   border-radius: 20px;
   border: none;
   box-shadow: 0px 1.5px 0px 1.5px #d3d3d3;
-  height: 45px;
-  display: inline-block;
-  padding-left: 15px;
+  min-height: 45px;
+  padding: 12px 0 0 15px;
+  background-color: white;
 }
 
+.textarea-control {
+  display: flex;
+}
 .input-with-image {
   position: relative;
 }
 
 .input-with-image img {
   position: absolute;
-  top: 5px;
-  right: 50px;
+  top: 7%;
+  right: 10.5%;
 }
 
 .image-button {
@@ -308,7 +453,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 300px;
+  width: 97%;
 }
 .img-title2 {
   margin: 0 0 0 20px;

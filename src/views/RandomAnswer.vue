@@ -1,5 +1,8 @@
 <template>
   <div class="title background">
+    <button class="back-btn" @click="back()">
+      <img :src="require(`@/assets/back.png`)" class="back-img" />
+    </button>
     <h2>{{ $store.state.totalMbti }}들의 답변</h2>
     <div class="question">
       <span class="letter">{{ this.message }}</span>
@@ -83,6 +86,7 @@ export default {
               id: obj.id,
             };
           });
+          console.log(this.mbtiMessage.totalMbti);
         })
         .catch((error) => {
           console.log(error);
@@ -93,31 +97,88 @@ export default {
       this.$router.push({
         name: "randomanswerdetail",
         params: {
-          name: message.answer,
-          mbti: message.mbti,
-          user: message.userID,
           id: message.id,
+          mbti: message.mbti,
         },
       });
+    },
+    back() {
+      this.$router.go(-1);
     },
   },
 };
 </script>
 <style scoped>
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10%;
+}
+
+@media (max-width: 767px) {
+  .back-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    left: 12%;
+    top: 3%;
+    margin-top: 1%;
+  }
+  .back-img {
+    width: 70%;
+    height: 70%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .back-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    left: 14%;
+    top: 1.3%;
+    margin-top: 1%;
+  }
+  .back-img {
+    width: 70%;
+    height: 70%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .back-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    left: 14.5%;
+    top: 1.4%;
+    margin-top: 0.3%;
+  }
+  .back-img {
+    width: 20px;
+    height: 20px;
+  }
+}
+
 .title {
   margin: 0;
-  padding: 30px 0 20px 0;
+  padding: 0;
   overflow: scroll;
+  margin-bottom: 80px;
 }
 .background {
   background-color: #fff9c8;
-  height: 93vh;
+  height: 100vh;
   position: relative;
 }
 
 .question {
   background-color: white;
-  height: 15vh;
+  height: 16%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -129,12 +190,12 @@ export default {
 }
 
 .memo-box {
-  width: 80vw;
+  width: 70%;
   margin: 30px 0 15px 0;
   border-radius: 20px;
   border: none;
   box-shadow: 0px 1.5px 0px 1.5px #d3d3d3;
-  height: 16.5vh;
+  height: 18%;
   background-color: white;
   display: inline-block;
   white-space: pre-line;

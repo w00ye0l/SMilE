@@ -64,7 +64,7 @@ body {
 
 .router-view {
   height: 100%;
-  margin-bottom: 80px;
+  /* margin-bottom: 80px; */
 }
 
 .fc .fc-toolbar-title {
