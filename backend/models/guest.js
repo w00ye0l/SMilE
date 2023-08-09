@@ -3,6 +3,10 @@ const Sequelize = require('sequelize');
 class Guest extends Sequelize.Model {
   static initiate(sequelize) {
     Guest.init({
+      image: {
+        type: Sequelize.STRING(300),
+        allowNull: true,
+      },
       name: {
         type: Sequelize.STRING(20),
         allowNull: false,
