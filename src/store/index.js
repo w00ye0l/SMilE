@@ -7,26 +7,16 @@ export default createStore({
   state: {
     selectMBTI: "",
     totalMbti: "",
-    events: [],
     mypage: {
+      answered: false,
       nickname: "",
       birthday: "",
       gender: "",
       mbti: "",
     },
     messages: [],
-    memos: [],
-    answers: [],
-    messageCount: 0,
     groups: [],
     selectGuest: [],
-    keys: 0,
-    groupId: "",
-    groupData: {},
-    title: {},
-    contents: {},
-    mbti: "선택",
-    mbti_complete: {},
     mbtiList: [
       "ENFJ",
       "ENFP",
@@ -40,15 +30,12 @@ export default createStore({
       "INFP",
       "INTJ",
       "INTP",
-      "ISTJ",
-      "ISTP",
       "ISFJ",
       "ISFP",
+      "ISTJ",
+      "ISTP",
     ],
     selectMessage: "",
-    message: "Q. 친구가 기분이 안좋아서 화분을 샀다. 나의 대답은?..",
-    newComment: "",
-    comments: [],
     id: 0,
     mbti1: "_",
     mbti2: "_",
@@ -116,6 +103,9 @@ export default createStore({
     SET_MBTI(state, mbti) {
       state.mypage.mbti = mbti;
     },
+    SET_ANSWERED(state, answered) {
+      state.mypage.answered = answered;
+    },
     UPDATE_NEW_COMMENT(state, payload) {
       state.newComment = payload;
     },
@@ -177,6 +167,7 @@ export default createStore({
             "SET_MBTI",
             res.data.mbti1 + res.data.mbti2 + res.data.mbti3 + res.data.mbti4
           );
+          commit("SET_ANSWERED", res.data.answered);
           console.log(this.state.mypage);
           router.push({ name: "mypage" });
         })
