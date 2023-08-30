@@ -92,6 +92,9 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
   linkActiveClass: "route-active",
+  scrollBehavior() {
+    return { top: 0 };
+  },
 });
 
 function requireAuth(to, from, next) {
