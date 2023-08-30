@@ -10,6 +10,7 @@ import { fas } from "@fortawesome/free-solid-svg-icons";
 library.add(fas);
 
 axios.defaults.baseURL = process.env.VUE_APP_API_URL;
+
 createApp(App)
   .use(store)
   .use(router, axios)
