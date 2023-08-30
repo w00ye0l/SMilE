@@ -55,7 +55,8 @@ app.use(session({
   secret: process.env.COOKIE_SECRET, // 암호화 키
   cookie: {
     httpOnly: true,
-    secure: false,
+    secure: true,
+    sameSite: 'none',
   },
 }));
 app.use(passport.initialize()); //요청 (req 객체) 에 passport 설정
