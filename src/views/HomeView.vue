@@ -175,17 +175,10 @@ export default {
 </script>
 <style scoped>
 .background {
+  margin: 0;
   position: relative;
   background-color: #fff9c8;
   min-height: 100vh;
-}
-
-#app {
-  padding-bottom: 0;
-}
-
-.head {
-  line-height: 2px;
 }
 
 .header {

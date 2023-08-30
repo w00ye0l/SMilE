@@ -56,6 +56,23 @@ export default {
 </script>
 
 <style scoped>
+@media (min-width: 541px) {
+  .main-section {
+    width: 90%;
+    height: 100%;
+  }
+}
+
+@media (max-width: 540px) {
+  .main-section {
+    width: 100%;
+  }
+
+  .info-container {
+    height: calc(100vh - 250px);
+  }
+}
+
 .body {
   background-color: #fff9c8;
 }
@@ -89,7 +106,6 @@ export default {
 .info-container {
   padding: 20px;
   width: 100%;
-  height: calc(100vh - 250px);
   display: flex;
   flex-direction: column;
   position: relative;

@@ -209,7 +209,7 @@ export default {
 }
 
 .input-box {
-  width: 200px;
+  width: 60%;
   height: 30px;
   padding: 0 20px;
   font-size: 16px;
@@ -222,7 +222,7 @@ export default {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  width: 200px;
+  width: 60%;
   height: 60px;
   background-color: #fff;
   border-radius: 20px;
@@ -233,6 +233,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 
 .gender-radio {
@@ -277,6 +278,7 @@ export default {
   font-weight: bold;
   background-color: #fff9c8;
   border-radius: 30px;
+  cursor: pointer;
 }
 
 .mbti-set input:checked + div {
@@ -289,6 +291,7 @@ export default {
   margin-top: 20px;
   display: flex;
   justify-content: space-evenly;
+  text-align: center;
 }
 
 .btn {
@@ -297,6 +300,7 @@ export default {
   font-size: 18px;
   border: 0;
   border-radius: 20px;
+  cursor: pointer;
 }
 
 .btn-update {

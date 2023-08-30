@@ -275,7 +275,8 @@ export default {
 
 <style scoped>
 .body {
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   background-color: #fff9c8;
 }
 

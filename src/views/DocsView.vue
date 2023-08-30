@@ -1,7 +1,10 @@
 <template>
-  <div class="body">
+  <div class="main-container">
     <h1 class="title">MBTI 정보</h1>
     <section class="main-section">
+      <h3 class="sub-title">
+        MBTI를 선택해서<br />해당 MBTI에 대한 정보를 확인해요!
+      </h3>
       <div class="mbti-container">
         <div
           class="mbti-box"
@@ -40,7 +43,67 @@ export default {
 </script>
 
 <style scoped>
-.body {
+@media (min-width: 541px) {
+  .main-container {
+    padding: 0 30px;
+  }
+
+  .main-section {
+    margin: 30px;
+    /* width: 100%; */
+    height: 80%;
+    border-radius: 20px;
+  }
+
+  .mbti-container {
+    padding: 5vh 10vh;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    justify-items: center;
+  }
+
+  .mbti-box {
+    width: 100px;
+    height: 100px;
+  }
+
+  .mbti-text {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 540px) {
+  .main-section {
+    border-radius: 20px 20px 0 0;
+  }
+
+  .mbti-container {
+    padding: 10vh 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .mbti-box {
+    width: 70px;
+    height: 70px;
+  }
+
+  .mbti-text {
+    font-size: 24px;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.main-container {
+  box-sizing: border-box;
+  width: 100%;
   background-color: #fff9c8;
 }
 
@@ -53,17 +116,18 @@ export default {
   font-size: 24px;
 }
 
-.main-section {
-  background-color: #fff;
-  border-radius: 20px 20px 0 0;
+.sub-title {
+  margin: 0;
+  padding: 30px 20px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #f59607;
+  text-align: center;
 }
 
-.mbti-container {
-  padding: 10vh 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
+.main-section {
+  height: 100%;
+  background-color: #fff;
 }
 
 .mbti-box {
@@ -72,17 +136,14 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 70px;
-  height: 70px;
-  background-color: #fff;
+  background-color: #ffd338;
   border-radius: 50%;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
 }
 
 .mbti-text {
   margin: 0;
-  font-size: 24px;
   font-weight: bold;
-  color: #f59607;
+  color: #000000b4;
 }
 </style>

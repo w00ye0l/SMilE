@@ -32,7 +32,14 @@
 
     <SettingModalVue v-if="modalOpen" @close="closeModal" />
 
-    <div class="question-container">
+    <div v-if="answered === true" class="question-container">
+      <h3 class="question-title">오늘의 질문</h3>
+      <p class="question-subtitle">작성한 답변 확인하기</p>
+
+      <button class="question-btn">내 답변 확인하기</button>
+    </div>
+
+    <div v-else class="question-container">
       <p class="question-subtitle">답변하지 않은 질문이 있어요!</p>
       <h3 class="question-title">오늘의 질문</h3>
 
@@ -41,32 +48,50 @@
 
     <hr />
 
-    <div class="content-container">
-      <h3 class="content-title">MBTI 기록하기</h3>
-      <router-link class="content-detail" to="/mbti">
-        <div class="content-imgBox">
-          <img class="content-img" src="@/assets/saveMbti.png" alt="" />
-        </div>
-        <p class="content">
-          주변 사람들의 MBTI 정보를 저장하여 한 눈에 확인해보아요.
-        </p>
-        <img class="go-content" src="@/assets/right-arrow.png" alt="" />
-      </router-link>
+    <div class="content-root-container">
+      <div class="content-container">
+        <h3 class="content-title">MBTI 기록하기</h3>
+        <router-link class="content-detail" to="/mbti">
+          <div class="content-imgBox">
+            <img class="content-img" src="@/assets/saveMbti.png" alt="" />
+          </div>
+          <p class="content">
+            주변 사람들의 MBTI 정보를 저장하여 한 눈에 확인해보아요.
+          </p>
+          <img class="go-content" src="@/assets/right-arrow.png" alt="" />
+        </router-link>
+      </div>
+
+      <hr class="content-hr" />
+
+      <div class="content-container">
+        <h3 class="content-title">MBTI 설명서</h3>
+        <router-link class="content-detail" to="/docs">
+          <div class="content-imgBox">
+            <img class="content-img" src="@/assets/docsMbti.png" alt="" />
+          </div>
+          <p class="content">
+            모든 MBTI에 대한 정보를 확인해 MBTI에 대한 이해를 키워요.
+          </p>
+          <img class="go-content" src="@/assets/right-arrow.png" alt="" />
+        </router-link>
+      </div>
     </div>
 
     <hr />
 
-    <div class="content-container">
-      <h3 class="content-title">MBTI 설명서</h3>
-      <router-link class="content-detail" to="/docs">
-        <div class="content-imgBox">
-          <img class="content-img" src="@/assets/docsMbti.png" alt="" />
+    <div class="content-test-container">
+      <h3 class="content-title">MBTI 검사하기</h3>
+      <a
+        class="test-link"
+        href="https://www.16personalities.com/ko"
+        target="_blank"
+      >
+        <div class="content-detail">
+          <img class="content-test-img" src="@/assets/mbti_test.svg" alt="" />
+          <p class="content">MBTI 공식 <br />검사 사이트</p>
         </div>
-        <p class="content">
-          모든 MBTI에 대한 정보를 확인해 MBTI에 대한 이해를 키워요.
-        </p>
-        <img class="go-content" src="@/assets/right-arrow.png" alt="" />
-      </router-link>
+      </a>
     </div>
   </div>
 </template>
@@ -85,6 +110,7 @@ export default {
   },
   computed: {
     ...mapState({
+      answered: (state) => state.mypage.answered,
       nickname: (state) => state.mypage.nickname,
       mbti: (state) => state.mypage.mbti,
     }),
@@ -120,12 +146,60 @@ export default {
 </script>
 
 <style scoped>
+@media (min-width: 541px) {
+  .main {
+    padding: 0 30px;
+  }
+
+  .profile-container {
+    border-radius: 20px;
+    overflow: hidden;
+  }
+
+  .content-root-container {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .content-hr {
+    display: none;
+  }
+
+  .content-container {
+    width: 40%;
+  }
+
+  .content-test-container {
+    width: 100%;
+  }
+}
+
+@media (max-width: 540px) {
+  .content-container {
+    width: 80%;
+    margin: auto;
+  }
+
+  .content-test-container {
+    width: 80%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+hr {
+  width: 100%;
+}
+
 .main {
   width: 100%;
 }
 
 .title-container {
-  padding: 50px 0 10px 0;
+  padding: 50px 0;
+  width: 100%;
   position: relative;
   box-sizing: border-box;
 }
@@ -133,11 +207,12 @@ export default {
 .title {
   margin: 0;
   font-size: 24px;
+  text-align: center;
 }
 
 .btn-container {
   position: absolute;
-  top: 70%;
+  top: 50%;
   right: 0;
   display: flex;
   align-items: center;
@@ -169,7 +244,6 @@ export default {
 
 .profile-container {
   position: relative;
-  margin-top: 30px;
   padding: 0 60px;
   display: flex;
   justify-content: space-evenly;
@@ -214,11 +288,13 @@ export default {
   width: 80px;
   color: #fff;
   font-weight: 500;
+  text-align: center;
   background-color: #f59607;
   border-radius: 20px;
 }
 
 .question-container {
+  height: 140px;
   padding: 20px 0;
   display: flex;
   flex-direction: column;
@@ -235,11 +311,11 @@ export default {
 
 .question-title {
   margin: 0;
-  margin-bottom: 25px;
   font-size: 18px;
 }
 
 .question-btn {
+  margin-top: 25px;
   padding: 5px 20px;
   height: 30px;
   font-size: 14px;
@@ -255,13 +331,12 @@ hr {
   border: 0;
 }
 
+.content-root-container {
+  width: 100%;
+}
+
 .content-container {
-  display: inline-block;
-  margin: auto;
   padding: 20px 0;
-  width: 85%;
-  box-sizing: border-box;
-  border: #f59607;
   text-align: start;
 }
 
@@ -272,6 +347,7 @@ hr {
 
 .content-detail {
   padding: 20px;
+  height: 120px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -306,5 +382,18 @@ hr {
 
 .go-content {
   max-width: 8%;
+}
+
+.content-test-container {
+  padding: 20px 0;
+}
+
+.test-link {
+  text-decoration: none;
+}
+
+.content-test-img {
+  width: 50%;
+  max-width: 400px;
 }
 </style>

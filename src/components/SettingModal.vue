@@ -68,8 +68,8 @@ export default {
 
 .modal-body {
   padding: 20px;
-  width: 100%;
-  min-height: 65%;
+  width: 90vw;
+  max-width: 1000px;
   background: white;
   border-radius: 20px;
 }
@@ -80,6 +80,7 @@ export default {
   display: flex;
   justify-content: space-evenly;
   list-style: none;
+  cursor: pointer;
 }
 
 .tab {
@@ -91,5 +92,9 @@ export default {
   padding-bottom: 1px;
   color: #f59607;
   border-bottom: 1px solid #f59607;
+}
+
+.change-container {
+  min-height: 92%;
 }
 </style>

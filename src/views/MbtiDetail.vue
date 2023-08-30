@@ -1,65 +1,73 @@
 <template>
   <div class="main-container">
-    <div class="profile-box">
-      <div class="profile-img-box">
-        <div class="profile-img"></div>
-        <img
-          class="delete-mbti-img"
-          src="@/assets/trashcan.png"
-          alt=""
-          @click="deleteDetail"
-        />
-      </div>
-      <input class="profile-name" v-model="name" />
-    </div>
-
-    <div class="form-control">
-      <label class="form-label">MBTI</label>
-      <div class="selected-mbti" @click="selectMBti">
-        <div class="mbti-box">
-          <p>{{ mbti }}</p>
-          <img :src="require(`@/assets/Polygon.png`)" class="arrow" />
+    <div class="info-container">
+      <div class="profile-box">
+        <div class="profile-img-box">
+          <div class="profile-img"></div>
+          <img
+            class="delete-mbti-img"
+            src="@/assets/trashcan.png"
+            alt=""
+            @click="deleteDetail"
+          />
         </div>
-
-        <ul class="mbti-option" v-bind:class="{ active: selectMbti }">
-          <li
-            class="mbti"
-            v-for="(mbti, index) in mbtiList"
-            :key="index"
-            v-on:click="selectMbtiOption(mbti)"
-          >
-            {{ mbti }}
-          </li>
-        </ul>
+        <input class="profile-name" v-model="name" />
       </div>
-    </div>
 
-    <div class="form-control">
-      <label class="form-label">그룹</label>
-      <button class="group">
-        {{ groupName }}
-      </button>
-    </div>
+      <div class="form-control">
+        <label class="form-label">MBTI</label>
+        <div class="selected-mbti" @click="selectMBti">
+          <div class="mbti-box">
+            <p>{{ mbti }}</p>
+            <img :src="require(`@/assets/Polygon.png`)" class="arrow" />
+          </div>
 
-    <div class="form-control">
-      <label class="form-label">메모</label>
-      <textarea class="memo-box" v-model="memo"></textarea>
-    </div>
-
-    <div class="form-control">
-      <label class="form-label">이 MBTI는 어떨까?</label>
-      <div class="doc-btn-container">
-        <button class="doc-btn" @click="docMove(guest.mbti)">상대법</button>
-        <button class="doc-btn" @click="docMove(guest.mbti)">주의할 점</button>
-        <button class="doc-btn" @click="docMove(guest.mbti)">특징</button>
+          <ul class="mbti-option" v-bind:class="{ active: selectMbti }">
+            <li
+              class="mbti"
+              v-for="(mbti, index) in mbtiList"
+              :key="index"
+              v-on:click="selectMbtiOption(mbti)"
+            >
+              {{ mbti }}
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
 
-    <div class="btn-container">
-      <button class="btn edit-btn" @click="editDetail" :disabled="changeDetail">
-        수정
-      </button>
-      <button class="btn cancel-btn" @click="closeDetail">닫기</button>
+      <div class="form-control">
+        <label class="form-label">그룹</label>
+        <button class="group">
+          {{ groupName }}
+        </button>
+      </div>
+
+      <div class="form-control">
+        <label class="form-label">메모</label>
+        <textarea class="memo-box" v-model="memo"></textarea>
+      </div>
+
+      <div class="form-control">
+        <label class="form-label">이 MBTI는 어떨까?</label>
+        <div class="doc-btn-container">
+          <button class="doc-btn" @click="docMove(guest.mbti)">상대법</button>
+          <button class="doc-btn" @click="docMove(guest.mbti)">
+            주의할 점
+          </button>
+          <button class="doc-btn" @click="docMove(guest.mbti)">특징</button>
+        </div>
+      </div>
+
+      <div class="btn-container">
+        <button
+          class="btn edit-btn"
+          @click="editDetail"
+          :disabled="changeDetail"
+        >
+          수정
+        </button>
+        <button class="btn cancel-btn" @click="closeDetail">닫기</button>
+      </div>
     </div>
   </div>
 </template>
@@ -175,6 +183,22 @@ export default {
 </script>
 
 <style scoped>
+@media (min-width: 541px) {
+  .main-container {
+    height: 100%;
+  }
+
+  .info-container {
+    padding: 0 30px;
+  }
+}
+
+@media (max-width: 540px) {
+  .main-container {
+    height: calc(100vh - 80px);
+  }
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -184,8 +208,12 @@ export default {
 .main-container {
   position: relative;
   padding: 50px 20px;
-  height: calc(100vh - 80px);
+  width: 100%;
   background-color: #fff9c8;
+}
+
+.info-container {
+  width: 100%;
 }
 
 .profile-box {

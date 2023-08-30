@@ -110,6 +110,7 @@ export default {
   margin-top: 20px;
   display: flex;
   justify-content: space-evenly;
+  text-align: center;
 }
 
 .btn {
@@ -118,6 +119,7 @@ export default {
   font-size: 18px;
   border: 0;
   border-radius: 20px;
+  cursor: pointer;
 }
 
 .btn-update {

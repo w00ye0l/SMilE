@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div class="root-div" id="app">
     <router-view class="router-view" />
     <navComponent v-if="url !== '/'"></navComponent>
   </div>
@@ -56,15 +56,47 @@ body {
   padding: 0;
 }
 
-#app {
-  text-align: center;
-  /* color: #2c3e50; */
-  /* padding-bottom: 80px; */
+@media (min-width: 541px) {
+  body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #cccccc;
+    border-radius: 30px;
+  }
+
+  .root-div {
+    width: 1200px;
+    height: 1000px;
+    display: flex;
+    flex-direction: row-reverse;
+    max-width: 1200px;
+    margin: auto;
+  }
+  .router-view {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+  }
 }
 
-.router-view {
-  height: 100%;
-  /* margin-bottom: 80px; */
+@media (max-width: 540px) {
+  .root-div {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+  }
+  .router-view {
+    height: 100%;
+    margin-bottom: 80px;
+    background-color: #fff;
+  }
 }
 
 .fc .fc-toolbar-title {

@@ -1,24 +1,25 @@
 <template>
-  <div class="title background">
+  <div class="main-section">
     <h2 class="title-name">오늘의 질문</h2>
+
     <div class="question">
-      <span class="letter">{{ this.message }}</span>
+      <p class="letter">{{ message }}</p>
     </div>
+
     <form @submit.prevent="submitForm" class="my-answer">
       <h3 class="second-title">나의 답변</h3>
-      <div class="memo-box">
-        <textarea
-          v-model="memo"
-          class="text"
-          @input="updateAnswer()"
-          placeholder="내용을 입력하세요"
-        >
-        </textarea>
-      </div>
+      <textarea
+        v-model="memo"
+        class="memo-box"
+        @input="updateAnswer()"
+        placeholder="내용을 입력하세요"
+      >
+      </textarea>
       <div class="btn-control">
         <button class="btn" @click="completed()">작성 완료</button>
       </div>
     </form>
+
     <div class="other-answer">
       <h3 class="third-title">다른 사람들의 답변</h3>
       <div class="type-container">
@@ -63,13 +64,17 @@
           </ul>
         </div>
       </div>
-      <p class="total-mbti">{{ totalMbti }}들의 답변</p>
+      <p class="total-mbti">
+        {{ totalMbti === "____" ? "모든 사람" : totalMbti }}들의 답변 보기
+      </p>
       <button class="btn-more" @click="pageLink">더보기</button>
     </div>
   </div>
 </template>
+
 <script>
 import axios from "axios";
+
 export default {
   data() {
     return {
@@ -121,6 +126,7 @@ export default {
           })
           .then((res) => {
             console.log(res.data);
+            this.$store.commit("SET_ANSWERED", true);
           })
           .catch((error) => {
             console.log(error);
@@ -137,17 +143,8 @@ export default {
       }
     },
     pageLink() {
-      if (
-        this.mbti1 === "" &&
-        this.mbti2 === "" &&
-        this.mbti3 === "" &&
-        this.mbti4 === ""
-      ) {
-        alert("적어도 하나의 MBTI를 선택해주세요");
-      } else {
-        this.$store.state.totalMbti = this.totalMbti;
-        this.$router.push({ path: "randomanswer" });
-      }
+      this.$store.state.totalMbti = this.totalMbti;
+      this.$router.push({ path: "randomanswer" });
     },
     selectMBTI(selected) {
       if (selected === "EI") {
@@ -220,24 +217,25 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 .title-name {
-  font-size: 24px;
-}
-.title {
   margin: 0;
-  margin-bottom: 80px;
-  padding: 0;
+  padding: 50px 0;
 }
-.background {
+
+.main-section {
+  margin: 0;
+  padding: 0;
   background-color: #ffffff;
-  height: 100vh;
+  height: 100%;
   position: relative;
   overflow: auto;
 }
+
 .question {
   background-color: #fff9c8;
-  height: 23%;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -245,105 +243,122 @@ export default {
 
 .letter {
   font-weight: bold;
-  padding: 0 50px 0 50px;
-  font-size: 20px;
+  padding: 0 50px;
+  font-size: 18px;
 }
 
 .my-answer {
+  padding: 0 40px;
+  width: 100%;
   max-height: 33vh;
-  margin-bottom: 4vw;
 }
 
 .second-title {
   display: flex;
-  padding: 0 2.5vw 0 10.25vw;
-  margin-bottom: 5px;
-  font-size: 24px;
-}
-
-textarea {
-  font-size: 24px;
+  margin-bottom: 0;
+  font-size: 20px;
 }
 
 .memo-box {
-  width: 80vw;
-  margin: 10px 0 18px 0;
-  border-radius: 20px;
+  margin: 20px 0;
+  padding: 10px;
+  width: 100%;
+  height: 100px;
+  font-size: 16px;
+  border-radius: 10px;
   border: none;
-  box-shadow: 0px 1.5px 0px 1.5px #d3d3d3;
-  height: 18vh;
-  max-height: 21vh;
-  background-color: white;
-  display: inline-block;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
   white-space: pre-line;
 }
 
-.text {
-  margin-top: 20px;
-  width: 70.8vw;
-  height: 13.2vh;
-  border: none;
-}
-
 .btn-control {
+  margin-bottom: 20px;
   display: flex;
   justify-content: flex-end;
   width: 100%;
 }
 
 .btn {
-  border-radius: 20px;
+  margin: 0;
   width: 100px;
   height: 36px;
   font-size: 15px;
   font-weight: bold;
-  border: none;
   background-color: #f59607;
-  margin: 1.3% 9% 0 0;
+  border: none;
+  border-radius: 20px;
+}
+
+@media (min-width: 541px) {
+  .main-section {
+    padding: 0 30px;
+  }
+
+  .question {
+    height: 14%;
+    border-radius: 20px;
+  }
+
+  .other-answer {
+    height: 45%;
+    border-radius: 20px;
+  }
+
+  .select-option {
+    position: relative;
+  }
+}
+
+@media (max-width: 540px) {
+  .main-section {
+    margin-bottom: 80px;
+  }
+
+  .question {
+    height: 15vh;
+  }
+
+  .other-answer {
+    height: 40vh;
+  }
+
+  .select-option {
+    position: absolute;
+    top: -420%;
+    left: 0;
+  }
 }
 
 .other-answer {
-  min-height: 45vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
   background-color: #fff9c8;
 }
 
 .third-title {
+  margin: 0;
+  padding: 20px 0;
   display: flex;
-  padding: 2.5vw 2.5vw 0 10vw;
+  justify-content: center;
   font-size: 24px;
 }
 
 .type-container {
-  padding: 0 0 10px 0;
+  margin: 0;
+  margin-bottom: 20px;
+  padding: 0;
   display: flex;
+  width: 100%;
   justify-content: space-evenly;
   align-items: center;
 }
 
-.type {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 50px;
-  height: 50px;
-  font-weight: bold;
-  background-color: #fff9c8;
-  border: 0;
-  border-radius: 50%;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
-  -webkit-appearance: none; /* 크롬 화살표 없애기 */
-  -moz-appearance: none; /* 파이어폭스 화살표 없애기 */
-  appearance: none; /* 화살표 없애기 */
-  text-align: center; /* 텍스트 가운데 정렬 */
-}
-
-.select-option {
-  padding: 0;
-  list-style-type: none;
-}
-
 .select {
   display: inline-block;
+  position: relative;
   width: 50px;
   height: 50px;
 }
@@ -360,18 +375,15 @@ textarea {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
 }
 
-.total-mbti {
-  font-size: 18px;
+.select-option {
+  display: none;
+  padding: 0;
+  list-style-type: none;
+  z-index: 10;
 }
 
 .selected-value {
   margin: 0;
-}
-
-.select-option {
-  display: none;
-  position: relative;
-  z-index: 10;
 }
 
 .active {
@@ -389,6 +401,10 @@ textarea {
   background-color: #fff9c8;
   border-radius: 50%;
   box-shadow: 0 4px 5px rgba(0, 0, 0, 0.25);
+}
+
+.total-mbti {
+  font-size: 18px;
 }
 
 .btn-more {

@@ -115,6 +115,7 @@ export default {
 <style scoped>
 .main {
   width: 100%;
+  height: 100%;
 }
 
 .banner {
@@ -165,6 +166,9 @@ export default {
 }
 
 .login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: relative;
   padding: 80px;
   padding-bottom: 20px;
