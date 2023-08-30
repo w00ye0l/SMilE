@@ -17,12 +17,18 @@ exports.create = async (req, res, next) => {
       return res.status(404).json({ message: "해당 그룹이 없습니다" });
     }
 
-    // const groups = await Group.findAll({});
+    // 프로필 이미지
+    let imageUrl = null;
+    if (req.file) {
+      imageUrl = req.file.location;
+    } 
+
     await Guest.create({
       userID: req.user.id,
-      groupID: existGroup.id,
+      image: imageUrl,
       name: name,
       mbti: mbti,
+      groupID: existGroup.id,
       memo: memo,
     });
 

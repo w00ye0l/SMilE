@@ -10,7 +10,7 @@ const bodyParser = require('body-parser');
 
 const cors = require('cors');
 
-dotenv.config({ path: './.env'});
+dotenv.config({path: path.join(__dirname, '/.env')});
 
 const { sequelize } = require('./models');
 const app = express();
@@ -35,25 +35,19 @@ sequelize.sync({ force: false })
 
 const port = 3000;
 
-app.use(cors({  // front 서버인 127.0.0.1:8080 의 요청을 허용하도록 cors 사용
-    origin: ['http://localhost:8080', 'http://localhost:8081'],
+app.use(
+  cors({  // front 서버인 127.0.0.1:8080 의 요청을 허용하도록 cors 사용
+    origin: [process.env.FRONT_URL],
     credentials:true,
 }));
 
-// 이미지
-// const publicDirectory = path.join(__dirname, './public');
-// app.set('views', path.join(__dirname, 'views'));
-// // console.log(__dirname)
-// app.use(express.static(publicDirectory));
 app.use('/uploads', express.static('uploads'));
 
 app.use(morgan('dev')); // log
 app.use(express.static(path.join(__dirname, 'public'))); // 요청시 기본 경로 설정
-// app.use(express.json()); // json 파싱
-// app.use(express.urlencoded({ extended: false })); // url 파싱
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(session({
   resave: false, // 세션 항상 저장할지
@@ -89,6 +83,11 @@ app.use((err, req, res, next) => {
   res.locals.error = process.env.NODE_ENV !== 'production' ? err : {}; // 배포용이 아니라면 err설정 아니면 빈 객체
 
   res.status(err.status || 500);
+  res.send({
+    error: {
+      message: err.message,
+    },
+  });
 });
 
 app.listen(port, () => {

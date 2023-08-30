@@ -1,30 +1,31 @@
 <template>
-  <div class="title background">
-    <h2>오늘의 질문</h2>
+  <div class="main-section">
+    <h2 class="title-name">오늘의 질문</h2>
+
     <div class="question">
-      <span class="letter">{{ this.message }}</span>
+      <p class="letter">{{ message }}</p>
     </div>
+
     <form @submit.prevent="submitForm" class="my-answer">
       <h3 class="second-title">나의 답변</h3>
-      <div class="memo-box">
-        <textarea
-          v-model="memo"
-          class="text"
-          @input="updateAnswer()"
-          placeholder="내용을 입력하세요"
-        >
-        </textarea>
-      </div>
+      <textarea
+        v-model="memo"
+        class="memo-box"
+        @input="updateAnswer()"
+        placeholder="내용을 입력하세요"
+      >
+      </textarea>
       <div class="btn-control">
         <button class="btn" @click="completed()">작성 완료</button>
       </div>
     </form>
+
     <div class="other-answer">
       <h3 class="third-title">다른 사람들의 답변</h3>
       <div class="type-container">
         <div v-on:click="selectMBTI('EI')" class="select">
           <div class="selected">
-            <p class="selected-value">{{ this.mbti1 }}</p>
+            <p class="selected-value">{{ mbti1 }}</p>
           </div>
           <ul class="select-option" v-bind:class="{ active: selectEI }">
             <li class="option" v-on:click="selectEIOption('_')">_</li>
@@ -34,7 +35,7 @@
         </div>
         <div v-on:click="selectMBTI('NS')" class="select">
           <div class="selected">
-            <p class="selected-value">{{ this.mbti2 }}</p>
+            <p class="selected-value">{{ mbti2 }}</p>
           </div>
           <ul class="select-option" v-bind:class="{ active: selectNS }">
             <li class="option" v-on:click="selectNSOption('_')">_</li>
@@ -44,7 +45,7 @@
         </div>
         <div v-on:click="selectMBTI('TF')" class="select">
           <div class="selected">
-            <p class="selected-value">{{ this.mbti3 }}</p>
+            <p class="selected-value">{{ mbti3 }}</p>
           </div>
           <ul class="select-option" v-bind:class="{ active: selectTF }">
             <li class="option" v-on:click="selectTFOption('_')">_</li>
@@ -54,7 +55,7 @@
         </div>
         <div v-on:click="selectMBTI('PJ')" class="select">
           <div class="selected">
-            <p class="selected-value">{{ this.mbti4 }}</p>
+            <p class="selected-value">{{ mbti4 }}</p>
           </div>
           <ul class="select-option" v-bind:class="{ active: selectPJ }">
             <li class="option" v-on:click="selectPJOption('_')">_</li>
@@ -63,13 +64,17 @@
           </ul>
         </div>
       </div>
-      <p>{{ totalMbti }}들의 답변</p>
+      <p class="total-mbti">
+        {{ totalMbti === "____" ? "모든 사람" : totalMbti }}들의 답변 보기
+      </p>
       <button class="btn-more" @click="pageLink">더보기</button>
     </div>
   </div>
 </template>
+
 <script>
 import axios from "axios";
+
 export default {
   data() {
     return {
@@ -80,11 +85,11 @@ export default {
       selectNS: false,
       selectTF: false,
       selectPJ: false,
-      mbti1: "",
-      mbti2: "",
-      mbti3: "",
-      mbti4: "",
-      totalMbti: "",
+      mbti1: "_",
+      mbti2: "_",
+      mbti3: "_",
+      mbti4: "_",
+      totalMbti: "____",
       message: "",
     };
   },
@@ -94,12 +99,12 @@ export default {
   methods: {
     async getRandomMessage() {
       await axios
-        .get("/random/question/", { withCredentials: true })
+        .get("/random/question", { withCredentials: true })
         .then((res) => {
           this.randomMessage = res.data;
+          this.message = this.randomMessage.question;
+          this.$store.commit("SET_ID", this.randomMessage.id);
           console.log(this.randomMessage);
-          this.message = this.randomMessage.question[0].question;
-          this.$store.commit("SET_ID", this.randomMessage.question[0].id);
         });
     },
     validComment() {
@@ -110,39 +115,36 @@ export default {
       return true;
     },
     async completed() {
-      console.log(this.$store.state.id);
       if (this.validComment()) {
         const formData = {
           questionID: this.$store.state.id,
           answer: this.memo,
         };
-        console.log(this.memo);
         await axios
-          .post(`/random/answer/${this.$store.state.id}`, formData, {
+          .post(`/random/answer/${this.$store.state.id}/create`, formData, {
             withCredentials: true,
           })
           .then((res) => {
             console.log(res.data);
+            this.$store.commit("SET_ANSWERED", true);
           })
           .catch((error) => {
             console.log(error);
+            if (error.response) {
+              if (
+                error.response.data.message ===
+                "이미 해당 질문에 대한 답변을 작성하셨습니다."
+              ) {
+                alert("이미 작성하셨습니다");
+              }
+            }
           });
         this.memo = "";
       }
     },
     pageLink() {
-      if (
-        this.mbti1 === "" &&
-        this.mbti2 === "" &&
-        this.mbti3 === "" &&
-        this.mbti4 === ""
-      ) {
-        alert("적어도 하나의 MBTI를 선택해주세요");
-        console.log(this.totalMbti);
-      } else {
-        this.$store.state.totalMbti = this.totalMbti;
-        this.$router.push({ path: "randomanswer" });
-      }
+      this.$store.state.totalMbti = this.totalMbti;
+      this.$router.push({ path: "randomanswer" });
     },
     selectMBTI(selected) {
       if (selected === "EI") {
@@ -176,21 +178,25 @@ export default {
     },
     selectEIOption(option) {
       this.mbti1 = option;
+      this.$store.commit("SET_MBTI1", this.mbti1);
       this.totalMbti += this.mbti1;
       this.updateTotalMbti();
     },
     selectNSOption(option) {
       this.mbti2 = option;
+      this.$store.commit("SET_MBTI2", this.mbti2);
       this.totalMbti += this.mbti2;
       this.updateTotalMbti();
     },
     selectTFOption(option) {
       this.mbti3 = option;
+      this.$store.commit("SET_MBTI3", this.mbti3);
       this.totalMbti += this.mbti3;
       this.updateTotalMbti();
     },
     selectPJOption(option) {
       this.mbti4 = option;
+      this.$store.commit("SET_MBTI4", this.mbti4);
       this.totalMbti += this.mbti4;
       this.updateTotalMbti();
     },
@@ -211,19 +217,25 @@ export default {
   },
 };
 </script>
+
 <style scoped>
-.title {
+.title-name {
   margin: 0;
-  padding: 30px 0 20px 0;
+  padding: 50px 0;
 }
-.background {
+
+.main-section {
+  margin: 0;
+  padding: 0;
   background-color: #ffffff;
-  height: 100vh;
+  height: 100%;
   position: relative;
+  overflow: auto;
 }
+
 .question {
   background-color: #fff9c8;
-  height: 15vh;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -231,94 +243,122 @@ export default {
 
 .letter {
   font-weight: bold;
-  padding: 0 50px 0 50px;
+  padding: 0 50px;
+  font-size: 18px;
 }
 
 .my-answer {
-  height: 28vh;
+  padding: 0 40px;
+  width: 100%;
+  max-height: 33vh;
 }
 
 .second-title {
   display: flex;
-  padding: 0 50px 0 45px;
-  margin-bottom: 5px;
+  margin-bottom: 0;
+  font-size: 20px;
 }
 
 .memo-box {
-  width: 80vw;
-  margin: 10px 0 18px 0;
-  border-radius: 20px;
+  margin: 20px 0;
+  padding: 10px;
+  width: 100%;
+  height: 100px;
+  font-size: 16px;
+  border-radius: 10px;
   border: none;
-  box-shadow: 0px 1.5px 0px 1.5px #d3d3d3;
-  height: 18vh;
-  background-color: white;
-  display: inline-block;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
   white-space: pre-line;
 }
 
-.text {
-  margin-top: 20px;
-  width: 70.8vw;
-  height: 13.2vh;
-  border: none;
-}
-
 .btn-control {
+  margin-bottom: 20px;
   display: flex;
   justify-content: flex-end;
-  margin-right: 40px;
+  width: 100%;
 }
 
 .btn {
-  border-radius: 20px;
+  margin: 0;
   width: 100px;
-  height: 35px;
+  height: 36px;
+  font-size: 15px;
   font-weight: bold;
-  border: none;
   background-color: #f59607;
+  border: none;
+  border-radius: 20px;
+}
+
+@media (min-width: 541px) {
+  .main-section {
+    padding: 0 30px;
+  }
+
+  .question {
+    height: 14%;
+    border-radius: 20px;
+  }
+
+  .other-answer {
+    height: 45%;
+    border-radius: 20px;
+  }
+
+  .select-option {
+    position: relative;
+  }
+}
+
+@media (max-width: 540px) {
+  .main-section {
+    margin-bottom: 80px;
+  }
+
+  .question {
+    height: 15vh;
+  }
+
+  .other-answer {
+    height: 40vh;
+  }
+
+  .select-option {
+    position: absolute;
+    top: -420%;
+    left: 0;
+  }
 }
 
 .other-answer {
-  height: 33vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
   background-color: #fff9c8;
 }
 
 .third-title {
+  margin: 0;
+  padding: 20px 0;
   display: flex;
-  padding: 20px 50px 0 45px;
+  justify-content: center;
+  font-size: 24px;
 }
 
 .type-container {
-  padding: 0 0 50px 0;
+  margin: 0;
+  margin-bottom: 20px;
+  padding: 0;
   display: flex;
+  width: 100%;
   justify-content: space-evenly;
   align-items: center;
 }
 
-.type {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 50px;
-  height: 50px;
-  font-weight: bold;
-  background-color: #fff9c8;
-  border: 0;
-  border-radius: 50%;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
-  -webkit-appearance: none; /* 크롬 화살표 없애기 */
-  -moz-appearance: none; /* 파이어폭스 화살표 없애기 */
-  appearance: none; /* 화살표 없애기 */
-  text-align: center; /* 텍스트 가운데 정렬 */
-}
-
-.select-option {
-  padding: 0;
-  list-style-type: none;
-}
-
 .select {
   display: inline-block;
+  position: relative;
   width: 50px;
   height: 50px;
 }
@@ -330,19 +370,20 @@ export default {
   justify-content: center;
   align-items: center;
   font-weight: bold;
-  background-color: #fff9c8;
+  background-color: #ffe99d;
   border-radius: 50%;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
 }
 
-.selected-value {
-  margin: 0;
-}
-
 .select-option {
   display: none;
-  position: relative;
+  padding: 0;
+  list-style-type: none;
   z-index: 10;
+}
+
+.selected-value {
+  margin: 0;
 }
 
 .active {
@@ -362,10 +403,15 @@ export default {
   box-shadow: 0 4px 5px rgba(0, 0, 0, 0.25);
 }
 
+.total-mbti {
+  font-size: 18px;
+}
+
 .btn-more {
   border-radius: 20px;
   width: 100px;
-  height: 35px;
+  height: 36px;
+  font-size: 15px;
   font-weight: bold;
   border: none;
   background-color: #ffd338;

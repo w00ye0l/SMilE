@@ -1,63 +1,22 @@
 import { createStore } from "vuex";
 import axios from "axios";
-import router from "../router/index.js";
 import createPersistedState from "vuex-persistedstate";
+import router from "@/router";
 
 export default createStore({
   state: {
     selectMBTI: "",
     totalMbti: "",
-    events: [],
     mypage: {
+      answered: false,
       nickname: "",
       birthday: "",
       gender: "",
       mbti: "",
     },
-    messages: [
-      {
-        name: "ENFJ",
-        content: "오늘은 날씨가 좋네요 내일 뭐하시나요?asassaasasasasasas",
-        date: "2022/02/16 14:36",
-      },
-      {
-        name: "INFP",
-        content: "내일은 날씨가 흐립니다 내일은 어떨 거 같나요",
-        date: "2022/02/15 15:10",
-      },
-      {
-        name: "ENFJ",
-        content: "오늘은 피곤하네요",
-        date: "2022/02/16 14:36",
-      },
-      {
-        name: "ENFJ",
-        content: "오늘은 피곤하네요",
-        date: "2022/02/16 14:36",
-      },
-      {
-        name: "ENFJ",
-        content: "오늘은 피곤하네요",
-        date: "2022/02/16 14:36",
-      },
-      {
-        name: "INFJ",
-        content: "내일은 날씨가 흐립니다 내일은 어떨 거 같나요",
-        date: "2022/02/15 15:10",
-      },
-    ],
-    memos: [],
-    answers: [],
-    messageCount: 0,
+    messages: [],
     groups: [],
     selectGuest: [],
-    keys: 0,
-    groupId: "",
-    groupData: {},
-    title: {},
-    contents: {},
-    mbti: "선택",
-    mbti_complete: {},
     mbtiList: [
       "ENFJ",
       "ENFP",
@@ -71,15 +30,17 @@ export default createStore({
       "INFP",
       "INTJ",
       "INTP",
-      "ISTJ",
-      "ISTP",
       "ISFJ",
       "ISFP",
+      "ISTJ",
+      "ISTP",
     ],
     selectMessage: "",
-    message: "Q. 친구가 기분이 안좋아서 화분을 샀다. 나의 대답은?..",
-    newComment: "",
-    comments: [],
+    id: 0,
+    mbti1: "_",
+    mbti2: "_",
+    mbti3: "_",
+    mbti4: "_",
   },
   getters: {
     EVENTS: (state) => state.events,
@@ -142,6 +103,9 @@ export default createStore({
     SET_MBTI(state, mbti) {
       state.mypage.mbti = mbti;
     },
+    SET_ANSWERED(state, answered) {
+      state.mypage.answered = answered;
+    },
     UPDATE_NEW_COMMENT(state, payload) {
       state.newComment = payload;
     },
@@ -153,6 +117,21 @@ export default createStore({
     },
     UPDATE_SELECT_GUEST(state, payload) {
       state.selectGuest = payload;
+    },
+    SET_ID(state, id) {
+      state.id = id;
+    },
+    SET_MBTI1(state, mbti1) {
+      state.mbti1 = mbti1;
+    },
+    SET_MBTI2(state, mbti2) {
+      state.mbti2 = mbti2;
+    },
+    SET_MBTI3(state, mbti3) {
+      state.mbti3 = mbti3;
+    },
+    SET_MBTI4(state, mbti4) {
+      state.mbti4 = mbti4;
     },
   },
   actions: {
@@ -171,14 +150,16 @@ export default createStore({
     removeFromMbtiComplete({ commit }, key) {
       commit("REMOVE_FROM_MBTI_COMPLETE", key);
     },
-    getData({ commit }) {
+    selectMbti({ commit }, selectMBTI) {
+      commit("SET_SELECTED_MBTI", selectMBTI);
+    },
+    async getData({ commit }) {
       axios
         .get("/mypage", {
           withCredentials: true,
         })
         .then((res) => {
           console.log(res);
-          console.log(res.data.password);
           commit("SET_NICKNAME", res.data.nickname);
           commit("SET_BIRTHDAY", res.data.birthday.slice(0, 10));
           commit("SET_GENDER", res.data.gender);
@@ -186,15 +167,33 @@ export default createStore({
             "SET_MBTI",
             res.data.mbti1 + res.data.mbti2 + res.data.mbti3 + res.data.mbti4
           );
+          commit("SET_ANSWERED", res.data.answered);
           console.log(this.state.mypage);
+          router.push({ name: "mypage" });
         })
-        .then(() => router.push("/mypage"))
         .catch((err) => {
           console.log(err);
         });
     },
     setGroups({ commit }, payload) {
       commit("SET_GROUPS", payload);
+    },
+    async updateMyProfile({ commit }, payload) {
+      await axios
+        .put("/mypage/update", payload, { withCredentials: true })
+        .then((res) => {
+          console.log(res);
+          commit("SET_NICKNAME", res.data.nickname);
+          commit("SET_BIRTHDAY", res.data.birthday.slice(0, 10));
+          commit("SET_GENDER", res.data.gender);
+          commit(
+            "SET_MBTI",
+            res.data.mbti1 + res.data.mbti2 + res.data.mbti3 + res.data.mbti4
+          );
+        })
+        .catch((err) => {
+          console.log(err.response.data.message);
+        });
     },
   },
   modules: {},

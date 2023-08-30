@@ -6,7 +6,13 @@
 
     <form @submit.prevent="submitForm" class="main-section" id="signup">
       <h2 class="profile-label">프로필 사진</h2>
-      <button class="profile-btn">파일 선택</button>
+      <input
+        class="profile-btn"
+        type="file"
+        accept="image/*"
+        ref="profileImage"
+        @change="profileImg"
+      />
 
       <div class="input-container">
         <div class="input-div">
@@ -65,7 +71,7 @@
         </div>
 
         <div class="input-div">
-          <label class="input-label" for="man">성별</label>
+          <label class="input-label">성별</label>
           <div class="gender-box">
             <label class="gender-label" for="man">
               <input
@@ -104,7 +110,7 @@
         </div>
 
         <div class="mbti-div">
-          <label class="input-label" for="">MBTI</label>
+          <label class="input-label">MBTI</label>
           <div class="mbti-box">
             <!-- E/I -->
             <div class="mbti-set">
@@ -166,12 +172,11 @@
 
 <script>
 import axios from "axios";
-// import { signup } from "backend/controllers/auth";
 
 export default {
   data() {
     return {
-      image: "",
+      image: {},
       email: "",
       nickname: "",
       password: "",
@@ -188,8 +193,11 @@ export default {
     };
   },
   methods: {
+    profileImg() {
+      this.image = this.$refs.profileImage.files[0];
+      console.log(this.image);
+    },
     manCheck() {
-      // console.log("m", this.gender, this.man, this.woman);
       if (this.gender === "" || this.gender === "W") {
         if (this.man === "off") {
           this.man = "on";
@@ -203,7 +211,6 @@ export default {
       }
     },
     womanCheck() {
-      // console.log("w", this.gender, this.man, this.woman);
       if (this.gender === "" || this.gender === "M") {
         if (this.woman === "off") {
           this.woman = "on";
@@ -233,7 +240,7 @@ export default {
 
       if (!this.errors.length) {
         const formData = {
-          image: null,
+          image: this.image,
           email: this.email,
           nickname: this.nickname,
           password: this.password,
@@ -245,21 +252,20 @@ export default {
           mbti4: this.mbti4,
         };
 
+        console.log(formData);
+
+        const headers = {
+          "content-Type": "multipart/form-data",
+        };
+
         await axios
-          .post("/auth/signup", formData)
-          // eslint-disable-next-line
+          .post("/auth/signup", formData, { headers })
           .then((res) => {
+            console.log(res);
             this.$router.push({ name: "login" });
           })
           .catch((error) => {
-            console.log(formData);
-            if (error.res) {
-              for (const property in error.res.data) {
-                this.errors.push(`${property}: ${error.res.data[property]}`);
-              }
-            } else if (error.message) {
-              this.errors.push("Something went wrong. Please try again!");
-            }
+            console.log(error);
           });
       }
     },
@@ -269,7 +275,8 @@ export default {
 
 <style scoped>
 .body {
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   background-color: #fff9c8;
 }
 
@@ -296,7 +303,7 @@ export default {
   font-size: 20px;
 }
 
-.profile-btn {
+/* .profile-btn {
   width: 80px;
   height: 80px;
   background-color: #fff;
@@ -304,7 +311,17 @@ export default {
   border-radius: 30px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
   font-weight: bold;
-}
+} */
+
+/* #file-upload-button {
+  width: 80px;
+  height: 80px;
+  background-color: #fff;
+  border: 0;
+  border-radius: 30px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
+  font-weight: bold;
+} */
 
 .input-container {
   margin: 30px;

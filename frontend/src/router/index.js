@@ -36,7 +36,7 @@ const routes = [
   {
     path: "/mbti/detail",
     name: "detail",
-    component: () => import("../views/InfoDetail.vue"),
+    component: () => import("../views/MbtiDetail.vue"),
   },
   {
     path: "/mypage",
@@ -55,9 +55,15 @@ const routes = [
     component: () => import("../views/RandomQuestion.vue"),
   },
   {
-    path: "/randomanswer/detail/:name",
+    path: "/randomanswer/detail/:id/:mbti",
     name: "randomanswerdetail",
     component: () => import("../views/RandomAnswerDetail.vue"),
+    props: true,
+  },
+  {
+    path: "/randomanswer/modify/:id",
+    name: "randomanswermodify",
+    component: () => import("../views/RandomAnswerModify.vue"),
     props: true,
   },
   {
@@ -86,6 +92,9 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
   linkActiveClass: "route-active",
+  scrollBehavior() {
+    return { top: 0 };
+  },
 });
 
 function requireAuth(to, from, next) {

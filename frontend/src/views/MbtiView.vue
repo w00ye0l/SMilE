@@ -18,7 +18,6 @@
           :href="`#${group.name}`"
         >
           {{ group.name }}
-          <!-- <p class="group-text">{{ group.name }}</p> -->
         </a>
       </div>
     </div>
@@ -30,7 +29,7 @@
         :key="index"
         :id="group.name"
       >
-        <h2>{{ group.name }}</h2>
+        <h2 class="friend-group">{{ group.name }}</h2>
         <div class="friends-list">
           <div
             class="friend-info"
@@ -46,6 +45,8 @@
             <p class="friend-mbti">{{ guest.mbti }}</p>
           </div>
         </div>
+
+        <hr />
       </div>
     </div>
 
@@ -65,7 +66,6 @@ export default {
   data() {
     return {
       modal: false,
-      // groups: [],
       mbti: [],
       guest: [],
     };
@@ -114,19 +114,45 @@ export default {
 </script>
 
 <style scoped>
+@media (min-width: 541px) {
+  .main-container {
+    padding: 0 30px;
+    height: 100%;
+  }
+
+  .group-container {
+    border-radius: 20px;
+  }
+}
+
+@media (max-width: 540px) {
+  .main-container {
+    height: calc(100% - 80px);
+    margin-bottom: 80px;
+  }
+}
+
 * {
   margin: 0;
   padding: 0;
+  width: 100%;
   box-sizing: border-box;
 }
+
 .main-container {
-  margin-bottom: 80px;
-  height: calc(100% - 80px);
+  width: 100%;
+}
+
+hr {
+  background-color: #fff9c8;
+  height: 3px;
+  border: 0;
 }
 
 .title {
   margin: 0;
-  padding: 40px 0;
+  padding: 50px 0;
+  text-align: center;
 }
 
 .group-container {
@@ -143,6 +169,7 @@ export default {
 .group-title {
   margin: 20px 0;
   font-size: 20px;
+  text-align: start;
 }
 
 .group-add-btn {
@@ -172,6 +199,7 @@ export default {
 }
 
 .group-name {
+  width: fit-content;
   padding: 5px 20px;
   color: #000;
   text-decoration: none;
@@ -183,7 +211,6 @@ export default {
 
 .friends-container {
   padding: 15px 0;
-  height: calc(100vh - 341px);
   overflow-x: auto;
 }
 
@@ -196,13 +223,17 @@ export default {
   flex-wrap: wrap;
 }
 
+.friend-group {
+  text-align: start;
+}
+
 .friends-list {
   padding: 15px 5px;
   display: flex;
   width: 100%;
   height: 100%;
   gap: 10px;
-  overflow-y: scroll;
+  overflow-x: auto;
 }
 
 .friend-info {
@@ -212,10 +243,12 @@ export default {
   align-items: center;
   padding: 10px;
   min-width: 100px;
+  width: 100px;
   border-radius: 20px;
   background-color: white;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
   gap: 5px;
+  text-align: center;
 }
 
 .profile-img {

@@ -1,6 +1,7 @@
 const express = require('express');
 const { index, read, create, update, remove } = require('../controllers/guest');
 
+const { guestprofile } = require('../middlewares/guestprofile');
 const { isLoggedIn } = require('../middlewares');
 
 const router = express.Router();
@@ -12,7 +13,7 @@ router.get('/index', isLoggedIn, index);
 router.get('/read/:id', isLoggedIn, read);
 
 // POST /guest/:groupid/create
-router.post('/:id/create', isLoggedIn, create)
+router.post('/:id/create', guestprofile.single('image'), isLoggedIn, create)
 
 // PUT /guest/update/:guestid
 router.put('/update/:id', isLoggedIn, update)

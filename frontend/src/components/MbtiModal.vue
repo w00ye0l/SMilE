@@ -66,9 +66,12 @@ export default {
 
 .white-bg {
   position: absolute;
+  left: 50%;
   bottom: 100px;
+  transform: translate(-50%, 0);
   padding: 35px 20px;
   width: 90vw;
+  max-width: 1000px;
   height: 150px;
   display: flex;
   flex-direction: column;

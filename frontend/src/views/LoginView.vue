@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main">
     <div class="banner">
       <h1 class="title">
         S<span class="sub-title">how</span><br />M<span class="sub-title"
@@ -28,6 +28,9 @@
     </div>
 
     <div class="login-container">
+      <div class="error-container" v-show="errors.length">
+        <p class="error-message">{{ errors }}</p>
+      </div>
       <form @submit.prevent="submitForm" class="login-form">
         <input
           class="input-box"
@@ -66,7 +69,7 @@ export default {
     return {
       email: "",
       password: "",
-      errors: [],
+      errors: "",
     };
   },
   methods: {
@@ -75,7 +78,7 @@ export default {
 
       if (!this.email || !this.password) {
         // || : or
-        this.errors.push("please provide an email and password!!");
+        this.showNotification("이메일 또는 비밀번호를 입력해주세요.");
       }
 
       if (!this.errors.length) {
@@ -92,23 +95,29 @@ export default {
             this.cookies.set("id", res.data.id);
             this.$store.dispatch("getData");
           })
-          .catch((error) => {
-            console.log("not login");
-            if (error.res) {
-              for (const property in error.res.data) {
-                this.errors.push(`${property}: ${error.res.data[property]}`);
-              }
-            } else if (error.message) {
-              this.errors.push("Something went wrong. Please try again!");
-            }
+          .catch((err) => {
+            console.log(err.response.data.message);
+            this.errors.push(err.response.data.message);
+            this.showNotification(err.response.data.message);
           });
       }
+    },
+    showNotification(errorMessage) {
+      this.errors = errorMessage;
+      setTimeout(() => {
+        this.errors = "";
+      }, 2000);
     },
   },
 };
 </script>
 
 <style scoped>
+.main {
+  width: 100%;
+  height: 100%;
+}
+
 .banner {
   padding: 50px;
   position: relative;
@@ -157,9 +166,30 @@ export default {
 }
 
 .login-container {
-  padding: 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding: 80px;
+  padding-bottom: 20px;
   width: 100%;
-  height: 50vh;
+}
+
+.error-container {
+  padding: 10px 20px;
+  position: absolute;
+  width: 220px;
+  top: 2%;
+  left: 50%;
+  color: #fff;
+  background-color: #fc7e7e;
+  transform: translateX(-50%);
+  border-radius: 10px;
+}
+
+.error-message {
+  margin: 0;
+  padding: 0;
 }
 
 .login-form {
