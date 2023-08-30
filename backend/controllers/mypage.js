@@ -4,6 +4,8 @@ const User = require('../models/user');
 
 // 마이페이지
 exports.myProfile = async (req, res, next) => { 
+  console.log(req);
+  console.log(req.user);
   try{  
     const user = await User.findOne({
       where: { id: req.user.id }, // 현재 로그인한 사용자의 ID를 조회
