@@ -53,6 +53,7 @@ exports.signup = async (req, res, next) => {
 exports.login = async (req, res, next) => {
   //? local로 실행이 되면 localstrategy.js를 찾아 실행
   passport.authenticate("local", (authError, user, info) => {
+    console.log(authError, user, info);
     // done(err)가 처리된 경우
     if (authError) {
       console.error(authError);
