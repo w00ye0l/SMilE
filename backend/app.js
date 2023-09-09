@@ -72,8 +72,8 @@ app.use(session({
   store: sessionStore, // Sequelize로 설정한 MySQL 저장소를 사용
   cookie: {
     httpOnly: true,
-    secure: false,
-    // sameSite: "none",
+    secure: true,
+    sameSite: "none",
   },
 }));
 
