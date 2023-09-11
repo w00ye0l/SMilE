@@ -5,7 +5,6 @@ const mysql = require("mysql2");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
 const session = require("express-session");
-const fileStore = require("session-file-store")(session);
 const MySQLStore = require("express-mysql-session")(session);
 const passport = require("passport");
 const bodyParser = require("body-parser");

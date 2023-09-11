@@ -1,9 +1,5 @@
-const express = require("express");
-const mysql = require("mysql2");
-const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
-const { promisify } = require("util");
 
 const User = require("../models/user");
 
@@ -83,6 +79,7 @@ exports.login = async (req, res, next) => {
       }
       const userData = JSON.parse(JSON.stringify(user));
       delete userData.password;
+      console.log(userData);
       res.send(userData);
     });
   })(req, res, next); // 미들웨어 내의 미들웨어에는 (req, res, next)를 붙입니다.
