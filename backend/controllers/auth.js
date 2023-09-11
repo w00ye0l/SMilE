@@ -6,6 +6,7 @@ const passport = require("passport");
 const { promisify } = require("util");
 
 const User = require("../models/user");
+const { ConfigurationServicePlaceholders } = require("aws-sdk/lib/config_service_placeholders");
 
 // 회원가입
 exports.signup = async (req, res, next) => {
@@ -83,6 +84,7 @@ exports.login = async (req, res, next) => {
       }
       const userData = JSON.parse(JSON.stringify(user));
       delete userData.password;
+      console.log(userData);
       res.send(userData);
     });
   })(req, res, next); // 미들웨어 내의 미들웨어에는 (req, res, next)를 붙입니다.
