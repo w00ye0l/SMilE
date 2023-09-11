@@ -1,12 +1,7 @@
-const express = require("express");
-const mysql = require("mysql2");
-const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
-const { promisify } = require("util");
 
 const User = require("../models/user");
-const { ConfigurationServicePlaceholders } = require("aws-sdk/lib/config_service_placeholders");
 
 // 회원가입
 exports.signup = async (req, res, next) => {
