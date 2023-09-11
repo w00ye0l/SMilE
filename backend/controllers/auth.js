@@ -65,6 +65,7 @@ exports.login = async (req, res, next) => {
   console.log("로그인 실행");
   passport.authenticate("local", (authError, user, info) => {
     console.log("로그인 패스포트");
+    console.log(authError, user, info);
     // done(err)가 처리된 경우
     if (authError) {
       console.error(authError);
