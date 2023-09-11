@@ -5,8 +5,8 @@ const mysql = require("mysql2");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
 const session = require("express-session");
-const fileStore = require('session-file-store')(session);
-const MySQLStore = require('express-mysql-session')(session);
+const fileStore = require("session-file-store")(session);
+const MySQLStore = require("express-mysql-session")(session);
 const passport = require("passport");
 const bodyParser = require("body-parser");
 
@@ -57,25 +57,30 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
-// Sequelize로 설정한 MySQL 연결 객체를 사용하여 MySQL 저장소 생성
-const sessionStore = new MySQLStore({
+const options = {
   host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
   user: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
-});
+};
 
-app.use(session({
-  resave: false, // 세션 항상 저장할지
-  saveUninitialized: false, // 세션 저장 전 Uninitialized 상태로 만들어 저장
-  secret: process.env.COOKIE_SECRET, // 암호화 키
-  store: sessionStore, // Sequelize로 설정한 MySQL 저장소를 사용
-  cookie: {
-    httpOnly: true,
-    secure: true,
-    sameSite: "none",
-  },
-}));
+// Sequelize로 설정한 MySQL 연결 객체를 사용하여 MySQL 저장소 생성
+const sessionStore = new MySQLStore(options, mysql.createConnection(options));
+
+app.use(
+  session({
+    resave: false, // 세션 항상 저장할지
+    saveUninitialized: true, // 세션 저장 전 Uninitialized 상태로 만들어 저장
+    secret: process.env.COOKIE_SECRET, // 암호화 키
+    store: sessionStore, // Sequelize로 설정한 MySQL 저장소를 사용
+    cookie: {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+    },
+  })
+);
 
 app.use(passport.initialize()); //요청 (req 객체) 에 passport 설정
 app.use(passport.session()); // req.session 객체에 passport 인증 완료 정보를 저장
