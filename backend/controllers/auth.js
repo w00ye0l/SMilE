@@ -9,7 +9,18 @@ const User = require("../models/user");
 
 // 회원가입
 exports.signup = async (req, res, next) => {
-  const { image, email, nickname, password, birthday, gender, mbti1, mbti2, mbti3, mbti4 } = req.body;
+  const {
+    image,
+    email,
+    nickname,
+    password,
+    birthday,
+    gender,
+    mbti1,
+    mbti2,
+    mbti3,
+    mbti4,
+  } = req.body;
 
   // 이메일 중복 가입 방지
   const exUser = await User.findOne({ where: { email } });
@@ -22,7 +33,7 @@ exports.signup = async (req, res, next) => {
   let imageUrl = null;
   if (req.file) {
     imageUrl = req.file.location;
-  } 
+  }
 
   try {
     const user = await User.create({
@@ -41,8 +52,7 @@ exports.signup = async (req, res, next) => {
 
     // const userImageUrl = user.image;
 
-    res.status(200).json({ "user": user });
-
+    res.status(200).json({ user: user });
   } catch (error) {
     console.error(error);
     next(error);
@@ -52,7 +62,9 @@ exports.signup = async (req, res, next) => {
 // 로그인
 exports.login = async (req, res, next) => {
   //? local로 실행이 되면 localstrategy.js를 찾아 실행
+  console.log("로그인 실행");
   passport.authenticate("local", (authError, user, info) => {
+    console.log("로그인 패스포트");
     // done(err)가 처리된 경우
     if (authError) {
       console.error(authError);
@@ -79,7 +91,7 @@ exports.login = async (req, res, next) => {
 exports.logout = (req, res) => {
   req.logout(() => {
     req.session.destroy(); // passport 업데이트 이후 함수 안에 넣어야 실행됨
-    res.clearCookie('connect.sid'); // connect.sid 쿠키 삭제
+    res.clearCookie("connect.sid"); // connect.sid 쿠키 삭제
     res.send("로그아웃");
   });
 };
