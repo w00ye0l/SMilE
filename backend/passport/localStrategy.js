@@ -10,7 +10,6 @@ module.exports = () => {
       {
           usernameField: 'email', // req.body.email
           passwordField: 'password', // req.body.password
-          session: true,
         /*
         session: true, // 세션에 저장 여부
         passReqToCallback: false, 

@@ -3,6 +3,7 @@ exports.isLoggedIn = (req, res, next) => {
   console.log("isLoggedIn req 확인");
   console.log(req);
   if (req.isAuthenticated()) {
+    console.log('인증');
     next(); // 다음 미들웨어
   } else {
     res.status(403).send("로그인 필요");
