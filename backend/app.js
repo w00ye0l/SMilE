@@ -75,6 +75,7 @@ app.use(
     secret: process.env.COOKIE_SECRET, // 암호화 키
     store: sessionStore, // Sequelize로 설정한 MySQL 저장소를 사용
     cookie: {
+      domain: [process.env.FRONT_URL_1, process.env.FRONT_URL_2],
       httpOnly: true,
       secure: true,
       sameSite: "none",
