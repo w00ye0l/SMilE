@@ -8,7 +8,7 @@ const session = require("express-session");
 const MySQLStore = require("express-mysql-session")(session);
 const passport = require("passport");
 const bodyParser = require("body-parser");
-const { isLoggedIn } = require("../middlewares");
+// const { isLoggedIn } = require("../middlewares");
 
 const cors = require("cors");
 
@@ -85,8 +85,8 @@ app.use(
 app.use(passport.initialize()); //요청 (req 객체) 에 passport 설정
 app.use(passport.session()); // req.session 객체에 passport 인증 완료 정보를 저장
 
-// Use your isLoggedIn middleware here
-app.use(isLoggedIn);
+// // Use your isLoggedIn middleware here
+// app.use(isLoggedIn);
 
 // 경로 지정
 app.use("/", pageRouter);
