@@ -8,7 +8,7 @@ const session = require("express-session");
 const MySQLStore = require("express-mysql-session")(session);
 const passport = require("passport");
 const bodyParser = require("body-parser");
-const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
+// const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 
 const cors = require("cors");
 
@@ -19,6 +19,9 @@ const app = express();
 
 const passportConfig = require("./passport");
 passportConfig(); // 패스포트 설정
+
+// // isLoggedIn, isNotLoggedIn middleware 사용
+// app.use(isLoggedIn, isNotLoggedIn);
 
 // 인증 라우터
 const pageRouter = require("./routes/pages");
@@ -42,8 +45,8 @@ const port = 3000;
 app.use(
   cors({
     // front 서버인 127.0.0.1:8080 의 요청을 허용하도록 cors 사용
-    origin: [process.env.FRONT_URL_1, process.env.FRONT_URL_2],
-    // origin: ['http://localhost:8080', 'http://localhost:8081'],
+    // origin: [process.env.FRONT_URL_1, process.env.FRONT_URL_2],
+    origin: ['http://localhost:8080', 'http://localhost:8081'],
     credentials: true,
   })
 );
@@ -75,19 +78,16 @@ app.use(
     secret: process.env.COOKIE_SECRET, // 암호화 키
     store: sessionStore, // Sequelize로 설정한 MySQL 저장소를 사용
     cookie: {
-      domain: [process.env.FRONT_URL_1, process.env.FRONT_URL_2],
+      // domain: [process.env.FRONT_URL_1, process.env.FRONT_URL_2],
       httpOnly: true,
-      secure: true,
-      sameSite: "none",
+      // secure: true,
+      // sameSite: "none",
     },
   })
 );
 
 app.use(passport.initialize()); //요청 (req 객체) 에 passport 설정
 app.use(passport.session()); // req.session 객체에 passport 인증 완료 정보를 저장
-
-// isLoggedIn, isNotLoggedIn middleware 사용
-app.use(isLoggedIn, isNotLoggedIn);
 
 // 경로 지정
 app.use("/", pageRouter);
