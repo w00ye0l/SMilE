@@ -99,7 +99,7 @@ const router = createRouter({
 
 function requireAuth(to, from, next) {
   const { cookies } = useCookies();
-  // console.log("id", cookies.get("id"));
+  console.log("id", cookies.get("id"));
   if (cookies.get("id")) {
     next();
   } else {
