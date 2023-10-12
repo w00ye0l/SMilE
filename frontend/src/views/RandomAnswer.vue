@@ -56,7 +56,7 @@ export default {
   methods: {
     async getRandomMessage() {
       await axios
-        .get("/random/question/", { withCredentials: true })
+        .get("/random/question", { withCredentials: true })
         .then((res) => {
           this.randomMessage = res.data;
           this.message = this.randomMessage.question;

@@ -143,7 +143,7 @@ export default {
     },
     async getRandomMessage() {
       await axios
-        .get("/random/question/", { withCredentials: true })
+        .get("/random/question", { withCredentials: true })
         .then((res) => {
           this.randomMessage = res.data;
           this.question = this.randomMessage.question;

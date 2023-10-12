@@ -87,7 +87,7 @@ export default {
           password: this.password,
         };
         await axios
-          .post("/auth/login/", formData, {
+          .post("/auth/login", formData, {
             withCredentials: true,
           })
           // eslint-disable-next-line
