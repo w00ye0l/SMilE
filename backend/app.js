@@ -91,12 +91,12 @@ app.use(passport.initialize()); //요청 (req 객체) 에 passport 설정
 app.use(passport.session()); // req.session 객체에 passport 인증 완료 정보를 저장
 
 // 경로 지정
-app.use("/", pageRouter);
-app.use("/auth", authRouter);
-app.use("/mypage", mypageRouter);
-app.use("/group", groupRouter);
-app.use("/guest", guestRouter);
-app.use("/random", randomRouter);
+app.use("/api/", pageRouter);
+app.use("/api/auth", authRouter);
+app.use("/api/mypage", mypageRouter);
+app.use("/api/group", groupRouter);
+app.use("/api/guest", guestRouter);
+app.use("/api/random", randomRouter);
 
 // 일부러 에러 발생시키기 TEST용
 app.use((req, res, next) => {
