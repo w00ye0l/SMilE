@@ -1,6 +1,5 @@
 exports.isLoggedIn = (req, res, next) => {
   // isAuthenticated()로 검사해 로그인이 되어있으면
-  console.log(req);
   console.log("isLoggedIn req 확인", req.isAuthenticated());
   console.log(req.cookies);
   if (req.isAuthenticated()) {
