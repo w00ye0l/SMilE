@@ -48,6 +48,7 @@ app.use(
     origin: [process.env.FRONT_URL_1, process.env.FRONT_URL_2],
     // origin: ['http://localhost:8080', 'http://localhost:8081'],
     methods: ["GET", "PUT", "POST", "DELETE"],
+    optionsSuccessStatus: 200, 
     credentials: true,
   })
 );
