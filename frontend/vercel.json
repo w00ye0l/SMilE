@@ -1,0 +1,16 @@
+// https://port-0-smile-koh2xlj7ghmmi.sel4.cloudtype.app/
+// in vercel.json:
+// for example proxying /api/ → https://backend-endpoint/
+
+{
+  "rewrites": [
+    {
+      "source": "/:path*",
+      "destination": "https://port-0-smile-koh2xlj7ghmmi.sel4.cloudtype.app/:path*"
+    },
+    {
+      "source": "/:path*/",
+      "destination": "https://port-0-smile-koh2xlj7ghmmi.sel4.cloudtype.app/:path*/"
+    }
+  ]
+}
