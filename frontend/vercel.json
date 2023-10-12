@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/:path*",
+      "destination": "https://port-0-smile-koh2xlj7ghmmi.sel4.cloudtype.app/:path*"
+    },
+    {
+      "source": "/:path*/",
+      "destination": "https://port-0-smile-koh2xlj7ghmmi.sel4.cloudtype.app/:path*/"
+    }
+  ]
+}
