@@ -42,13 +42,16 @@ sequelize
 
 const port = 3000;
 
+// VARIABLES
+app.set("trust proxy", 1);
+
 app.use(
   cors({
     // front 서버인 127.0.0.1:8080 의 요청을 허용하도록 cors 사용
     origin: [process.env.FRONT_URL_1, process.env.FRONT_URL_2],
     // origin: ['http://localhost:8080', 'http://localhost:8081'],
-    methods: ["GET", "PUT", "POST", "DELETE"],
-    optionsSuccessStatus: 200, 
+    methods: ["GET", "PUT", "POST", "PATCH", "DELETE", "OPTIONS"],
+    optionsSuccessStatus: 200,
     credentials: true,
   })
 );
