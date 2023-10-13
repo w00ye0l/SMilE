@@ -20,7 +20,7 @@
             />
             <span class="mbti-name"> {{ $route.params.mbti }}</span>
           </div>
-          <div class="text-modify-delete">
+          <div v-if="this.userID === this.userId" class="text-modify-delete">
             <span class="writing-modify" @click="writingModify()">수정</span>
             <span class="writing-delete" @click="writingDelete()">삭제</span>
           </div>
@@ -28,8 +28,10 @@
         <p class="content">{{ content }}</p>
       </div>
       <hr />
-      <div class="comments-container">
-        <div v-if="comments.length === 0">아직 댓글이 없습니다.</div>
+      <div :style="containerStyle">
+        <div v-if="comments.length === 0" class="nocomment">
+          아직 댓글이 없습니다.
+        </div>
         <div
           class="comment-box"
           v-for="(
@@ -47,7 +49,7 @@
                 <span class="mbti-id">{{ userID }}</span>
               </div>
             </div>
-            <div class="comment-actions">
+            <div v-if="this.userId === userID" class="comment-actions">
               <span class="modify" @click="modifyComment(id)">수정</span>
               <span class="delete" @click="removeComment(id)">삭제</span>
             </div>
@@ -94,9 +96,21 @@ export default {
       totalMbti: "",
       question: "",
       answer: "",
+      userID: "",
+      commentId: "",
     };
   },
-  computed: {},
+  computed: {
+    containerStyle() {
+      if (this.comments.length === 0) {
+        return { overflow: "none" };
+      }
+      return { overflow: "none" };
+    },
+    userId() {
+      return this.$store.state.userID;
+    },
+  },
   methods: {
     validComment() {
       if (this.newComment.trim() === "") {
@@ -109,9 +123,12 @@ export default {
       const commentToEdit = this.comments.find((c) => c.id === commentId);
       this.newComment = commentToEdit.comment;
       this.editingCommentId = commentId;
-      console.log(this.editingCommentId);
     },
     async postComment() {
+      // 답변 ID랑
+      if (this.userID === parseInt(this.$route.params.userID)) {
+        return;
+      }
       if (this.validComment()) {
         const formData = {
           answerID: this.$route.params.id,
@@ -143,7 +160,7 @@ export default {
     },
     async getRandomMessage() {
       await axios
-        .get("/random/question", { withCredentials: true })
+        .get("/random/question/", { withCredentials: true })
         .then((res) => {
           this.randomMessage = res.data;
           this.question = this.randomMessage.question;
@@ -157,7 +174,7 @@ export default {
         .then((res) => {
           this.answer = res.data;
           this.content = this.answer.answer.answer;
-          console.log(this.answer);
+          this.userID = this.answer.answer.userID;
         })
         .catch((error) => {
           console.log(error);
@@ -221,69 +238,6 @@ export default {
   overflow: auto;
 }
 
-@media (max-width: 767px) {
-  .back-btn {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    position: absolute;
-    left: 10%;
-    top: 1%;
-    margin-top: 1%;
-  }
-  .back-img {
-    width: 70%;
-    height: 70%;
-  }
-
-  textarea {
-    width: 80%;
-    border: none;
-  }
-}
-
-@media (min-width: 768px) and (max-width: 1023px) {
-  .back-btn {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    position: absolute;
-    left: 9.5%;
-    top: 1.3%;
-    margin-top: 1%;
-  }
-  .back-img {
-    width: 70%;
-    height: 70%;
-  }
-
-  textarea {
-    width: 92%;
-    border: none;
-  }
-}
-
-@media (min-width: 1024px) {
-  .back-btn {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    position: absolute;
-    left: 10%;
-    top: 1%;
-    margin-top: 0.3%;
-  }
-  .back-img {
-    width: 20px;
-    height: 20px;
-  }
-
-  textarea {
-    width: 93%;
-    border: none;
-  }
-}
-
 .title {
   margin: 0;
   margin-bottom: 80px;
@@ -305,6 +259,7 @@ export default {
   display: inline-block;
   white-space: pre-line;
   word-wrap: break-word;
+  overflow-y: auto;
 }
 .small-box-control {
   display: flex;
@@ -474,5 +429,77 @@ export default {
 }
 .delete {
   color: red;
+}
+/* 모바일 뷰 */
+@media (max-width: 541px) {
+  .back-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    left: 10%;
+    top: 1%;
+    margin-top: 1%;
+  }
+  .back-img {
+    width: 70%;
+    height: 70%;
+  }
+
+  textarea {
+    width: 80%;
+    border: none;
+  }
+}
+/* 웹 뷰 */
+@media (min-width: 541px) {
+  .background {
+    height: 100%;
+  }
+  .back-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    left: 9.5%;
+    top: 1.3%;
+    margin-top: 1%;
+  }
+  .back-img {
+    width: 70%;
+    height: 70%;
+  }
+
+  textarea {
+    width: 92%;
+    border: none;
+  }
+
+  .small-box {
+    width: 42vw;
+    border-radius: 20px;
+    height: 70%;
+  }
+
+  .comment-box-top {
+    height: 20%;
+  }
+
+  .memo-box {
+    width: 80%;
+  }
+
+  .name-input-box {
+    width: 42.5vw;
+  }
+  .nocomment {
+    margin-left: 20px;
+  }
+  .input-with-image img {
+    right: 1.5%;
+  }
+  .answer {
+    margin-left: 20px;
+  }
 }
 </style>

@@ -41,6 +41,7 @@ export default createStore({
     mbti2: "_",
     mbti3: "_",
     mbti4: "_",
+    userID: null,
   },
   getters: {
     EVENTS: (state) => state.events,
@@ -133,6 +134,9 @@ export default createStore({
     SET_MBTI4(state, mbti4) {
       state.mbti4 = mbti4;
     },
+    SET_USER_ID(state, userID) {
+      state.userID = userID;
+    },
   },
   actions: {
     updateContent({ commit }, content) {
@@ -194,6 +198,9 @@ export default createStore({
         .catch((err) => {
           console.log(err.response.data.message);
         });
+    },
+    setUserID({ commit }, userID) {
+      commit("SET_USER_ID", userID);
     },
   },
   modules: {},

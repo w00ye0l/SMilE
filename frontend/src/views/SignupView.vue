@@ -6,13 +6,15 @@
 
     <form @submit.prevent="submitForm" class="main-section" id="signup">
       <h2 class="profile-label">프로필 사진</h2>
-      <input
-        class="profile-btn"
-        type="file"
-        accept="image/*"
-        ref="profileImage"
-        @change="profileImg"
-      />
+      <div class="profile">
+        <input
+          class="profile-btn"
+          type="file"
+          accept="image/*"
+          ref="profileImage"
+          @change="profileImg"
+        />
+      </div>
 
       <div class="input-container">
         <div class="input-div">
@@ -163,9 +165,11 @@
         </div>
       </div>
 
-      <button v-on:click="signup" class="signup-btn" type="submit">
-        회원가입
-      </button>
+      <div class="signup">
+        <button v-on:click="signup" class="signup-btn" type="submit">
+          회원가입
+        </button>
+      </div>
     </form>
   </div>
 </template>
@@ -423,5 +427,28 @@ export default {
   background-color: #ffd338;
   border: 0;
   border-radius: 30px;
+}
+
+@media (min-width: 541px) {
+  .title-section {
+    width: 100%;
+  }
+  .profile-label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0 20px 0;
+  }
+  .signup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 80px;
+  }
 }
 </style>

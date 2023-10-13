@@ -4,17 +4,24 @@
       <div class="info-box info-title">{{ id }} 특징은?</div>
     </div>
     <div class="info-content-box">
-      <div class="info-box info-content">특징 어쩌구 저쩌구</div>
+      <div class="info-box info-content">{{ character }}</div>
     </div>
   </div>
 </template>
 
 <script>
+import { MBTI } from "../mbti/mbtiData";
+
 export default {
   data() {
     return {
       id: this.$store.state.selectMBTI,
     };
+  },
+  computed: {
+    character() {
+      return MBTI[this.id].특징;
+    },
   },
 };
 </script>

@@ -4,17 +4,24 @@
       <div class="info-box info-title">{{ id }} 상대법은?</div>
     </div>
     <div class="info-content-box">
-      <div class="info-box info-content">상대법 어쩌구 저쩌구</div>
+      <div class="info-box info-content">{{ relativity }}</div>
     </div>
   </div>
 </template>
 
 <script>
+import { MBTI } from "../mbti/mbtiData";
+
 export default {
   data() {
     return {
       id: this.$store.state.selectMBTI,
     };
+  },
+  computed: {
+    relativity() {
+      return MBTI[this.id].상대법;
+    },
   },
 };
 </script>
