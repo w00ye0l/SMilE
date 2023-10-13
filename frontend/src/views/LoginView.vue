@@ -93,6 +93,7 @@ export default {
           // eslint-disable-next-line
           .then((res) => {
             this.cookies.set("id", res.data.id);
+            this.$store.dispatch("setUserID", res.data.id);
             this.$store.dispatch("getData");
           })
           .catch((err) => {
