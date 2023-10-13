@@ -16,12 +16,13 @@
       ref="swiper"
       @swiper="onSwiper"
       @slideChange="onSlideChange"
+      class="my-swiper"
     >
       <swiper-slide class="wrap-swiper">
         <div class="slider">
-          <div>
+          <div class="main-content">
             <h3>
-              주변 사람들의<br />
+              <span>주변 사람들의</span><br />
               <span class="mbti">MBTI</span>를 저장해<br />한 눈에 확인하세요!
             </h3>
           </div>
@@ -33,7 +34,7 @@
       </swiper-slide>
       <swiper-slide class="wrap-swiper">
         <div class="slider">
-          <div class="main_content">
+          <div class="main-content second">
             <h3>
               다른 사람들이<br />
               생각하는 <span class="mbti">MBTI</span>는<br />
@@ -52,7 +53,7 @@
       </swiper-slide>
       <swiper-slide class="wrap-swiper">
         <div class="slider">
-          <div class="main_content">
+          <div class="main-content">
             <h3>
               일정을 기록하고<br />
               만나는 사람의 <span class="mbti">MBTI</span><br />
@@ -70,7 +71,7 @@
       </swiper-slide>
       <swiper-slide class="wrap-swiper">
         <div class="slider">
-          <div class="main_content">
+          <div class="main-content">
             <h3>
               하루의 하나의 질문을 통해<br />
               다른 <span class="mbti">MBTI</span>의 생각을 확인해요!
@@ -227,8 +228,8 @@ h3 {
   width: 180px;
   max-width: 280px;
 }
-
-@media (max-width: 767px) {
+/*모바일*/
+@media (max-width: 541px) {
   .img1 {
     right: -12%;
     width: 40%;
@@ -264,7 +265,6 @@ h3 {
     top: 40%;
     width: 40%;
   }
-
   .right-img {
     position: absolute;
     right: 1%;
@@ -350,20 +350,20 @@ h3 {
     right: 18%;
   }
 }
-
-@media (min-width: 768px) and (max-width: 1023px) {
+/* 웹 */
+@media (min-width: 541px) {
   .img1 {
-    right: -10%;
-    width: 50%;
+    right: -5%;
+    width: 40%;
   }
 
   .img2 {
-    left: -10%;
-    width: 50%;
+    left: -7%;
+    width: 40%;
   }
 
   h3 {
-    font-size: 40px;
+    font-size: 20px;
   }
 
   .header {
@@ -374,227 +374,115 @@ h3 {
     width: 47px;
     height: 47px;
   }
-
   .left-img {
-    position: absolute;
-    left: 3%;
-    top: 40%;
-    width: 40%;
-  }
-
-  .mid-img {
-    position: absolute;
-    left: 30%;
-    top: 40%;
-    width: 40%;
-  }
-
-  .right-img {
-    position: absolute;
-    right: 4.5%;
-    top: 40%;
-    width: 40%;
-  }
-
-  .left-img2 {
     position: absolute;
     left: 18%;
-    top: 35%;
-    width: 40%;
-  }
-
-  .right-info {
-    position: absolute;
-    top: 35%;
-    right: 23%;
-    width: 15%;
-  }
-
-  /*4 */
-  .left1-img {
-    position: absolute;
-    width: 350px;
-    top: 300px;
-    left: -70px;
-  }
-
-  .question-mark {
-    position: absolute;
-    width: 100px;
-    top: 190px;
-    left: 95px;
-  }
-
-  .ex-mark {
-    position: absolute;
-    top: 120px;
-    width: 45px;
-    right: 80px;
-  }
-
-  .right-img1 {
-    position: absolute;
-    width: 230px;
-    top: 360px;
-    right: 150px;
-  }
-
-  .right-img2 {
-    position: absolute;
-    width: 230px;
-    top: 380px;
-    right: -40px;
-  }
-
-  .right-img3 {
-    position: absolute;
-    width: 230px;
-    top: 180px;
-    right: 100px;
-  }
-
-  .right-img4 {
-    position: absolute;
-    width: 230px;
-    top: 210px;
-    right: -50px;
-  }
-
-  .right-img5 {
-    position: absolute;
-    width: 230px;
-    top: 550px;
-    right: -40px;
-  }
-
-  .right-img6 {
-    position: absolute;
-    width: 230px;
-    top: 550px;
-    right: 140px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .img1 {
-    right: -4.2%;
-    width: 45%;
-  }
-
-  .img2 {
-    left: -4.2%;
-    width: 45%;
-  }
-
-  h3 {
-    font-size: 35px;
-  }
-
-  .header {
-    font-size: 60px;
-  }
-
-  .title-img {
-    width: 47px;
-    height: 47px;
-  }
-
-  .left-img {
-    position: absolute;
-    left: 37.5%;
-    top: 40%;
-    width: 11%;
+    top: 30%;
+    width: 25%;
   }
 
   .mid-img {
     position: absolute;
-    left: 45%;
-    top: 40%;
-    width: 11%;
+    left: 37%;
+    top: 30%;
+    width: 25%;
   }
 
   .right-img {
     position: absolute;
-    right: 37%;
-    top: 40%;
-    width: 11%;
+    right: 20%;
+    top: 30%;
+    width: 25%;
   }
 
   .left-img2 {
     position: absolute;
-    left: 35%;
-    top: 41%;
-    width: 15%;
+    left: 30%;
+    top: 35%;
+    width: 25%;
   }
 
   .right-info {
     position: absolute;
-    top: 41%;
-    right: 40%;
-    width: 7%;
+    top: 33%;
+    right: 33%;
+    width: 10%;
   }
-  /*4 */
+
+  /* 4*/
   .left1-img {
     position: absolute;
     width: 25%;
-    top: 36%;
+    top: 30%;
     left: -8%;
   }
 
   .question-mark {
     position: absolute;
-    width: 7%;
-    top: 23%;
-    left: 8%;
+    width: 8%;
+    top: 20%;
+    left: 6%;
   }
 
   .ex-mark {
     position: absolute;
-    top: 15%;
+    top: 10%;
     width: 3%;
-    right: 5%;
+    right: 3%;
   }
 
   .right-img1 {
     position: absolute;
-    width: 13%;
-    top: 46%;
+    width: 15%;
+    top: 29%;
     right: 8%;
   }
 
   .right-img2 {
     position: absolute;
-    width: 13%;
-    top: 52%;
-    right: -2%;
+    width: 15%;
+    top: 34%;
+    right: -3%;
   }
 
   .right-img3 {
     position: absolute;
-    width: 13%;
-    top: 26%;
-    right: 7%;
+    width: 15%;
+    top: 15%;
+    right: 5%;
   }
 
   .right-img4 {
     position: absolute;
-    width: 13%;
-    top: 32%;
-    right: -2%;
+    width: 15%;
+    top: 20%;
+    right: -5%;
   }
 
   .right-img5 {
     position: absolute;
-    width: 13%;
-    top: 70%;
+    width: 15%;
+    top: 47%;
     right: -2%;
   }
 
   .right-img6 {
     position: absolute;
-    width: 13%;
-    top: 66%;
-    right: 8%;
+    width: 15%;
+    top: 44%;
+    right: 10%;
+  }
+  .my-swiper {
+    width: 100%;
+  }
+  .main-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  h3 {
+    text-align: center;
+    font-size: 30px;
   }
 }
 
