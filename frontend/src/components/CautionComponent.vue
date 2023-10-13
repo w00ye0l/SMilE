@@ -5,19 +5,24 @@
     </div>
     <div class="info-content-box">
       <div class="info-box info-content">
-        주의할 점 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구
-        저쩌구 어쩌구 저쩌구 어쩌구 저쩌구
+        {{ caution }}
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { MBTI } from "../mbti/mbtiData";
 export default {
   data() {
     return {
       id: this.$store.state.selectMBTI,
     };
+  },
+  computed: {
+    caution() {
+      return MBTI[this.id].주의할점;
+    },
   },
 };
 </script>
