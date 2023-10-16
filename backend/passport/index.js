@@ -8,7 +8,7 @@ module.exports = () => {
     done(null, user.id); 
   });
 
-  passport.deserializeUser((id, done) => {
+  passport.deserializeUser((req, id, done) => {
     console.log('deserializeUser', req.session);
     User.findOne({ where: { id } })
       .then(user => {
@@ -19,6 +19,6 @@ module.exports = () => {
       })
       .catch(err => done(err));
   });
-
+  
   local();
 };
