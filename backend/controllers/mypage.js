@@ -5,10 +5,10 @@ const User = require('../models/user');
 // 마이페이지
 exports.myProfile = async (req, res, next) => { 
   console.log(req.body);
-  console.log(req.user);
+  console.log(req.user.id);
   try{  
     const user = await User.findOne({
-      where: { email: req.user.email }, // 현재 로그인한 사용자의 ID를 조회
+      where: { id: req.user.id }, // 현재 로그인한 사용자의 ID를 조회
       attributes: { exclude: ['password'] } // 비밀번호를 제외한 다른 속성만 선택
     });
 
