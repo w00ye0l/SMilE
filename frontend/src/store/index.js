@@ -2,6 +2,7 @@ import { createStore } from "vuex";
 import axios from "axios";
 import createPersistedState from "vuex-persistedstate";
 import router from "@/router";
+import cookie from "vue-cookies";
 
 export default createStore({
   state: {
@@ -158,7 +159,7 @@ export default createStore({
       commit("SET_SELECTED_MBTI", selectMBTI);
     },
     async getData({ commit }) {
-      const id = this.$cookies.get("id");
+      const id = cookie.get("id");
 
       axios
         .post("/mypage", { id: id }, { withCredentials: true })

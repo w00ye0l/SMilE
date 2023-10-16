@@ -86,6 +86,9 @@ export default {
           email: this.email,
           password: this.password,
         };
+
+        console.log(formData);
+
         await axios
           .post("/auth/login", formData, {
             withCredentials: true,
