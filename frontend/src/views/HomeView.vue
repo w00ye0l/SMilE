@@ -179,7 +179,6 @@ export default {
   margin: 0;
   position: relative;
   background-color: #fff9c8;
-  min-height: 100vh;
 }
 
 .header {
@@ -188,8 +187,12 @@ export default {
   font-weight: bold;
 }
 
+.my-swiper {
+  height: 60vh;
+}
+
 .slider {
-  height: 75vh;
+  height: 75%;
 }
 
 .title {
@@ -224,12 +227,17 @@ h3 {
 .img2 {
   position: absolute;
   left: -3%;
-  bottom: 10%;
+  top: 55%;
   width: 180px;
   max-width: 280px;
 }
+
 /*모바일*/
 @media (max-width: 541px) {
+  .background {
+    min-height: 100vh;
+  }
+
   .img1 {
     right: -12%;
     width: 40%;
@@ -252,6 +260,11 @@ h3 {
     width: 47px;
     height: 47px;
   }
+
+  .my-swiper {
+    height: 75vh;
+  }
+
   .left-img {
     position: absolute;
     left: 5%;
@@ -350,6 +363,7 @@ h3 {
     right: 18%;
   }
 }
+
 /* 웹 */
 @media (min-width: 541px) {
   .img1 {
@@ -360,10 +374,6 @@ h3 {
   .img2 {
     left: -7%;
     width: 40%;
-  }
-
-  h3 {
-    font-size: 20px;
   }
 
   .header {

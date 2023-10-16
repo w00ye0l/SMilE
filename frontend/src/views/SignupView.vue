@@ -5,8 +5,8 @@
     </div>
 
     <form @submit.prevent="submitForm" class="main-section" id="signup">
-      <h2 class="profile-label">프로필 사진</h2>
       <div class="profile">
+        <h2 class="profile-label">프로필 사진</h2>
         <input
           class="profile-btn"
           type="file"
@@ -298,7 +298,19 @@ export default {
 }
 
 .main-section {
+  width: 100%;
+  height: 100%;
   background-color: #fff9c8;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .profile-label {
@@ -443,12 +455,6 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-  .profile {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-left: 80px;
   }
 }
 </style>
