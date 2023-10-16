@@ -158,10 +158,10 @@ export default createStore({
       commit("SET_SELECTED_MBTI", selectMBTI);
     },
     async getData({ commit }) {
+      const id = this.$cookies.get("id");
+
       axios
-        .get("/mypage", {
-          withCredentials: true,
-        })
+        .post("/mypage", { id: id }, { withCredentials: true })
         .then((res) => {
           console.log(res);
           commit("SET_NICKNAME", res.data.nickname);
