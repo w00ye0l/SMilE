@@ -71,6 +71,7 @@ exports.login = async (req, res, next) => {
     if (!user) {
       return res.status(400).json({ message: "비밀번호가 일치하지 않습니다." });
     }
+    console.log('유저',user);
 
     return req.login(user, (loginError) => {
       if (loginError) {
@@ -79,7 +80,7 @@ exports.login = async (req, res, next) => {
       }
       const userData = JSON.parse(JSON.stringify(user));
       delete userData.password;
-      console.log(userData);
+      console.log('유저데이터',userData);
       res.send(userData);
     });
   })(req, res, next); // 미들웨어 내의 미들웨어에는 (req, res, next)를 붙입니다.
