@@ -9,7 +9,7 @@ module.exports = () => {
   });
 
   passport.deserializeUser((req, id, done) => {
-    console.log('deserializerUser', req.cookies);
+    console.log('deserializerUser', req.session);
     User.findOne({ where: { id } })
       .then(user => done(null, user))
       .catch(err => done(err));

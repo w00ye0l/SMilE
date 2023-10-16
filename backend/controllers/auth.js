@@ -80,6 +80,7 @@ exports.login = async (req, res, next) => {
       }
       const userData = JSON.parse(JSON.stringify(user));
       delete userData.password;
+      req.session.user = userData;
       console.log('유저데이터',userData);
       res.send(userData);
     });
