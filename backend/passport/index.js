@@ -3,8 +3,9 @@ const local = require('./localStrategy');
 const User = require('../models/user');
 
 module.exports = () => {
-  passport.serializeUser((user, done) => {
+  passport.serializeUser((req, user, done) => {
     console.log('serializeUser.id', user.id);
+    console.log('serializeSession', req.session);
     done(null, user.id); 
   });
 
