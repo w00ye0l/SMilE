@@ -69,7 +69,7 @@ exports.login = async (req, res, next) => {
     }
 
     if (!user) {
-      return res.status(400).json({ message: "비밀번호가 일치하지 않습니다." });
+      return res.status(400).json({ message: "가입되지 않은 회원입니다." });
     }
     console.log('유저',user);
 
@@ -78,11 +78,12 @@ exports.login = async (req, res, next) => {
         console.error(loginError);
         return next(loginError);
       }
-      const userData = JSON.parse(JSON.stringify(user));
-      delete userData.password;
-      req.session.user = userData;
-      console.log('유저데이터',userData);
-      res.send(userData);
+      req.session.save(() => {
+        const userData = JSON.parse(JSON.stringify(user));
+        delete userData.password;
+        console.log('유저데이터', userData);
+        res.json({ message: '로그인 성공', user: userData });
+      });
     });
   })(req, res, next); // 미들웨어 내의 미들웨어에는 (req, res, next)를 붙입니다.
 };
