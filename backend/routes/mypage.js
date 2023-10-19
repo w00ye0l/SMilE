@@ -5,6 +5,9 @@ const { myProfile, updateProfile, editPW } = require('../controllers/mypage');
 
 const router = express.Router();
 
+// GET /mypage
+router.get('/', isLoggedIn, myProfile);
+
 // POST /mypage
 router.post('/', isLoggedIn, myProfile);
 
