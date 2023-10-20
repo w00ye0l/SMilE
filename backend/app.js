@@ -8,8 +8,7 @@ const session = require("express-session");
 const MySQLStore = require("express-mysql-session")(session);
 const passport = require("passport");
 const bodyParser = require("body-parser");
-// const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
-
+const cookieSession = require('cookie-session')
 const cors = require("cors");
 
 dotenv.config({ path: path.join(__dirname, "/.env") });
@@ -76,21 +75,46 @@ const options = {
 // Sequelize로 설정한 MySQL 연결 객체를 사용하여 MySQL 저장소 생성
 const sessionStore = new MySQLStore(options, mysql.createConnection(options));
 
-app.use(
-  session({
-    resave: false, // 세션 항상 저장할지
-    saveUninitialized: true, // 세션 저장 전 Uninitialized 상태로 만들어 저장
-    secret: process.env.COOKIE_SECRET, // 암호화 키
-    store: sessionStore, // Sequelize로 설정한 MySQL 저장소를 사용
-    cookie: {
-      domain: [process.env.FRONT_URL_1, process.env.FRONT_URL_2],
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-      maxAge: 1000 * 60 * 60 * 24 * 7,
-    },
-  })
-);
+app.use(cookieSession({
+  maxAge : 1000 * 60 * 60 * 24 * 7,
+  secret: process.env.COOKIE_SECRET, // 암호화 키
+  domain: [process.env.FRONT_URL_1, process.env.FRONT_URL_2],
+  httpOnly: true,
+  secure: true,
+  sameSite: "none",
+}));
+
+// 쿠키 세션 미들웨어 등록
+// regenerate & save 오류 현상 해결
+app.use(function(req, res, next) {
+  if (req.session && !req.session.regenerate) {
+      req.session.regenerate = (cb) => {
+          cb()
+      }
+  }
+  if (req.session && !req.session.save) {
+      req.session.save = (cb) => {
+          cb()
+      }
+  }
+  next()
+})
+
+// app.use(
+//   session({
+//     resave: false, // 세션 항상 저장할지
+//     saveUninitialized: true, // 세션 저장 전 Uninitialized 상태로 만들어 저장
+//     secret: process.env.COOKIE_SECRET, // 암호화 키
+//     store: sessionStore, // Sequelize로 설정한 MySQL 저장소를 사용
+//     // cookie: {
+//     //   domain: [process.env.FRONT_URL_1, process.env.FRONT_URL_2],
+//     //   httpOnly: true,
+//     //   secure: true,
+//     //   sameSite: "none",
+//     //   maxAge: 1000 * 60 * 60 * 24 * 7,
+//     // },
+//   })
+// );
 
 app.use(passport.initialize()); //요청 (req 객체) 에 passport 설정
 app.use(passport.session()); // req.session 객체에 passport 인증 완료 정보를 저장
@@ -108,6 +132,15 @@ app.use((req, res, next) => {
   const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
   error.status = 404;
   next(error);
+});
+app.use((err, req, res, next) => {
+  // 404 오류인 경우
+  if (err.status === 404) {
+    res.status(404).send("페이지를 찾을 수 없습니다.");
+  } else {
+    // 다른 오류일 경우 일반적인 오류 페이지 표시
+    res.status(500).send("서버 오류가 발생했습니다.");
+  }
 });
 
 // 에러 처리 미들웨어
