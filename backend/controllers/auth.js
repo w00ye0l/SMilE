@@ -78,29 +78,30 @@ exports.login = async (req, res, next) => {
         console.error(loginError);
         return next(loginError);
       }
-      // req.session.save(() => {
+      req.session.save(() => {
         const userData = JSON.parse(JSON.stringify(user));
         delete userData.password;
         console.log('유저데이터', userData);
         res.json({ message: '로그인 성공', user: userData });
-      // });
+      });
     });
   })(req, res, next); // 미들웨어 내의 미들웨어에는 (req, res, next)를 붙입니다.
 };
 
 //로그아웃
-// exports.logout = (req, res) => {
-//   req.logout(() => {
-//     req.session.destroy(); // passport 업데이트 이후 함수 안에 넣어야 실행됨
-//     res.clearCookie("connect.sid"); // connect.sid 쿠키 삭제
-//     res.send("로그아웃");
-//   });
-// };
 exports.logout = (req, res) => {
-  req.session = null; // 세션 삭제
-  res.clearCookie("connect.sid"); // connect.sid 쿠키 삭제
-  res.send("로그아웃");
+  req.logout(() => {
+    req.session.destroy(); // passport 업데이트 이후 함수 안에 넣어야 실행됨
+    res.clearCookie("connect.sid"); // connect.sid 쿠키 삭제
+    res.send("로그아웃");
+  });
 };
+
+// exports.logout = (req, res) => {
+//   req.session = null; // 세션 삭제
+//   res.clearCookie("connect.sid"); // connect.sid 쿠키 삭제
+//   res.send("로그아웃");
+// };
 
 
 // 회원탈퇴

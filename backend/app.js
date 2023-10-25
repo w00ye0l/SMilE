@@ -8,7 +8,7 @@ const session = require("express-session");
 const MySQLStore = require("express-mysql-session")(session);
 const passport = require("passport");
 const bodyParser = require("body-parser");
-const cookieSession = require('cookie-session')
+// const cookieSession = require('cookie-session')
 const cors = require("cors");
 
 dotenv.config({ path: path.join(__dirname, "/.env") });
@@ -18,9 +18,6 @@ const app = express();
 
 const passportConfig = require("./passport");
 passportConfig(); // 패스포트 설정
-
-// // isLoggedIn, isNotLoggedIn middleware 사용
-// app.use(isLoggedIn, isNotLoggedIn);
 
 // 인증 라우터
 const pageRouter = require("./routes/pages");
@@ -75,46 +72,46 @@ const options = {
 // Sequelize로 설정한 MySQL 연결 객체를 사용하여 MySQL 저장소 생성
 const sessionStore = new MySQLStore(options, mysql.createConnection(options));
 
-app.use(cookieSession({
-  maxAge : 1000 * 60 * 60 * 24 * 7,
-  secret: process.env.COOKIE_SECRET, // 암호화 키
-  domain: [process.env.FRONT_URL_1, process.env.FRONT_URL_2],
-  httpOnly: true,
-  secure: true,
-  sameSite: "none",
-}));
+// app.use(cookieSession({
+//   maxAge : 1000 * 60 * 60 * 24 * 7,
+//   secret: process.env.COOKIE_SECRET, // 암호화 키
+//   domain: [process.env.FRONT_URL_1, process.env.FRONT_URL_2],
+//   httpOnly: true,
+//   secure: true,
+//   sameSite: "none",
+// }));
 
 // 쿠키 세션 미들웨어 등록
 // regenerate & save 오류 현상 해결
-app.use(function(req, res, next) {
-  if (req.session && !req.session.regenerate) {
-      req.session.regenerate = (cb) => {
-          cb()
-      }
-  }
-  if (req.session && !req.session.save) {
-      req.session.save = (cb) => {
-          cb()
-      }
-  }
-  next()
-})
+// app.use(function(req, res, next) {
+//   if (req.session && !req.session.regenerate) {
+//       req.session.regenerate = (cb) => {
+//           cb()
+//       }
+//   }
+//   if (req.session && !req.session.save) {
+//       req.session.save = (cb) => {
+//           cb()
+//       }
+//   }
+//   next()
+// })
 
-// app.use(
-//   session({
-//     resave: false, // 세션 항상 저장할지
-//     saveUninitialized: true, // 세션 저장 전 Uninitialized 상태로 만들어 저장
-//     secret: process.env.COOKIE_SECRET, // 암호화 키
-//     store: sessionStore, // Sequelize로 설정한 MySQL 저장소를 사용
-//     // cookie: {
-//     //   domain: [process.env.FRONT_URL_1, process.env.FRONT_URL_2],
-//     //   httpOnly: true,
-//     //   secure: true,
-//     //   sameSite: "none",
-//     //   maxAge: 1000 * 60 * 60 * 24 * 7,
-//     // },
-//   })
-// );
+app.use(
+  session({
+    resave: false, // 세션 항상 저장할지
+    saveUninitialized: true, // 세션 저장 전 Uninitialized 상태로 만들어 저장
+    secret: process.env.COOKIE_SECRET, // 암호화 키
+    store: sessionStore, // Sequelize로 설정한 MySQL 저장소를 사용
+    cookie: {
+      domain: [process.env.FRONT_URL_1, process.env.FRONT_URL_2],
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    },
+  })
+);
 
 app.use(passport.initialize()); //요청 (req 객체) 에 passport 설정
 app.use(passport.session()); // req.session 객체에 passport 인증 완료 정보를 저장
