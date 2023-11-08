@@ -259,11 +259,11 @@ export default {
         console.log(formData);
 
         const headers = {
-          "content-Type": "multipart/form-data",
+          "Content-Type": "multipart/form-data",
         };
 
         await axios
-          .post("/auth/signup", formData, { headers })
+          .post("/auth/signup", formData, { headers, withCredentials: true })
           .then((res) => {
             console.log(res);
             this.$router.push({ name: "login" });
