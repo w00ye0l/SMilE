@@ -3,9 +3,12 @@
     <div class="title-container">
       <h1 class="title">프로필</h1>
       <div class="btn-container">
+        <!-- 회원정보 수정 버튼 -->
         <button class="setting-btn" @click="openModal">
           <img :src="require('@/assets/Settings.png')" alt="" />
         </button>
+
+        <!-- 로그아웃 버튼 -->
         <button class="logout-btn" @click="logout">
           <img :src="require('@/assets/Logout.png')" alt="" />
         </button>
@@ -18,7 +21,16 @@
         src="@/assets/mypage_smile1.png"
         alt=""
       />
-      <img :src="require('@/assets/Avatar.png')" class="avatar" />
+
+      <!-- 프로필 이미지 -->
+      <img
+        v-if="profileImg === null"
+        :src="require('@/assets/Avatar.png')"
+        class="avatar"
+      />
+      <img v-if="profileImg !== null" :src="profileImg" class="avatar" />
+
+      <!-- 프로필 정보 -->
       <div class="my-info">
         <span class="name">{{ nickname }}</span>
         <span class="mbti">{{ mbti }}</span>
@@ -110,9 +122,10 @@ export default {
   },
   computed: {
     ...mapState({
-      answered: (state) => state.mypage.answered,
       nickname: (state) => state.mypage.nickname,
+      profileImg: (state) => state.mypage.profileImg,
       mbti: (state) => state.mypage.mbti,
+      answered: (state) => state.mypage.answered,
     }),
   },
   setup() {
@@ -270,6 +283,9 @@ hr {
 .avatar {
   width: 80px;
   height: 80px;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  object-fit: cover;
 }
 
 .my-info {

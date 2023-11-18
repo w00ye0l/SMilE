@@ -80,12 +80,11 @@ export default {
   display: flex;
   justify-content: space-evenly;
   list-style: none;
-  cursor: pointer;
 }
 
 .tab {
   margin: 0;
-  /* width: fit-content; */
+  cursor: pointer;
 }
 
 .active {
