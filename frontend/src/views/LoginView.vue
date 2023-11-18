@@ -2,12 +2,16 @@
   <div class="main">
     <div class="banner">
       <h1 class="title">
-        S<span class="sub-title">how</span><br />M<span class="sub-title"
-          >BTI</span
-        ><br /><img
+        S<span class="sub-title">how</span>
+        <br />
+        M<span class="sub-title">BTI</span>
+        <br />
+        <img
           class="title-img"
           v-bind:src="require('@/assets/first_smile1.png')"
-        /><br />E<span class="sub-title">verthing</span>
+        />
+        <br />
+        E<span class="sub-title">verything</span>
       </h1>
 
       <img
