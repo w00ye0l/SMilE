@@ -2,18 +2,19 @@ import { createStore } from "vuex";
 import axios from "axios";
 import createPersistedState from "vuex-persistedstate";
 import router from "@/router";
-import cookie from "vue-cookies";
+// import cookie from "vue-cookies";
 
 export default createStore({
   state: {
     selectMBTI: "",
     totalMbti: "",
     mypage: {
-      answered: false,
       nickname: "",
+      profileImg: "",
       birthday: "",
       gender: "",
       mbti: "",
+      answered: false,
     },
     messages: [],
     groups: [],
@@ -96,6 +97,9 @@ export default createStore({
     SET_NICKNAME(state, nickname) {
       state.mypage.nickname = nickname;
     },
+    SET_PROFILEIMG(state, profileImg) {
+      state.mypage.profileImg = profileImg;
+    },
     SET_BIRTHDAY(state, birthday) {
       state.mypage.birthday = birthday;
     },
@@ -159,13 +163,15 @@ export default createStore({
       commit("SET_SELECTED_MBTI", selectMBTI);
     },
     async getData({ commit }) {
-      const id = cookie.get("id");
+      // const id = cookie.get("id");
+      // console.log(id);
 
       axios
-        .post("/mypage", { id: id }, { withCredentials: true })
+        .get("/mypage", { withCredentials: true })
         .then((res) => {
           console.log(res);
           commit("SET_NICKNAME", res.data.nickname);
+          commit("SET_PROFILEIMG", res.data.image);
           commit("SET_BIRTHDAY", res.data.birthday.slice(0, 10));
           commit("SET_GENDER", res.data.gender);
           commit(
@@ -189,6 +195,7 @@ export default createStore({
         .then((res) => {
           console.log(res);
           commit("SET_NICKNAME", res.data.nickname);
+          commit("SET_PROFILEIMG", res.data.profileImg);
           commit("SET_BIRTHDAY", res.data.birthday.slice(0, 10));
           commit("SET_GENDER", res.data.gender);
           commit(
