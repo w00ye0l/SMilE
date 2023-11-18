@@ -1,5 +1,25 @@
 <template>
   <form class="form-container" @submit.prevent="onSubmit">
+    <div class="input-div profile-img">
+      <img
+        :src="require('@/assets/Avatar.png')"
+        ref="preview"
+        class="preview"
+      />
+      <label for="profileImg" class="profile-label">프로필 이미지</label>
+      <input
+        class="input-box"
+        name="profileImg"
+        id="profileImg"
+        type="file"
+        accept="image/*"
+        ref="profileImg"
+        @change="profileImg"
+        :style="{
+          display: 'none',
+        }"
+      />
+    </div>
     <div class="input-div">
       <label for="nickname" class="input-label">닉네임</label>
       <input class="input-box" type="text" id="nickname" v-model="nickname" />
@@ -119,6 +139,7 @@ export default {
   data() {
     return {
       nickname: "",
+      image: {},
       birthday: "",
       gender: "",
       man: "off",
@@ -144,6 +165,27 @@ export default {
     this.mbti4 = this.$store.state.mypage.mbti[3];
   },
   methods: {
+    async profileImg() {
+      this.image = this.$refs.profileImg.files[0];
+      console.log(this.image);
+      await this.base64(this.image);
+    },
+    base64(file) {
+      // 비동기적으로 동작하기 위하여 promise를 return 해준다.
+      return new Promise((resolve) => {
+        // 업로드된 파일을 읽기 위한 FileReader() 객체 생성
+        let reader = new FileReader();
+        // 읽기 동작이 성공적으로 완료됐을 때 발생
+        reader.onload = (e) => {
+          resolve(e.target.result);
+          // 썸네일을 보여주고자 하는 <img>에 id값을 가져와 src에 결과값을 넣어준다.
+          const previewImage = this.$refs.preview;
+          previewImage.src = e.target.result;
+        };
+        // file 데이터를 base64로 인코딩한 문자열. 이 문자열을 브라우저가 인식하여 원래 데이터로 만들어준다.
+        reader.readAsDataURL(file);
+      });
+    },
     manCheck() {
       if (this.gender === "W") {
         if (this.man === "off") {
@@ -173,6 +215,7 @@ export default {
     async updateInfo() {
       const formData = {
         nickname: this.nickname,
+        image: this.image,
         birthday: this.birthday,
         gender: this.gender,
         mbti1: this.mbti1,
@@ -203,6 +246,27 @@ export default {
   align-items: center;
 }
 
+.preview {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  object-fit: cover;
+}
+
+.profile-img {
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+
+.profile-label {
+  padding: 5px 10px;
+  background-color: #ffd338;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 .input-label {
   font-size: 16px;
   font-weight: bold;
@@ -213,6 +277,7 @@ export default {
   height: 30px;
   padding: 0 20px;
   font-size: 16px;
+  background-color: #fff;
   border: 0;
   border-radius: 20px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
