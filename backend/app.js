@@ -8,7 +8,6 @@ const session = require("express-session");
 const MySQLStore = require("express-mysql-session")(session);
 const passport = require("passport");
 const bodyParser = require("body-parser");
-// const cookieSession = require('cookie-session')
 const cors = require("cors");
 
 dotenv.config({ path: path.join(__dirname, "/.env") });
@@ -45,14 +44,15 @@ app.use(
   cors({
     // front 서버인 127.0.0.1:8080 의 요청을 허용하도록 cors 사용
     origin: [process.env.FRONT_URL_1, process.env.FRONT_URL_2],
-    // origin: ['http://localhost:8080', 'http://localhost:8081'],
+    // 로컬 테스트용 코드
+    // origin: ["http://localhost:8080", "http://localhost:8081"],
     methods: ["GET", "PUT", "POST", "PATCH", "DELETE", "OPTIONS"],
     optionsSuccessStatus: 200,
     credentials: true,
   })
 );
 
-app.use("/uploads", express.static("uploads"));
+app.use("/upload", express.static("upload"));
 
 app.use(morgan("dev")); // log
 app.use(express.static(path.join(__dirname, "public"))); // 요청시 기본 경로 설정
@@ -72,39 +72,15 @@ const options = {
 // Sequelize로 설정한 MySQL 연결 객체를 사용하여 MySQL 저장소 생성
 const sessionStore = new MySQLStore(options, mysql.createConnection(options));
 
-// app.use(cookieSession({
-//   maxAge : 1000 * 60 * 60 * 24 * 7,
-//   secret: process.env.COOKIE_SECRET, // 암호화 키
-//   domain: [process.env.FRONT_URL_1, process.env.FRONT_URL_2],
-//   httpOnly: true,
-//   secure: true,
-//   sameSite: "none",
-// }));
-
-// 쿠키 세션 미들웨어 등록
-// regenerate & save 오류 현상 해결
-// app.use(function(req, res, next) {
-//   if (req.session && !req.session.regenerate) {
-//       req.session.regenerate = (cb) => {
-//           cb()
-//       }
-//   }
-//   if (req.session && !req.session.save) {
-//       req.session.save = (cb) => {
-//           cb()
-//       }
-//   }
-//   next()
-// })
-
 app.use(
   session({
     resave: false, // 세션 항상 저장할지
     saveUninitialized: true, // 세션 저장 전 Uninitialized 상태로 만들어 저장
     secret: process.env.COOKIE_SECRET, // 암호화 키
     store: sessionStore, // Sequelize로 설정한 MySQL 저장소를 사용
+    // 로컬 테스트 시 주석처리
     cookie: {
-      domain: 'smile-mbti.shop',
+      domain: "smile-mbti.shop",
       httpOnly: true,
       secure: true,
       sameSite: "none",
