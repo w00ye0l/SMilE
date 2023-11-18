@@ -6,7 +6,6 @@ const User = require("../models/user");
 // 회원가입
 exports.signup = async (req, res, next) => {
   const {
-    image,
     email,
     nickname,
     password,
@@ -26,14 +25,9 @@ exports.signup = async (req, res, next) => {
 
   // 이메일 중복이 아닌 경우에 실행
   const hashedPassword = await bcrypt.hash(password, 12);
-  let imageUrl = null;
-  if (req.file) {
-    imageUrl = req.file.location;
-  }
-
   try {
     const user = await User.create({
-      image: imageUrl,
+      image: req.file.location,
       email: email,
       nickname: nickname,
       password: hashedPassword,
@@ -44,10 +38,8 @@ exports.signup = async (req, res, next) => {
       mbti3: mbti3,
       mbti4: mbti4,
     });
-    // console.log(user);
-
+    console.log(user);
     // const userImageUrl = user.image;
-
     res.status(200).json({ user: user });
   } catch (error) {
     console.error(error);
@@ -60,8 +52,6 @@ exports.login = async (req, res, next) => {
   //? local로 실행이 되면 localstrategy.js를 찾아 실행
   console.log("로그인 실행");
   passport.authenticate("local", (authError, user, info) => {
-    console.log("로그인 패스포트");
-    console.log(authError, user, info);
     // done(err)가 처리된 경우
     if (authError) {
       console.error(authError);
@@ -71,7 +61,6 @@ exports.login = async (req, res, next) => {
     if (!user) {
       return res.status(400).json({ message: "가입되지 않은 회원입니다." });
     }
-    console.log('유저',user);
 
     return req.login(user, (loginError) => {
       if (loginError) {
@@ -81,8 +70,7 @@ exports.login = async (req, res, next) => {
       req.session.save(() => {
         const userData = JSON.parse(JSON.stringify(user));
         delete userData.password;
-        console.log('유저데이터', userData);
-        res.json({ message: '로그인 성공', user: userData });
+        res.json({ message: "로그인 성공", user: userData });
       });
     });
   })(req, res, next); // 미들웨어 내의 미들웨어에는 (req, res, next)를 붙입니다.
@@ -96,13 +84,6 @@ exports.logout = (req, res) => {
     res.send("로그아웃");
   });
 };
-
-// exports.logout = (req, res) => {
-//   req.session = null; // 세션 삭제
-//   res.clearCookie("connect.sid"); // connect.sid 쿠키 삭제
-//   res.send("로그아웃");
-// };
-
 
 // 회원탈퇴
 exports.remove = async (req, res, next) => {
