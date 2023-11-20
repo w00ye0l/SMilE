@@ -38,8 +38,6 @@ exports.signup = async (req, res, next) => {
       mbti3: mbti3,
       mbti4: mbti4,
     });
-    console.log(user);
-    // const userImageUrl = user.image;
     res.status(200).json({ user: user });
   } catch (error) {
     console.error(error);

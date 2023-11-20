@@ -7,9 +7,8 @@ const { signup, login, logout, remove } = require("../controllers/auth");
 const router = express.Router();
 
 // 이미지 업로드 테스트용 라우터
-// POST / auth / image
+// POST /auth/image
 router.post("/image", upload.single("image"), (req, res) => {
-  // console.log(req);
   console.log(req.file);
   res.json({
     url: req.file.location,
