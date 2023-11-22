@@ -5,6 +5,7 @@ const { isLoggedIn } = require("../middlewares");
 const {
   myProfile,
   deleteImage,
+  updateImage,
   updateProfile,
   editPW,
 } = require("../controllers/mypage");
@@ -14,16 +15,11 @@ const router = express.Router();
 // GET /mypage
 router.get("/", isLoggedIn, myProfile);
 
-// POST /mypage/image
-router.post("/image", upload.single("image"), (req, res) => {
-  console.log(req.file);
-  res.json({
-    url: req.file.location,
-  });
-});
+// POST /mypage/image/:userId
+router.post("/image/:id", upload.single("image"), updateImage);
 
-// DELETE /mypage/image/:userId
-router.delete("/image/:id", deleteImage);
+// DELETE /mypage/image/:userId/delete
+router.delete("/image/:id/delete", deleteImage);
 
 // PUT /mypage/update
 router.put("/update", isLoggedIn, upload.single("image"), updateProfile);
