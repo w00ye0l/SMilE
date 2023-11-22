@@ -195,7 +195,7 @@ export default createStore({
         .then((res) => {
           console.log(res);
           commit("SET_NICKNAME", res.data.nickname);
-          commit("SET_PROFILEIMG", res.data.profileImg);
+          // commit("SET_PROFILEIMG", res.data.profileImg);
           commit("SET_BIRTHDAY", res.data.birthday.slice(0, 10));
           commit("SET_GENDER", res.data.gender);
           commit(
