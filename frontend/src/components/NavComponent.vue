@@ -1,5 +1,10 @@
 <template>
   <div class="container">
+    <h1 class="title">
+      <span class="header">SM</span>
+      <img :src="require(`@/assets/title-img.png`)" class="title-img" />
+      <span class="header">E</span>
+    </h1>
     <ul class="navbar">
       <router-link class="nav" to="/mbti">
         <div class="nav-imgBox">
@@ -34,19 +39,30 @@ export default {};
 </script>
 
 <style scoped>
-@media (min-width: 541px) {
+@media (width >= 541px) {
+  .title {
+    display: flex;
+    align-items: center;
+    margin-left: 30px;
+    letter-spacing: 1px;
+  }
+
   .container {
-    padding: 20px;
-    width: 300px;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 30px;
+    width: 100%;
+    max-width: 1200px;
     background-color: #fff;
   }
 
   .navbar {
     margin: 0;
     padding: 0;
+    width: calc(100% - 200px);
     height: 100%;
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
     justify-content: space-evenly;
     align-items: center;
     background-color: #fff9c871;
@@ -54,8 +70,9 @@ export default {};
   }
 
   .nav {
+    padding: 0 30px;
     width: 200px;
-    height: 200px;
+    height: 60px;
   }
 
   .nav-imgBox {
@@ -63,7 +80,11 @@ export default {};
   }
 }
 
-@media (max-width: 540px) {
+@media (width <= 540px) {
+  .title {
+    display: none;
+  }
+
   .container {
     width: 100%;
     position: fixed;
@@ -99,11 +120,12 @@ export default {};
 
   .tab-name {
     display: none;
+    /* margin: 0; */
+    /* font-size: 14px; */
   }
 }
 
 .nav {
-  padding: 0 30px;
   display: flex;
   justify-content: flex-start;
   align-items: center;

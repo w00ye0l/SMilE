@@ -1,5 +1,5 @@
 <template>
-  <div class="root-div" id="app">
+  <div class="root-div">
     <router-view class="router-view" />
     <navComponent v-if="url !== '/'"></navComponent>
   </div>
@@ -56,6 +56,11 @@ body {
   padding: 0;
 }
 
+#app {
+  width: 100vw;
+  background-color: #fff;
+}
+
 @media (min-width: 541px) {
   body {
     height: 100vh;
@@ -67,11 +72,11 @@ body {
   }
 
   .root-div {
-    width: 1200px;
-    height: 1000px;
-    display: flex;
-    flex-direction: row-reverse;
+    width: 100%;
     max-width: 1200px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column-reverse;
     margin: auto;
   }
   .router-view {

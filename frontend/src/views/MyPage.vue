@@ -23,12 +23,21 @@
       />
 
       <!-- 프로필 이미지 -->
-      <img
-        v-if="profileImg === null"
-        :src="require('@/assets/Avatar.png')"
-        class="avatar"
-      />
-      <img v-if="profileImg !== null" :src="profileImg" class="avatar" />
+      <div class="profile-img-container">
+        <img
+          v-if="profileImg === null"
+          :src="require('@/assets/Avatar.png')"
+          class="avatar"
+        />
+        <img v-if="profileImg !== null" :src="profileImg" class="avatar" />
+        <div class="edit-img-container">
+          <font-awesome-icon
+            :icon="['fas', 'pen']"
+            size="sm"
+            style="color: #aaa"
+          />
+        </div>
+      </div>
 
       <!-- 프로필 정보 -->
       <div class="my-info">
@@ -166,7 +175,14 @@ export default {
 
   .profile-container {
     border-radius: 20px;
-    overflow: hidden;
+  }
+
+  .left-img {
+    border-radius: 0 0 0 20px;
+  }
+
+  .right-img {
+    border-radius: 0 20px 0 0;
   }
 
   .content-root-container {
@@ -208,6 +224,7 @@ hr {
 
 .main {
   width: 100%;
+  overflow-y: auto;
 }
 
 .title-container {
@@ -259,10 +276,11 @@ hr {
   position: relative;
   padding: 0 60px;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
+  gap: 50px;
   width: 100%;
-  height: 130px;
+  min-height: 130px;
   background: #fff9c8;
 }
 
@@ -280,6 +298,10 @@ hr {
   top: 0;
 }
 
+.profile-img-container {
+  position: relative;
+}
+
 .avatar {
   width: 80px;
   height: 80px;
@@ -288,9 +310,25 @@ hr {
   object-fit: cover;
 }
 
+.edit-img-container {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 26px;
+  height: 26px;
+  background-color: #ddd;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
 .my-info {
   display: flex;
   flex-direction: column;
+  align-items: center;
   font-size: 20px;
   gap: 5px;
 }
