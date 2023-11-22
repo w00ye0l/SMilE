@@ -1,6 +1,7 @@
+const AWS = require("aws-sdk");
+
 const Guest = require("../models/guest");
 const Group = require("../models/group");
-const User = require("../models/user");
 
 // guest 생성
 exports.create = async (req, res, next) => {
@@ -120,6 +121,56 @@ exports.update = async (req, res, next) => {
     );
 
     res.status(200).json({ message: "guest가 수정되었습니다" });
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+};
+
+// guest 이미지 삭제
+exports.deleteImage = async (req, res, next) => {
+  try {
+    const s3 = new AWS.S3();
+    const guestId = req.params.id;
+
+    s3.deleteObject({
+      Bucket: "smile-img",
+      Key: `guestimg/${guestId}`,
+    });
+
+    // MySQL에서 이미지 정보 삭제
+    const guest = await Guest.findByPk(guestId);
+    if (!guest) {
+      return res.status(404).json({ message: "guest를 찾을 수 없습니다." });
+    }
+
+    // guest 이미지 경로 삭제
+    guest.image = null; // 혹은 해당 필드를 초기화할 수 있습니다.
+    await guest.save();
+
+    res.status(200).json({ message: "이미지 파일이 삭제되었습니다!" });
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+};
+
+// guest 이미지 재업로드
+exports.updateImage = async (req, res, next) => {
+  try {
+    const guestId = req.params.id;
+    const imageUrl = req.file.location;
+
+    const guest = await Guest.findByPk(guestId);
+    if (!guest) {
+      return res.status(404).json({ message: "guest를 찾을 수 없습니다." });
+    }
+    guest.image = imageUrl;
+    await guest.save();
+
+    res
+      .status(200)
+      .json({ message: "guest 프로필 이미지가 업데이트되었습니다." });
   } catch (error) {
     console.error(error);
     return next(error);
