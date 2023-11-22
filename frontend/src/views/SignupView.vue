@@ -5,7 +5,7 @@
     </div>
 
     <form @submit.prevent="submitForm" class="main-section" id="signup">
-      <div class="profile">
+      <!-- <div class="profile">
         <h2 class="profile-label">프로필 사진</h2>
         <input
           class="profile-btn"
@@ -14,9 +14,30 @@
           ref="profileImage"
           @change="profileImg"
         />
-      </div>
+      </div> -->
 
       <div class="input-container">
+        <div class="input-div profile-img">
+          <img
+            :src="require('@/assets/Avatar.png')"
+            ref="preview"
+            class="preview"
+          />
+          <label for="profileImg" class="profile-label">프로필 이미지</label>
+          <input
+            class="input-box"
+            name="profileImg"
+            id="profileImg"
+            type="file"
+            accept="image/*"
+            ref="profileImg"
+            @change="profileImg"
+            :style="{
+              display: 'none',
+            }"
+          />
+        </div>
+
         <div class="input-div">
           <label class="input-label" for="email">이메일</label>
           <input
@@ -197,9 +218,26 @@ export default {
     };
   },
   methods: {
-    profileImg() {
-      this.image = this.$refs.profileImage.files[0];
+    async profileImg() {
+      this.image = this.$refs.profileImg.files[0];
       console.log(this.image);
+      await this.base64(this.image);
+    },
+    base64(file) {
+      // 비동기적으로 동작하기 위하여 promise를 return 해준다.
+      return new Promise((resolve) => {
+        // 업로드된 파일을 읽기 위한 FileReader() 객체 생성
+        let reader = new FileReader();
+        // 읽기 동작이 성공적으로 완료됐을 때 발생
+        reader.onload = (e) => {
+          resolve(e.target.result);
+          // 썸네일을 보여주고자 하는 <img>에 id값을 가져와 src에 결과값을 넣어준다.
+          const previewImage = this.$refs.preview;
+          previewImage.src = e.target.result;
+        };
+        // file 데이터를 base64로 인코딩한 문자열. 이 문자열을 브라우저가 인식하여 원래 데이터로 만들어준다.
+        reader.readAsDataURL(file);
+      });
     },
     manCheck() {
       if (this.gender === "" || this.gender === "W") {
@@ -306,37 +344,11 @@ export default {
   justify-content: space-evenly;
 }
 
-.profile {
+/* .profile {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-
-.profile-label {
-  margin: 0;
-  padding: 20px;
-  font-size: 20px;
-}
-
-/* .profile-btn {
-  width: 80px;
-  height: 80px;
-  background-color: #fff;
-  border: 0;
-  border-radius: 30px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
-  font-weight: bold;
-} */
-
-/* #file-upload-button {
-  width: 80px;
-  height: 80px;
-  background-color: #fff;
-  border: 0;
-  border-radius: 30px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
-  font-weight: bold;
 } */
 
 .input-container {
@@ -348,6 +360,27 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.preview {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  object-fit: cover;
+}
+
+.profile-img {
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+
+.profile-label {
+  padding: 5px 10px;
+  background-color: #ffd338;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .input-label {
@@ -445,12 +478,7 @@ export default {
   .title-section {
     width: 100%;
   }
-  .profile-label {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px 0 20px 0;
-  }
+
   .signup {
     display: flex;
     justify-content: center;
