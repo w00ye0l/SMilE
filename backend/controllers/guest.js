@@ -12,32 +12,26 @@ exports.create = async (req, res, next) => {
         id: req.params.id,
       },
     });
-
     if (!existGroup) {
       return res.status(404).json({ message: "해당 그룹이 없습니다" });
     }
-
-    // 프로필 이미지
     let imageUrl = null;
     if (req.file) {
       imageUrl = req.file.location;
-    } 
-
+    }
     await Guest.create({
-      userID: req.user.id,
       image: imageUrl,
+      userID: req.user.id,
       name: name,
       mbti: mbti,
       groupID: existGroup.id,
       memo: memo,
     });
-
     res.status(200).send(req.body);
   } catch (error) {
     console.error(error);
     return next(error);
   }
-  res.end();
 };
 
 // 전체 guest 조회
@@ -49,13 +43,11 @@ exports.index = async (req, res, next) => {
         userID: user.id,
       },
     });
-
     res.status(200).send(existGuest);
   } catch (error) {
     console.error(error);
     return next(error);
   }
-  res.end();
 };
 
 // guest 이름 조회
@@ -67,21 +59,22 @@ exports.read = async (req, res, next) => {
         userID: req.user.id,
       },
     });
-    
+
     if (!existGuest) {
-      return res.status(404).json({ message: "게스트 정보를 찾을 수 없습니다" });
+      return res
+        .status(404)
+        .json({ message: "게스트 정보를 찾을 수 없습니다" });
     }
 
     if (existGuest.userID !== req.user.id) {
       return res.status(403).json({ message: "다른 사용자의 정보입니다" });
     }
-    
+
     res.status(200).send(existGuest);
   } catch (error) {
     console.error(error);
     return next(error);
   }
-  res.end();
 };
 
 // guest 수정
@@ -131,7 +124,6 @@ exports.update = async (req, res, next) => {
     console.error(error);
     return next(error);
   }
-  res.end();
 };
 
 // guest 삭제
@@ -164,5 +156,4 @@ exports.remove = async (req, res, next) => {
     console.error(error);
     return next(error);
   }
-  res.end();
 };
