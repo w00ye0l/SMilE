@@ -40,7 +40,12 @@
             v-bind="guest"
             @click="goToDetail(guest)"
           >
-            <div class="profile-img"></div>
+            <div v-if="guest.image === null" class="profile-img"></div>
+            <img
+              v-if="guest.image !== null"
+              :src="guest.image"
+              class="avatar"
+            />
             <p class="friend-name">{{ guest.name }}</p>
             <p class="friend-mbti">{{ guest.mbti }}</p>
           </div>
@@ -232,7 +237,7 @@ hr {
   display: flex;
   width: 100%;
   height: 100%;
-  gap: 10px;
+  gap: 15px;
   overflow-x: auto;
 }
 
@@ -252,11 +257,19 @@ hr {
 }
 
 .profile-img {
-  width: 60px;
-  height: 60px;
-  justify-content: flex-start;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
   background-color: #fff9c8;
+  border: 2px solid #ffd338;
+}
+
+.avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  object-fit: cover;
 }
 
 .friend-name {

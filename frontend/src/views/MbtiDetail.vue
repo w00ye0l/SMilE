@@ -2,8 +2,23 @@
   <div class="main-container">
     <div class="info-container">
       <div class="profile-box">
-        <div class="profile-img-box">
-          <div class="profile-img"></div>
+        <div class="profile-img-container">
+          <div class="profile-img-box">
+            <div v-if="guest.image === null" class="profile-img"></div>
+            <img
+              v-if="guest.image !== null"
+              :src="guest.image"
+              class="avatar"
+            />
+            <div class="edit-img-container">
+              <font-awesome-icon
+                :icon="['fas', 'pen']"
+                size="sm"
+                style="color: #aaa"
+              />
+            </div>
+          </div>
+
           <img
             class="delete-mbti-img"
             src="@/assets/trashcan.png"
@@ -225,18 +240,47 @@ export default {
   gap: 10px;
 }
 
-.profile-img-box {
+.profile-img-container {
   width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-img-box {
   position: relative;
 }
 
 .profile-img {
-  margin: auto;
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  border: 5px solid #fff;
+  border: 2px solid #fff;
   background-color: #ffd338;
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 2px solid #ddd;
+  object-fit: cover;
+}
+
+.edit-img-container {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 26px;
+  height: 26px;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  cursor: pointer;
 }
 
 .delete-mbti-img {
