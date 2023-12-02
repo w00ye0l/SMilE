@@ -52,6 +52,7 @@ export default {};
     justify-content: space-between;
     padding: 20px 30px;
     width: 100%;
+    min-height: 130px;
     max-width: 1200px;
     background-color: #fff;
   }
@@ -129,7 +130,7 @@ export default {};
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  gap: 20px;
+  gap: 15px;
   color: #d9d9d9;
   text-decoration: none;
 }

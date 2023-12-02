@@ -93,15 +93,18 @@ exports.updateImage = async (req, res, next) => {
   try {
     const userId = req.user.id;
     const imageUrl = req.file.location;
-
     const user = await User.findByPk(userId);
+
     if (!user) {
       return res.status(404).json({ message: "사용자를 찾을 수 없습니다." });
     }
     user.image = imageUrl;
     await user.save();
 
-    res.status(200).json({ message: "프로필 이미지가 업데이트되었습니다." });
+    res.status(200).json({
+      message: "프로필 이미지가 업데이트되었습니다.",
+      image: imageUrl,
+    });
   } catch (error) {
     console.error(error);
     return next(error);

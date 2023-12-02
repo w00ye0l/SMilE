@@ -2,13 +2,13 @@ import { createStore } from "vuex";
 import axios from "axios";
 import createPersistedState from "vuex-persistedstate";
 import router from "@/router";
-// import cookie from "vue-cookies";
+import cookie from "vue-cookies";
 
 export default createStore({
   state: {
-    selectMBTI: "",
     totalMbti: "",
     mypage: {
+      id: "",
       nickname: "",
       profileImg: "",
       birthday: "",
@@ -43,7 +43,6 @@ export default createStore({
     mbti2: "_",
     mbti3: "_",
     mbti4: "_",
-    userID: null,
   },
   getters: {
     EVENTS: (state) => state.events,
@@ -90,9 +89,8 @@ export default createStore({
     SET_SELECTED_MESSAGE(state, message) {
       state.selectedMessage = message;
     },
-
-    SET_SELECTED_MBTI(state, mbti) {
-      state.selectMBTI = mbti;
+    SET_USER_ID(state, id) {
+      state.mypage.id = id;
     },
     SET_NICKNAME(state, nickname) {
       state.mypage.nickname = nickname;
@@ -139,11 +137,11 @@ export default createStore({
     SET_MBTI4(state, mbti4) {
       state.mbti4 = mbti4;
     },
-    SET_USER_ID(state, userID) {
-      state.userID = userID;
-    },
   },
   actions: {
+    updateProfileImage({ commit }, image) {
+      commit("SET_PROFILEIMG", image);
+    },
     updateContent({ commit }, content) {
       commit("UPDATE_CONTENT", content);
     },
@@ -163,13 +161,12 @@ export default createStore({
       commit("SET_SELECTED_MBTI", selectMBTI);
     },
     async getData({ commit }) {
-      // const id = cookie.get("id");
-      // console.log(id);
-
       axios
         .get("/mypage", { withCredentials: true })
         .then((res) => {
           console.log(res);
+          cookie.set("id", res.data.id);
+          commit("SET_USER_ID", res.data.id);
           commit("SET_NICKNAME", res.data.nickname);
           commit("SET_PROFILEIMG", res.data.image);
           commit("SET_BIRTHDAY", res.data.birthday.slice(0, 10));
@@ -194,8 +191,8 @@ export default createStore({
         .put("/mypage/update", payload, { withCredentials: true })
         .then((res) => {
           console.log(res);
+          commit("SET_USER_ID", res.data.id);
           commit("SET_NICKNAME", res.data.nickname);
-          // commit("SET_PROFILEIMG", res.data.profileImg);
           commit("SET_BIRTHDAY", res.data.birthday.slice(0, 10));
           commit("SET_GENDER", res.data.gender);
           commit(

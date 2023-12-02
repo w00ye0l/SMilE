@@ -317,9 +317,8 @@ export default {
 
 <style scoped>
 .body {
-  width: 100%;
+  /* width: 100%; */
   height: 100%;
-  background-color: #fff9c8;
 }
 
 .title-section {
@@ -337,11 +336,12 @@ export default {
 
 .main-section {
   width: 100%;
-  height: 100%;
+  height: 80%;
   background-color: #fff9c8;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+  border-radius: 20px;
 }
 
 /* .profile {
@@ -371,6 +371,7 @@ export default {
 }
 
 .profile-img {
+  margin-top: 0;
   flex-direction: column;
   justify-content: center;
   gap: 10px;

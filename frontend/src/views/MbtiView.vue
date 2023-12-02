@@ -126,7 +126,8 @@ export default {
   }
 
   .group-container {
-    border-radius: 20px;
+    margin: 0;
+    width: 100%;
   }
 }
 
@@ -135,62 +136,62 @@ export default {
     height: calc(100% - 80px);
     margin-bottom: 80px;
   }
-}
 
-* {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.main-container {
-  width: 100%;
+  .group-container {
+    margin: 0 20px;
+    width: calc(100% - 40px);
+  }
 }
 
 hr {
-  background-color: #fff9c8;
+  width: 100%;
   height: 3px;
+  background-color: #fff9c8;
   border: 0;
 }
 
 .title {
   margin: 0;
   padding: 50px 0;
+  width: 100%;
   text-align: center;
 }
 
 .group-container {
   padding: 10px 0;
   background-color: #fff9c8;
+  border-radius: 10px;
 }
 
 .group-title-box {
   padding: 0 20px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .group-title {
-  margin: 20px 0;
+  margin: 10px 0;
   font-size: 20px;
   text-align: start;
 }
 
 .group-add-btn {
-  border: none;
-  width: 30px;
+  padding: 0;
+  height: fit-content;
   background: transparent;
+  border: none;
 }
 
 .group-add-img {
   width: 24px;
   height: 24px;
+  cursor: pointer;
 }
 
 .group-box {
-  width: 100%;
   padding: 0 20px;
+  width: 100%;
   height: 60px;
   display: flex;
   align-items: center;
@@ -216,6 +217,7 @@ hr {
 
 .friends-container {
   padding: 15px 0;
+  width: 100%;
   overflow-x: auto;
 }
 
@@ -254,6 +256,7 @@ hr {
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
   gap: 5px;
   text-align: center;
+  cursor: pointer;
 }
 
 .profile-img {
@@ -273,6 +276,7 @@ hr {
 }
 
 .friend-name {
+  margin: 0;
   width: 100%;
   overflow: hidden;
   white-space: nowrap;
@@ -280,6 +284,7 @@ hr {
 }
 
 .friend-mbti {
+  margin: 0;
   padding: 5px 10px;
   color: #fff;
   font-weight: 500;

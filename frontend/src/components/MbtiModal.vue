@@ -42,11 +42,14 @@ export default {
     pageLink() {
       this.$router.push({ path: "/mbti/addGroup" });
     },
-    mbtiLink() {
+    mbtiLink(event) {
       if (this.groups.length > 0) {
         this.$router.push({ path: "/mbti/addMbti" });
       } else {
         alert("그룹을 먼저 추가해주세요");
+
+        // 라디오 체크 방지
+        event.preventDefault();
       }
     },
   },
@@ -62,6 +65,7 @@ export default {
   top: 0;
   left: 0;
   padding: 20px;
+  z-index: 1000;
 }
 
 .white-bg {

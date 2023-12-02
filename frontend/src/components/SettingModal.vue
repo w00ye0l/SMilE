@@ -54,22 +54,22 @@ export default {
 <style scoped>
 .modal-background {
   position: fixed;
+  top: 0;
+  left: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  top: 0;
-  left: 0;
   padding: 20px;
   width: 100%;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
+  background: #000000c9;
   z-index: 1000;
 }
 
 .modal-body {
   padding: 20px;
   width: 90vw;
-  max-width: 1000px;
+  max-width: 500px;
   background: white;
   border-radius: 20px;
 }

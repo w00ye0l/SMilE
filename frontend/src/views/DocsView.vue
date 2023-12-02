@@ -49,10 +49,8 @@ export default {
   }
 
   .main-section {
-    margin: 30px;
-    /* width: 100%; */
-    height: 80%;
-    border-radius: 20px;
+    width: 100%;
+    height: 70%;
   }
 
   .mbti-container {
@@ -76,11 +74,14 @@ export default {
 
 @media (max-width: 540px) {
   .main-section {
-    border-radius: 20px 20px 0 0;
+    width: calc(100% - 40px);
+    height: 100%;
+    margin: 0 20px;
+    margin-bottom: 20px;
   }
 
   .mbti-container {
-    padding: 10vh 20px;
+    padding: 10vh 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -97,19 +98,16 @@ export default {
   }
 }
 
-* {
-  box-sizing: border-box;
-}
-
 .main-container {
-  box-sizing: border-box;
-  width: 100%;
-  background-color: #fff9c8;
+  /* width: 100%; */
+  background-color: #fff;
+  /* background-color: #fff9c8; */
 }
 
 .title {
   margin: 0;
   padding: 50px 0;
+  height: 133px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -126,8 +124,9 @@ export default {
 }
 
 .main-section {
-  height: 100%;
-  background-color: #fff;
+  /* background-color: #fff; */
+  background-color: #fff9c8;
+  border-radius: 20px;
 }
 
 .mbti-box {
@@ -139,6 +138,7 @@ export default {
   background-color: #ffd338;
   border-radius: 50%;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
 }
 
 .mbti-text {
