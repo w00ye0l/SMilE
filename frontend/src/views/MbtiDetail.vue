@@ -3,6 +3,13 @@
     <div class="info-container">
       <div class="profile-box">
         <div class="profile-img-container">
+          <img
+            class="prev-btn"
+            src="@/assets/back.png"
+            alt="뒤로 가기"
+            @click="moveDocs"
+          />
+
           <div class="profile-img-box">
             <div v-if="guest.image === null" class="profile-img"></div>
             <img
@@ -14,7 +21,7 @@
               <font-awesome-icon
                 :icon="['fas', 'pen']"
                 size="sm"
-                style="color: #aaa"
+                style="color: #000"
               />
             </div>
           </div>
@@ -22,7 +29,7 @@
           <img
             class="delete-mbti-img"
             src="@/assets/trashcan.png"
-            alt=""
+            alt="정보 삭제하기"
             @click="deleteDetail"
           />
         </div>
@@ -31,9 +38,9 @@
 
       <div class="form-control">
         <label class="form-label">MBTI</label>
-        <div class="selected-mbti" @click="selectMBti">
+        <div class="selected-mbti-container" @click="selectMBti">
           <div class="mbti-box">
-            <p>{{ mbti }}</p>
+            <p class="selected-mbti">{{ mbti }}</p>
             <img :src="require(`@/assets/Polygon.png`)" class="arrow" />
           </div>
 
@@ -139,6 +146,9 @@ export default {
     },
   },
   methods: {
+    moveDocs() {
+      this.$router.push({ path: "/mbti" });
+    },
     selectMBti() {
       if (this.selectMbti === true) {
         this.selectMbti = false;
@@ -184,6 +194,7 @@ export default {
       await axios
         .delete(`/guest/remove/${this.guest.id}`, { withCredentials: true })
         .then((res) => {
+          this.$router.push({ name: "mbti" });
           console.log(res);
         })
         .catch((err) => {
@@ -204,35 +215,35 @@ export default {
   }
 
   .info-container {
-    padding: 0 30px;
+    padding: 0 80px;
   }
 }
 
 @media (max-width: 540px) {
   .main-container {
-    height: calc(100vh - 80px);
+    height: calc(100% - 80px);
   }
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
 }
 
 .main-container {
   position: relative;
-  padding: 50px 20px;
-  width: 100%;
-  background-color: #fff9c8;
+  padding: 40px 20px;
 }
 
 .info-container {
   width: 100%;
 }
 
+.prev-btn {
+  position: absolute;
+  padding: 7px;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+}
+
 .profile-box {
-  margin-bottom: 30px;
+  margin-bottom: 40px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -277,7 +288,7 @@ export default {
   align-items: center;
   width: 26px;
   height: 26px;
-  background-color: #eee;
+  background-color: #fff;
   border: 1px solid #ccc;
   border-radius: 50%;
   cursor: pointer;
@@ -287,6 +298,9 @@ export default {
   position: absolute;
   top: 0;
   right: 0;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 50%;
 }
 
 .profile-name {
@@ -315,9 +329,13 @@ export default {
   font-size: 18px;
 }
 
-.selected-mbti {
+.selected-mbti-container {
   position: relative;
   width: 100%;
+}
+
+.selected-mbti {
+  margin: 0;
 }
 
 .mbti-box {
@@ -375,6 +393,7 @@ export default {
   border-radius: 20px;
   border: 0;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+  resize: none;
 }
 
 .doc-btn-container {
@@ -394,6 +413,7 @@ export default {
 }
 
 .btn-container {
+  margin-top: 40px;
   display: flex;
   justify-content: space-evenly;
 }
@@ -403,6 +423,7 @@ export default {
   height: 40px;
   border-radius: 20px;
   font-size: 18px;
+  cursor: pointer;
 }
 
 .edit-btn {
