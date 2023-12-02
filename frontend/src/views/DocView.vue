@@ -1,6 +1,15 @@
 <template>
-  <div class="body">
-    <h1 class="title">{{ id }}</h1>
+  <div class="main-container">
+    <div class="title-box">
+      <img
+        class="prev-btn"
+        src="@/assets/back.png"
+        alt="뒤로 가기"
+        @click="moveDocs"
+      />
+      <h1 class="title">{{ id }}</h1>
+    </div>
+
     <section class="main-section">
       <ul class="menu-list">
         <li
@@ -26,9 +35,7 @@
         </li>
       </ul>
 
-      <div class="info-container">
-        <component :is="comp" class="info"></component>
-      </div>
+      <component :is="comp" class="info"></component>
     </section>
   </div>
 </template>
@@ -43,11 +50,14 @@ export default {
   data() {
     return {
       comp: "relativity",
-      id: this.$store.state.selectMBTI,
+      id: this.$route.query.mbti,
     };
   },
   computed: {},
   methods: {
+    moveDocs() {
+      this.$router.push({ path: "/docs" });
+    },
     changeComponent(componentName) {
       this.comp = componentName;
     },
@@ -57,58 +67,86 @@ export default {
 
 <style scoped>
 @media (min-width: 541px) {
+  .main-container {
+    padding: 0 30px;
+  }
+
   .main-section {
-    width: 90%;
-    height: 100%;
+    width: 100%;
+    height: 70%;
+  }
+
+  .title {
+    padding: 50px 0;
+    height: 133px;
   }
 }
 
 @media (max-width: 540px) {
   .main-section {
-    width: 100%;
+    width: calc(100% - 40px);
+    height: 100%;
+    margin: 0 20px;
+    margin-bottom: 20px;
   }
 
-  .info-container {
-    height: calc(100vh - 250px);
+  .title {
+    padding: 40px 0;
+    height: 110px;
   }
 }
 
-.body {
-  background-color: #fff9c8;
+.main-container {
+  background-color: #fff;
+}
+
+.title-box {
+  position: relative;
+  width: 100%;
+}
+
+.prev-btn {
+  position: absolute;
+  padding: 7px;
+  top: 50px;
+  left: 30px;
+  cursor: pointer;
 }
 
 .title {
   margin: 0;
-  height: 12vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 32px;
 }
 
 .main-section {
-  background-color: #fff;
-  border-radius: 20px 20px 0 0;
+  background-color: #fff9c8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 20px;
+  border: 1px solid #eee;
 }
 
 .menu-list {
   margin: 0;
   padding: 0;
-  padding-top: 30px;
+  padding-top: 20px;
+  padding-bottom: 10px;
+  width: 100%;
   display: flex;
   justify-content: space-evenly;
-  font-size: 20px;
+  font-size: 18px;
+  background-color: #fefefe;
+  border-radius: 20px 20px 0 0;
 }
 
 .menu {
+  color: #5a5a5a;
   list-style: none;
-}
-
-.info-container {
-  padding: 20px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  position: relative;
+  cursor: pointer;
 }
 
 .info {
@@ -117,6 +155,7 @@ export default {
 
 .active {
   font-weight: bold;
+  color: #000;
   border-bottom: 2px solid #ffd338;
 }
 </style>
