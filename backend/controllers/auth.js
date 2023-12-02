@@ -17,6 +17,13 @@ exports.signup = async (req, res, next) => {
     mbti4,
   } = req.body;
 
+  let img = ""; // 기본값으로 빈 문자열 => 이미지 파일 없는 경우에도 회원가입 가능하도록
+
+  // 이미지 파일이 존재할 경우에만 req.file.location 사용
+  if (req.file && req.file.location) {
+    img = req.file.location;
+  }
+
   // 이메일 중복 가입 방지
   const exUser = await User.findOne({ where: { email } });
   if (exUser) {
@@ -27,7 +34,7 @@ exports.signup = async (req, res, next) => {
   const hashedPassword = await bcrypt.hash(password, 12);
   try {
     const user = await User.create({
-      image: req.file.location,
+      image: img,
       email: email,
       nickname: nickname,
       password: hashedPassword,
