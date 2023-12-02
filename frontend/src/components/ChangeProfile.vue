@@ -173,7 +173,6 @@ export default {
     async updateInfo() {
       const formData = {
         nickname: this.nickname,
-        // image: this.image,
         birthday: this.birthday,
         gender: this.gender,
         mbti1: this.mbti1,
@@ -250,8 +249,9 @@ export default {
 
 .mbti-box {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
+  gap: 30px;
   margin-top: 20px;
   width: 100%;
   height: 130px;
