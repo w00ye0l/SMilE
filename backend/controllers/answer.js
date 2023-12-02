@@ -5,24 +5,6 @@ const User = require("../models/user");
 
 const schedule = require("node-schedule");
 
-// 랜덤 질문에 대한 답변 여부 확인
-// 12시 마다 answered false로 업데이트
-schedule.scheduleJob("0 12 * * *", async () => {
-  try {
-    await User.update(
-      {
-        answered: false,
-      },
-      {
-        where: {},
-      }
-    );
-    console.log("answered가 false로 업데이트되었습니다.");
-  } catch (error) {
-    console.error("answered 업데이트 중 오류가 발생했습니다:", error);
-  }
-});
-
 // Random 질문에 대한 답변 생성
 exports.answerCreate = async (req, res, next) => {
   try {
@@ -53,7 +35,9 @@ exports.answerCreate = async (req, res, next) => {
     });
 
     if (existAnswer) {
-      res.status(400).json({ message: "이미 해당 질문에 대한 답변을 작성하셨습니다." });
+      res
+        .status(400)
+        .json({ message: "이미 해당 질문에 대한 답변을 작성하셨습니다." });
       return;
     }
 
@@ -72,8 +56,10 @@ exports.answerCreate = async (req, res, next) => {
     );
 
     const user = await User.findByPk(req.user.id);
-    
-    res.status(201).json({ createAnswers: createAnswer, answered: user.answered });
+
+    res
+      .status(201)
+      .json({ createAnswers: createAnswer, answered: user.answered });
   } catch (error) {
     console.error(error);
     return next(error);
@@ -94,7 +80,7 @@ exports.answerRead = async (req, res, next) => {
       return;
     }
     const user = await User.findByPk(answer.userID, {
-      attributes: ['answered'], // answered 필드만 선택적으로 조회
+      attributes: ["answered"], // answered 필드만 선택적으로 조회
     });
 
     if (!user) {
