@@ -58,6 +58,7 @@ body {
 
 #app {
   width: 100vw;
+  height: 100%;
   background-color: #fff;
 }
 
@@ -77,11 +78,14 @@ body {
     height: 100vh;
     display: flex;
     flex-direction: column-reverse;
+    justify-content: center;
     margin: auto;
   }
+
   .router-view {
-    width: 100%;
-    height: 100%;
+    width: 80%;
+    height: calc(100% - 130px);
+    margin: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -92,6 +96,7 @@ body {
 @media (max-width: 540px) {
   .root-div {
     width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;

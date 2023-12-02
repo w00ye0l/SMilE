@@ -4,17 +4,21 @@
       <h1 class="title">프로필</h1>
       <div class="btn-container">
         <!-- 회원정보 수정 버튼 -->
-        <button class="setting-btn" @click="openModal">
+        <button class="btn setting-btn" @click="openSettingModal">
           <img :src="require('@/assets/Settings.png')" alt="" />
         </button>
 
         <!-- 로그아웃 버튼 -->
-        <button class="logout-btn" @click="logout">
+        <button class="btn logout-btn" @click="logout">
           <img :src="require('@/assets/Logout.png')" alt="" />
         </button>
       </div>
     </div>
 
+    <!-- 회원정보 수정 모달 -->
+    <SettingModalVue v-if="settingModal" @close="closeSettingModal" />
+
+    <!-- 프로필 컨테이너 -->
     <div class="profile-container">
       <img
         class="profile-img left-img"
@@ -23,7 +27,7 @@
       />
 
       <!-- 프로필 이미지 -->
-      <div class="profile-img-container">
+      <div class="profile-img-container" @click="openImageModal">
         <img
           v-if="profileImg === null"
           :src="require('@/assets/Avatar.png')"
@@ -34,10 +38,12 @@
           <font-awesome-icon
             :icon="['fas', 'pen']"
             size="sm"
-            style="color: #aaa"
+            style="color: #000"
           />
         </div>
       </div>
+
+      <ProfileImageModal v-if="imageModal" @close="closeImageModal" />
 
       <!-- 프로필 정보 -->
       <div class="my-info">
@@ -51,8 +57,7 @@
       />
     </div>
 
-    <SettingModalVue v-if="modalOpen" @close="closeModal" />
-
+    <!-- 오늘의 질문 컨테이너 -->
     <div v-if="answered === true" class="question-container">
       <h3 class="question-title">오늘의 질문</h3>
       <p class="question-subtitle">작성한 답변 확인하기</p>
@@ -64,7 +69,9 @@
       <p class="question-subtitle">답변하지 않은 질문이 있어요!</p>
       <h3 class="question-title">오늘의 질문</h3>
 
-      <button class="question-btn">답변하러 가기</button>
+      <button class="question-btn" v-on:click="goToRandomQuestion">
+        답변하러 가기
+      </button>
     </div>
 
     <hr />
@@ -122,11 +129,17 @@ import axios from "axios";
 import { useCookies } from "vue3-cookies";
 import { mapState } from "vuex";
 import SettingModalVue from "@/components/SettingModal.vue";
+import ProfileImageModal from "@/components/ProfileImageModal.vue";
 
 export default {
+  setup() {
+    const { cookies } = useCookies();
+    return { cookies };
+  },
   data() {
     return {
-      modalOpen: false,
+      settingModal: false,
+      imageModal: false,
     };
   },
   computed: {
@@ -137,31 +150,37 @@ export default {
       answered: (state) => state.mypage.answered,
     }),
   },
-  setup() {
-    const { cookies } = useCookies();
-    return { cookies };
-  },
   components: {
     SettingModalVue,
+    ProfileImageModal,
   },
   methods: {
-    openModal() {
-      this.modalOpen = true;
+    openSettingModal() {
+      this.settingModal = true;
     },
-    closeModal() {
-      this.modalOpen = false;
+    closeSettingModal() {
+      this.settingModal = false;
+    },
+    openImageModal() {
+      this.imageModal = true;
+    },
+    closeImageModal() {
+      this.imageModal = false;
     },
     async logout() {
       await axios
         .get("/auth/logout", { withCredentials: true })
         .then((res) => {
-          this.cookies.remove("id");
           console.log(res);
+          this.cookies.remove("id");
           this.$router.push({ name: "home" });
         })
         .catch((err) => {
           console.log(err);
         });
+    },
+    goToRandomQuestion() {
+      this.$router.push({ name: "randomquestion" });
     },
   },
 };
@@ -174,6 +193,8 @@ export default {
   }
 
   .profile-container {
+    margin: 0;
+    width: 100%;
     border-radius: 20px;
   }
 
@@ -188,6 +209,7 @@ export default {
   .content-root-container {
     display: flex;
     justify-content: space-between;
+    gap: 30px;
   }
 
   .content-hr {
@@ -195,7 +217,7 @@ export default {
   }
 
   .content-container {
-    width: 40%;
+    width: 50%;
   }
 
   .content-test-container {
@@ -204,14 +226,19 @@ export default {
 }
 
 @media (max-width: 540px) {
-  .content-container {
-    width: 80%;
+  .profile-container {
     margin: auto;
+    width: calc(100% - 40px);
+  }
+
+  .content-container {
+    margin: auto;
+    width: calc(100% - 40px);
   }
 
   .content-test-container {
-    width: 80%;
     margin: auto;
+    width: calc(100% - 40px);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -219,11 +246,10 @@ export default {
 }
 
 hr {
-  width: 100%;
+  width: calc(100% - 40px);
 }
 
 .main {
-  width: 100%;
   overflow-y: auto;
 }
 
@@ -250,38 +276,34 @@ hr {
   gap: 10px;
 }
 
-.setting-btn {
+.btn {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 30px;
   height: 30px;
-  background-color: #ffd338;
   border: 0;
   border-radius: 50%;
+  cursor: pointer;
+}
+
+.setting-btn {
+  background-color: #ffd338;
 }
 
 .logout-btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 30px;
-  height: 30px;
   background-color: #fff9c8;
-  border: 0;
-  border-radius: 50%;
 }
 
 .profile-container {
   position: relative;
-  padding: 0 60px;
+  /* padding: 0 60px; */
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  gap: 50px;
-  width: 100%;
   min-height: 130px;
   background: #fff9c8;
+  border-radius: 10px;
 }
 
 .profile-img {
@@ -291,15 +313,23 @@ hr {
 .left-img {
   left: 0;
   bottom: 0;
+  border-radius: 0 0 0 10px;
+  z-index: 1;
 }
 
 .right-img {
   right: 0;
   top: 0;
+  border-radius: 0 10px 0 0;
+  z-index: 1;
 }
 
 .profile-img-container {
+  width: 45%;
   position: relative;
+  display: flex;
+  justify-content: flex-end;
+  z-index: 2;
 }
 
 .avatar {
@@ -319,22 +349,28 @@ hr {
   align-items: center;
   width: 26px;
   height: 26px;
-  background-color: #ddd;
+  background-color: #fff;
   border: 1px solid #ccc;
   border-radius: 50%;
   cursor: pointer;
 }
 
 .my-info {
+  padding-right: 50px;
+  width: 45%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  justify-content: center;
+  align-items: flex-start;
   font-size: 20px;
   gap: 5px;
+  z-index: 2;
 }
 
 .name {
+  width: 100%;
   font-weight: 500;
+  word-wrap: break-word;
 }
 
 .mbti {
@@ -348,6 +384,7 @@ hr {
 }
 
 .question-container {
+  width: 100%;
   height: 140px;
   padding: 20px 0;
   display: flex;
@@ -377,6 +414,7 @@ hr {
   background-color: #ffd338;
   border: 0;
   border-radius: 20px;
+  cursor: pointer;
 }
 
 hr {
@@ -408,7 +446,7 @@ hr {
   color: #000;
   text-decoration: none;
   border-radius: 10px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .content-imgBox {

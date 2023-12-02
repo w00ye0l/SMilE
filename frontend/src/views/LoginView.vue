@@ -99,8 +99,6 @@ export default {
           })
           // eslint-disable-next-line
           .then((res) => {
-            this.cookies.set("id", res.data.id);
-            this.$store.dispatch("setUserID", res.data.id);
             this.$store.dispatch("getData");
           })
           .catch((err) => {
@@ -122,7 +120,7 @@ export default {
 
 <style scoped>
 .main {
-  width: 100%;
+  /* width: 100%; */
   height: 100%;
 }
 
@@ -184,7 +182,7 @@ export default {
 }
 
 .error-container {
-  padding: 10px 20px;
+  padding: 10px;
   position: absolute;
   width: 220px;
   top: 2%;
@@ -193,6 +191,7 @@ export default {
   background-color: #fc7e7e;
   transform: translateX(-50%);
   border-radius: 10px;
+  word-break: keep-all;
 }
 
 .error-message {
