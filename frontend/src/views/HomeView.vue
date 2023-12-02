@@ -2,7 +2,7 @@
   <div class="background">
     <h1 class="title">
       <span class="header">SM</span>
-      <img :src="require(`@/assets/first_smile1.png`)" class="title-img" />
+      <img :src="require(`@/assets/title-img-orange.png`)" class="title-img" />
       <span class="header">E</span>
     </h1>
     <swiper
@@ -42,8 +42,8 @@
             </h3>
           </div>
           <div>
-            <img :src="require(`@/assets/first_smile5.png`)" class="mid-img" />
             <img :src="require(`@/assets/first_smile4.png`)" class="left-img" />
+            <img :src="require(`@/assets/first_smile5.png`)" class="mid-img" />
             <img
               :src="require(`@/assets/first_smile6.png`)"
               class="right-img"
@@ -176,8 +176,10 @@ export default {
 </script>
 <style scoped>
 .background {
-  margin: 0;
   position: relative;
+  justify-content: center;
+  margin: 0;
+  width: 100%;
   background-color: #fff9c8;
 }
 
@@ -188,26 +190,28 @@ export default {
 }
 
 .my-swiper {
-  height: 60vh;
+  height: 60%;
 }
 
 .slider {
-  height: 75%;
+  height: 90%;
 }
 
 .title {
   padding-top: 30px;
   margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .title-img {
-  margin-top: 5px;
-  padding-left: 1px;
-  width: 30px;
-  height: 30px;
+  width: 60px;
+  height: 60px;
 }
 
 h3 {
+  margin: 50px 0;
   font-weight: bold;
   font-size: 25px;
 }
@@ -220,14 +224,12 @@ h3 {
   position: absolute;
   right: -3%;
   width: 180px;
-  bottom: 25vh;
   max-width: 280px;
 }
 
 .img2 {
   position: absolute;
   left: -3%;
-  top: 55%;
   width: 180px;
   max-width: 280px;
 }
@@ -246,19 +248,20 @@ h3 {
   .img2 {
     left: -12%;
     width: 40%;
+    bottom: 20%;
+  }
+
+  .header {
+    font-size: 50px;
+  }
+
+  .title-img {
+    width: 50px;
+    height: 50px;
   }
 
   h3 {
     font-size: 20px;
-  }
-
-  .header {
-    font-size: 60px;
-  }
-
-  .title-img {
-    width: 47px;
-    height: 47px;
   }
 
   .my-swiper {
@@ -270,6 +273,7 @@ h3 {
     left: 5%;
     top: 40%;
     width: 40%;
+    z-index: 10;
   }
 
   .mid-img {
@@ -277,6 +281,7 @@ h3 {
     left: 33%;
     top: 40%;
     width: 40%;
+    z-index: -1;
   }
   .right-img {
     position: absolute;
@@ -367,12 +372,14 @@ h3 {
 /* 웹 */
 @media (min-width: 541px) {
   .img1 {
-    right: -5%;
+    top: 20%;
+    right: 10%;
     width: 40%;
   }
 
   .img2 {
-    left: -7%;
+    bottom: 10%;
+    left: 10%;
     width: 40%;
   }
 
@@ -380,15 +387,12 @@ h3 {
     font-size: 60px;
   }
 
-  .title-img {
-    width: 47px;
-    height: 47px;
-  }
   .left-img {
     position: absolute;
     left: 18%;
     top: 30%;
     width: 25%;
+    z-index: 10;
   }
 
   .mid-img {
@@ -396,6 +400,7 @@ h3 {
     left: 37%;
     top: 30%;
     width: 25%;
+    z-index: -1;
   }
 
   .right-img {
