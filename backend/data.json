@@ -3,7 +3,7 @@
     {
       "id": "1",
       "question": "이러면 아무도 너 안 좋아해",
-      "isUsed": false
+      "isUsed": true
     },
     {
       "id": "2",
@@ -73,7 +73,87 @@
     {
       "id": "15",
       "question": "친구가 음식을 열심히 만들었는데 맛이 별로일 때 나의 대답은?",
-      "isUsed": true
+      "isUsed": false
+    },
+    {
+      "id": "16",
+      "question": "'스트레스 받아.. 술 먹자' 에 대한 나의 대답은?",
+      "isUsed": false
+    },
+    {
+      "id": "17",
+      "question": "오늘 저녁에 뭐해? 라는 질문의 의미는?",
+      "isUsed": false
+    },
+    {
+      "id": "18",
+      "question": "친구들과의 모임, 근처에 아는 지인이 있어서 더 불러도 된냐고 묻는다면 나의 대답은?",
+      "isUsed": false
+    },
+    {
+      "id": "19",
+      "question": "사람들과의 약속이 끝난 후, 집에 들어와 혼자 있을 때의 나의 기분은?",
+      "isUsed": false
+    },
+    {
+      "id": "20",
+      "question": "멍 때릴 때 내가 하는 생각은?",
+      "isUsed": false
+    },
+    {
+      "id": "21",
+      "question": "잘 모르는 사람이 내 뒷담을 했다는 걸 알게 되었다면 나의 기분은?",
+      "isUsed": false
+    },
+    {
+      "id": "22",
+      "question": "안읽씹 vs 읽씹 뭐가 더 기분 나쁠까?",
+      "isUsed": false
+    },
+    {
+      "id": "23",
+      "question": "과제 보여 달라고 했을 때 나의 속마음과 대답은?",
+      "isUsed": false
+    },
+    {
+      "id": "24",
+      "question": "잠을 잘 시간인데 내가 지금 잠을 못 자고 있는 이유는?",
+      "isUsed": false
+    },
+    {
+      "id": "25",
+      "question": "새로운 사람을 만났을 때 나의 행동은?",
+      "isUsed": false
+    },
+    {
+      "id": "26",
+      "question": "문제가 발생했을 때, 보통 어떤 방식으로 해결하는지?",
+      "isUsed": false
+    },
+    {
+      "id": "27",
+      "question": "나만의 스트레스 해소방법은?",
+      "isUsed": false
+    },
+    {
+      "id": "28",
+      "question": "'사과' 하면 떠오르는 것을 써보세요!",
+      "isUsed": false
+    },
+    {
+      "id": "29",
+      "question": "노래 들을 때 더 좋아하는 것은? 멜로디 vs 가사",
+      "isUsed": false
+    },
+    {
+      "id": "30",
+      "question": "요리할 때 나는 손대중과 정량 중 무엇이 더 중요한지?",
+      "isUsed": false
+    },
+    {
+      "id": "31",
+      "question": "번개로 갑자기 잡히는 약속이 좋다 vs 싫다",
+      "isUsed": false
     }
   ]
 }
