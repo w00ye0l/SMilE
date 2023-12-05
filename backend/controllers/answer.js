@@ -49,7 +49,7 @@ exports.answerCreate = async (req, res, next) => {
 
     // User 모델의 answered 필드 업데이트
     await User.update(
-      { answered: true },
+      { answered: createAnswer.id },
       {
         where: { id: req.user.id },
       }
