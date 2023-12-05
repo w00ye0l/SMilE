@@ -47,9 +47,8 @@ class User extends Sequelize.Model {
           allowNull: false,
         },
         answered: {
-          type: Sequelize.BOOLEAN,
-          allowNull: false,
-          defaultValue: false,
+          type: Sequelize.INTEGER,
+          allowNull: true,
         },
       },
       {
