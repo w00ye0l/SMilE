@@ -180,6 +180,7 @@ export default {
   justify-content: center;
   margin: 0;
   width: 100%;
+  height: 100vh;
   background-color: #fff9c8;
 }
 
