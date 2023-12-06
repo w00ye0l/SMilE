@@ -45,21 +45,27 @@ export default {
 <style scoped>
 @media (min-width: 541px) {
   .main-container {
+    margin-bottom: 50px;
     padding: 0 30px;
   }
 
   .main-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
     width: 100%;
-    height: 70%;
+    min-height: 700px;
   }
 
   .mbti-container {
-    padding: 5vh 10vh;
+    padding: 30px 20%;
     width: 100%;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(4, 1fr);
-    justify-items: center;
+    height: calc(100% - 120px);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
   }
 
   .mbti-box {
@@ -117,6 +123,7 @@ export default {
 .sub-title {
   margin: 0;
   padding: 30px 20px;
+  height: 120px;
   font-size: 20px;
   font-weight: bold;
   color: #f59607;

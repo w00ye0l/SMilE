@@ -58,7 +58,7 @@
     </div>
 
     <!-- 오늘의 질문 컨테이너 -->
-    <div v-if="answered === true" class="question-container">
+    <div v-if="answered !== 0" class="question-container">
       <h3 class="question-title">오늘의 질문</h3>
       <p class="question-subtitle">작성한 답변 확인하기</p>
 
@@ -76,6 +76,7 @@
 
     <hr />
 
+    <!-- 컨텐츠 컨테이너 -->
     <div class="content-root-container">
       <div class="content-container">
         <h3 class="content-title">MBTI 기록하기</h3>
@@ -108,6 +109,7 @@
 
     <hr />
 
+    <!-- MBTI 테스트 컨테이너 -->
     <div class="content-test-container">
       <h3 class="content-title">MBTI 검사하기</h3>
       <a
