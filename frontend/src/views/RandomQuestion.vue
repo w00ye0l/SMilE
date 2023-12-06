@@ -1,36 +1,59 @@
 <template>
   <div class="main-section">
-    <h2 class="title-name">오늘의 질문</h2>
+    <h1 class="title">오늘의 질문</h1>
 
-    <div class="question">
-      <p class="letter">{{ message }}</p>
+    <!-- 질문 컨테이너 -->
+    <div class="container question-container">
+      <p class="question">{{ randomQuestion }}</p>
     </div>
 
-    <form @submit.prevent="submitForm" class="my-answer">
-      <h3 class="second-title">나의 답변</h3>
-      <textarea
-        v-model="memo"
-        class="memo-box"
-        @input="updateAnswer()"
-        placeholder="내용을 입력하세요"
-      >
-      </textarea>
-      <div class="btn-control">
-        <button class="btn" @click="completed()">작성 완료</button>
+    <!-- 나의 답변 -->
+    <template v-if="myAnswer">
+      <h2 class="sub-title">나의 답변</h2>
+      <div class="container my-answer-container">
+        <div class="answer-box">
+          <p class="my-answer">{{ myAnswer }}</p>
+        </div>
+        <div class="btn-container">
+          <button class="btn" @click="goMyAnswer()">자세히 보기</button>
+        </div>
       </div>
-    </form>
+    </template>
+    <template v-else>
+      <form @submit.prevent="submitForm" class="my-answer">
+        <h2 class="second-title">나의 답변</h2>
+        <textarea
+          v-model="answer"
+          class="answer-textarea"
+          placeholder="내용을 입력하세요"
+        >
+        </textarea>
+        <div class="btn-container">
+          <button class="btn" @click="completed()">작성 완료</button>
+        </div>
+      </form>
+    </template>
 
-    <div class="other-answer">
-      <h3 class="third-title">다른 사람들의 답변</h3>
+    <!-- 다른 사람들 답변 -->
+    <h2 class="sub-title">다른 사람들의 답변</h2>
+    <div class="container other-answer-container">
+      <p class="total-mbti">
+        <span class="selected-mbti">{{
+          totalMbti === "____" ? "모든 사람" : totalMbti
+        }}</span
+        >들의 답변 보기
+      </p>
+
+      <!-- MBTI 선택 -->
       <div class="type-container">
         <div v-on:click="selectMBTI('EI')" class="select">
           <div class="selected">
             <p class="selected-value">{{ mbti1 }}</p>
           </div>
           <ul class="select-option" v-bind:class="{ active: selectEI }">
-            <li class="option" v-on:click="selectEIOption('_')">_</li>
-            <li class="option" v-on:click="selectEIOption('E')">E</li>
-            <li class="option" v-on:click="selectEIOption('I')">I</li>
+            <li class="selected option" v-on:click="selectEIOption('E')">E</li>
+            <li class="selected option" v-on:click="selectEIOption('I')">I</li>
+            <li class="selected option" v-on:click="selectEIOption('_')">_</li>
           </ul>
         </div>
         <div v-on:click="selectMBTI('NS')" class="select">
@@ -38,9 +61,9 @@
             <p class="selected-value">{{ mbti2 }}</p>
           </div>
           <ul class="select-option" v-bind:class="{ active: selectNS }">
-            <li class="option" v-on:click="selectNSOption('_')">_</li>
-            <li class="option" v-on:click="selectNSOption('N')">N</li>
-            <li class="option" v-on:click="selectNSOption('S')">S</li>
+            <li class="selected option" v-on:click="selectNSOption('N')">N</li>
+            <li class="selected option" v-on:click="selectNSOption('S')">S</li>
+            <li class="selected option" v-on:click="selectNSOption('_')">_</li>
           </ul>
         </div>
         <div v-on:click="selectMBTI('TF')" class="select">
@@ -48,9 +71,9 @@
             <p class="selected-value">{{ mbti3 }}</p>
           </div>
           <ul class="select-option" v-bind:class="{ active: selectTF }">
-            <li class="option" v-on:click="selectTFOption('_')">_</li>
-            <li class="option" v-on:click="selectTFOption('T')">T</li>
-            <li class="option" v-on:click="selectTFOption('F')">F</li>
+            <li class="selected option" v-on:click="selectTFOption('T')">T</li>
+            <li class="selected option" v-on:click="selectTFOption('F')">F</li>
+            <li class="selected option" v-on:click="selectTFOption('_')">_</li>
           </ul>
         </div>
         <div v-on:click="selectMBTI('PJ')" class="select">
@@ -58,16 +81,14 @@
             <p class="selected-value">{{ mbti4 }}</p>
           </div>
           <ul class="select-option" v-bind:class="{ active: selectPJ }">
-            <li class="option" v-on:click="selectPJOption('_')">_</li>
-            <li class="option" v-on:click="selectPJOption('P')">P</li>
-            <li class="option" v-on:click="selectPJOption('J')">J</li>
+            <li class="selected option" v-on:click="selectPJOption('P')">P</li>
+            <li class="selected option" v-on:click="selectPJOption('J')">J</li>
+            <li class="selected option" v-on:click="selectPJOption('_')">_</li>
           </ul>
         </div>
       </div>
-      <p class="total-mbti">
-        {{ totalMbti === "____" ? "모든 사람" : totalMbti }}들의 답변 보기
-      </p>
-      <button class="btn-more" @click="pageLink">더보기</button>
+
+      <button class="btn btn-more" @click="checkOtherAnswer">더보기</button>
     </div>
   </div>
 </template>
@@ -76,232 +97,204 @@
 import axios from "axios";
 
 export default {
+  mounted() {
+    this.getRandomMessage();
+    this.checkMyAnswer();
+  },
   data() {
     return {
-      randomMessage: [],
-      memo: "",
-      newAnswer: null,
+      randomQuestionId: "",
+      randomQuestion: "",
+      answer: "",
+      myAnswerObj: {},
+      myAnswer: "",
       selectEI: false,
       selectNS: false,
       selectTF: false,
       selectPJ: false,
-      mbti1: "_",
-      mbti2: "_",
-      mbti3: "_",
-      mbti4: "_",
-      totalMbti: "____",
-      message: "",
+      mbti1: this.$store.state.mbti1,
+      mbti2: this.$store.state.mbti2,
+      mbti3: this.$store.state.mbti3,
+      mbti4: this.$store.state.mbti4,
     };
   },
-  mounted() {
-    this.getRandomMessage();
+  computed: {
+    totalMbti() {
+      return this.mbti1 + this.mbti2 + this.mbti3 + this.mbti4;
+    },
   },
   methods: {
+    // 랜덤 질문 가져오기
     async getRandomMessage() {
       await axios
         .get("/random/question", { withCredentials: true })
         .then((res) => {
-          this.randomMessage = res.data;
-          this.message = this.randomMessage.question;
-          this.$store.commit("SET_ID", this.randomMessage.id);
-          console.log(this.randomMessage);
+          console.log(res);
+          this.randomQuestion = res.data.question;
+          this.randomQuestionId = res.data.id;
+          this.$store.commit("SET_RANDOM_QUESTION_ID", res.data.id);
+          console.log(this.randomQuestion);
+        })
+        .catch((error) => {
+          console.log(error);
         });
     },
+    // 나의 답변 작성 확인
+    async checkMyAnswer() {
+      const answerId = this.$store.state.mypage.answered;
+      if (answerId !== 0) {
+        await axios
+          .get("/random/answer/read/" + answerId, { withCredentials: true })
+          .then((res) => {
+            console.log(res);
+            this.myAnswerObj = res.data;
+            this.myAnswer = res.data.answer.answer;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    },
+    // 내 답변 확인하기
+    goMyAnswer() {
+      this.myAnswer;
+      const params = {
+        id: this.myAnswerObj.answer.id,
+        mbti: this.$store.state.mypage.mbti,
+      };
+
+      this.$router.push({
+        name: "randomanswerdetail",
+        params: params,
+      });
+    },
+    // 답변 유효성 검사
     validComment() {
-      if (!this.memo.trim()) {
+      if (!this.answer.trim()) {
         alert("내용을 입력해주세요");
         return false;
       }
       return true;
     },
+    // 답변 작성
     async completed() {
       if (this.validComment()) {
         const formData = {
           questionID: this.$store.state.id,
-          answer: this.memo,
+          answer: this.answer,
         };
         await axios
-          .post(`/random/answer/${this.$store.state.id}/create`, formData, {
+          .post(`/random/answer/${this.randomQuestionId}/create`, formData, {
             withCredentials: true,
           })
           .then((res) => {
             console.log(res.data);
             this.$store.commit("SET_ANSWERED", true);
+            alert("작성이 완료되었습니다.");
           })
           .catch((error) => {
             console.log(error);
-            if (error.response) {
-              if (
-                error.response.data.message ===
-                "이미 해당 질문에 대한 답변을 작성하셨습니다."
-              ) {
-                alert("이미 작성하셨습니다");
-              }
-            }
+            alert(error.response.data.message);
           });
-        this.memo = "";
+        this.answer = "";
       }
     },
-    pageLink() {
-      this.$store.state.totalMbti = this.totalMbti;
-      this.$router.push({ path: "randomanswer" });
+    // EI 옵션 변경
+    selectEIOption(option) {
+      this.mbti1 = option;
+      this.$store.commit("SET_MBTI1", this.mbti1);
     },
+    // NS 옵션 변경
+    selectNSOption(option) {
+      this.mbti2 = option;
+      this.$store.commit("SET_MBTI2", this.mbti2);
+    },
+    // TF 옵션 변경
+    selectTFOption(option) {
+      this.mbti3 = option;
+      this.$store.commit("SET_MBTI3", this.mbti3);
+    },
+    // TF 옵션 변경
+    selectPJOption(option) {
+      this.mbti4 = option;
+      this.$store.commit("SET_MBTI4", this.mbti4);
+    },
+    // 다른 사람 MBTI 변경
     selectMBTI(selected) {
       if (selected === "EI") {
         if (this.selectEI === true) {
           this.selectEI = false;
         } else {
           this.selectEI = true;
+          this.selectNS = false;
+          this.selectTF = false;
+          this.selectPJ = false;
         }
       }
       if (selected === "NS") {
         if (this.selectNS === true) {
           this.selectNS = false;
         } else {
+          this.selectEI = false;
           this.selectNS = true;
+          this.selectTF = false;
+          this.selectPJ = false;
         }
       }
       if (selected === "TF") {
         if (this.selectTF === true) {
           this.selectTF = false;
         } else {
+          this.selectEI = false;
+          this.selectNS = false;
           this.selectTF = true;
+          this.selectPJ = false;
         }
       }
       if (selected === "PJ") {
         if (this.selectPJ === true) {
           this.selectPJ = false;
         } else {
+          this.selectEI = false;
+          this.selectNS = false;
+          this.selectTF = false;
           this.selectPJ = true;
         }
       }
     },
-    selectEIOption(option) {
-      this.mbti1 = option;
-      this.$store.commit("SET_MBTI1", this.mbti1);
-      this.totalMbti += this.mbti1;
-      this.updateTotalMbti();
-    },
-    selectNSOption(option) {
-      this.mbti2 = option;
-      this.$store.commit("SET_MBTI2", this.mbti2);
-      this.totalMbti += this.mbti2;
-      this.updateTotalMbti();
-    },
-    selectTFOption(option) {
-      this.mbti3 = option;
-      this.$store.commit("SET_MBTI3", this.mbti3);
-      this.totalMbti += this.mbti3;
-      this.updateTotalMbti();
-    },
-    selectPJOption(option) {
-      this.mbti4 = option;
-      this.$store.commit("SET_MBTI4", this.mbti4);
-      this.totalMbti += this.mbti4;
-      this.updateTotalMbti();
-    },
-    updateTotalMbti() {
-      this.totalMbti = "";
-      if (this.mbti1 !== "") this.totalMbti += this.mbti1;
-      if (this.mbti2 !== "") this.totalMbti += this.mbti2;
-      if (this.mbti3 !== "") this.totalMbti += this.mbti3;
-      if (this.mbti4 !== "") this.totalMbti += this.mbti4;
-    },
-    updateAnswer() {
-      this.newAnswer = {
-        mbti: this.totalMbti,
-        content: this.memo,
-        date: new Date().toLocaleDateString(),
-      };
+    // 다른 사람 답변 확인
+    checkOtherAnswer() {
+      // this.$store.state.totalMbti = this.totalMbti;
+      console.log(this.totalMbti);
+      this.$router.push({
+        path: "randomanswer",
+        query: {
+          mbti: this.totalMbti,
+        },
+      });
     },
   },
 };
 </script>
 
 <style scoped>
-.title-name {
-  margin: 0;
-  padding: 50px 0;
-}
-
-.main-section {
-  margin: 0;
-  padding: 0;
-  background-color: #ffffff;
-  height: 100%;
-  position: relative;
-  overflow: auto;
-}
-
-.question {
-  background-color: #fff9c8;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.letter {
-  font-weight: bold;
-  padding: 0 50px;
-  font-size: 18px;
-}
-
-.my-answer {
-  padding: 0 40px;
-  width: 100%;
-  max-height: 33vh;
-}
-
-.second-title {
-  display: flex;
-  margin-bottom: 0;
-  font-size: 20px;
-}
-
-.memo-box {
-  margin: 20px 0;
-  padding: 10px;
-  width: 100%;
-  height: 100px;
-  font-size: 16px;
-  border-radius: 10px;
-  border: none;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
-  white-space: pre-line;
-}
-
-.btn-control {
-  margin-bottom: 20px;
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-}
-
-.btn {
-  margin: 0;
-  width: 100px;
-  height: 36px;
-  font-size: 15px;
-  font-weight: bold;
-  background-color: #f59607;
-  border: none;
-  border-radius: 20px;
-}
-
 @media (min-width: 541px) {
   .main-section {
     padding: 0 30px;
   }
 
-  .question {
-    height: 14%;
-    border-radius: 20px;
+  .container {
+    width: 100%;
+    margin-bottom: 40px;
   }
 
-  .other-answer {
-    height: 45%;
-    border-radius: 20px;
+  .my-answer-container {
+    margin: 0;
+    height: 200px;
+  }
+
+  .type-container {
+    gap: 30px;
   }
 
   .select-option {
@@ -314,12 +307,21 @@ export default {
     margin-bottom: 80px;
   }
 
-  .question {
-    height: 15vh;
+  .container {
+    margin: 0 20px;
+    margin-bottom: 30px;
   }
 
-  .other-answer {
-    height: 40vh;
+  .my-answer-container {
+    height: 150px;
+  }
+
+  .other-answer-container {
+    width: calc(100% - 40px);
+  }
+
+  .type-container {
+    gap: 10px;
   }
 
   .select-option {
@@ -329,30 +331,111 @@ export default {
   }
 }
 
-.other-answer {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
-  background-color: #fff9c8;
-}
-
-.third-title {
+.title {
   margin: 0;
-  padding: 20px 0;
-  display: flex;
-  justify-content: center;
+  padding: 50px 0;
   font-size: 24px;
 }
 
+.main-section {
+  background-color: #ffffff;
+  position: relative;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+}
+
+.question-container {
+  justify-content: center;
+  min-height: 100px;
+  background-color: #fff9c8;
+}
+
+.question {
+  margin: 0;
+  padding: 20px 50px;
+  width: 100%;
+  font-size: 18px;
+  word-break: keep-all;
+}
+
+.my-answer-container {
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sub-title {
+  margin: 0 20px;
+  margin-bottom: 20px;
+  width: 100%;
+  text-align: start;
+  font-size: 20px;
+}
+
+.answer-box {
+  width: 100%;
+  height: calc(100% - 56px);
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow-y: auto;
+  word-break: keep-all;
+}
+
+.my-answer {
+  margin: 0;
+  padding: 10px 20px;
+  width: 100%;
+  height: 100%;
+  text-align: start;
+}
+
+.answer-textarea {
+  margin: 20px 0;
+  padding: 10px;
+  width: 100%;
+  height: 100px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: none;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+  white-space: pre-line;
+}
+
+.btn-container {
+  margin: 10px 0;
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.btn {
+  margin: 0;
+  width: 100px;
+  height: 36px;
+  font-size: 14px;
+  background-color: #f59607;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.other-answer-container {
+  flex-direction: column;
+  justify-content: space-evenly;
+  min-height: 230px;
+  background-color: #fff9c8;
+}
+
 .type-container {
+  display: flex;
   margin: 0;
   margin-bottom: 20px;
   padding: 0;
-  display: flex;
   width: 100%;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
 }
 
@@ -373,6 +456,7 @@ export default {
   background-color: #ffe99d;
   border-radius: 50%;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
 }
 
 .select-option {
@@ -392,28 +476,18 @@ export default {
 
 .option {
   margin: 10px 0;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: bold;
-  background-color: #fff9c8;
-  border-radius: 50%;
-  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.25);
 }
 
 .total-mbti {
   font-size: 18px;
 }
 
-.btn-more {
-  border-radius: 20px;
-  width: 100px;
-  height: 36px;
-  font-size: 15px;
+.selected-mbti {
+  color: #f59607;
   font-weight: bold;
-  border: none;
+}
+
+.btn-more {
   background-color: #ffd338;
 }
 </style>
