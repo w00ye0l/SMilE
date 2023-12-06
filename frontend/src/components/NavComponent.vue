@@ -48,13 +48,17 @@ export default {};
   }
 
   .container {
+    position: sticky;
+    top: 0;
     display: flex;
     justify-content: space-between;
-    padding: 20px 30px;
+    align-items: center;
+    padding: 10px 30px;
     width: 100%;
-    min-height: 130px;
+    height: 100px;
     max-width: 1200px;
     background-color: #fff;
+    z-index: 9999;
   }
 
   .navbar {
