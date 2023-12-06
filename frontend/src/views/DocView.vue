@@ -68,12 +68,13 @@ export default {
 <style scoped>
 @media (min-width: 541px) {
   .main-container {
+    margin-bottom: 50px;
     padding: 0 30px;
   }
 
   .main-section {
     width: 100%;
-    height: 70%;
+    height: 700px;
   }
 
   .title {
@@ -107,7 +108,7 @@ export default {
 
 .prev-btn {
   position: absolute;
-  padding: 7px;
+  padding: 5px;
   top: 50px;
   left: 30px;
   cursor: pointer;
