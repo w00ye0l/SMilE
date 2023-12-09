@@ -1,6 +1,6 @@
 const Comment = require("../models/comment");
 const Answer = require("../models/answer");
-const User = require("../models/user")
+const User = require("../models/user");
 
 // 댓글 생성
 exports.commentCreate = async (req, res, next) => {
@@ -26,7 +26,7 @@ exports.commentCreate = async (req, res, next) => {
     const createComment = await Comment.create({
       userID: req.user.id,
       answerID: existAnswer.id,
-      comment: comment
+      comment: comment,
     });
 
     res.status(200).send(createComment);
@@ -61,7 +61,7 @@ exports.commentRead = async (req, res, next) => {
       },
       include: {
         model: User,
-        attributes: ['mbti1', 'mbti2', 'mbti3', 'mbti4']
+        attributes: ["image", "mbti1", "mbti2", "mbti3", "mbti4"],
       },
     });
 
@@ -117,7 +117,7 @@ exports.commentUpdate = async (req, res, next) => {
 
     await Comment.update(
       {
-        comment: comment
+        comment: comment,
       },
       {
         where: {
