@@ -1,25 +1,34 @@
 <template>
-  <div class="title background">
-    <button class="back-btn" @click="back()">
-      <img :src="require(`@/assets/back.png`)" class="back-img" />
-    </button>
-    <h2>{{ $store.state.totalMbti }}들의 답변</h2>
-    <div class="question">
-      <span class="letter">{{ this.message }}</span>
+  <div class="main-section">
+    <div class="title-container">
+      <img
+        class="prev-btn"
+        src="@/assets/back.png"
+        alt="뒤로 가기"
+        @click="moveRandomQuestion"
+      />
+      <h1 class="title">
+        <span class="selected-mbti">{{ selectedMbti }}</span>
+        들의 답변
+      </h1>
     </div>
+
+    <div class="question-container">
+      <span class="question">{{ randomQuestion }}</span>
+    </div>
+
     <div
-      class="memo-box"
-      v-for="(message, index) in mbtiMessage"
+      class="answer-container"
+      v-for="(answer, index) in answerList"
       :key="index"
-      @click="selectMessage(message)"
+      @click="selectAnswer(answer)"
     >
-      <div class="img-title">
-        <img :src="require(`@/assets/first_smile1.png`)" class="title-img" />
-        <span class="mbti"> {{ message.mbti }}</span>
+      <div class="answer-profile">
+        <img :src="require(`@/assets/title-img.png`)" class="profile-img" />
+        <span class="mbti"> {{ answer.totalMbti }}</span>
       </div>
-      <br />
       <div class="answer">
-        {{ message.answer }}
+        {{ answer.answer }}
       </div>
     </div>
   </div>
@@ -27,73 +36,73 @@
 
 <script>
 import axios from "axios";
+
 export default {
   mounted() {
-    this.getRandomMessage();
-    this.mbtiMessages();
+    this.getRandomQuestion();
+    this.getAnswerList();
   },
   data() {
     return {
-      message: "",
-      mbtiMessage: "",
-      mbti: "",
+      randomQuestionId: this.$store.state.randomQuestionId,
+      randomQuestion: "",
+      answerList: [],
+      mbti: this.$route.query.mbti,
     };
   },
   computed: {
-    mbti1() {
-      return this.$store.state.mbti1.toLowerCase();
-    },
-    mbti2() {
-      return this.$store.state.mbti2.toLowerCase();
-    },
-    mbti3() {
-      return this.$store.state.mbti3.toLowerCase();
-    },
-    mbti4() {
-      return this.$store.state.mbti4.toLowerCase();
+    selectedMbti() {
+      if (this.mbti === "____") {
+        return "모든 사람";
+      }
+      return this.mbti;
     },
   },
   methods: {
-    async getRandomMessage() {
+    // 랜덤 질문 가져오기
+    async getRandomQuestion() {
       await axios
         .get("/random/question/", { withCredentials: true })
         .then((res) => {
+          console.log(res);
           this.randomMessage = res.data;
-          this.message = this.randomMessage.question;
+          this.randomQuestion = res.data.question;
         });
     },
-    async mbtiMessages() {
+    // 답변 리스트 가져오기
+    async getAnswerList() {
+      console.log(this.mbti);
+
       await axios
-        .get(
-          `/random/${this.$store.state.id}/${this.mbti1}${this.mbti2}${this.mbti3}${this.mbti4}`,
-          {
-            withCredentials: true,
-          }
-        )
+        .get(`/random/${this.$store.state.randomQuestionId}/${this.mbti}`, {
+          withCredentials: true,
+        })
         .then((res) => {
-          this.messages = res.data;
-          this.mbti = this.messages.answers.map((el) => el.User);
-          this.mbtiMessage = this.messages.answers.map((obj) => {
-            let totalMbti = "";
-            for (let key in obj.User) {
-              totalMbti += obj.User[key];
-            }
-            return {
-              answer: obj.answer,
-              mbti: totalMbti,
-              userID: obj.userID,
-              id: obj.id,
-            };
-          });
+          console.log(res);
+          this.answerList = res.data.answers;
+
+          if (this.answerList) {
+            this.answerList.forEach((answer) => {
+              answer.totalMbti =
+                answer.User.mbti1 +
+                answer.User.mbti2 +
+                answer.User.mbti3 +
+                answer.User.mbti4;
+            });
+          }
+
+          console.log(this.answerList);
         })
         .catch((error) => {
           console.log(error);
         });
     },
-    selectMessage(message) {
+    // 답변 선택
+    selectAnswer(answer) {
+      console.log(answer);
       const params = {
-        id: message.id,
-        mbti: message.mbti,
+        id: answer.id,
+        mbti: answer.totalMbti,
       };
 
       this.$router.push({
@@ -101,165 +110,121 @@ export default {
         params: params,
       });
     },
-    back() {
+    // 뒤로 가기
+    moveRandomQuestion() {
       this.$router.go(-1);
+      // this.$router.push({ name: "randomanswer" });
     },
   },
 };
 </script>
+
 <style scoped>
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 10%;
+@media (width > 540px) {
+  .main-section {
+    padding: 0 30px;
+  }
+
+  .question-container {
+    width: 100%;
+  }
+
+  .answer-container {
+    width: 100%;
+  }
 }
 
-.question {
-  background-color: white;
+@media (width <= 540px) {
+  .question-container {
+    margin: 0 20px;
+  }
+
+  .answer-container {
+  }
+}
+
+.main-section {
+  /* background-color: #fff9c8; */
+}
+
+.title-container {
   width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  position: relative;
 }
 
 .title {
   margin: 0;
-  padding: 0;
-  overflow: scroll;
-  margin-bottom: 80px;
-}
-.background {
-  background-color: #fff9c8;
-  height: 100%;
-  position: relative;
+  padding: 50px 0;
+  font-size: 24px;
+  text-align: center;
 }
 
-.letter {
-  font-weight: bold;
-  padding: 0 50px 0 50px;
+.prev-btn {
+  position: absolute;
+  padding: 5px;
+  top: 50px;
+  left: 30px;
+  cursor: pointer;
 }
 
-.memo-box {
-  width: 90%;
-  height: 100px;
-  margin: 30px 0 15px 0;
-  border-radius: 20px;
-  border: none;
-  box-shadow: 0px 1.5px 0px 1.5px #d3d3d3;
-  background-color: white;
-  display: inline-block;
-  white-space: pre-line;
+.selected-mbti {
+  color: #f59607;
 }
 
-.img-title {
-  margin: 20px 0 0 20px;
+.question-container {
   display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 40px;
+  min-height: 100px;
+  background-color: #fff9c8;
+  border-radius: 10px;
 }
 
-.title-img {
-  width: 30px;
-  height: 30px;
+.question {
+  margin: 0;
+  padding: 20px 50px;
+  width: 100%;
+  font-size: 18px;
+  word-break: keep-all;
+}
+
+.answer-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin: 10px 20px;
+  padding: 14px 20px;
+  height: 120px;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.answer-profile {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+}
+
+.profile-img {
+  width: 40px;
+  height: 40px;
   vertical-align: middle;
 }
 
 .mbti {
-  margin: 3px 0 0 15px;
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 24px;
+  font-weight: bold;
 }
 
 .answer {
-  display: flex;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
+  width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-left: 20px;
-}
-
-@media (max-width: 767px) {
-  .back-btn {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    position: absolute;
-    left: 12%;
-    top: 3%;
-    margin-top: 1%;
-  }
-  .back-img {
-    width: 70%;
-    height: 70%;
-  }
-
-  .question {
-    height: 14%;
-    border-radius: 20px;
-  }
-  .memo-box {
-    height: 16%;
-  }
-
-  .background {
-    height: 100vh;
-  }
-}
-
-@media (min-width: 768px) and (max-width: 1023px) {
-  .back-btn {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    position: absolute;
-    left: 14%;
-    top: 1.3%;
-    margin-top: 1%;
-  }
-  .back-img {
-    width: 70%;
-    height: 70%;
-  }
-
-  .question {
-    height: 16%;
-    border-radius: 20px;
-  }
-
-  .memo-box {
-    height: 16%;
-  }
-}
-
-@media (min-width: 1024px) {
-  .back-btn {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    position: absolute;
-    left: 14.5%;
-    top: 1.4%;
-    margin-top: 0.3%;
-  }
-  .back-img {
-    width: 20px;
-    height: 20px;
-  }
-
-  .question {
-    height: 16%;
-    border-radius: 20px;
-  }
-
-  .memo-box {
-    height: 17%;
-  }
-  .letter {
-    font-size: 25px;
-  }
-  .back-btn {
-    left: 4.5%;
-  }
+  white-space: nowrap;
+  text-align: start;
 }
 </style>

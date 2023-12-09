@@ -60,6 +60,7 @@ body {
   width: 100vw;
   height: 100%;
   background-color: #fff;
+  overflow: auto;
 }
 
 @media (min-width: 541px) {
@@ -75,7 +76,7 @@ body {
   .root-div {
     width: 100%;
     max-width: 1200px;
-    height: 100vh;
+    /* height: 100vh; */
     display: flex;
     flex-direction: column-reverse;
     justify-content: center;

@@ -8,13 +8,13 @@ export default createStore({
   state: {
     totalMbti: "",
     mypage: {
-      id: "",
+      id: 0,
       nickname: "",
       profileImg: "",
       birthday: "",
       gender: "",
       mbti: "",
-      answered: false,
+      answered: 0,
     },
     messages: [],
     groups: [],
@@ -38,7 +38,7 @@ export default createStore({
       "ISTP",
     ],
     selectMessage: "",
-    id: 0,
+    randomQuestionId: 0,
     mbti1: "_",
     mbti2: "_",
     mbti3: "_",
@@ -122,8 +122,8 @@ export default createStore({
     UPDATE_SELECT_GUEST(state, payload) {
       state.selectGuest = payload;
     },
-    SET_ID(state, id) {
-      state.id = id;
+    SET_RANDOM_QUESTION_ID(state, randomQuestionId) {
+      state.randomQuestionId = randomQuestionId;
     },
     SET_MBTI1(state, mbti1) {
       state.mbti1 = mbti1;
