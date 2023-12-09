@@ -86,8 +86,8 @@ loadData();
 
 // 스케줄링 rule 설정
 const rule = new schedule.RecurrenceRule();
-rule.hour = 1;
-rule.minute = 5;
+rule.hour = 12;
+rule.minute = 0;
 rule.second = 0;
 
 // schedule 함수
