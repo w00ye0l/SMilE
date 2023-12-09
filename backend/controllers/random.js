@@ -84,8 +84,14 @@ loadData();
 // */20 * * * * *
 // '0 0 12 * * *' 정각마다 바뀜
 
+// 스케줄링 rule 설정
+const rule = new schedule.RecurrenceRule();
+rule.hour = 1;
+rule.minute = 5;
+rule.second = 0;
+
 // schedule 함수
-job = schedule.scheduleJob("0 0 12 * * *", async () => {
+job = schedule.scheduleJob(rule, async () => {
   try {
     const question = await getQuestion();
 
@@ -116,6 +122,7 @@ exports.question = async (req, res, next) => {
     const latestQuestionId = latestQuestionDB.id;
 
     console.log("이미 선택한 랜덤 질문입니다:", latestQuestion);
+    console.log(Intl.DateTimeFormat().resolvedOptions().timeZone);
 
     res.json({ question: latestQuestion, id: latestQuestionId });
   } catch (error) {
