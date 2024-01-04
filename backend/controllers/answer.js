@@ -79,9 +79,7 @@ exports.answerRead = async (req, res, next) => {
       res.status(404).json({ message: "답변이 없습니다." });
       return;
     }
-    const user = await User.findByPk(answer.userID, {
-      attributes: ["answered"], // answered 필드만 선택적으로 조회
-    });
+    const user = await User.findByPk(answer.userID);
 
     if (!user) {
       res.status(404).json({ message: "사용자를 찾을 수 없습니다." });
@@ -90,7 +88,7 @@ exports.answerRead = async (req, res, next) => {
 
     const responseData = {
       answer: answer,
-      answered: user.answered,
+      writeUser: user,
     };
 
     res.status(200).json(responseData);
