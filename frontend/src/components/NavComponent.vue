@@ -39,7 +39,7 @@ export default {};
 </script>
 
 <style scoped>
-@media (width >= 541px) {
+@media (width > 540px) {
   .title {
     display: flex;
     align-items: center;
@@ -75,13 +75,32 @@ export default {};
   }
 
   .nav {
+    justify-content: flex-start;
     padding: 0 30px;
     width: 200px;
-    height: 60px;
+    height: 80px;
+    gap: 15px;
   }
 
   .nav-imgBox {
     width: 40px;
+  }
+
+  .tab-name {
+    font-size: 16px;
+  }
+}
+
+@media (width < 1030px) {
+  .nav {
+    width: auto;
+    padding: 0;
+    gap: 0;
+    flex-direction: column;
+    justify-content: space-evenly;
+  }
+  .tab-name {
+    font-size: 14px;
   }
 }
 
@@ -108,6 +127,7 @@ export default {};
     margin: 0;
     padding: 0;
     width: 100%;
+    height: 100%;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
@@ -115,31 +135,24 @@ export default {};
   }
 
   .nav {
-    width: 40px;
-    height: 40px;
+    height: 100%;
   }
 
   .nav-imgBox {
     width: 100%;
   }
-
-  .tab-name {
-    display: none;
-    /* margin: 0; */
-    /* font-size: 14px; */
-  }
 }
 
 .nav {
   display: flex;
-  justify-content: flex-start;
   align-items: center;
-  gap: 15px;
+  /* gap: 15px; */
   color: #d9d9d9;
   text-decoration: none;
 }
 
 .nav-imgBox {
+  height: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -160,6 +173,7 @@ export default {};
 }
 
 .tab-name {
+  margin: 0;
   font-weight: 600;
 }
 
