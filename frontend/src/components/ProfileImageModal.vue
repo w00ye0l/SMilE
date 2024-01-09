@@ -1,9 +1,10 @@
 <template>
   <div class="modal-background" @click.self="closeModal">
     <div class="modal-body">
+      <div v-on:click="deleteImage" class="delete-img-container"></div>
       <img
         v-if="newProfileImg === null"
-        :src="require('@/assets/Avatar.png')"
+        :src="require('@/assets/default_smile.svg')"
         class="profile-img"
       />
       <img
@@ -11,23 +12,22 @@
         :src="newProfileImg"
         class="profile-img"
       />
-    </div>
-    <div class="btn-container">
-      <label for="newProfileImg" class="btn edit-btn">수정</label>
-      <input
-        class="input-box"
-        name="newProfileImg"
-        id="newProfileImg"
-        type="file"
-        accept="image/*"
-        ref="newProfileImg"
-        @change="changeNewProfileImg"
-        :style="{
-          display: 'none',
-        }"
-      />
-      |
-      <button class="btn close-btn" @click="closeModal">닫기</button>
+      <div class="btn-container">
+        <label for="newProfileImg" class="btn edit-btn">수정</label>
+        <input
+          class="input-box"
+          name="newProfileImg"
+          id="newProfileImg"
+          type="file"
+          accept="image/*"
+          ref="newProfileImg"
+          @change="changeNewProfileImg"
+          :style="{
+            display: 'none',
+          }"
+        />
+        <button class="btn close-btn" @click="closeModal">닫기</button>
+      </div>
     </div>
   </div>
 </template>
@@ -58,6 +58,14 @@ export default {
     },
     closeModal() {
       this.$emit("close");
+    },
+    async deleteImage() {
+      if (this.newProfileImg) {
+        if (confirm("이미지를 삭제하시겠습니까?")) {
+          await this.deletePrevImg();
+          this.$store.dispatch("getData");
+        }
+      }
     },
     async deletePrevImg() {
       await axios
@@ -103,13 +111,13 @@ export default {
 <style scoped>
 @media (width >= 541px) {
   .btn-container {
-    margin-bottom: 200px;
+    /* margin-bottom: 200px; */
   }
 }
 
 @media (width <= 540px) {
   .btn-container {
-    margin-bottom: 50px;
+    /* margin-bottom: 50px; */
   }
 }
 
@@ -124,42 +132,74 @@ export default {
   width: 100%;
   height: 100vh;
   background: #000000c9;
-  z-index: 1000;
+  z-index: 10000;
 }
 
 .modal-body {
-  padding: 10px;
-  width: 100vw;
+  position: relative;
+  padding: 100px 10px;
+  padding-top: 50px;
   max-width: 800px;
-  background: white;
+  height: 80vh;
+  background: #eee;
+}
+
+.delete-img-container {
+  position: absolute;
+  top: 60px;
+  right: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.delete-img-container::after {
+  position: absolute;
+  top: -7px;
+  left: 7.5px;
+  content: "\00D7";
+  font-size: 30px;
 }
 
 .profile-img {
-  width: 100%;
-  height: auto;
+  max-width: 100%;
+  height: 100%;
   border: 1px solid #ccc;
+  background-color: #fff;
+  object-fit: contain;
 }
 
 .btn-container {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translate(-50%, 0);
-  width: 100%;
-  max-width: 600px;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  margin: 20px 0;
+  width: 100%;
   color: #f59607;
-  font-size: 24px;
-  line-height: 1em;
 }
 
 .btn {
-  background-color: inherit;
-  border: 0;
-  color: #f59607;
-  font-size: 24px;
+  padding: 5px 15px;
+  border: 1px solid #f59607;
+  border-radius: 20px;
+  font-size: 18px;
+  line-height: 24px;
   cursor: pointer;
+}
+
+.edit-btn {
+  color: #fff;
+  background-color: #f59607;
+}
+
+.close-btn {
+  color: #000;
+  background-color: #fff;
 }
 </style>
