@@ -20,7 +20,6 @@ export default {
   },
   methods: {
     nowUrl() {
-      console.log(this.$route.path);
       return (this.url = this.$route.path);
     },
   },
@@ -113,7 +112,6 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    text-align: center;
   }
   .router-view {
     height: 100%;

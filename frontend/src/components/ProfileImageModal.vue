@@ -50,7 +50,7 @@ export default {
   methods: {
     async changeNewProfileImg() {
       this.image = this.$refs.newProfileImg.files[0];
-      console.log(this.image);
+
       if (this.image) {
         await this.deletePrevImg();
         await this.uploadNewProfileImg(this.image);
@@ -72,19 +72,15 @@ export default {
         .delete("/mypage/image/" + this.id + "/delete", {
           withCredentials: true,
         })
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           this.$emit("close");
         })
-        .catch((error) => {
-          console.log(error);
-        });
+        .catch(() => {});
     },
     async uploadNewProfileImg(formData) {
       const headers = {
         "Content-Type": "multipart/form-data",
       };
-      console.log(formData);
       const newFormData = {
         id: this.id,
         image: formData,
@@ -96,31 +92,16 @@ export default {
           withCredentials: true,
         })
         .then((res) => {
-          console.log(res);
           this.$store.dispatch("updateProfileImage", res.data.image);
           this.$emit("close");
         })
-        .catch((error) => {
-          console.log(error);
-        });
+        .catch(() => {});
     },
   },
 };
 </script>
 
 <style scoped>
-@media (width >= 541px) {
-  .btn-container {
-    /* margin-bottom: 200px; */
-  }
-}
-
-@media (width <= 540px) {
-  .btn-container {
-    /* margin-bottom: 50px; */
-  }
-}
-
 .modal-background {
   position: fixed;
   top: 0;

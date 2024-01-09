@@ -3,7 +3,7 @@
     <div class="title-container">
       <img
         class="prev-btn"
-        src="@/assets/back.png"
+        src="@/assets/back.svg"
         alt="뒤로 가기"
         @click="moveRandomQuestion"
       />
@@ -24,7 +24,7 @@
       @click="selectAnswer(answer)"
     >
       <div class="answer-profile">
-        <img :src="require(`@/assets/title-img.png`)" class="profile-img" />
+        <img :src="require(`@/assets/title-img.svg`)" class="profile-img" />
         <span class="mbti"> {{ answer.totalMbti }}</span>
       </div>
       <div class="answer">
@@ -64,21 +64,17 @@ export default {
       await axios
         .get("/random/question/", { withCredentials: true })
         .then((res) => {
-          console.log(res);
           this.randomMessage = res.data;
           this.randomQuestion = res.data.question;
         });
     },
     // 답변 리스트 가져오기
     async getAnswerList() {
-      console.log(this.mbti);
-
       await axios
         .get(`/random/${this.$store.state.randomQuestionId}/${this.mbti}`, {
           withCredentials: true,
         })
         .then((res) => {
-          console.log(res);
           this.answerList = res.data.answers;
 
           if (this.answerList) {
@@ -90,19 +86,13 @@ export default {
                 answer.User.mbti4;
             });
           }
-
-          console.log(this.answerList);
         })
-        .catch((error) => {
-          console.log(error);
-        });
+        .catch(() => {});
     },
     // 답변 선택
     selectAnswer(answer) {
-      console.log(answer);
       const params = {
         id: answer.id,
-        // mbti: answer.totalMbti,
       };
 
       this.$router.push({
@@ -112,8 +102,7 @@ export default {
     },
     // 뒤로 가기
     moveRandomQuestion() {
-      this.$router.go(-1);
-      // this.$router.push({ name: "randomanswer" });
+      this.$router.push({ name: "randomanswer" });
     },
   },
 };

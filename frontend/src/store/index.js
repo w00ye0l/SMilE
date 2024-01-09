@@ -3,6 +3,9 @@ import axios from "axios";
 import createPersistedState from "vuex-persistedstate";
 import router from "@/router";
 import cookie from "vue-cookies";
+import SecureLS from "secure-ls";
+
+const secureLs = new SecureLS({ isCompression: false });
 
 export default createStore({
   state: {
@@ -96,7 +99,6 @@ export default createStore({
       axios
         .get("/mypage", { withCredentials: true })
         .then((res) => {
-          console.log(res);
           cookie.set("id", res.data.id);
           commit("SET_USER_ID", res.data.id);
           commit("SET_NICKNAME", res.data.nickname);
@@ -108,12 +110,9 @@ export default createStore({
             res.data.mbti1 + res.data.mbti2 + res.data.mbti3 + res.data.mbti4
           );
           commit("SET_ANSWERED", res.data.answered);
-          console.log(this.state.mypage);
           router.push({ name: "mypage" });
         })
-        .catch((err) => {
-          console.log(err);
-        });
+        .catch(() => {});
     },
     setGroups({ commit }, payload) {
       commit("SET_GROUPS", payload);
@@ -122,7 +121,6 @@ export default createStore({
       await axios
         .put("/mypage/update", payload, { withCredentials: true })
         .then((res) => {
-          console.log(res);
           commit("SET_USER_ID", res.data.id);
           commit("SET_NICKNAME", res.data.nickname);
           commit("SET_BIRTHDAY", res.data.birthday.slice(0, 10));
@@ -132,9 +130,7 @@ export default createStore({
             res.data.mbti1 + res.data.mbti2 + res.data.mbti3 + res.data.mbti4
           );
         })
-        .catch((err) => {
-          console.log(err.response.data.message);
-        });
+        .catch(() => {});
     },
     setUserID({ commit }, userID) {
       commit("SET_USER_ID", userID);
@@ -143,7 +139,12 @@ export default createStore({
   modules: {},
   plugins: [
     createPersistedState({
-      storage: window.sessionStorage,
+      // storage: window.sessionStorage,
+      storage: {
+        getItem: (key) => secureLs.get(key),
+        setItem: (key, value) => secureLs.set(key, value),
+        removeItem: (key) => secureLs.remove(key),
+      },
     }),
   ],
 });

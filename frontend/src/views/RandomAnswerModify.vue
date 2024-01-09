@@ -3,7 +3,7 @@
     <div class="title-box">
       <img
         class="prev-btn"
-        src="@/assets/back.png"
+        src="@/assets/back.svg"
         alt="뒤로 가기"
         @click="moveRandomQuestionDetail"
       />
@@ -49,8 +49,6 @@ export default {
         .get("/random/question", { withCredentials: true })
         .then((res) => {
           this.randomQuestion = res.data;
-          console.log(res.data);
-          console.log(this.randomQuestion);
         });
     },
     async getAnswer() {
@@ -62,9 +60,7 @@ export default {
           this.answer = res.data;
           this.content = this.answer.answer.answer;
         })
-        .catch((error) => {
-          console.log(error);
-        });
+        .catch(() => {});
     },
     moveRandomQuestionDetail() {
       this.$router.go(-1);
@@ -79,12 +75,8 @@ export default {
           .put(`/random/answer/update/${this.$route.params.id}`, formData, {
             withCredentials: true,
           })
-          .then((res) => {
-            console.log(res);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+          .then(() => {})
+          .catch(() => {});
       }
 
       this.$router.go(-1);

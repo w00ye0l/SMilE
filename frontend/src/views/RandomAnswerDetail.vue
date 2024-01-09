@@ -4,7 +4,7 @@
     <div class="title-container">
       <img
         class="prev-btn"
-        src="@/assets/back.png"
+        src="@/assets/back.svg"
         alt="뒤로 가기"
         @click="moveRandomQuestion"
       />
@@ -111,7 +111,7 @@
       <img
         class="comment-write-btn"
         @click="postComment"
-        :src="require(`@/assets/direction.png`)"
+        :src="require(`@/assets/direction.svg`)"
         alt="이미지"
       />
     </form>
@@ -171,11 +171,8 @@ export default {
           this.answer = res.data.answer;
           this.writerId = res.data.answer.userID;
           this.writeUser = res.data.writeUser;
-          console.log(this.writeUser);
         })
-        .catch((error) => {
-          console.log(error);
-        });
+        .catch(() => {});
     },
     // 댓글 가져오기
     async getComments() {
@@ -184,12 +181,9 @@ export default {
           withCredentials: true,
         })
         .then((res) => {
-          console.log(res.data);
           this.comments = res.data;
         })
-        .catch((error) => {
-          console.log(error);
-        });
+        .catch(() => {});
     },
     // 뒤로 가기
     moveRandomQuestion() {
@@ -213,11 +207,9 @@ export default {
           })
           .then(() => {
             this.$store.commit("SET_ANSWERED", 0);
-            this.$router.go(-1);
+            this.$router.push({ name: "randomquestion" });
           })
-          .catch((error) => {
-            console.log(error);
-          });
+          .catch(() => {});
       }
     },
     // 댓글 검증
@@ -245,20 +237,14 @@ export default {
             .then(() => {
               this.editingCommentId = null;
             })
-            .catch((error) => {
-              console.log(error);
-            });
+            .catch(() => {});
         } else {
           await axios
             .post(`/random/comment/${this.$route.params.id}/create`, formData, {
               withCredentials: true,
             })
-            .then((res) => {
-              console.log(res);
-            })
-            .catch((error) => {
-              console.log(error);
-            });
+            .then(() => {})
+            .catch(() => {});
         }
         await this.getComments();
         this.comment = "";
@@ -266,7 +252,6 @@ export default {
     },
     // 댓글 수정 전환
     async modifyComment(commentId) {
-      console.log(commentId);
       const commentToEdit = this.comments.find((c) => c.id === commentId);
       this.comment = commentToEdit.comment;
       this.editingCommentId = commentId;
@@ -281,9 +266,7 @@ export default {
           .then(() => {
             this.getComments();
           })
-          .catch((error) => {
-            console.log(error);
-          });
+          .catch(() => {});
       }
     },
   },

@@ -5,7 +5,7 @@
         <div class="profile-img-container">
           <img
             class="prev-btn"
-            src="@/assets/back.png"
+            src="@/assets/back.svg"
             alt="뒤로 가기"
             @click="moveMbti"
           />
@@ -47,7 +47,7 @@
 
           <img
             class="delete-mbti"
-            src="@/assets/trashcan.png"
+            src="@/assets/trashcan.svg"
             alt="정보 삭제하기"
             @click="deleteDetail"
           />
@@ -60,7 +60,7 @@
         <div class="selected-mbti-container" @click="selectMBti">
           <div class="mbti-box">
             <p class="selected-mbti">{{ mbti }}</p>
-            <img :src="require(`@/assets/Polygon.png`)" class="arrow" />
+            <img :src="require(`@/assets/polygon.svg`)" class="arrow" />
           </div>
 
           <ul class="mbti-option" v-bind:class="{ active: selectMbti }">
@@ -218,7 +218,6 @@ export default {
 
       if (fileInput.files.length > 0) {
         this.image = fileInput.files[0];
-        console.log(this.image);
         await this.base64(this.image);
       }
     },
@@ -256,25 +255,19 @@ export default {
         .delete("/guest/image/" + this.guest.id + "/delete", {
           withCredentials: true,
         })
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           this.$router.push({ name: "detail" });
         })
-        .catch((error) => {
-          console.log(error);
-        });
+        .catch(() => {});
     },
     async deleteDetail() {
       if (confirm("MBTI 정보를 삭제하시겠습니까?")) {
         await axios
           .delete(`/guest/remove/${this.guest.id}`, { withCredentials: true })
-          .then((res) => {
+          .then(() => {
             this.$router.push({ name: "mbti" });
-            console.log(res);
           })
-          .catch((err) => {
-            console.log(err);
-          });
+          .catch(() => {});
       }
     },
     async editDetail() {
@@ -293,31 +286,23 @@ export default {
       };
 
       if (typeof this.image === "object") {
-        console.log("ok");
         await axios
           .post("/guest/image/" + this.guest.id, imageData, {
             headers,
             withCredentials: true,
           })
-          .then((res) => {
-            console.log(res);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+          .then(() => {})
+          .catch(() => {});
       }
 
       await axios
         .put(`/guest/update/${this.guest.id}`, formData, {
           withCredentials: true,
         })
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           this.$router.push({ name: "mbti" });
         })
-        .catch((err) => {
-          console.log(err);
-        });
+        .catch(() => {});
     },
     closeDetail() {
       this.$router.push({ name: "mbti" });
@@ -440,6 +425,9 @@ export default {
   position: absolute;
   top: 10px;
   right: 10px;
+  padding: 4px;
+  width: 30px;
+  height: 30px;
   cursor: pointer;
   border: 1px solid #ccc;
   border-radius: 50%;

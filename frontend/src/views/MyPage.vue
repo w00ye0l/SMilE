@@ -5,12 +5,12 @@
       <div class="btn-container">
         <!-- 회원정보 수정 버튼 -->
         <button class="btn setting-btn" @click="openSettingModal">
-          <img :src="require('@/assets/Settings.png')" alt="" />
+          <img :src="require('@/assets/Settings.svg')" alt="" />
         </button>
 
         <!-- 로그아웃 버튼 -->
         <button class="btn logout-btn" @click="logout">
-          <img :src="require('@/assets/Logout.png')" alt="" />
+          <img :src="require('@/assets/Logout.svg')" alt="" />
         </button>
       </div>
     </div>
@@ -22,7 +22,7 @@
     <div class="profile-container">
       <img
         class="decoration-img left-img"
-        src="@/assets/mypage_smile1.png"
+        src="@/assets/mypage_smile1.svg"
         alt=""
       />
 
@@ -52,7 +52,7 @@
       </div>
       <img
         class="decoration-img right-img"
-        src="@/assets/mypage_smile2.png"
+        src="@/assets/mypage_smile2.svg"
         alt=""
       />
     </div>
@@ -84,12 +84,12 @@
         <h3 class="content-title">MBTI 기록하기</h3>
         <router-link class="content-detail" to="/mbti">
           <div class="content-imgBox">
-            <img class="content-img" src="@/assets/saveMbti.png" alt="" />
+            <img class="content-img" src="@/assets/saveMbti.svg" alt="" />
           </div>
           <p class="content">
             주변 사람들의 MBTI 정보를 저장하여 한 눈에 확인해보아요.
           </p>
-          <img class="go-content" src="@/assets/right-arrow.png" alt="" />
+          <img class="go-content" src="@/assets/right-arrow.svg" alt="" />
         </router-link>
       </div>
 
@@ -99,12 +99,12 @@
         <h3 class="content-title">MBTI 설명서</h3>
         <router-link class="content-detail" to="/docs">
           <div class="content-imgBox">
-            <img class="content-img" src="@/assets/docsMbti.png" alt="" />
+            <img class="content-img" src="@/assets/docsMbti.svg" alt="" />
           </div>
           <p class="content">
             모든 MBTI에 대한 정보를 확인해 MBTI에 대한 이해를 키워요.
           </p>
-          <img class="go-content" src="@/assets/right-arrow.png" alt="" />
+          <img class="go-content" src="@/assets/right-arrow.svg" alt="" />
         </router-link>
       </div>
     </div>
@@ -175,15 +175,12 @@ export default {
       if (confirm("로그아웃하시겠습니까?")) {
         await axios
           .get("/auth/logout", { withCredentials: true })
-          .then((res) => {
-            console.log(res);
+          .then(() => {
             this.cookies.remove("id");
             sessionStorage.clear();
             this.$router.push({ name: "home" });
           })
-          .catch((err) => {
-            console.log(err);
-          });
+          .catch(() => {});
       }
     },
     goToRandomQuestion() {
@@ -397,6 +394,7 @@ hr {
   width: 100%;
   font-weight: 500;
   word-wrap: break-word;
+  text-align: start;
 }
 
 .mbti {
@@ -437,6 +435,7 @@ hr {
   height: 30px;
   font-size: 14px;
   font-weight: bold;
+  color: #000;
   background-color: #ffd338;
   border: 0;
   border-radius: 20px;

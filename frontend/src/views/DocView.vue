@@ -3,7 +3,7 @@
     <div class="title-box">
       <img
         class="prev-btn"
-        src="@/assets/back.png"
+        src="@/assets/back.svg"
         alt="뒤로 가기"
         @click="moveDocs"
       />

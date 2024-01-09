@@ -1,16 +1,16 @@
 <template>
-  <div class="body">
+  <div class="main-section">
     <div class="title-container">
       <img
         class="prev-btn"
-        src="@/assets/back.png"
+        src="@/assets/back.svg"
         alt="뒤로 가기"
         @click="moveLogin"
       />
       <h1 class="title">회원가입</h1>
     </div>
 
-    <form @submit.prevent="submitForm" class="main-section" id="signup">
+    <form @submit.prevent="submitForm" class="signup-form" id="signup">
       <div class="input-container">
         <div class="input-div profile-img">
           <div class="preview-container">
@@ -110,7 +110,7 @@
               <img
                 v-on:click="manCheck"
                 class="gender-img"
-                v-bind:src="require(`@/assets/m-${man}.png`)"
+                v-bind:src="require(`@/assets/m-${man}.svg`)"
                 alt=""
               />
             </label>
@@ -127,7 +127,7 @@
               <img
                 v-on:click="womanCheck"
                 class="gender-img"
-                v-bind:src="require(`@/assets/w-${woman}.png`)"
+                v-bind:src="require(`@/assets/w-${woman}.svg`)"
                 alt=""
               />
             </label>
@@ -214,7 +214,6 @@ export default {
       mbti2: "",
       mbti3: "",
       mbti4: "",
-      errors: [],
     };
   },
   methods: {
@@ -227,7 +226,6 @@ export default {
 
       if (fileInput.files.length > 0) {
         this.image = fileInput.files[0];
-        console.log(this.image);
         await this.base64(this.image);
       }
     },
@@ -288,8 +286,6 @@ export default {
       }
     },
     async submitForm() {
-      this.errors = [];
-
       if (this.email.trim() === "") {
         alert("이메일을 입력해주세요.");
         setTimeout(() => {
@@ -336,6 +332,9 @@ export default {
           });
         }, 0);
       } else {
+        const headers = {
+          "Content-Type": "multipart/form-data",
+        };
         const formData = {
           image: this.image,
           email: this.email,
@@ -347,12 +346,6 @@ export default {
           mbti2: this.mbti2,
           mbti3: this.mbti3,
           mbti4: this.mbti4,
-        };
-
-        console.log(formData);
-
-        const headers = {
-          "Content-Type": "multipart/form-data",
         };
 
         await axios
@@ -371,10 +364,16 @@ export default {
 
 <style scoped>
 @media (width > 540px) {
-  .body {
+  .main-section {
     padding: 0 80px;
   }
 
+  .signup-form {
+    width: 100%;
+  }
+}
+
+@media (width <= 640px) {
   .main-section {
     width: 100%;
   }
@@ -382,18 +381,12 @@ export default {
 
 @media (width <= 540px) {
   .main-section {
-    width: calc(100% -40px);
+    margin: auto;
+    width: calc(100% - 40px);
   }
 }
 
-@media (width <= 640px) {
-  .body {
-    width: 100%;
-    padding: 0 20px;
-  }
-}
-
-.body {
+.main-section {
   position: relative;
 }
 
@@ -417,13 +410,13 @@ export default {
   cursor: pointer;
 }
 
-.main-section {
-  margin-bottom: 50px;
-  padding: 0 20px;
-  background-color: #fff9c8;
+.signup-form {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+  margin-bottom: 100px;
+  padding: 0 20px;
+  background-color: #fff9c8;
   border-radius: 10px;
 }
 
@@ -542,7 +535,6 @@ export default {
   margin-top: 5px;
   width: 100%;
   gap: 20px;
-  /* max-width: 500px; */
   height: 130px;
   background-color: #fff;
   border-radius: 20px;
@@ -572,8 +564,8 @@ export default {
 }
 
 .mbti-set input:checked + div {
-  color: #fff;
-  background-color: #f59607;
+  color: #000;
+  background-color: #ffd338;
 }
 
 .signup {

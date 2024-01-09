@@ -30,7 +30,7 @@
           <img
             v-on:click="manCheck"
             class="gender-img"
-            v-bind:src="require(`@/assets/m-${man}.png`)"
+            v-bind:src="require(`@/assets/m-${man}.svg`)"
             alt=""
           />
         </label>
@@ -47,7 +47,7 @@
           <img
             v-on:click="womanCheck"
             class="gender-img"
-            v-bind:src="require(`@/assets/w-${woman}.png`)"
+            v-bind:src="require(`@/assets/w-${woman}.svg`)"
             alt=""
           />
         </label>
@@ -180,7 +180,7 @@ export default {
         mbti3: this.mbti3,
         mbti4: this.mbti4,
       };
-      console.log(formData);
+
       this.$store.dispatch("updateMyProfile", formData);
       this.$emit("closeModal");
     },

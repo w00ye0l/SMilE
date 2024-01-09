@@ -1,0 +1,26 @@
+<svg width="340" height="238" viewBox="0 0 340 238" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="118.988" cy="118.987" r="90.9225" transform="rotate(67.2759 118.988 118.987)" fill="#FFD338"/>
+<ellipse cx="160.67" cy="74.9573" rx="6.79111" ry="7.0173" transform="rotate(79.2053 160.67 74.9573)" fill="black"/>
+<ellipse cx="105.524" cy="85.4719" rx="6.79111" ry="7.0173" transform="rotate(79.2053 105.524 85.4719)" fill="black"/>
+<path d="M185.092 115.621V115.621C166.922 143.616 129.257 151.145 101.721 132.286L100.842 131.684" stroke="black" stroke-width="4"/>
+<g filter="url(#filter0_d_756_17)">
+<path d="M273.985 30.9998L335.5 15.4999L290.5 141.5L227 151.403L273.985 30.9998Z" fill="white"/>
+</g>
+<line x1="288.364" y1="40.3937" x2="307.394" y2="35.6362" stroke="black" stroke-linecap="round"/>
+<line x1="271.364" y1="62.3937" x2="310.394" y2="52.6362" stroke="black" stroke-linecap="round"/>
+<line x1="268.364" y1="69.3937" x2="307.394" y2="59.6362" stroke="black" stroke-linecap="round"/>
+<line x1="266.364" y1="76.3937" x2="305.394" y2="66.6362" stroke="black" stroke-linecap="round"/>
+<line x1="263.364" y1="84.3937" x2="302.394" y2="74.6362" stroke="black" stroke-linecap="round"/>
+<defs>
+<filter id="filter0_d_756_17" x="223" y="15.5" width="116.5" height="143.903" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="4"/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_756_17"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_756_17" result="shape"/>
+</filter>
+</defs>
+</svg>
