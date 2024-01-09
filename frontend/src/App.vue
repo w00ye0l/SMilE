@@ -46,6 +46,19 @@ export default {
   src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff");
 }
 
+/* 스크롤 css */
+::-webkit-scrollbar {
+  margin: 0 5px;
+  width: 8px;
+  height: 8px;
+  cursor: pointer;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #ffd338;
+  border-radius: 6px;
+}
+
 * {
   box-sizing: border-box;
   font-family: "Fredoka", "GmarketSansMedium", sans-serif;
@@ -76,7 +89,6 @@ body {
   .root-div {
     width: 100%;
     max-width: 1200px;
-    /* height: 100vh; */
     display: flex;
     flex-direction: column-reverse;
     justify-content: center;
@@ -108,28 +120,5 @@ body {
     margin-bottom: 80px;
     background-color: #fff;
   }
-}
-
-.fc .fc-toolbar-title {
-  color: #f59607;
-}
-
-.fc .fc-button-primary {
-  background-color: #f59607 !important;
-  border-color: #f59607 !important;
-  color: var(--fc-button-text-color);
-}
-
-.fc-theme-standard .fc-scrollgrid {
-  border: 0 !important;
-}
-
-.fc-theme-standard td,
-.fc-theme-standard th {
-  border: 1px solid #f59607 !important;
-}
-
-.fc .fc-highlight {
-  background: #fffbed !important;
 }
 </style>
