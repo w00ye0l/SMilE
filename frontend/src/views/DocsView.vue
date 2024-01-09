@@ -30,13 +30,19 @@ export default {
   },
   methods: {
     docMove(selectMBTI) {
-      this.$store.dispatch("selectMbti", selectMBTI);
+      // this.$store.dispatch("selectMbti", selectMBTI);
       this.$router.push({
         path: "/doc",
         query: {
           mbti: selectMBTI,
         },
       });
+
+      // 스크롤 위치 조절
+      setTimeout(() => {
+        // 만약 대상 요소를 찾을 수 없다면 위로 스크롤
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }, 0);
     },
   },
 };
@@ -113,11 +119,9 @@ export default {
 .title {
   margin: 0;
   padding: 50px 0;
-  height: 133px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 100%;
   font-size: 24px;
+  text-align: center;
 }
 
 .sub-title {

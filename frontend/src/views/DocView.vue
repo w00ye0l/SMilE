@@ -56,7 +56,7 @@ export default {
   computed: {},
   methods: {
     moveDocs() {
-      this.$router.push({ path: "/docs" });
+      this.$router.push({ name: "docs" });
     },
     changeComponent(componentName) {
       this.comp = componentName;
@@ -80,6 +80,7 @@ export default {
   .title {
     padding: 50px 0;
     height: 133px;
+    font-size: 32px;
   }
 }
 
@@ -92,8 +93,8 @@ export default {
   }
 
   .title {
-    padding: 40px 0;
-    height: 110px;
+    padding: 50px 0;
+    font-size: 28px;
   }
 }
 
@@ -119,7 +120,6 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 32px;
 }
 
 .main-section {
@@ -128,24 +128,23 @@ export default {
   flex-direction: column;
   align-items: center;
   border-radius: 20px;
-  border: 1px solid #eee;
 }
 
 .menu-list {
-  margin: 0;
-  padding: 0;
-  padding-top: 20px;
-  padding-bottom: 10px;
-  width: 100%;
+  margin: 10px;
+  padding: 3px;
   display: flex;
   justify-content: space-evenly;
   font-size: 18px;
-  background-color: #fefefe;
-  border-radius: 20px 20px 0 0;
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: inset 0px 1px 5px rgba(0, 0, 0, 0.2);
+  gap: 15px;
 }
 
 .menu {
-  color: #5a5a5a;
+  padding: 5px 15px;
+  color: #bbb;
   list-style: none;
   cursor: pointer;
 }
@@ -155,8 +154,9 @@ export default {
 }
 
 .active {
-  font-weight: bold;
   color: #000;
-  border-bottom: 2px solid #ffd338;
+  background-color: #ffd338;
+  border-radius: 20px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
 }
 </style>
