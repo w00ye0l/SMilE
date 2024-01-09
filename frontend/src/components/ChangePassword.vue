@@ -60,13 +60,10 @@ export default {
 
       await axios
         .put("/mypage/editpw", formData, { withCredentials: true })
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           this.$emit("closeModal");
         })
-        .catch((err) => {
-          console.log(err.response.data.message);
-        });
+        .catch(() => {});
     },
   },
 };

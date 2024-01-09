@@ -2,7 +2,7 @@
   <div class="container">
     <h1 class="title">
       <span class="header">SM</span>
-      <img :src="require(`@/assets/title-img.png`)" class="title-img" />
+      <img :src="require(`@/assets/title-img.svg`)" class="title-img" />
       <span class="header">E</span>
     </h1>
     <ul class="navbar">
@@ -160,16 +160,16 @@ export default {};
 
 /* 선택 전 tab-css */
 .mbti-tab {
-  content: url("@/assets/mbti_off.png");
+  content: url("@/assets/mbti_off.svg");
 }
 .docs-tab {
-  content: url("@/assets/docs_off.png");
+  content: url("@/assets/docs_off.svg");
 }
 .community-tab {
-  content: url("@/assets/community_off.png");
+  content: url("@/assets/community_off.svg");
 }
 .profile-tab {
-  content: url("@/assets/profile_off.png");
+  content: url("@/assets/profile_off.svg");
 }
 
 .tab-name {
@@ -179,16 +179,16 @@ export default {};
 
 /* 선택 후 tab-css */
 .route-active > .nav-imgBox > .mbti-tab {
-  content: url("@/assets/mbti_on.png");
+  content: url("@/assets/mbti_on.svg");
 }
 .route-active > .nav-imgBox > .docs-tab {
-  content: url("@/assets/docs_on.png");
+  content: url("@/assets/docs_on.svg");
 }
 .route-active > .nav-imgBox > .community-tab {
-  content: url("@/assets/community_on.png");
+  content: url("@/assets/community_on.svg");
 }
 .route-active > .nav-imgBox > .profile-tab {
-  content: url("@/assets/profile_on.png");
+  content: url("@/assets/profile_on.svg");
 }
 
 .route-active > .tab-name {

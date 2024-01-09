@@ -3,7 +3,7 @@
     <div class="title-container">
       <img
         class="prev-btn"
-        src="@/assets/back.png"
+        src="@/assets/back.svg"
         alt="뒤로 가기"
         @click="moveMbtiView"
       />
@@ -50,7 +50,7 @@
         <div class="selected-mbti-container" @click="selectMBti">
           <div class="mbti-box">
             <p class="selected-mbti">{{ selectedMbti }}</p>
-            <img :src="require(`@/assets/Polygon.png`)" class="arrow" />
+            <img :src="require(`@/assets/polygon.svg`)" class="arrow" />
           </div>
 
           <ul class="mbti-option" v-bind:class="{ active: selectMbti }">
@@ -158,12 +158,9 @@ export default {
     },
     async profileImg() {
       this.image = this.$refs.profileImg.files[0];
-      console.log(this.image);
       await this.base64(this.image);
     },
     async deleteImage() {
-      console.log(this.image);
-      console.log(Object.keys(this.image).length);
       if (this.image) {
         if (confirm("이미지를 삭제하시겠습니까?")) {
           this.image = {};
@@ -175,6 +172,9 @@ export default {
     },
     async addGuest() {
       if (this.validateInput()) {
+        const headers = {
+          "Content-Type": "multipart/form-data",
+        };
         const formData = {
           image: this.image,
           name: this.nameId,
@@ -182,23 +182,14 @@ export default {
           groupID: this.selectedGroup,
           memo: this.memo,
         };
-        console.log(formData);
-
-        const headers = {
-          "Content-Type": "multipart/form-data",
-        };
 
         await axios
           .post(`/guest/${this.selectedGroup}/create`, formData, {
             headers,
             withCredentials: true,
           })
-          .then((res) => {
-            console.log(res);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+          .then(() => {})
+          .catch(() => {});
         this.$router.push({ path: "/mbti" });
       }
     },

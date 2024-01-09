@@ -8,7 +8,7 @@
         <br />
         <img
           class="title-img"
-          v-bind:src="require('@/assets/title-img-orange.png')"
+          v-bind:src="require('@/assets/title-img-orange.svg')"
         />
         <br />
         E<span class="sub-title">verything</span>
@@ -16,17 +16,17 @@
 
       <img
         class="banner-img img-left"
-        v-bind:src="require('@/assets/login_smile1.png')"
+        v-bind:src="require('@/assets/login_smile1.svg')"
         alt=""
       />
       <img
         class="banner-img img-top"
-        v-bind:src="require('@/assets/login_smile2.png')"
+        v-bind:src="require('@/assets/login_smile2.svg')"
         alt=""
       />
       <img
         class="banner-img img-right"
-        v-bind:src="require('@/assets/login_smile3.png')"
+        v-bind:src="require('@/assets/login_smile3.svg')"
         alt=""
       />
     </div>
@@ -91,8 +91,6 @@ export default {
           password: this.password,
         };
 
-        console.log(formData);
-
         await axios
           .post("/auth/login", formData, {
             withCredentials: true,
@@ -102,7 +100,6 @@ export default {
             this.$store.dispatch("getData");
           })
           .catch((err) => {
-            console.log(err.response.data.message);
             this.errors.push(err.response.data.message);
             this.showNotification(err.response.data.message);
           });

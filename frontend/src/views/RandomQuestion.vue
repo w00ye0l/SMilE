@@ -129,15 +129,11 @@ export default {
       await axios
         .get("/random/question", { withCredentials: true })
         .then((res) => {
-          console.log(res);
           this.randomQuestion = res.data.question;
           this.randomQuestionId = res.data.id;
           this.$store.commit("SET_RANDOM_QUESTION_ID", res.data.id);
-          console.log(this.randomQuestion);
         })
-        .catch((error) => {
-          console.log(error);
-        });
+        .catch(() => {});
     },
     // 나의 답변 작성 확인
     async checkMyAnswer() {
@@ -147,13 +143,10 @@ export default {
         await axios
           .get("/random/answer/read/" + answerId, { withCredentials: true })
           .then((res) => {
-            console.log(res);
             this.myAnswerObj = res.data;
             this.myAnswer = res.data.answer.answer;
           })
-          .catch((error) => {
-            console.log(error);
-          });
+          .catch(() => {});
       }
     },
     // 내 답변 확인하기
@@ -188,12 +181,10 @@ export default {
             withCredentials: true,
           })
           .then((res) => {
-            console.log(res.data);
             this.$store.commit("SET_ANSWERED", res.data.answered);
             alert("작성이 완료되었습니다.");
           })
           .catch((error) => {
-            console.log(error);
             alert(error.response.data.message);
           });
         this.answer = "";
@@ -265,8 +256,6 @@ export default {
     },
     // 다른 사람 답변 확인
     checkOtherAnswer() {
-      // this.$store.state.totalMbti = this.totalMbti;
-      console.log(this.totalMbti);
       this.$router.push({
         path: "randomanswer",
         query: {

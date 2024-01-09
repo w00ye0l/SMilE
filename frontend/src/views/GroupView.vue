@@ -3,7 +3,7 @@
     <div class="title-box">
       <img
         class="prev-btn"
-        src="@/assets/back.png"
+        src="@/assets/back.svg"
         alt="뒤로 가기"
         @click="moveMbtiView"
       />
@@ -39,10 +39,13 @@
         <p class="group-name">{{ item.name }}</p>
         <div class="button-box">
           <button class="group-btn" @click="fixBtn(item.id)">
-            <img :src="require(`@/assets/pencil.png`)" class="pencil" />
+            <img :src="require(`@/assets/pencil.svg`)" class="btn-img pencil" />
           </button>
           <button class="group-btn" @click="removeBtn(item.id)">
-            <img :src="require(`@/assets/trashcan.png`)" class="trashcan" />
+            <img
+              :src="require(`@/assets/trashcan.svg`)"
+              class="btn-img trashcan"
+            />
           </button>
         </div>
       </div>
@@ -51,7 +54,6 @@
 </template>
 
 <script>
-// import GroupBtn from "@/components/GroupAddComponent.vue";
 import { mapGetters, mapActions } from "vuex";
 import axios from "axios";
 
@@ -76,7 +78,6 @@ export default {
     ...mapActions(["setGroups"]),
     async getGroup() {
       await axios.get("/group/index", { withCredentials: true }).then((res) => {
-        console.log(res.data);
         this.setGroups(res.data);
       });
     },
@@ -92,34 +93,27 @@ export default {
       const formData = {
         name: this.groupName,
       };
-      console.log(formData);
+
       await axios
         .post("/group/create", formData, { withCredentials: true })
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           this.$emit("updateGroups");
           this.getGroup();
         })
-        .catch((err) => {
-          console.log(err);
-        });
+        .catch(() => {});
     },
     async editGroup(id) {
-      console.log(id);
       const formData = {
         name: this.groupName,
       };
-      console.log(formData);
+
       await axios
         .put(`/group/update/${id}`, formData, { withCredentials: true })
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           this.$emit("updateGroups");
           this.getGroup();
         })
-        .catch((err) => {
-          console.log(err);
-        });
+        .catch(() => {});
     },
     registerBtn() {
       if (this.groupName === "") {
@@ -132,8 +126,6 @@ export default {
         this.groupName = "";
       } else if (this.button === "수정") {
         this.editGroup(this.groupId);
-        console.log(this.groupId);
-
         this.editCancel();
       }
     },
@@ -155,13 +147,10 @@ export default {
       if (confirm("삭제하시겠습니까?")) {
         await axios
           .delete(`/group/remove/${groupId}`, { withCredentials: true })
-          .then((res) => {
-            console.log(res);
+          .then(() => {
             this.getGroup();
           })
-          .catch((err) => {
-            console.log(err);
-          });
+          .catch(() => {});
       }
     },
   },
@@ -322,9 +311,16 @@ export default {
   background-color: transparent;
   cursor: pointer;
   border-radius: 50%;
+  background-color: #fff;
 }
 
 .group-btn:hover {
   outline: 1px solid #000;
+}
+
+.btn-img {
+  width: 31px;
+  height: 31px;
+  padding: 6px;
 }
 </style>

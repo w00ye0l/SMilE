@@ -5,9 +5,7 @@
     <div class="group-container">
       <div class="group-title-box">
         <h3 class="group-title">그룹</h3>
-        <button class="group-add-btn" @click="modalOpen">
-          <!-- <img :src="require(`@/assets/plus.png`)" class="group-add-img" /> -->
-        </button>
+        <button class="group-add-btn" @click="modalOpen"></button>
       </div>
 
       <div class="group-box">
@@ -92,20 +90,15 @@ export default {
     async getGroup() {
       await axios.get("/group/index", { withCredentials: true }).then((res) => {
         this.setGroups(res.data);
-        // this.groups = res.data;
-        console.log(this.groups);
       });
     },
     async getMbti() {
       await axios
         .get("/guest/index", { withCredentials: true })
         .then((res) => {
-          console.log(res);
           this.mbti = res.data;
         })
-        .catch((err) => {
-          console.log(err);
-        });
+        .catch(() => {});
     },
     modalOpen() {
       this.modal = true;
@@ -114,9 +107,7 @@ export default {
       this.modal = false;
     },
     goToDetail(guest) {
-      console.log(guest);
       this.$store.commit("UPDATE_SELECT_GUEST", guest);
-      console.log(this.$store.state.selectGuest);
       this.$router.push({ name: "detail" });
     },
   },
