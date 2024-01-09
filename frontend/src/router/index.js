@@ -9,62 +9,63 @@ const routes = [
     component: HomeView,
   },
   {
-    path: "/about",
-    name: "about",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
-  },
-  {
     path: "/mbti",
     name: "mbti",
     component: () => import("../views/MbtiView.vue"),
     props: true,
+    beforeEnter: requireAuth,
   },
   {
     path: "/mbti/addGroup",
     name: "addgroup",
     component: () => import("../views/GroupView.vue"),
+    beforeEnter: requireAuth,
   },
   {
     path: "/mbti/addMbti",
     name: "addinfo",
     component: () => import("../views/AddMbtiView.vue"),
+    beforeEnter: requireAuth,
   },
   {
     path: "/mbti/detail",
     name: "detail",
     component: () => import("../views/MbtiDetail.vue"),
+    beforeEnter: requireAuth,
   },
   {
     path: "/mypage",
     name: "mypage",
     component: () => import("../views/MyPage.vue"),
     beforeEnter: requireAuth,
+    // props: true,
   },
   {
     path: "/randomanswer",
     name: "randomanswer",
     component: () => import("../views/RandomAnswer.vue"),
+    beforeEnter: requireAuth,
   },
   {
     path: "/randomquestion",
     name: "randomquestion",
     component: () => import("../views/RandomQuestion.vue"),
+    beforeEnter: requireAuth,
+    // beforeEnter: requireAuth,
   },
   {
-    path: "/randomanswer/detail/:id/:mbti",
+    path: "/randomanswer/detail/:id",
     name: "randomanswerdetail",
     component: () => import("../views/RandomAnswerDetail.vue"),
     props: true,
+    beforeEnter: requireAuth,
   },
   {
     path: "/randomanswer/modify/:id",
     name: "randomanswermodify",
     component: () => import("../views/RandomAnswerModify.vue"),
     props: true,
+    beforeEnter: requireAuth,
   },
   {
     path: "/login",

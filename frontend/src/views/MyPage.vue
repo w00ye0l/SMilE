@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="main-section">
     <div class="title-container">
       <h1 class="title">프로필</h1>
       <div class="btn-container">
@@ -21,7 +21,7 @@
     <!-- 프로필 컨테이너 -->
     <div class="profile-container">
       <img
-        class="profile-img left-img"
+        class="decoration-img left-img"
         src="@/assets/mypage_smile1.png"
         alt=""
       />
@@ -30,7 +30,7 @@
       <div class="profile-img-container" @click="openImageModal">
         <img
           v-if="profileImg === null"
-          :src="require('@/assets/Avatar.png')"
+          :src="require('@/assets/default_smile.svg')"
           class="avatar"
         />
         <img v-if="profileImg !== null" :src="profileImg" class="avatar" />
@@ -51,7 +51,7 @@
         <span class="mbti">{{ mbti }}</span>
       </div>
       <img
-        class="profile-img right-img"
+        class="decoration-img right-img"
         src="@/assets/mypage_smile2.png"
         alt=""
       />
@@ -62,7 +62,9 @@
       <h3 class="question-title">오늘의 질문</h3>
       <p class="question-subtitle">작성한 답변 확인하기</p>
 
-      <button class="question-btn">내 답변 확인하기</button>
+      <button class="question-btn" v-on:click="goToMyAnswer">
+        내 답변 확인하기
+      </button>
     </div>
 
     <div v-else class="question-container">
@@ -170,27 +172,57 @@ export default {
       this.imageModal = false;
     },
     async logout() {
-      await axios
-        .get("/auth/logout", { withCredentials: true })
-        .then((res) => {
-          console.log(res);
-          this.cookies.remove("id");
-          this.$router.push({ name: "home" });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      if (confirm("로그아웃하시겠습니까?")) {
+        await axios
+          .get("/auth/logout", { withCredentials: true })
+          .then((res) => {
+            console.log(res);
+            this.cookies.remove("id");
+            sessionStorage.clear();
+            this.$router.push({ name: "home" });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     },
     goToRandomQuestion() {
       this.$router.push({ name: "randomquestion" });
+    },
+    goToMyAnswer() {
+      const params = {
+        id: this.$store.state.mypage.answered,
+        mbti: this.$store.state.mypage.mbti,
+      };
+
+      this.$router.push({
+        name: "randomanswerdetail",
+        params: params,
+      });
     },
   },
 };
 </script>
 
 <style scoped>
-@media (min-width: 541px) {
-  .main {
+@media (width > 830px) {
+  .content-root-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+  }
+
+  .content-container {
+    width: 50%;
+  }
+}
+
+@media (width > 540px) {
+  hr {
+    width: 100%;
+  }
+
+  .main-section {
     padding: 0 30px;
   }
 
@@ -208,18 +240,8 @@ export default {
     border-radius: 0 20px 0 0;
   }
 
-  .content-root-container {
-    display: flex;
-    justify-content: space-between;
-    gap: 30px;
-  }
-
   .content-hr {
     display: none;
-  }
-
-  .content-container {
-    width: 50%;
   }
 
   .content-test-container {
@@ -227,13 +249,12 @@ export default {
   }
 }
 
-@media (max-width: 540px) {
-  .profile-container {
-    margin: auto;
+@media (width <= 540px) {
+  hr {
     width: calc(100% - 40px);
   }
 
-  .content-container {
+  .profile-container {
     margin: auto;
     width: calc(100% - 40px);
   }
@@ -245,14 +266,17 @@ export default {
     flex-direction: column;
     align-items: flex-start;
   }
+
+  .content-container {
+    margin: auto;
+    width: calc(100% - 40px);
+  }
 }
 
 hr {
-  width: calc(100% - 40px);
-}
-
-.main {
-  overflow-y: auto;
+  height: 3px;
+  background-color: #fff9c8;
+  border: 0;
 }
 
 .title-container {
@@ -299,16 +323,15 @@ hr {
 
 .profile-container {
   position: relative;
-  /* padding: 0 60px; */
   display: flex;
   justify-content: space-between;
   align-items: center;
   min-height: 130px;
-  background: #fff9c8;
+  background-color: #fff9c8;
   border-radius: 10px;
 }
 
-.profile-img {
+.decoration-img {
   position: absolute;
 }
 
@@ -337,6 +360,7 @@ hr {
 .avatar {
   width: 80px;
   height: 80px;
+  background-color: #fff;
   border-radius: 50%;
   border: 1px solid #ccc;
   object-fit: cover;
@@ -419,12 +443,6 @@ hr {
   cursor: pointer;
 }
 
-hr {
-  background-color: #fff9c8;
-  height: 3px;
-  border: 0;
-}
-
 .content-root-container {
   width: 100%;
 }
@@ -448,15 +466,15 @@ hr {
   color: #000;
   text-decoration: none;
   border-radius: 10px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
 }
 
 .content-imgBox {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 20vw;
-  height: 20vw;
+  width: 100px;
+  height: 100px;
   max-width: 100px;
   max-height: 100px;
   border-radius: 50%;
@@ -470,12 +488,12 @@ hr {
 
 .content {
   margin: 0;
-  width: 50%;
+  width: 45%;
   word-break: keep-all;
 }
 
 .go-content {
-  max-width: 8%;
+  width: 20px;
 }
 
 .content-test-container {

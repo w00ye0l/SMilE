@@ -63,7 +63,7 @@ export default {
   width: 100%;
   height: 100vh;
   background: #000000c9;
-  z-index: 1000;
+  z-index: 99999;
 }
 
 .modal-body {

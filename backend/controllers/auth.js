@@ -85,7 +85,7 @@ exports.login = async (req, res, next) => {
 exports.logout = (req, res) => {
   req.logout(() => {
     req.session.destroy(); // passport 업데이트 이후 함수 안에 넣어야 실행됨
-    res.clearCookie("connect.sid"); // connect.sid 쿠키 삭제
+    res.clearCookie("connect.sid", { path: "/" }); // connect.sid 쿠키 삭제, 현재 path가 다르기 때문에 '/'로 지정해줘야 함
     res.send("로그아웃");
   });
 };

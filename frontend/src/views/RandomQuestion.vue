@@ -1,5 +1,5 @@
 <template>
-  <div class="main-section">
+  <div class="main-container">
     <h1 class="title">오늘의 질문</h1>
 
     <!-- 질문 컨테이너 -->
@@ -15,13 +15,13 @@
           <p class="my-answer">{{ myAnswer }}</p>
         </div>
         <div class="btn-container">
-          <button class="btn" @click="goMyAnswer()">자세히 보기</button>
+          <button class="btn" @click="goMyAnswer">자세히 보기</button>
         </div>
       </div>
     </template>
     <template v-else>
-      <form @submit.prevent="submitForm" class="my-answer">
-        <h2 class="second-title">나의 답변</h2>
+      <h2 class="sub-title">나의 답변</h2>
+      <form @submit.prevent="submitForm" class="container my-answer-form">
         <textarea
           v-model="answer"
           class="answer-textarea"
@@ -29,7 +29,7 @@
         >
         </textarea>
         <div class="btn-container">
-          <button class="btn" @click="completed()">작성 완료</button>
+          <button class="btn" @click="completed">작성 완료</button>
         </div>
       </form>
     </template>
@@ -142,6 +142,7 @@ export default {
     // 나의 답변 작성 확인
     async checkMyAnswer() {
       const answerId = this.$store.state.mypage.answered;
+
       if (answerId !== 0) {
         await axios
           .get("/random/answer/read/" + answerId, { withCredentials: true })
@@ -157,10 +158,9 @@ export default {
     },
     // 내 답변 확인하기
     goMyAnswer() {
-      this.myAnswer;
       const params = {
         id: this.myAnswerObj.answer.id,
-        mbti: this.$store.state.mypage.mbti,
+        // mbti: this.$store.state.mypage.mbti,
       };
 
       this.$router.push({
@@ -189,7 +189,7 @@ export default {
           })
           .then((res) => {
             console.log(res.data);
-            this.$store.commit("SET_ANSWERED", true);
+            this.$store.commit("SET_ANSWERED", res.data.answered);
             alert("작성이 완료되었습니다.");
           })
           .catch((error) => {
@@ -197,6 +197,7 @@ export default {
             alert(error.response.data.message);
           });
         this.answer = "";
+        this.checkMyAnswer();
       }
     },
     // EI 옵션 변경
@@ -278,8 +279,8 @@ export default {
 </script>
 
 <style scoped>
-@media (min-width: 541px) {
-  .main-section {
+@media (width > 540px) {
+  .main-container {
     padding: 0 30px;
   }
 
@@ -288,7 +289,16 @@ export default {
     margin-bottom: 40px;
   }
 
+  .sub-title {
+    width: 100%;
+  }
+
   .my-answer-container {
+    margin: 0;
+    height: 200px;
+  }
+
+  .my-answer-form {
     margin: 0;
     height: 200px;
   }
@@ -302,8 +312,8 @@ export default {
   }
 }
 
-@media (max-width: 540px) {
-  .main-section {
+@media (width <= 540px) {
+  .main-container {
     margin-bottom: 80px;
   }
 
@@ -312,7 +322,16 @@ export default {
     margin-bottom: 30px;
   }
 
+  .sub-title {
+    width: calc(100% -40px);
+  }
+
   .my-answer-container {
+    height: 150px;
+  }
+
+  .my-answer-form {
+    width: calc(100% - 40px);
     height: 150px;
   }
 
@@ -334,10 +353,12 @@ export default {
 .title {
   margin: 0;
   padding: 50px 0;
+  width: 100%;
   font-size: 24px;
+  text-align: center;
 }
 
-.main-section {
+.main-container {
   background-color: #ffffff;
   position: relative;
 }
@@ -362,23 +383,22 @@ export default {
   word-break: keep-all;
 }
 
+.sub-title {
+  margin: 0 20px;
+  margin-bottom: 10px;
+  text-align: start;
+  font-size: 20px;
+}
+
 .my-answer-container {
   flex-direction: column;
   justify-content: space-between;
 }
 
-.sub-title {
-  margin: 0 20px;
-  margin-bottom: 20px;
-  width: 100%;
-  text-align: start;
-  font-size: 20px;
-}
-
 .answer-box {
   width: 100%;
   height: calc(100% - 56px);
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
   overflow-y: auto;
   word-break: keep-all;
@@ -390,18 +410,27 @@ export default {
   width: 100%;
   height: 100%;
   text-align: start;
+  white-space: pre-line;
+}
+
+.my-answer-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .answer-textarea {
-  margin: 20px 0;
-  padding: 10px;
+  margin: 0;
+  padding: 10px 20px;
   width: 100%;
-  height: 100px;
+  height: calc(100% - 56px);
   font-size: 16px;
   border-radius: 10px;
   border: none;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
   white-space: pre-line;
+  resize: none;
+  outline: 0;
 }
 
 .btn-container {
@@ -413,9 +442,10 @@ export default {
 
 .btn {
   margin: 0;
-  width: 100px;
-  height: 36px;
-  font-size: 14px;
+  width: 120px;
+  height: 40px;
+  font-size: 16px;
+  color: #fff;
   background-color: #f59607;
   border: none;
   border-radius: 20px;
@@ -488,6 +518,7 @@ export default {
 }
 
 .btn-more {
+  color: #000;
   background-color: #ffd338;
 }
 </style>

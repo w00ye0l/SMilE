@@ -8,7 +8,7 @@
         <br />
         <img
           class="title-img"
-          v-bind:src="require('@/assets/first_smile1.png')"
+          v-bind:src="require('@/assets/title-img-orange.png')"
         />
         <br />
         E<span class="sub-title">verything</span>
@@ -112,23 +112,18 @@ export default {
       this.errors = errorMessage;
       setTimeout(() => {
         this.errors = "";
-      }, 2000);
+      }, 1000);
     },
   },
 };
 </script>
 
 <style scoped>
-.main {
-  /* width: 100%; */
-  height: 100%;
-}
-
 .banner {
   padding: 50px;
   position: relative;
   width: 100%;
-  height: 50vh;
+  height: 450px;
   background-color: #fff9c8;
   overflow: hidden;
 }
@@ -153,11 +148,13 @@ export default {
 }
 
 .title {
+  position: relative;
   margin: 0;
   font-size: 40px;
   color: #f59607;
   text-align: start;
   line-height: 123.2%;
+  z-index: 999;
 }
 
 .title-img {
@@ -177,7 +174,6 @@ export default {
   align-items: center;
   position: relative;
   padding: 80px;
-  padding-bottom: 20px;
   width: 100%;
 }
 
@@ -225,6 +221,7 @@ export default {
   background-color: #ffd338;
   border: 0;
   border-radius: 30px;
+  cursor: pointer;
 }
 
 .signup-link {

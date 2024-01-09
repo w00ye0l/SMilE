@@ -1,28 +1,26 @@
 <template>
   <div class="body">
-    <div class="title-section">
+    <div class="title-container">
+      <img
+        class="prev-btn"
+        src="@/assets/back.png"
+        alt="뒤로 가기"
+        @click="moveLogin"
+      />
       <h1 class="title">회원가입</h1>
     </div>
 
     <form @submit.prevent="submitForm" class="main-section" id="signup">
-      <!-- <div class="profile">
-        <h2 class="profile-label">프로필 사진</h2>
-        <input
-          class="profile-btn"
-          type="file"
-          accept="image/*"
-          ref="profileImage"
-          @change="profileImg"
-        />
-      </div> -->
-
       <div class="input-container">
         <div class="input-div profile-img">
-          <img
-            :src="require('@/assets/Avatar.png')"
-            ref="preview"
-            class="preview"
-          />
+          <div class="preview-container">
+            <img
+              :src="require('@/assets/default_smile.svg')"
+              ref="preview"
+              class="preview"
+            />
+            <div v-on:click="deleteImage" class="delete-img-container"></div>
+          </div>
           <label for="profileImg" class="profile-label">프로필 이미지</label>
           <input
             class="input-box"
@@ -45,6 +43,7 @@
             type="email"
             id="email"
             name="email"
+            ref="email"
             v-model="email"
           />
         </div>
@@ -56,6 +55,7 @@
             type="text"
             id="nickname"
             name="nickname"
+            ref="nickname"
             v-model="nickname"
           />
         </div>
@@ -67,6 +67,7 @@
             type="password"
             id="password"
             name="password"
+            ref="password"
             v-model="password"
           />
         </div>
@@ -78,6 +79,7 @@
             type="password"
             id="passwordConfirm"
             name="passwordConfirm"
+            ref="passwordConfirm"
             v-model="passwordConfirm"
           />
         </div>
@@ -134,7 +136,7 @@
 
         <div class="mbti-div">
           <label class="input-label">MBTI</label>
-          <div class="mbti-box">
+          <div class="mbti-box" ref="mbti">
             <!-- E/I -->
             <div class="mbti-set">
               <label>
@@ -187,9 +189,7 @@
       </div>
 
       <div class="signup">
-        <button v-on:click="signup" class="signup-btn" type="submit">
-          회원가입
-        </button>
+        <button class="signup-btn" type="submit">회원가입</button>
       </div>
     </form>
   </div>
@@ -218,10 +218,18 @@ export default {
     };
   },
   methods: {
+    // 뒤로 가기
+    moveLogin() {
+      this.$router.push({ name: "login" });
+    },
     async profileImg() {
-      this.image = this.$refs.profileImg.files[0];
-      console.log(this.image);
-      await this.base64(this.image);
+      const fileInput = this.$refs.profileImg;
+
+      if (fileInput.files.length > 0) {
+        this.image = fileInput.files[0];
+        console.log(this.image);
+        await this.base64(this.image);
+      }
     },
     base64(file) {
       // 비동기적으로 동작하기 위하여 promise를 return 해준다.
@@ -236,8 +244,22 @@ export default {
           previewImage.src = e.target.result;
         };
         // file 데이터를 base64로 인코딩한 문자열. 이 문자열을 브라우저가 인식하여 원래 데이터로 만들어준다.
-        reader.readAsDataURL(file);
+        if (file) {
+          reader.readAsDataURL(file);
+        } else {
+          resolve("");
+        }
       });
+    },
+    async deleteImage() {
+      if (Object.keys(this.image).length) {
+        if (confirm("이미지를 삭제하시겠습니까?")) {
+          this.image = {};
+          this.$refs.profileImg.value = "";
+          const previewImage = this.$refs.preview;
+          previewImage.src = require("@/assets/default_smile.svg");
+        }
+      }
     },
     manCheck() {
       if (this.gender === "" || this.gender === "W") {
@@ -268,19 +290,52 @@ export default {
     async submitForm() {
       this.errors = [];
 
-      if (this.nickname === "") {
-        this.errors.push("The nickname is missing");
-      }
-
-      if (this.password === "") {
-        this.errors.push("The password is too short");
-      }
-
-      if (this.password !== this.passwordConfirm) {
-        this.errors.push("The password are not matching");
-      }
-
-      if (!this.errors.length) {
+      if (this.email.trim() === "") {
+        alert("이메일을 입력해주세요.");
+        setTimeout(() => {
+          this.$refs.email.focus();
+          this.$refs.email.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+        }, 0);
+      } else if (this.nickname.trim() === "") {
+        alert("닉네임을 입력해주세요.");
+        setTimeout(() => {
+          this.$refs.nickname.focus();
+          this.$refs.nickname.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+        }, 0);
+      } else if (this.password.trim() === "") {
+        alert("비밀번호를 입력해주세요.");
+        setTimeout(() => {
+          this.$refs.password.focus();
+          this.$refs.password.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+        }, 0);
+      } else if (this.password.trim() !== this.passwordConfirm.trim()) {
+        alert("비밀번호 확인이 일치하지 않습니다.");
+        setTimeout(() => {
+          this.$refs.passwordConfirm.focus();
+          this.$refs.passwordConfirm.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+        }, 0);
+      } else if (!(this.mbti1 || this.mbti2 || this.mbti3 || this.mbti4)) {
+        alert("MBTI를 선택해주세요.");
+        setTimeout(() => {
+          this.$refs.mbti.focus();
+          this.$refs.mbti.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+        }, 0);
+      } else {
         const formData = {
           image: this.image,
           email: this.email,
@@ -302,12 +357,11 @@ export default {
 
         await axios
           .post("/auth/signup", formData, { headers, withCredentials: true })
-          .then((res) => {
-            console.log(res);
+          .then(() => {
             this.$router.push({ name: "login" });
           })
           .catch((error) => {
-            console.log(error);
+            alert(error.response.data.message);
           });
       }
     },
@@ -316,43 +370,65 @@ export default {
 </script>
 
 <style scoped>
-.body {
-  /* width: 100%; */
-  height: 100%;
+@media (width > 540px) {
+  .body {
+    padding: 0 80px;
+  }
+
+  .main-section {
+    width: 100%;
+  }
 }
 
-.title-section {
-  height: 100px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #fff;
+@media (width <= 540px) {
+  .main-section {
+    width: calc(100% -40px);
+  }
+}
+
+@media (width <= 640px) {
+  .body {
+    width: 100%;
+    padding: 0 20px;
+  }
+}
+
+.body {
+  position: relative;
+}
+
+.title-container {
+  width: 100%;
+  position: relative;
 }
 
 .title {
   margin: 0;
+  padding: 50px 0;
   font-size: 24px;
+  text-align: center;
+}
+
+.prev-btn {
+  position: absolute;
+  padding: 5px;
+  top: 50px;
+  left: 30px;
+  cursor: pointer;
 }
 
 .main-section {
-  width: 100%;
-  height: 80%;
+  margin-bottom: 50px;
+  padding: 0 20px;
   background-color: #fff9c8;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  border-radius: 20px;
+  border-radius: 10px;
 }
 
-/* .profile {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-} */
-
 .input-container {
-  margin: 30px;
+  margin: 30px 0;
 }
 
 .input-div {
@@ -360,14 +436,43 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+}
+
+.preview-container {
+  position: relative;
 }
 
 .preview {
   width: 80px;
   height: 80px;
+  background-color: #fff;
   border-radius: 50%;
   border: 1px solid #ccc;
   object-fit: cover;
+}
+
+.delete-img-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 26px;
+  height: 26px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.delete-img-container::after {
+  position: absolute;
+  top: -5px;
+  left: 6.5px;
+  content: "\00D7";
+  font-size: 24px;
 }
 
 .profile-img {
@@ -385,14 +490,17 @@ export default {
 }
 
 .input-label {
+  margin-bottom: 10px;
+  padding-left: 10px;
+  width: 110px;
   font-size: 16px;
   font-weight: bold;
+  text-align: start;
 }
 
 .input-box {
-  width: 200px;
-  height: 30px;
-  padding: 0 20px;
+  padding: 10px 20px;
+  width: 100%;
   font-size: 16px;
   border: 0;
   border-radius: 20px;
@@ -401,13 +509,14 @@ export default {
 
 .gender-box {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
-  width: 200px;
+  width: 100%;
   height: 60px;
   background-color: #fff;
   border-radius: 20px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
+  gap: 50px;
 }
 
 .gender-label {
@@ -428,10 +537,12 @@ export default {
 
 .mbti-box {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 5px;
   width: 100%;
+  gap: 20px;
+  /* max-width: 500px; */
   height: 130px;
   background-color: #fff;
   border-radius: 20px;
@@ -461,29 +572,25 @@ export default {
 }
 
 .mbti-set input:checked + div {
-  background-color: #ffe99d;
+  color: #fff;
+  background-color: #f59607;
+}
+
+.signup {
+  display: flex;
+  justify-content: center;
+  align-content: center;
 }
 
 .signup-btn {
   margin-bottom: 30px;
-  width: 220px;
-  height: 60px;
-  font-size: 24px;
+  width: 150px;
+  height: 50px;
+  font-size: 20px;
   font-weight: bold;
-  background-color: #ffd338;
+  color: #fff;
+  background-color: #f59607;
   border: 0;
   border-radius: 30px;
-}
-
-@media (min-width: 541px) {
-  .title-section {
-    width: 100%;
-  }
-
-  .signup {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
 }
 </style>

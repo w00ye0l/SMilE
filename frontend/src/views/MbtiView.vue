@@ -1,12 +1,12 @@
 <template>
   <div class="main-container">
-    <h2 class="title">내 주변엔?</h2>
+    <h1 class="title">내 주변엔?</h1>
 
     <div class="group-container">
       <div class="group-title-box">
         <h3 class="group-title">그룹</h3>
         <button class="group-add-btn" @click="modalOpen">
-          <img :src="require(`@/assets/plus.png`)" class="group-add-img" />
+          <!-- <img :src="require(`@/assets/plus.png`)" class="group-add-img" /> -->
         </button>
       </div>
 
@@ -16,6 +16,7 @@
           v-for="(group, index) in groups"
           :key="index"
           :href="`#${group.name}`"
+          draggable="false"
         >
           {{ group.name }}
         </a>
@@ -40,7 +41,11 @@
             v-bind="guest"
             @click="goToDetail(guest)"
           >
-            <div v-if="guest.image === null" class="profile-img"></div>
+            <img
+              v-if="guest.image === null"
+              :src="require(`@/assets/default_smile.svg`)"
+              class="profile-img"
+            />
             <img
               v-if="guest.image !== null"
               :src="guest.image"
@@ -154,6 +159,7 @@ hr {
   margin: 0;
   padding: 50px 0;
   width: 100%;
+  font-size: 24px;
   text-align: center;
 }
 
@@ -177,31 +183,34 @@ hr {
 }
 
 .group-add-btn {
+  position: relative;
   padding: 0;
-  height: fit-content;
-  background: transparent;
+  width: 30px;
+  height: 30px;
+  color: #fff;
+  background-color: #f59607;
+  border-radius: 50%;
   border: none;
-}
-
-.group-add-img {
-  width: 24px;
-  height: 24px;
   cursor: pointer;
 }
 
-.group-box {
-  padding: 0 20px;
-  width: 100%;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  overflow-x: auto;
-  gap: 2%;
+.group-add-btn::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -58%);
+  content: "\002B";
+  font-size: 24px;
 }
 
-.group-box::-webkit-scrollbar {
-  width: 0;
-  height: 0;
+.group-box {
+  margin: 10px;
+  padding: 10px;
+  width: calc(100% - 20px);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  overflow-x: auto;
 }
 
 .group-name {
@@ -213,6 +222,10 @@ hr {
   border-radius: 20px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
   word-break: keep-all;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .friends-container {
@@ -264,7 +277,7 @@ hr {
   height: 70px;
   border-radius: 50%;
   background-color: #fff9c8;
-  border: 2px solid #ffd338;
+  border: 1px solid #ccc;
 }
 
 .avatar {
