@@ -57,6 +57,19 @@ export default {
 </script>
 
 <style scoped>
+@media (width > 540px) {
+  .white-bg {
+    width: 80%;
+    max-width: 900px;
+  }
+}
+
+@media (width <= 540px) {
+  .white-bg {
+    width: 90vw;
+  }
+}
+
 .black-bg {
   width: 100vw;
   height: 100vh;
@@ -65,7 +78,8 @@ export default {
   top: 0;
   left: 0;
   padding: 20px;
-  z-index: 1000;
+  z-index: 10000;
+  overflow: hidden;
 }
 
 .white-bg {
@@ -74,8 +88,6 @@ export default {
   bottom: 100px;
   transform: translate(-50%, 0);
   padding: 35px 20px;
-  width: 90vw;
-  max-width: 1000px;
   height: 150px;
   display: flex;
   flex-direction: column;
@@ -89,14 +101,16 @@ export default {
   align-items: center;
 }
 
+.radio-button {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
 .radio-name {
   margin-left: 10px;
   font-size: 18px;
   font-weight: 500;
-}
-
-.radio-button {
-  width: 18px;
-  height: 18px;
+  cursor: pointer;
 }
 </style>
