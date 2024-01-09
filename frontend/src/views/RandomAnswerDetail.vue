@@ -1,85 +1,126 @@
 <template>
-  <div class="background title">
-    <div class="arrow-box">
-      <button class="back-btn" @click="back()">
-        <img :src="require(`@/assets/back.png`)" class="back-img" />
-      </button>
+  <div class="main-section">
+    <!-- 오늘의 질문 -->
+    <div class="title-container">
+      <img
+        class="prev-btn"
+        src="@/assets/back.png"
+        alt="뒤로 가기"
+        @click="moveRandomQuestion"
+      />
+      <h1 class="title-box">Q. {{ question }}</h1>
     </div>
-    <div class="small-box-control">
-      <div class="small-box">
-        <span class="mbti">Q. {{ this.question }}</span>
-      </div>
-    </div>
-    <div class="memo-box">
-      <div class="comment-box-top">
-        <div class="my-writing-box">
-          <div class="img-title1">
+
+    <!-- 글 컨테이너 -->
+    <article class="article-container">
+      <!-- 답변 컨테이너 -->
+      <div class="answer-container">
+        <!-- 답변 작성 유저 -->
+        <div class="writer-container">
+          <div class="writer-profile">
             <img
-              :src="require(`@/assets/first_smile1.png`)"
-              class="title-img"
+              v-if="writeUser.image === ''"
+              :src="require(`@/assets/default_smile.svg`)"
+              class="writer-profileImg"
+              alt="작성자 프로필 이미지"
             />
-            <span class="mbti-name"> {{ $route.params.mbti }}</span>
+            <img
+              v-if="writeUser.image !== ''"
+              :src="writeUser.image"
+              class="writer-profileImg"
+              alt="작성자 프로필 이미지"
+            />
+            <p class="writer-mbti">{{ writerMbti }}</p>
           </div>
-          <div v-if="this.userID === this.userId" class="text-modify-delete">
-            <span class="writing-modify" @click="writingModify()">수정</span>
-            <span class="writing-delete" @click="writingDelete()">삭제</span>
+
+          <div v-if="writerId === userId" class="article-btn-container">
+            <button class="btn article-btn modify-btn" @click="writingModify">
+              수정
+            </button>
+            <button class="btn article-btn delete-btn" @click="writingDelete">
+              삭제
+            </button>
           </div>
         </div>
-        <p class="content">{{ content }}</p>
+
+        <p class="answer">{{ answer.answer }}</p>
       </div>
-      <hr />
-      <div :style="containerStyle">
-        <div v-if="comments.length === 0" class="nocomment">
-          아직 댓글이 없습니다.
-        </div>
-        <div
-          class="comment-box"
-          v-for="(
-            { id, comment, userID, User: { mbti1, mbti2, mbti3, mbti4 } }, index
-          ) in comments"
-          :key="index"
-        >
-          <div class="comment-content">
-            <div class="img-title2">
-              <img :src="require(`@/assets/Avatar.png`)" class="title-img" />
-              <div class="user-content">
-                <span class="mbti-name">
+
+      <!-- 댓글 컨테이너 -->
+      <div class="comment-container">
+        <!-- 댓글이 없다면 -->
+        <template v-if="comments.length === 0">
+          <p class="no-comment-box">아직 댓글이 없습니다.</p>
+        </template>
+        <!-- 댓글이 있다면 -->
+        <template v-else>
+          <div
+            class="comment-box"
+            v-for="(
+              {
+                id,
+                comment,
+                userID,
+                User: { image, mbti1, mbti2, mbti3, mbti4 },
+              },
+              index
+            ) in comments"
+            :key="index"
+          >
+            <div class="comment-content">
+              <!-- 댓글 유저 프로필 -->
+              <div class="comment-user-profile">
+                <img :src="image" class="comment-user-profileImg" />
+                <p class="comment-user-mbti">
                   {{ [mbti1, mbti2, mbti3, mbti4].join("") }}
-                </span>
-                <span class="mbti-id">{{ userID }}</span>
+                </p>
+              </div>
+
+              <!-- 댓글 버튼 컨테이너 -->
+              <div v-if="this.userId === userID" class="article-btn-container">
+                <button
+                  class="btn comment-btn modify-btn"
+                  @click="modifyComment(id)"
+                >
+                  수정
+                </button>
+                <button
+                  class="btn comment-btn delete-btn"
+                  @click="removeComment(id)"
+                >
+                  삭제
+                </button>
               </div>
             </div>
-            <div v-if="this.userId === userID" class="comment-actions">
-              <span class="modify" @click="modifyComment(id)">수정</span>
-              <span class="delete" @click="removeComment(id)">삭제</span>
-            </div>
+
+            <!-- 댓글 -->
+            <p class="comment">{{ comment }}</p>
           </div>
-          <span class="answer">{{ comment }}</span>
-          <hr />
-        </div>
+        </template>
       </div>
-    </div>
-    <form @submit.prevent="submitForm" class="input-with-image">
-      <div class="name-input-box-control">
-        <div class="name-input-box">
-          <div class="textarea-control">
-            <textarea
-              type="text"
-              placeholder="댓글 추가..."
-              v-model="newComment"
-            />
-          </div>
-        </div>
-      </div>
-      <button @click="postComment()" class="image-button">
-        <img :src="require(`@/assets/direction.png`)" alt="이미지" />
-      </button>
+    </article>
+
+    <!-- 댓글 폼 -->
+    <form @submit.prevent="submitForm" class="comment-form">
+      <textarea
+        class="comment-textarea"
+        type="text"
+        placeholder="댓글 추가..."
+        v-model="comment"
+      />
+      <img
+        class="comment-write-btn"
+        @click="postComment"
+        :src="require(`@/assets/direction.png`)"
+        alt="이미지"
+      />
     </form>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+
 export default {
   mounted() {
     this.getRandomMessage();
@@ -88,418 +129,393 @@ export default {
   },
   data() {
     return {
-      newComment: "",
-      message: "",
-      comments: "",
-      editingCommentId: null,
-      content: "",
-      totalMbti: "",
       question: "",
       answer: "",
-      userID: "",
+      writeUser: {},
+      writerId: "",
+      comments: "",
+      comment: "",
+      editingCommentId: null,
       commentId: "",
     };
   },
   computed: {
-    containerStyle() {
-      if (this.comments.length === 0) {
-        return { overflow: "none" };
-      }
-      return { overflow: "none" };
-    },
     userId() {
-      return this.$store.state.userID;
+      return this.$store.state.mypage.id;
+    },
+    writerMbti() {
+      return (
+        this.writeUser.mbti1 +
+        this.writeUser.mbti2 +
+        this.writeUser.mbti3 +
+        this.writeUser.mbti4
+      );
     },
   },
   methods: {
-    validComment() {
-      if (this.newComment.trim() === "") {
-        alert("댓글을 입력하세요");
-        return false;
-      }
-      return true;
-    },
-    async modifyComment(commentId) {
-      const commentToEdit = this.comments.find((c) => c.id === commentId);
-      this.newComment = commentToEdit.comment;
-      this.editingCommentId = commentId;
-    },
-    async postComment() {
-      // 답변 ID랑
-      if (this.userID === parseInt(this.$route.params.userID)) {
-        return;
-      }
-      if (this.validComment()) {
-        const formData = {
-          answerID: this.$route.params.id,
-          comment: this.newComment,
-        };
-        try {
-          if (this.editingCommentId) {
-            await axios.put(
-              `/random/comment/update/${this.editingCommentId}`,
-              formData,
-              {
-                withCredentials: true,
-              }
-            );
-            this.editingCommentId = null;
-          } else {
-            await axios.post(
-              `/random/comment/${this.$route.params.id}/create`,
-              formData,
-              { withCredentials: true }
-            );
-          }
-          await this.getComments();
-        } catch (error) {
-          console.log(error);
-        }
-        this.newComment = "";
-      }
-    },
+    // 오늘의 질문 가져오기
     async getRandomMessage() {
       await axios
         .get("/random/question/", { withCredentials: true })
         .then((res) => {
-          this.randomMessage = res.data;
-          this.question = this.randomMessage.question;
+          this.question = res.data.question;
         });
     },
+    // 글 가져오기
     async getAnswer() {
       await axios
         .get(`/random/answer/read/${this.$route.params.id}`, {
           withCredentials: true,
         })
         .then((res) => {
-          this.answer = res.data;
-          this.content = this.answer.answer.answer;
-          this.userID = this.answer.answer.userID;
+          this.answer = res.data.answer;
+          this.writerId = res.data.answer.userID;
+          this.writeUser = res.data.writeUser;
+          console.log(this.writeUser);
         })
         .catch((error) => {
           console.log(error);
         });
     },
+    // 댓글 가져오기
     async getComments() {
       await axios
         .get(`/random/comment/${this.$route.params.id}/read`, {
           withCredentials: true,
         })
         .then((res) => {
+          console.log(res.data);
           this.comments = res.data;
         })
         .catch((error) => {
           console.log(error);
         });
     },
-    async writingDelete() {
-      if (confirm("삭제하시겠습니까?")) {
-        try {
-          await axios.delete(`/random/answer/remove/${this.$route.params.id}`, {
-            withCredentials: true,
-          });
-          this.$router.go(-1);
-        } catch (error) {
-          console.log(error);
-        }
-      }
-    },
-    async removeComment(commentId) {
-      if (confirm("삭제하시겠습니까?")) {
-        try {
-          await axios.delete(`/random/comment/remove/${commentId}`, {
-            withCredentials: true,
-          });
-          await this.getComments();
-        } catch (err) {
-          console.log(err);
-        }
-      }
-    },
-    back() {
+    // 뒤로 가기
+    moveRandomQuestion() {
       this.$router.go(-1);
     },
+    // 글 수정
     writingModify() {
       this.$router.push({
         name: "randomanswermodify",
         params: {
-          id: this.$route.params.id,
+          id: this.answer.id,
         },
       });
+    },
+    // 글 삭제
+    async writingDelete() {
+      if (confirm("삭제하시겠습니까?")) {
+        await axios
+          .delete(`/random/answer/remove/${this.answer.id}`, {
+            withCredentials: true,
+          })
+          .then(() => {
+            this.$store.commit("SET_ANSWERED", 0);
+            this.$router.go(-1);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    },
+    // 댓글 검증
+    validComment() {
+      if (this.comment.trim() === "") {
+        alert("댓글을 입력하세요");
+        return false;
+      }
+      return true;
+    },
+    // 댓글 작성 및 수정
+    async postComment() {
+      const valid = this.validComment();
+
+      if (valid) {
+        const formData = {
+          answerID: this.answer.answerID,
+          comment: this.comment,
+        };
+        if (this.editingCommentId) {
+          await axios
+            .put(`/random/comment/update/${this.editingCommentId}`, formData, {
+              withCredentials: true,
+            })
+            .then(() => {
+              this.editingCommentId = null;
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        } else {
+          await axios
+            .post(`/random/comment/${this.$route.params.id}/create`, formData, {
+              withCredentials: true,
+            })
+            .then((res) => {
+              console.log(res);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }
+        await this.getComments();
+        this.comment = "";
+      }
+    },
+    // 댓글 수정 전환
+    async modifyComment(commentId) {
+      console.log(commentId);
+      const commentToEdit = this.comments.find((c) => c.id === commentId);
+      this.comment = commentToEdit.comment;
+      this.editingCommentId = commentId;
+    },
+    // 댓글 삭제
+    async removeComment(commentId) {
+      if (confirm("삭제하시겠습니까?")) {
+        await axios
+          .delete(`/random/comment/remove/${commentId}`, {
+            withCredentials: true,
+          })
+          .then(() => {
+            this.getComments();
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
     },
   },
 };
 </script>
+
 <style scoped>
-.background {
-  background-color: #fff9c8;
-  height: 100vh;
+@media (width > 540px) {
+  .main-section {
+    padding: 0 30px;
+  }
+
+  .article-container {
+    width: 100%;
+  }
+
+  .comment-form {
+    width: 100%;
+  }
+}
+
+@media (width <= 540px) {
+  .article-container {
+    margin: auto;
+    width: calc(100% - 40px);
+  }
+
+  .comment-form {
+    margin: auto;
+    width: calc(100% - 40px);
+  }
+}
+
+.title-container {
+  width: 100%;
   position: relative;
-  overflow: auto;
 }
 
-.title {
+.prev-btn {
+  position: absolute;
+  padding: 5px;
+  top: 50px;
+  left: 30px;
+  cursor: pointer;
+}
+
+.title-box {
   margin: 0;
-  margin-bottom: 80px;
-  padding: 0;
+  padding: 50px 0;
+  width: 100%;
+  text-align: center;
+  font-size: 24px;
 }
 
-.arrow-box {
-  height: 3vh;
+.article-container {
+  /* padding: 20px; */
+  border-radius: 10px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.memo-box {
-  width: 80vw;
-  margin: 30px 0 15px 0;
-  border-radius: 20px;
-  border: none;
-  box-shadow: 0px 1.5px 0px 1.5px #d3d3d3;
-  height: 60vh;
-  background-color: white;
-  display: inline-block;
-  white-space: pre-line;
-  word-wrap: break-word;
-  overflow-y: auto;
-}
-.small-box-control {
+.answer-container {
   display: flex;
-  justify-content: center;
-  height: 15vh;
+  flex-direction: column;
+  align-items: flex-start;
 }
-.small-box {
-  width: 80vw;
-  padding-top: 7px;
-  border-radius: 20px;
-  border: none;
-  box-shadow: 0px 1.5px 0px 1.5px #d3d3d3;
-  height: 15vh;
-  background-color: white;
+
+.writer-container {
+  padding: 0 20px;
+  width: 100%;
   display: flex;
-  justify-content: center;
-  align-content: center;
-  margin-top: 15px;
+  justify-content: space-between;
+  border-bottom: 1px solid #eee;
+  background-color: #fff9c8;
 }
 
-.img-title1 {
-  margin: 0 0 0 20px;
-  padding-top: 20px;
+.writer-profile {
   display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
-.title-img {
-  width: 30px;
-  height: 30px;
-  vertical-align: middle;
+.writer-profileImg {
+  width: 40px;
+  height: 40px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
-.mbti {
-  margin: 0 0 0 5px;
-  padding: 10px 10px 0 10px;
-  font-size: 20px;
-  font-weight: 600;
-  overflow-y: auto;
-  overflow-x: hidden;
-  word-wrap: break-word;
+.writer-mbti {
+  font-size: 24px;
+  font-weight: bold;
 }
 
-.mbti-name {
-  margin: 0 0 0 5px;
-  font-size: 20px;
-  font-weight: 600;
-  padding: 2px 5px 0 10px;
-}
-
-.mbti-id {
-  margin: 0 0 0 5px;
-  font-size: 20px;
-  font-weight: 400;
-  padding: 2px 0 0 5px;
+.article-btn-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .btn {
-  display: flex;
-  justify-content: center;
-  margin: 0;
+  width: 50px;
+  height: 30px;
+  border-radius: 5px;
+  font-size: 16px;
+  border: 0;
+  cursor: pointer;
 }
 
-.content {
-  padding: 10px 18px 0 18px;
-  line-height: 28px;
+.article-btn {
+  background-color: #ffe99d;
 }
 
-.comment-box {
-  line-height: 30px;
-  overflow-y: auto;
+.article-btn:hover {
+  background-color: #ffd338;
+}
+
+.comment-btn {
+  background-color: #fff9c8;
+}
+
+.comment-btn:hover {
+  background-color: #ffe99d;
+}
+
+.modify-btn {
+  color: lightblue;
+}
+
+.delete-btn {
+  color: lightpink;
 }
 
 .answer {
-  display: flex;
-  margin: 10px 0 0 10px;
-  overflow: auto;
-  flex-direction: column;
+  margin: 0;
+  padding: 10px 20px;
+  width: 100%;
+  height: 300px;
+  font-size: 18px;
+  text-align: start;
+  white-space: pre-line;
+  overflow-y: auto;
 }
 
-.comment-box-top {
-  height: auto;
+.comment-container {
+  border-top: 2px solid #ccc;
+  margin-top: 20px;
+  width: 100%;
 }
 
-.my-writing-box {
+.no-comment-box {
+  margin: 0;
+  padding: 20px 0;
+  width: 100%;
+  text-align: center;
+  color: #999;
+}
+
+.comment-box {
+  margin-bottom: 10px;
+  padding: 10px 20px;
+  width: 100%;
+  border-bottom: 2px solid #eee;
+}
+
+.comment-content {
+  margin-bottom: 15px;
   display: flex;
   justify-content: space-between;
-  width: 98.5%;
+  align-items: center;
 }
 
-.text-modify-delete {
-  margin: 0 10px 0 20px;
-  padding-top: 25px;
+.comment-user-profile {
   display: flex;
+  align-items: center;
   gap: 10px;
 }
 
-.writing-modify {
-  color: skyblue;
+.comment-user-profileImg {
+  width: 40px;
+  height: 40px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
-.writing-delete {
-  color: red;
+.comment-user-mbti {
+  margin: 0;
+  font-size: 20px;
+  font-weight: bold;
 }
 
-.comments-container {
-  overflow: scroll;
+.comment {
+  margin: 0 10px;
+  font-size: 18px;
+  text-align: start;
 }
 
-.name-input-box-control {
-  display: flex;
-  justify-content: center;
-}
-.name-input-box {
-  width: 80%;
-  height: auto;
-  margin: 5px 0 15px 0;
-  border-radius: 20px;
-  border: none;
-  box-shadow: 0px 1.5px 0px 1.5px #d3d3d3;
-  min-height: 45px;
-  padding: 12px 0 0 15px;
-  background-color: white;
-}
-
-.textarea-control {
-  display: flex;
-}
-.input-with-image {
+.comment-form {
   position: relative;
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 20px;
+  margin-bottom: 50px;
+  height: 100px;
+  position: relative;
+  border-radius: 10px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.input-with-image img {
+.comment-textarea {
+  padding: 10px 20px;
+  width: calc(100% - 60px);
+  height: 100%;
+  font-size: 16px;
+  border: 0;
+  border-radius: 10px;
+  resize: none;
+  outline: 0;
+}
+
+.comment-write-btn {
   position: absolute;
-  top: 7%;
-  right: 10.5%;
-}
-
-.image-button {
-  width: 0;
-  height: 0;
+  top: 5px;
+  right: 5px;
   padding: 0;
+  width: 50px;
+  height: 50px;
   border: none;
   background: none;
-}
-.comment-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 97%;
-}
-.img-title2 {
-  margin: 0 0 0 20px;
-  display: flex;
-  align-items: center;
-}
-.comment-actions {
-  display: flex;
-  gap: 10px;
-}
-
-.user-content {
-  display: flex;
-}
-
-.modify {
-  color: skyblue;
-}
-.delete {
-  color: red;
-}
-/* 모바일 뷰 */
-@media (max-width: 541px) {
-  .back-btn {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    position: absolute;
-    left: 10%;
-    top: 1%;
-    margin-top: 1%;
-  }
-  .back-img {
-    width: 70%;
-    height: 70%;
-  }
-
-  textarea {
-    width: 80%;
-    border: none;
-  }
-}
-/* 웹 뷰 */
-@media (min-width: 541px) {
-  .background {
-    height: 100%;
-  }
-  .back-btn {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    position: absolute;
-    left: 9.5%;
-    top: 1.3%;
-    margin-top: 1%;
-  }
-  .back-img {
-    width: 70%;
-    height: 70%;
-  }
-
-  textarea {
-    width: 92%;
-    border: none;
-  }
-
-  .small-box {
-    width: 42vw;
-    border-radius: 20px;
-    height: 70%;
-  }
-
-  .comment-box-top {
-    height: 20%;
-  }
-
-  .memo-box {
-    width: 80%;
-  }
-
-  .name-input-box {
-    width: 42.5vw;
-  }
-  .nocomment {
-    margin-left: 20px;
-  }
-  .input-with-image img {
-    right: 1.5%;
-  }
-  .answer {
-    margin-left: 20px;
-  }
+  cursor: pointer;
 }
 </style>

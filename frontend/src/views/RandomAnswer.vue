@@ -102,7 +102,7 @@ export default {
       console.log(answer);
       const params = {
         id: answer.id,
-        mbti: answer.totalMbti,
+        // mbti: answer.totalMbti,
       };
 
       this.$router.push({
@@ -199,7 +199,8 @@ export default {
   height: 120px;
   border-radius: 10px;
   background-color: white;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
 }
 
 .answer-profile {
