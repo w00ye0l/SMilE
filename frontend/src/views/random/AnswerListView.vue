@@ -8,8 +8,8 @@
         @click="moveRandomQuestion"
       />
       <h1 class="title">
-        <span class="selected-mbti">{{ selectedMbti }}</span>
-        들의 답변
+        <span class="selected-mbti">{{ selectedMbti }}</span
+        >들의 답변
       </h1>
     </div>
 
@@ -96,13 +96,13 @@ export default {
       };
 
       this.$router.push({
-        name: "randomanswerdetail",
+        name: "randomAnswerDetail",
         params: params,
       });
     },
     // 뒤로 가기
     moveRandomQuestion() {
-      this.$router.push({ name: "randomanswer" });
+      this.$router.go(-1);
     },
   },
 };
@@ -168,6 +168,7 @@ export default {
   min-height: 100px;
   background-color: #fff9c8;
   border-radius: 10px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .question {
@@ -175,6 +176,7 @@ export default {
   padding: 20px 50px;
   width: 100%;
   font-size: 18px;
+  font-weight: 600;
   word-break: keep-all;
 }
 

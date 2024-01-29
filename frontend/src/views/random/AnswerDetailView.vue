@@ -192,7 +192,7 @@ export default {
     // 글 수정
     writingModify() {
       this.$router.push({
-        name: "randomanswermodify",
+        name: "randomAnswerModify",
         params: {
           id: this.answer.id,
         },
@@ -207,7 +207,7 @@ export default {
           })
           .then(() => {
             this.$store.commit("SET_ANSWERED", 0);
-            this.$router.push({ name: "randomquestion" });
+            this.$router.push({ name: "randomQuestion" });
           })
           .catch(() => {});
       }

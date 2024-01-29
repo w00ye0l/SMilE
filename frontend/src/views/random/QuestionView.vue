@@ -153,11 +153,10 @@ export default {
     goMyAnswer() {
       const params = {
         id: this.myAnswerObj.answer.id,
-        // mbti: this.$store.state.mypage.mbti,
       };
 
       this.$router.push({
-        name: "randomanswerdetail",
+        name: "randomAnswerDetail",
         params: params,
       });
     },
@@ -257,7 +256,7 @@ export default {
     // 다른 사람 답변 확인
     checkOtherAnswer() {
       this.$router.push({
-        path: "randomanswer",
+        name: "randomAnswer",
         query: {
           mbti: this.totalMbti,
         },
@@ -362,6 +361,7 @@ export default {
   justify-content: center;
   min-height: 100px;
   background-color: #fff9c8;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .question {
@@ -369,6 +369,7 @@ export default {
   padding: 20px 50px;
   width: 100%;
   font-size: 18px;
+  font-weight: 600;
   word-break: keep-all;
 }
 
