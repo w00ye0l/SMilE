@@ -108,7 +108,7 @@ export default {
     },
     goToDetail(guest) {
       this.$store.commit("UPDATE_SELECT_GUEST", guest);
-      this.$router.push({ name: "detail" });
+      this.$router.push({ name: "mbtiDetail" });
     },
   },
 };

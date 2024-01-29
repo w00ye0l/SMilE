@@ -97,7 +97,7 @@
 
       <div class="content-container">
         <h3 class="content-title">MBTI 설명서</h3>
-        <router-link class="content-detail" to="/docs">
+        <router-link class="content-detail" to="/mbtiDocs">
           <div class="content-imgBox">
             <img class="content-img" src="@/assets/docsMbti.svg" alt="" />
           </div>

@@ -52,7 +52,7 @@
             @click="deleteDetail"
           />
         </div>
-        <input class="profile-name" v-model="name" />
+        <input class="profile-name" v-model="name" maxlength="20" />
       </div>
 
       <div class="form-control">
@@ -207,7 +207,7 @@ export default {
     docMove(mbti) {
       // this.$store.commit("SET_SELECTED_MBTI", mbti);
       this.$router.push({
-        path: "/doc",
+        name: "doc",
         query: {
           mbti: mbti,
         },
@@ -476,6 +476,7 @@ export default {
 
 .selected-mbti {
   margin: 0;
+  font-size: 20px;
   font-weight: bold;
   color: #f59607;
 }

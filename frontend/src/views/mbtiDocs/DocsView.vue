@@ -32,7 +32,7 @@ export default {
     docMove(selectMBTI) {
       // this.$store.dispatch("selectMbti", selectMBTI);
       this.$router.push({
-        path: "/doc",
+        name: "doc",
         query: {
           mbti: selectMBTI,
         },

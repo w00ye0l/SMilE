@@ -12,13 +12,13 @@
         </div>
         <p class="tab-name">MBTI 저장</p>
       </router-link>
-      <router-link class="nav" to="/docs">
+      <router-link class="nav" to="/mbtiDocs">
         <div class="nav-imgBox">
           <img class="nav-img docs-tab" alt="" />
         </div>
         <p class="tab-name">MBTI 문서</p>
       </router-link>
-      <router-link class="nav" to="/randomquestion">
+      <router-link class="nav" to="/random/question">
         <div class="nav-imgBox">
           <img class="nav-img community-tab" alt="" />
         </div>
