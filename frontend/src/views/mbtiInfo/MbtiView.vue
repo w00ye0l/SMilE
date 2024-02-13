@@ -33,7 +33,8 @@
           <div
             class="friend-info"
             v-for="(guest, index) in mbti.filter(
-              (guest) => guest.groupID === group.id
+              // eslint-disable-next-line
+              (guest) => guest.groupID === group.id,
             )"
             :key="index"
             v-bind="guest"

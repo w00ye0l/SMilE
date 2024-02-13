@@ -107,7 +107,8 @@ export default createStore({
           commit("SET_GENDER", res.data.gender);
           commit(
             "SET_MBTI",
-            res.data.mbti1 + res.data.mbti2 + res.data.mbti3 + res.data.mbti4
+            // eslint-disable-next-line
+            res.data.mbti1 + res.data.mbti2 + res.data.mbti3 + res.data.mbti4,
           );
           commit("SET_ANSWERED", res.data.answered);
           router.push({ name: "mypage" });
@@ -127,7 +128,8 @@ export default createStore({
           commit("SET_GENDER", res.data.gender);
           commit(
             "SET_MBTI",
-            res.data.mbti1 + res.data.mbti2 + res.data.mbti3 + res.data.mbti4
+            // eslint-disable-next-line
+            res.data.mbti1 + res.data.mbti2 + res.data.mbti3 + res.data.mbti4,
           );
         })
         .catch(() => {});

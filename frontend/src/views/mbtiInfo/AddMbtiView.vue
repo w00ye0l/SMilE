@@ -254,9 +254,6 @@ export default {
   }
 }
 
-.main-container {
-}
-
 .title-container {
   width: 100%;
   position: relative;
