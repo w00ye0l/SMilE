@@ -12,17 +12,17 @@ const routes = [
     name: "user",
     children: [
       {
-        path: "/signup",
+        path: "signup",
         name: "signup",
         component: () => import("../views/user/SignupView.vue"),
       },
       {
-        path: "/login",
+        path: "login",
         name: "login",
         component: () => import("../views/user/LoginView.vue"),
       },
       {
-        path: "/mypage",
+        path: "mypage",
         name: "mypage",
         component: () => import("../views/user/MyPage.vue"),
         beforeEnter: requireAuth,
