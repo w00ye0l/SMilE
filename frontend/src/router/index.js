@@ -1,33 +1,27 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
 import { useCookies } from "vue3-cookies";
 
 const routes = [
   {
     path: "/",
     name: "home",
-    component: HomeView,
+    component: () => import("../views/HomeView.vue"),
   },
   {
-    name: "user",
-    children: [
-      {
-        path: "signup",
-        name: "signup",
-        component: () => import("../views/user/SignupView.vue"),
-      },
-      {
-        path: "login",
-        name: "login",
-        component: () => import("../views/user/LoginView.vue"),
-      },
-      {
-        path: "mypage",
-        name: "mypage",
-        component: () => import("../views/user/MyPage.vue"),
-        beforeEnter: requireAuth,
-      },
-    ],
+    path: "/signup",
+    name: "signup",
+    component: () => import("../views/user/SignupView.vue"),
+  },
+  {
+    path: "/login",
+    name: "login",
+    component: () => import("../views/user/LoginView.vue"),
+  },
+  {
+    path: "/mypage",
+    name: "mypage",
+    component: () => import("../views/user/MyPage.vue"),
+    beforeEnter: requireAuth,
   },
   {
     path: "/mbti",
@@ -121,7 +115,7 @@ function requireAuth(to, from, next) {
   if (cookies.get("id")) {
     next();
   } else {
-    next("login");
+    next({ name: "login" });
   }
 }
 
