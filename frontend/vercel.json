@@ -1,12 +1,3 @@
 {
-  "rewrites": [
-    {
-      "source": "/api/:path*",
-      "destination": "https://port-0-smile-koh2xlj7ghmmi.sel4.cloudtype.app/api/:path*"
-    },
-    {
-      "source": "/api/:path*/",
-      "destination": "https://port-0-smile-koh2xlj7ghmmi.sel4.cloudtype.app/api/:path*/"
-    }
-  ]
+  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
 }
