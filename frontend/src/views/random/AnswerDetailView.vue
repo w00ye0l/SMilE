@@ -19,13 +19,13 @@
         <div class="writer-container">
           <div class="writer-profile">
             <img
-              v-if="writeUser.image === ''"
+              v-if="writeUser.image === '' || writeUser.image === null"
               :src="require(`@/assets/default_smile.svg`)"
               class="writer-profileImg"
               alt="작성자 프로필 이미지"
             />
             <img
-              v-if="writeUser.image !== ''"
+              v-if="writeUser.image !== '' && writeUser.image !== null"
               :src="writeUser.image"
               class="writer-profileImg"
               alt="작성자 프로필 이미지"
