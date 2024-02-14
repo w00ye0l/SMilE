@@ -188,7 +188,7 @@ export default {
       }
     },
     goToRandomQuestion() {
-      this.$router.push({ name: "randomquestion" });
+      this.$router.push({ name: "randomQuestion" });
     },
     goToMyAnswer() {
       const params = {
@@ -197,7 +197,7 @@ export default {
       };
 
       this.$router.push({
-        name: "randomanswerdetail",
+        name: "randomAnswerDetail",
         params: params,
       });
     },
