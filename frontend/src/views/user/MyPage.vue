@@ -29,11 +29,15 @@
       <!-- 프로필 이미지 -->
       <div class="profile-img-container" @click="openImageModal">
         <img
-          v-if="profileImg === null"
+          v-if="profileImg === null || profileImg === ''"
           :src="require('@/assets/default_smile.svg')"
           class="avatar"
         />
-        <img v-if="profileImg !== null" :src="profileImg" class="avatar" />
+        <img
+          v-if="profileImg !== null && profileImg !== ''"
+          :src="profileImg"
+          class="avatar"
+        />
         <div class="edit-img-container">
           <font-awesome-icon
             :icon="['fas', 'pen']"

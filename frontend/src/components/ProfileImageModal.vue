@@ -3,12 +3,12 @@
     <div class="modal-body">
       <div v-on:click="deleteImage" class="delete-img-container"></div>
       <img
-        v-if="newProfileImg === null"
+        v-if="newProfileImg === null || newProfileImg === ''"
         :src="require('@/assets/default_smile.svg')"
         class="profile-img"
       />
       <img
-        v-if="newProfileImg !== null"
+        v-if="newProfileImg !== null && newProfileImg !== ''"
         :src="newProfileImg"
         class="profile-img"
       />

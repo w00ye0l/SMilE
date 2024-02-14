@@ -139,7 +139,7 @@ export default {
     async checkMyAnswer() {
       const answerId = this.$store.state.mypage.answered;
 
-      if (answerId !== 0) {
+      if (answerId !== 0 && answerId !== null) {
         await axios
           .get("/random/answer/read/" + answerId, { withCredentials: true })
           .then((res) => {
