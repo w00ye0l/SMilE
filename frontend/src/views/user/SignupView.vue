@@ -516,6 +516,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 
 .gender-radio {
@@ -561,6 +562,7 @@ export default {
   font-weight: bold;
   background-color: #fff9c8;
   border-radius: 30px;
+  cursor: pointer;
 }
 
 .mbti-set input:checked + div {
