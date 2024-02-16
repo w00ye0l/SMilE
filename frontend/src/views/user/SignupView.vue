@@ -37,7 +37,7 @@
         </div>
 
         <div class="input-div">
-          <label class="input-label" for="email">이메일</label>
+          <label class="input-label required-input" for="email">이메일</label>
           <input
             class="input-box"
             type="email"
@@ -49,7 +49,9 @@
         </div>
 
         <div class="input-div">
-          <label class="input-label" for="nickname">닉네임</label>
+          <label class="input-label required-input" for="nickname"
+            >닉네임</label
+          >
           <input
             class="input-box"
             type="text"
@@ -61,7 +63,11 @@
         </div>
 
         <div class="input-div">
-          <label class="input-label" for="password">비밀번호</label>
+          <label
+            class="input-label required-input password-label"
+            for="password"
+            >비밀번호</label
+          >
           <input
             class="input-box"
             type="password"
@@ -73,7 +79,9 @@
         </div>
 
         <div class="input-div">
-          <label class="input-label" for="passwordConfirm">비밀번호 확인</label>
+          <label class="input-label required-input" for="passwordConfirm"
+            >비밀번호 확인</label
+          >
           <input
             class="input-box"
             type="password"
@@ -135,7 +143,7 @@
         </div>
 
         <div class="mbti-div">
-          <label class="input-label">MBTI</label>
+          <label class="input-label required-input">MBTI</label>
           <div class="mbti-box" ref="mbti">
             <!-- E/I -->
             <div class="mbti-set">
@@ -313,6 +321,15 @@ export default {
             block: "center",
           });
         }, 0);
+      } else if (this.password.trim().length < 8) {
+        alert("비밀번호는 8자리 이상이어야 합니다.");
+        setTimeout(() => {
+          this.$refs.password.focus();
+          this.$refs.password.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+        }, 0);
       } else if (this.password.trim() !== this.passwordConfirm.trim()) {
         alert("비밀번호 확인이 일치하지 않습니다.");
         setTimeout(() => {
@@ -483,12 +500,30 @@ export default {
 }
 
 .input-label {
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   padding-left: 10px;
-  width: 110px;
+  width: 100%;
   font-size: 16px;
   font-weight: bold;
   text-align: start;
+  position: relative;
+}
+
+.required-input::before {
+  position: absolute;
+  content: "*";
+  top: 2px;
+  left: -2px;
+  color: #f59607;
+}
+
+.password-label::after {
+  position: absolute;
+  content: "(최소 8자리를 입력해주세요.)";
+  bottom: 0;
+  left: 80px;
+  color: #bbb;
+  font-size: 14px;
 }
 
 .input-box {
@@ -535,7 +570,7 @@ export default {
   align-items: center;
   margin-top: 5px;
   width: 100%;
-  gap: 20px;
+  gap: 3%;
   height: 130px;
   background-color: #fff;
   border-radius: 20px;
